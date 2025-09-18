@@ -1,4 +1,4 @@
-# EMCHH Zebra SDK Kotlin Wrapper
+# Non-Official Zebra SDK Kotlin Wrapper
 a kotlin wrapper of EMDK and DataWedge API, build for quick develop demo apps
 
 ## Purpose
