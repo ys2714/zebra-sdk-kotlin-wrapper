@@ -56,12 +56,32 @@ object DWAPI {
         }
     }
 
+    object WorkflowParams {
+        const val SELECTED_NAME = "selected_workflow_name"
+
+        object Input {
+            const val ENABLED = "workflow_input_enabled"
+            const val SOURCE = "workflow_input_source"
+
+            object SourceOptions {
+                const val IMAGER = "1"
+                const val CAMERA = "2"
+            }
+        }
+
+        object FreeFormOCR {
+            const val ENABLED = "workflow_free_form_ocr_enabled"
+        }
+    }
+
     object OCRParams {
 
         const val TEMPLATE = "ocr_template"
         const val INVERSE = "inverse_ocr"
         const val ORIENTATION = "ocr_orientation"
         const val LINES = "ocr_lines"
+
+
 
         object Decoder {
             const val ENABLE_OCR_A = "decoder_ocr_a"
@@ -141,6 +161,11 @@ object DWAPI {
                 const val HEALTH_INDUSTRY = "9"
             }
         }
+    }
+
+    object OCRType {
+        const val IMAGER_OCR = ""
+        const val CAM_OCR = ""
     }
 
     object ScanResult {
@@ -276,4 +301,18 @@ object DWAPI {
         const val PARAM_LIST = "PARAM_LIST"
         const val OUTPUT_PLUGIN_NAME = "OUTPUT_PLUGIN_NAME"
     }
+
+    object BDFParams {
+        const val ENABLED = "bdf_enabled"
+        const val SEND_DATA = "bdf_send_data"
+    }
+
+    object KeyStrokeParams {
+        const val OUTPUT_ENABLED = "keystroke_output_enabled"
+        const val ACTION_CHAR = "keystroke_action_char"
+        const val DELAY_EXTENDED_ASCII = "keystroke_delay_extended_ascii"
+        const val DELAY_CONTROL_CHARS = "keystroke_delay_control_chars"
+    }
+
+
 }

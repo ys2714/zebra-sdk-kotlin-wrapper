@@ -108,7 +108,7 @@ class DataWedgeHelper(val appContext: Context) {
         appContext.sendOrderedBroadcast(intent, null)
     }
 
-    fun configProfileForBarcodeScan(name: String, callback: (type: String, value: String, timestamp: String) -> Unit) {
+    fun configProfileForBarcodeScan(name: String, enableOCR: Boolean, useCamera: Boolean, callback: (type: String, value: String, timestamp: String) -> Unit) {
         dataCallback = callback
         // App
         val appParams = Bundle()
@@ -117,9 +117,18 @@ class DataWedgeHelper(val appContext: Context) {
         // Input
         var barcodeParams = Bundle()
         barcodeParams.putString(DWAPI.ScanInputParams.ENABLED, DWAPI.TRUE)
-        barcodeParams = configOCRParams(barcodeParams)
         val inputPluginBundle = Bundle()
-        inputPluginBundle.putString(DWAPI.Plugin.NAME, DWAPI.Plugin.Input.BARCODE)
+        if (enableOCR) {
+            barcodeParams = configOCRParams(barcodeParams)
+            barcodeParams.putString(DWAPI.WorkflowParams.Input.ENABLED, DWAPI.TRUE)
+            // barcodeParams.putString(DWAPI.WorkflowParams.SELECTED_NAME, "free_form_ocr")
+            barcodeParams.putString(DWAPI.WorkflowParams.FreeFormOCR.ENABLED, DWAPI.TRUE)
+            barcodeParams.putString(DWAPI.WorkflowParams.Input.SOURCE, DWAPI.WorkflowParams.Input.SourceOptions.CAMERA)
+            inputPluginBundle.putString(DWAPI.Plugin.NAME, DWAPI.Plugin.Input.WORKFLOW)
+            inputPluginBundle.putString(DWAPI.Bundle.RESET_CONFIG, DWAPI.TRUE)
+        } else {
+            inputPluginBundle.putString(DWAPI.Plugin.NAME, DWAPI.Plugin.Input.BARCODE)
+        }
         inputPluginBundle.putBundle(DWAPI.Bundle.PARAM_LIST, barcodeParams)
         // Output
         val intentParams = Bundle()
@@ -132,23 +141,23 @@ class DataWedgeHelper(val appContext: Context) {
         outputPluginBundle.putBundle(DWAPI.Bundle.PARAM_LIST, intentParams)
         // Processing
         val bdfParams = Bundle()
-        bdfParams.putString("bdf_enabled", "false")
-        bdfParams.putString("bdf_send_data", "false")
+        bdfParams.putString(DWAPI.BDFParams.ENABLED, DWAPI.FALSE)
+        bdfParams.putString(DWAPI.BDFParams.SEND_DATA, DWAPI.FALSE)
         val processingPluginBundle = Bundle()
         processingPluginBundle.putString(DWAPI.Plugin.NAME, DWAPI.Plugin.Processing.BDF)
         processingPluginBundle.putBundle(DWAPI.Bundle.PARAM_LIST, bdfParams)
         // Keystroke
         val keyStrokeParams = Bundle()
-        keyStrokeParams.putString("keystroke_output_enabled", "false")
-        keyStrokeParams.putString("keystroke_action_char", "9")
-        keyStrokeParams.putString("keystroke_delay_extended_ascii", "500")
-        keyStrokeParams.putString("keystroke_delay_control_chars", "800")
+        keyStrokeParams.putString(DWAPI.KeyStrokeParams.OUTPUT_ENABLED, DWAPI.FALSE)
+        keyStrokeParams.putString(DWAPI.KeyStrokeParams.ACTION_CHAR, "9")
+        keyStrokeParams.putString(DWAPI.KeyStrokeParams.DELAY_EXTENDED_ASCII, "500")
+        keyStrokeParams.putString(DWAPI.KeyStrokeParams.DELAY_CONTROL_CHARS, "800")
         val keyStrokePluginBundle = Bundle()
         keyStrokePluginBundle.putString(DWAPI.Plugin.NAME, DWAPI.Plugin.Output.KEYSTROKE)
         keyStrokePluginBundle.putBundle(DWAPI.Bundle.PARAM_LIST, keyStrokePluginBundle)
         // Plugins Array
         val pluginArray: ArrayList<Bundle> = ArrayList()
-        //pluginArray.add(inputPluginBundle)
+        pluginArray.add(inputPluginBundle)
         pluginArray.add(outputPluginBundle)
         pluginArray.add(processingPluginBundle)
         // Main Config Bundle

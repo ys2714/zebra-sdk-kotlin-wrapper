@@ -55,10 +55,9 @@ class DataWedgeActivity : ComponentActivity() {
         DWAPI.enableDW(context)
         dataWedgeHelper = DataWedgeHelper(context)
         dataWedgeHelper?.createProfile(profileName)
-        dataWedgeHelper?.configProfileForBarcodeScan(profileName) { type, value, timestamp ->
+        dataWedgeHelper?.configProfileForBarcodeScan(profileName,  enableOCR = true, useCamera = false) { type, value, timestamp ->
             text.value = value
         }
-        dataWedgeHelper?.setDCPButton(profileName, true)
     }
 
     fun teardownDataWedgeIfNeeded(context: Context) {
