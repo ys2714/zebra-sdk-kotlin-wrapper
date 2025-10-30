@@ -1,4 +1,4 @@
-package com.zebra.emdk_kotlin_wrapper
+package com.zebra.emdk_kotlin_wrapper.dw
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -7,6 +7,7 @@ import android.content.IntentFilter
 import android.os.Bundle
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import com.zebra.emdk_kotlin_wrapper.dw.DWAPI
 import java.util.Date
 
 class DataWedgeHelper(val appContext: Context) {

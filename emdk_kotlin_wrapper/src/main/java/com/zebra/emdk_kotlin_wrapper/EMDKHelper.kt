@@ -3,24 +3,32 @@ package com.zebra.emdk_kotlin_wrapper
 import android.content.Context
 import com.symbol.emdk.EMDKManager
 import com.symbol.emdk.EMDKResults
+import com.symbol.emdk.ProfileManager
 import com.symbol.emdk.barcode.BarcodeManager
 import com.symbol.emdk.barcode.ScanDataCollection
 import com.symbol.emdk.barcode.Scanner
 import com.symbol.emdk.barcode.ScannerConfig
 import com.symbol.emdk.barcode.ScannerException
 import com.symbol.emdk.barcode.StatusData
+import com.zebra.emdk_kotlin_wrapper.mx.MXProfileProcessor
 
 class EMDKHelper(val appContext: Context) {
 
     private var manager: EMDKManager? = null
     private var barcodeManager: BarcodeManager? = null
     private var barcodeScanner: Scanner? = null
+    private var profileManager: ProfileManager? = null
+    private var profileProcessor: MXProfileProcessor? = null
 
     private var config: Config = Config()
     private lateinit var dataCallback: (type: String, value: String, timestamp: String) -> Unit
 
     class Config {
         var enableOCR: Boolean = false
+    }
+
+    public fun getProfileProcessor() : MXProfileProcessor? {
+        return profileProcessor
     }
 
     private inner class EMDKEventHandler: EMDKManager.EMDKListener, Scanner.DataListener, Scanner.StatusListener {
@@ -33,6 +41,10 @@ class EMDKHelper(val appContext: Context) {
                 scanner.addStatusListener(this)
                 scanner.enable()
                 setupOCR(scanner, config)
+            }
+            profileManager = manager?.getInstance(EMDKManager.FEATURE_TYPE.PROFILE) as ProfileManager
+            profileManager?.let { profile ->
+                profileProcessor = MXProfileProcessor(appContext, profile)
             }
         }
 

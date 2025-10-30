@@ -12,8 +12,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
-import com.zebra.emdk_kotlin_wrapper.DWAPI
-import com.zebra.emdk_kotlin_wrapper.DataWedgeHelper
+import com.zebra.emdk_kotlin_wrapper.dw.DWAPI
+import com.zebra.emdk_kotlin_wrapper.dw.DataWedgeHelper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

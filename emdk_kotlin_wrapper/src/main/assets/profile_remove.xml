@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wap-provisioningdoc>
+	<characteristic type="BluetoothMgr" version="10.0">
+		<parm name="SilentPairingAction" value="3"/>
+	</characteristic>
+</wap-provisioningdoc>

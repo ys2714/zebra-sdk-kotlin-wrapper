@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wap-provisioningdoc>
+    <characteristic type="Profile">
+        <parm name="ProfileName" value="PowerManagerReset"/>
+        <characteristic type="PowerMgr" version="4.2">
+            <parm name="ResetAction" value="${resetAction}"/>
+            <characteristic type="file-details">
+                <parm name="ZipFile" value="${zipFile}"/>
+            </characteristic>
+        </characteristic>
+    </characteristic>
+</wap-provisioningdoc>

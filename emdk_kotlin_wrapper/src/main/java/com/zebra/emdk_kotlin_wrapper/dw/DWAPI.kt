@@ -1,4 +1,4 @@
-package com.zebra.emdk_kotlin_wrapper
+package com.zebra.emdk_kotlin_wrapper.dw
 
 import android.content.Context
 import android.content.Intent
@@ -25,14 +25,14 @@ object DWAPI {
     }
 
     fun enableDW(appContext: Context) {
-        val intent = DWAPI.createDefaultIntent()
-        intent.putExtra(DWAPI.ENABLE_DATAWEDGE, true)
+        val intent = createDefaultIntent()
+        intent.putExtra(ENABLE_DATAWEDGE, true)
         appContext.sendOrderedBroadcast(intent, null)
     }
 
     fun disableDW(appContext: Context) {
-        val intent = DWAPI.createDefaultIntent()
-        intent.putExtra(DWAPI.ENABLE_DATAWEDGE, false)
+        val intent = createDefaultIntent()
+        intent.putExtra(ENABLE_DATAWEDGE, false)
         appContext.sendOrderedBroadcast(intent, null)
     }
 

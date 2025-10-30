@@ -6,8 +6,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import com.zebra.emdk_kotlin_wrapper.DWAPI
+import androidx.compose.runtime.remember
+import com.zebra.emdk_kotlin_wrapper.dw.DWAPI
 
 class MainActivity : ComponentActivity() {
 

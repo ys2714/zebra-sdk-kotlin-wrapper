@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wap-provisioningdoc>
+    <characteristic type="Profile">
+        <parm name="ProfileName" value="ClockProfile-1"/>
+        <characteristic type="Clock" version="4.2" >
+            <parm name="AutoTime" value="false"/>
+            <parm name="TimeZone" value="GMT-5"/>
+            <parm name="Date" value="2015-07-09"/>
+            <parm name="Time" value="11:11:11"/>
+        </characteristic>
+    </characteristic>
+</wap-provisioningdoc>
