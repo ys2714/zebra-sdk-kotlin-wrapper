@@ -1,6 +1,9 @@
 [versions]
 agp = "8.13.0"
+commonsNet = "3.12.0"
 emdk = "11.0.134"
+gson = "2.13.2"
+gsonTypeadaptersAndroid = "1.0"
 kotlin = "2.2.21"
 coreKtx = "1.17.0"
 junit = "4.13.2"
@@ -13,11 +16,15 @@ composeBom = "2025.10.01"
 appcompat = "1.7.1"
 material = "1.13.0"
 materialIconsExtended = "1.7.8"
+moshi = "1.15.2"
 
 [libraries]
 androidx-compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+commons-net = { module = "commons-net:commons-net", version.ref = "commonsNet" }
 emdk = { module = "com.symbol:emdk", version.ref = "emdk" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+gson-typeadapters-android = { module = "com.google.gson:gson-typeadapters-android", version.ref = "gsonTypeadaptersAndroid" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -34,6 +41,7 @@ androidx-compose-material3 = { group = "androidx.compose.material3", name = "mat
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+moshi = { module = "com.squareup.moshi:moshi", version.ref = "moshi" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

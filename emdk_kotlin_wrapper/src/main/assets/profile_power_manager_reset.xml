@@ -3,9 +3,9 @@
     <characteristic type="Profile">
         <parm name="ProfileName" value="PowerManagerReset"/>
         <characteristic type="PowerMgr" version="4.2">
-            <parm name="ResetAction" value="${resetAction}"/>
+            <parm name="ResetAction" value="=[ResetAction]"/>
             <characteristic type="file-details">
-                <parm name="ZipFile" value="${zipFile}"/>
+                <parm name="ZipFile" value="=[ZipFile]"/>
             </characteristic>
         </characteristic>
     </characteristic>

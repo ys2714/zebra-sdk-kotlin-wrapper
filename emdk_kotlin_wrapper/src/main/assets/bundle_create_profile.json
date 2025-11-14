@@ -1,0 +1,5 @@
+{
+  "SEND_RESULT" : "=[SEND_RESULT]",
+  "COMMAND_IDENTIFIER" : "=[COMMAND_IDENTIFIER]",
+  "com.symbol.datawedge.api.CREATE_PROFILE" : "=[PROFILE_NAME]"
+}

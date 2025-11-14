@@ -1,0 +1,11 @@
+﻿<wap-provisioningdoc>
+  <characteristic version="10.1" type="DataWedgeMgr">
+    <parm name="ControllingAPIs" value="true" />
+    <characteristic type="ControllingAPIs">
+      <parm name="ConfigAPIs" value="1" />
+      <parm name="NotificationAPIs" value="1" />
+      <parm name="QueryAPIs" value="1" />
+      <parm name="RuntimeAPIs" value="1" />
+    </characteristic>
+  </characteristic>
+</wap-provisioningdoc>

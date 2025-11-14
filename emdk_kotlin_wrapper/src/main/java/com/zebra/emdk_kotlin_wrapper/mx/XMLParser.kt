@@ -1,47 +1,11 @@
 package com.zebra.emdk_kotlin_wrapper.mx
 
-import android.content.Context
 import android.util.Log
 import org.xmlpull.v1.XmlPullParser
-import java.io.BufferedReader
-import java.io.IOException
-import java.io.InputStreamReader
 
-object XMLReader {
+object XMLParser {
 
-    private val TAG = XMLReader::class.java.simpleName
-
-    fun readXmlFileToStringWithParams(context: Context, resourceId: String, params: Map<String, String>?): String {
-        var command = readXmlFileToString(context, resourceId).trim()
-        params?.forEach { (key, value) ->
-            val placeholder = "\${$key}"
-            command = command.replace(placeholder, value)
-        }
-        return command
-    }
-
-    @JvmOverloads
-    fun readXmlFileToString(context: Context, resourceId: String, newline: Boolean = false): String {
-        val stringBuilder = StringBuilder()
-        val assetManager = context.assets
-
-        try {
-            assetManager.open(resourceId).use { inputStream ->
-                BufferedReader(InputStreamReader(inputStream)).use { reader ->
-                    var line: String?
-                    while (reader.readLine().also { line = it } != null) {
-                        stringBuilder.append(line?.trim())
-                        if (newline) {
-                            stringBuilder.append("\n")
-                        }
-                    }
-                }
-            }
-        } catch (e: IOException) {
-            Log.e(TAG, "Error reading XML file from assets: $resourceId", e)
-        }
-        return stringBuilder.toString()
-    }
+    private val TAG = XMLParser::class.java.simpleName
 
     // Method to parse the XML response using XML Pull Parser
     fun parseXML(myParser: XmlPullParser): MXBase.ErrorInfo? {

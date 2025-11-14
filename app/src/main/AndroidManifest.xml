@@ -2,25 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <queries>
-        <!--Due to package visibility restrictions imposed by Android 11 (API 30), EMDK apps targeting A-11 (or later) must include the following-->
-        <package android:name="com.symbol.emdk.emdkservice"/>
-        <!-- Zebra Content Provider API -->
-        <package android:name="com.zebra.zebracontentprovider" />
-        <provider android:authorities="oem_info" />
-        <package android:name="com.symbol.datawedge" />
-        <intent>
-            <action android:name="com.symbol.datawedge.api.ACTION" />
-        </intent>
-    </queries>
-    <!--use EMDK need permission-->
-    <uses-permission android:name="com.symbol.emdk.permission.EMDK" />
-    <uses-permission android:name="com.symbol.datawedge.permission.RECEIVE_SCAN" />
-    <!-- Zebra Content Provider API -->
-    <uses-permission android:name="com.zebra.provider.READ" />
-    <uses-permission android:name="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
-        tools:ignore="ProtectedPermissions" />
-
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -30,9 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ZebraKotlinDemo">
-        <uses-library android:name="com.symbol.emdk"/>
 
         <activity
+            android:screenOrientation="portrait"
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
@@ -47,8 +28,9 @@
 
         </activity>
 
-        <activity android:name=".DataWedgeActivity">
-
+        <activity
+            android:exported="true"
+            android:name=".DataWedgeActivity">
         </activity>
 
     </application>

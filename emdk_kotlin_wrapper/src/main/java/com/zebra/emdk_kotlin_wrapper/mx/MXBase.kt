@@ -101,4 +101,28 @@ class MXBase {
             }
         }
     }
+
+    /**
+     * Specifies the type of screen lock to be used.
+     *
+     * - `DO_NOT_CHANGE` (0): This value (or the absence of this parm from the XML) will cause no change to the Screen Lock Type; any previously selected setting will be retained.
+     * - `SWIPE` (1): Causes the Swipe screen-lock to be displayed whenever the Lock Screen is invoked.
+     * - `PATTERN` (2): Causes the Pattern screen-lock to be displayed whenever the Lock Screen is invoked.
+     * - `PIN` (3): Causes the numerical "Pin" screen-lock to be displayed whenever the Lock Screen is invoked.
+     * - `PASSWORD` (4): Causes the Password screen-lock to be displayed whenever the Lock Screen is invoked.
+     * - `NONE` (5): Prevents the display of any Lock Screen at any time.
+     */
+    enum class ScreenLockType(val value: Int) {
+        DO_NOT_CHANGE(0),
+        SWIPE(1),
+        PATTERN(2),
+        PIN(3),
+        PASSWORD(4),
+        NONE(5);
+
+        val string: String
+            get() {
+                return value.toString()
+            }
+    }
 }

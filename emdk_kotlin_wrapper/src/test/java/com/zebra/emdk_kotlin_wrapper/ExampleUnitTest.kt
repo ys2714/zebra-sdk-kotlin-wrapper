@@ -1,5 +1,6 @@
 package com.zebra.emdk_kotlin_wrapper
 
+import com.zebra.emdk_kotlin_wrapper.mx.XMLReader
 import org.junit.Test
 
 import org.junit.Assert.*

@@ -46,6 +46,10 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+    // implementation(libs.gson)
+    implementation(libs.moshi)
+    // implementation(libs.gson.typeadapters.android)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -53,4 +57,5 @@ dependencies {
 
 dependencies {
     implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.commons.net)
 }

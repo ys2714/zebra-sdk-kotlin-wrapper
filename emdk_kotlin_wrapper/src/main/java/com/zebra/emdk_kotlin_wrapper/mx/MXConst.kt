@@ -10,27 +10,49 @@ object MXConst {
     const val SERIAL_URI = "content://oem_info/oem.zebra.secure/build_serial"
     const val IMEI_URI = "content://oem_info/wan/imei"
 
+    // DW Access Control
+    const val AUTHORITY_URI = "content://com.zebra.devicemanager.zdmcontentprovider"
+
     // Profile XML file names in assets
     const val AccessManagerAllowPermissionXML = "profile_access_manager_allow_permission.xml"
     const val AccessManagerAllowCallServiceXML = "profile_access_manager_allow_call_service.xml"
     const val AppManagerInstallAndStartXML = "profile_app_manager_install_and_start.xml"
     const val PowerManagerResetXML = "profile_power_manager_reset.xml"
+    const val ClockSetXML = "profile_clock_set.xml"
+    const val DevAdminManagerDisableLockScreenXML = "profile_dev_admin_manager_disable_lock_screen.xml"
 
     // Profile Names
     const val AccessManagerAllowPermission = "AccessManagerAllowPermission"
     const val AccessManagerAllowCallService = "AccessManagerAllowCallService"
     const val AppManagerInstallAndStart = "AppManagerInstallAndStart"
     const val PowerManagerReset = "PowerManagerReset"
+    const val ClockSet = "ClockSet"
+    const val DevAdminManagerDisableLockScreen = "DevAdminManagerDisableLockScreen"
 
     // Profile Parameters
-    const val resetAction = "resetAction"
-    const val zipFile = "zipFile"
-    const val serviceIdentifier = "serviceIdentifier"
-    const val callerPackageName = "callerPackageName"
-    const val callerSignature = "callerSignature"
-    const val apkFilePath = "apkFilePath"
-    const val appPackageName = "appPackageName"
-    const val mainActivityClass = "mainActivityClass"
+    const val ResetAction = "ResetAction"
+    const val ZipFile = "ZipFile"
+    const val ServiceIdentifier = "ServiceIdentifier"
+    const val CallerPackageName = "CallerPackageName"
+    const val CallerSignature = "CallerSignature"
+    const val APK = "APK"
+    const val Package = "Package"
+    const val Class = "Class"
+    const val AutoTime = "AutoTime"
+    const val NTPServer = "NTPServer"
+    const val SyncInterval = "SyncInterval"
+    const val TimeZone = "TimeZone"
+    const val Date = "Date"
+    const val Time = "Time"
+    const val MilitaryTime = "MilitaryTime" // 0: do not change
+    const val militaryTimeON = "1" // 1: turn ON
+    const val militaryTimeOFF = "2" // 2: turn OFF
+    const val DevAdminPkg = "DevAdminPkg"
+    const val DevAdminClass = "DevAdminClass"
+    const val ScreenLockType = "ScreenLockType"
+
+    // Ignored Value
+    const val ignoredValue = "ignoredValue"
 
     /**
      * Defines the action to be taken for a permission request.
@@ -40,9 +62,9 @@ object MXConst {
      * - **3: Allow User to choose** - Prompts the user to grant or deny the permission. This is the Android default. (MX 10.0+, Android API 26+)
      * - **4: Verify** - Verifies whether the permission is granted.
      */
-    const val permissionAccessAction = "permissionAccessAction"
-    const val permissionAccessPackageName = "permissionAccessPackageName"
-    const val applicationClassName = "applicationClassName"
-    const val permissionAccessPermissionName = "permissionAccessPermissionName"
-    const val permissionAccessSignature = "permissionAccessSignature"
+    const val PermissionAccessAction = "PermissionAccessAction"
+    const val PermissionAccessPackageName = "PermissionAccessPackageName"
+    const val ApplicationClassName = "ApplicationClassName"
+    const val PermissionAccessPermissionName = "PermissionAccessPermissionName"
+    const val PermissionAccessSignature = "PermissionAccessSignature"
 }

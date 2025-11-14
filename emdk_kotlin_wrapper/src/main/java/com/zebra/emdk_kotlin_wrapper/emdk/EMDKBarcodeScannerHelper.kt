@@ -1,8 +1,6 @@
-package com.zebra.emdk_kotlin_wrapper
+package com.zebra.emdk_kotlin_wrapper.emdk
 
 import android.content.Context
-import com.symbol.emdk.EMDKManager
-import com.symbol.emdk.EMDKResults
 import com.symbol.emdk.ProfileManager
 import com.symbol.emdk.barcode.BarcodeManager
 import com.symbol.emdk.barcode.ScanDataCollection
@@ -10,53 +8,14 @@ import com.symbol.emdk.barcode.Scanner
 import com.symbol.emdk.barcode.ScannerConfig
 import com.symbol.emdk.barcode.ScannerException
 import com.symbol.emdk.barcode.StatusData
-import com.zebra.emdk_kotlin_wrapper.mx.MXProfileProcessor
 
-class EMDKHelper(val appContext: Context) {
+class EMDKBarcodeScannerHelper(private val context: Context) {
 
-    private var manager: EMDKManager? = null
-    private var barcodeManager: BarcodeManager? = null
     private var barcodeScanner: Scanner? = null
-    private var profileManager: ProfileManager? = null
-    private var profileProcessor: MXProfileProcessor? = null
-
-    private var config: Config = Config()
+    private var eventHandler: BarcodeScanEventHandler? = null
     private lateinit var dataCallback: (type: String, value: String, timestamp: String) -> Unit
 
-    class Config {
-        var enableOCR: Boolean = false
-    }
-
-    public fun getProfileProcessor() : MXProfileProcessor? {
-        return profileProcessor
-    }
-
-    private inner class EMDKEventHandler: EMDKManager.EMDKListener, Scanner.DataListener, Scanner.StatusListener {
-        override fun onOpened(p0: EMDKManager?) {
-            manager = p0
-            barcodeManager = manager?.getInstance(EMDKManager.FEATURE_TYPE.BARCODE) as BarcodeManager
-            barcodeScanner = barcodeManager?.getDevice(BarcodeManager.DeviceIdentifier.DEFAULT)
-            barcodeScanner?.let { scanner ->
-                scanner.addDataListener(this)
-                scanner.addStatusListener(this)
-                scanner.enable()
-                setupOCR(scanner, config)
-            }
-            profileManager = manager?.getInstance(EMDKManager.FEATURE_TYPE.PROFILE) as ProfileManager
-            profileManager?.let { profile ->
-                profileProcessor = MXProfileProcessor(appContext, profile)
-            }
-        }
-
-        override fun onClosed() {
-            barcodeScanner?.cancelRead()
-            barcodeScanner?.disable()
-            manager?.release()
-            manager = null
-            barcodeManager = null
-            barcodeScanner = null
-        }
-
+    inner class BarcodeScanEventHandler: Scanner.DataListener, Scanner.StatusListener {
         override fun onData(collection: ScanDataCollection?) {
             if (collection == null) {
                 return
@@ -82,32 +41,28 @@ class EMDKHelper(val appContext: Context) {
         }
     }
 
-    fun prepare(config: Config) : EMDKHelper? {
-        this.config = config
-        val emdkEventHandler = EMDKEventHandler()
-        val results = EMDKManager.getEMDKManager(appContext, emdkEventHandler)
-        when(results.statusCode) {
-            EMDKResults.STATUS_CODE.SUCCESS -> return this
-            EMDKResults.STATUS_CODE.FAILURE -> return null
-            EMDKResults.STATUS_CODE.UNKNOWN -> return null
-            EMDKResults.STATUS_CODE.NULL_POINTER -> return null
-            EMDKResults.STATUS_CODE.EMPTY_PROFILENAME -> return null
-            EMDKResults.STATUS_CODE.EMDK_NOT_OPENED -> return null
-            EMDKResults.STATUS_CODE.CHECK_XML -> return null
-            EMDKResults.STATUS_CODE.PREVIOUS_REQUEST_IN_PROGRESS -> return null
-            EMDKResults.STATUS_CODE.PROCESSING -> return null
-            EMDKResults.STATUS_CODE.NO_DATA_LISTENER -> return null
-            EMDKResults.STATUS_CODE.FEATURE_NOT_READY_TO_USE -> return null
-            EMDKResults.STATUS_CODE.FEATURE_NOT_SUPPORTED -> return null
+    private var config: Config = Config()
+
+    class Config {
+        var enableOCR: Boolean = false
+    }
+
+    init {
+        EMDKHelper.shared.prepare(context) {
+            eventHandler = BarcodeScanEventHandler()
+            barcodeScanner = EMDKHelper.shared.barcodeManager?.getDevice(BarcodeManager.DeviceIdentifier.DEFAULT)
+            barcodeScanner?.let { scanner ->
+                scanner.addDataListener(eventHandler)
+                scanner.addStatusListener(eventHandler)
+                scanner.enable()
+                setupOCR(scanner, config)
+            }
         }
     }
 
     fun teardown() {
         barcodeScanner?.cancelRead()
         barcodeScanner?.disable()
-        manager?.release()
-        manager = null
-        barcodeManager = null
         barcodeScanner = null
     }
 

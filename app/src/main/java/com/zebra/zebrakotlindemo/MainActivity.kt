@@ -6,15 +6,15 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import com.zebra.emdk_kotlin_wrapper.dw.DWAPI
 
 class MainActivity : ComponentActivity() {
 
+    private val viewModel = MainViewModel()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.prepare(this)
         setContent {
             RootView(this)
         }
@@ -22,12 +22,10 @@ class MainActivity : ComponentActivity() {
 
     override fun onResume() {
         super.onResume()
-        DWAPI.disableDW(this.applicationContext)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        DWAPI.enableDW(this.applicationContext)
     }
 
     @Composable

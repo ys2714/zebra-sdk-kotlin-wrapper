@@ -19,22 +19,21 @@
     <uses-permission android:name="com.zebra.provider.READ" />
     <uses-permission android:name="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
         tools:ignore="ProtectedPermissions" />
+    <!-- Access Control by Device Manager -->
+    <uses-permission android:name="com.zebra.devicemanager.provider.READ_PERMISSION"/>
+    <queries>
+        <package android:name="com.zebra.devicemanager"/>
+    </queries>
+    <!-- Device Admin -->
+    <uses-permission android:name="android.permission.BIND_DEVICE_ADMIN" />
     <application>
         <uses-library android:name="com.symbol.emdk"/>
-
-        <!--
-        <receiver
-            android:name=".DataWedgeHelper$ResultReceiver"
-            android:enabled="true"
+        <receiver android:name=".mx.MXProfileProcessor$DevAdminReceiver"
             android:exported="true"
-            tools:ignore="Instantiatable">
+            android:permission="android.permission.BIND_DEVICE_ADMIN">
             <intent-filter>
-                <action android:name="com.symbol.datawedge.api.RESULT_ACTION" />
-                <action android:name="com.zebra.zebrakotlindemo.SCAN_BY_DW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
             </intent-filter>
         </receiver>
-        -->
     </application>
 </manifest>

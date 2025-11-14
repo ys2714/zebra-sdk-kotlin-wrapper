@@ -1,5 +1,6 @@
 package com.zebra.emdk_kotlin_wrapper
 
+import android.util.Log
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 

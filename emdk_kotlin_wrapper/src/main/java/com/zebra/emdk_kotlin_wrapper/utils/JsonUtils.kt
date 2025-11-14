@@ -1,0 +1,99 @@
+package com.zebra.emdk_kotlin_wrapper.utils
+
+import android.os.Bundle
+import android.os.Parcelable
+import org.json.JSONArray
+import org.json.JSONObject
+
+object JsonUtils {
+
+    fun bundleToJson(bundle: Bundle): String {
+        return toJsonObject(bundle).toString(4)
+    }
+
+    private fun toJsonObject(bundle: Bundle): JSONObject {
+        val json = JSONObject()
+        for (key in bundle.keySet()) {
+            when (val value = bundle.get(key)) {
+                is Bundle -> json.put(key, toJsonObject(value))
+                is List<*> -> {
+                    val jsonArray = JSONArray()
+                    for (item in value) {
+                        if (item is Bundle) {
+                            jsonArray.put(toJsonObject(item))
+                        } else {
+                            jsonArray.put(item)
+                        }
+                    }
+                    json.put(key, jsonArray)
+                }
+                is Array<*> -> {
+                    val jsonArray = JSONArray()
+                    for (item in value) {
+                        if (item is Bundle) {
+                            jsonArray.put(toJsonObject(item))
+                        } else {
+                            jsonArray.put(item)
+                        }
+                    }
+                    json.put(key, jsonArray)
+                }
+                else -> json.put(key, value)
+            }
+        }
+        return json
+    }
+
+    fun jsonToBundle(jsonString: String): Bundle {
+        val jsonObj = JSONObject(jsonString)
+        val bundle = toBundle(jsonObj)
+        return bundle
+    }
+
+    private fun toBundle(jsonObject: JSONObject): Bundle {
+        val bundle = Bundle()
+        for (key in jsonObject.keys()) {
+            when (val value = jsonObject.get(key)) {
+                is JSONObject -> bundle.putBundle(key, toBundle(value))
+                is JSONArray -> {
+                    val list = toList(value)
+                    if (list.isNotEmpty()) {
+                        when (list.first()) {
+                            is Bundle -> {
+                                val bundles = arrayListOf<Bundle>()
+                                list.forEach { if (it is Bundle) bundles.add(it) }
+                                bundle.putParcelableArray(key, bundles.toTypedArray())
+                            }
+                            is String -> {
+                                val strings = arrayListOf<String>()
+                                list.forEach { if (it is String) strings.add(it) }
+                                bundle.putStringArray(key, strings.toTypedArray())
+                            }
+                        }
+                    }
+                }
+                is String -> bundle.putString(key, value)
+                is Boolean -> bundle.putBoolean(key, value)
+                is Int -> bundle.putInt(key, value)
+                is Long -> bundle.putLong(key, value)
+                is Double -> bundle.putDouble(key, value)
+            }
+        }
+        return bundle
+    }
+
+    private fun toList(jsonArray: JSONArray): List<Any> {
+        val list = mutableListOf<Any>()
+        for (i in 0 until jsonArray.length()) {
+            val value = jsonArray.get(i)
+            if (value is JSONObject) {
+                list.add(toBundle(value))
+            } else if (value is JSONArray) {
+                list.add(toList(value))
+            } else {
+                list.add(value)
+            }
+        }
+        return list
+    }
+}
