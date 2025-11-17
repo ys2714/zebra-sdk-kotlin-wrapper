@@ -4,10 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import com.zebra.emdk_kotlin_wrapper.dw.DWAPI
-import com.zebra.emdk_kotlin_wrapper.dw.DataWedgeHelper
 
 class DataWedgeActivity : ComponentActivity() {
 
@@ -15,7 +14,7 @@ class DataWedgeActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.setupDataWedgeIfNeeded(this)
+        viewModel.handleOnCreate(this)
         setContent {
             RootView()
         }
@@ -23,28 +22,32 @@ class DataWedgeActivity : ComponentActivity() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.setupDataWedgeIfNeeded(this)
+        viewModel.handleOnResume(this)
     }
 
     override fun onPause() {
         super.onPause()
+        viewModel.handleOnPause(this)
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        viewModel.handleOnDestroy()
     }
 
     @Composable
     fun RootView() {
         val newText = remember { viewModel.text }
         Column {
+            Text("Scanner Status: " + viewModel.scannerStatus.value)
             StyledOutlinedTextField(newText.value) { newValue ->
                newText.value = newValue
             }
             RoundButton("Push Scan Button or Tap this") {
-                DataWedgeHelper.softScanTrigger(
-                    this@DataWedgeActivity,
-                    DWAPI.SoftScanTriggerOptions.START_SCANNING)
+                viewModel.startScanning(this@DataWedgeActivity)
+            }
+            RoundButton("Refresh Scanner Status") {
+                viewModel.getScannerStatus(this@DataWedgeActivity)
             }
         }
     }

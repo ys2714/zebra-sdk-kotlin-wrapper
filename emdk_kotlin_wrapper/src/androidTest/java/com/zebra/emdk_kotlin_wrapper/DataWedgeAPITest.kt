@@ -92,13 +92,17 @@ class DataWedgeAPITest {
     @Test
     fun checkSetConfigForBarcode() = runBlocking {
         val complete = CompletableDeferred<Unit>()
+        val profileName = "checkSetConfigForBarcode-1"
         DataWedgeHelper.prepare(context) { success ->
             assert(success, { "prepare DW failed" })
-            DataWedgeHelper.deleteProfile(context, "checkSetConfigForBarcode-1") { deleteSuccess ->
+            DataWedgeHelper.deleteProfile(context, profileName) { deleteSuccess ->
                 assert(deleteSuccess, { "delete profile failed" })
-                DataWedgeHelper.configProfileForBarcodeScan(context, "checkSetConfigForBarcode-1") { configSuccess ->
-                    assert(configSuccess, { "config profile failed" })
-                    complete.complete(Unit)
+                DataWedgeHelper.createProfile(context, profileName) { createSuccess ->
+                    assert(createSuccess, { "create profile failed" })
+                    DataWedgeHelper.configProfileForBarcodeScan(context, profileName) { configSuccess ->
+                        assert(configSuccess, { "config profile failed" })
+                        complete.complete(Unit)
+                    }
                 }
             }
         }

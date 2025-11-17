@@ -2,8 +2,10 @@ package com.zebra.emdk_kotlin_wrapper.dw
 
 import android.content.Context
 import android.os.Bundle
+import com.squareup.moshi.Json
 import com.zebra.emdk_kotlin_wrapper.utils.AssetsReader
 import com.zebra.emdk_kotlin_wrapper.utils.JsonUtils
+import com.zebra.emdk_kotlin_wrapper.utils.PackageUtils
 
 /**
 (*) Notes related to scanner_selection_by_identifier:
@@ -15,18 +17,18 @@ Only one internal scanner can be added. If an attempt is made to add another int
 Although triggers can be set that are not supported by that device, only supported triggers are displayed in the UI.
 When using multiple scanners, the parameter scanner_selection_by_identifier must be used with DataWedge APIs such as SWITCH_SCANNER_PARAMS, SOFT_SCAN_TRIGGER, etc. Otherwise error COMMAND_NOT_SUPPORTED is encountered.
 */
-fun DWProfileProcessor.bundleForScannerPlugin(context: Context,
-                                                      profileName: String,
-                                                      scanningMode: DWAPI.ScanInputModeOptions): Bundle {
+fun DWProfileProcessor.bundleForBarcodePlugin(context: Context,
+                                              profileName: String,
+                                              enable: Boolean,
+                                              scanningMode: DWAPI.ScanInputModeOptions): Bundle {
     val jsonString = AssetsReader.readFileToStringWithParams(
         context,
         DWConst.ScannerPluginJSON,
         mapOf(
-            DWConst.CONFIG_MODE to DWAPI.ConfigModeOptions.UPDATE.value,
             DWConst.PROFILE_NAME to profileName,
             DWConst.PROFILE_ENABLED to "true",
-            DWConst.PACKAGE_NAME to context.packageName,
-            DWConst.scanner_input_enabled to "true",
+
+            DWConst.scanner_input_enabled to if (enable) "true" else "false",
             DWConst.scanner_selection to "auto",
             DWConst.scanner_selection_by_identifier to DWAPI.ScannerIdentifiers.AUTO.value,
             DWConst.scanning_mode to scanningMode.string,
@@ -41,8 +43,11 @@ fun DWProfileProcessor.bundleForScannerPlugin(context: Context,
             DWConst.decoder_upca to "true"
         )
     )
-    return JsonUtils.jsonToBundle(jsonString)
+    val bundle = JsonUtils.jsonToBundle(jsonString)
+    return bundle
 }
+
+
 
 /*
 OCR settings for BARCODE

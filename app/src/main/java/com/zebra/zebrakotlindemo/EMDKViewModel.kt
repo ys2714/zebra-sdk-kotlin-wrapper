@@ -1,22 +1,16 @@
 package com.zebra.zebrakotlindemo
 
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.zebra.emdk_kotlin_wrapper.emdk.EMDKBarcodeScannerHelper
 import com.zebra.emdk_kotlin_wrapper.mx.MXBase
-import com.zebra.emdk_kotlin_wrapper.mx.MXConst
 import com.zebra.emdk_kotlin_wrapper.mx.MXProfileProcessor
 import com.zebra.emdk_kotlin_wrapper.mx.callClockSet
 import com.zebra.emdk_kotlin_wrapper.mx.callClockSetAuto
-import com.zebra.emdk_kotlin_wrapper.mx.fetchIMEIInBackground
-import com.zebra.emdk_kotlin_wrapper.mx.fetchSerialNumberInBackground
 import com.zebra.emdk_kotlin_wrapper.mx.setScreenLockType
-import com.zebra.emdk_kotlin_wrapper.zdm.ZDMAuthHelper
-import com.zebra.emdk_kotlin_wrapper.zdm.ZDMConst
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,13 +18,12 @@ import kotlinx.coroutines.launch
 class EMDKViewModel: ViewModel() {
 
     var text: MutableState<String> = mutableStateOf("")
-    var serial: MutableState<String> = mutableStateOf("")
-    var imei: MutableState<String> = mutableStateOf("")
+
 
     private var scannerHelper: EMDKBarcodeScannerHelper? = null
     private var profileProcessor: MXProfileProcessor? = null
 
-    fun setupEMDKIfNeeded(context: Context) {
+    fun handleOnCreate(context: Context) {
         scannerHelper = EMDKBarcodeScannerHelper(context)
         profileProcessor = MXProfileProcessor(context)
     }
@@ -43,38 +36,6 @@ class EMDKViewModel: ViewModel() {
 
     fun stopScan() {
         scannerHelper?.stopRead()
-    }
-
-    fun fetchSerialNumber(context: Context) {
-        profileProcessor?.fetchSerialNumberInBackground(
-            context,
-            object: MXBase.FetchOEMInfoCallback {
-                override fun onSuccess(result: String) {
-                    serial.value = result
-                    showDebugToast(context, "Serial Number", result)
-                }
-
-                override fun onError() {
-                    serial.value = "get serial number error"
-                    showDebugToast(context, "Serial Number", "get serial number error")
-                }
-            })
-    }
-
-    fun fetchIMEI(context: Context) {
-        profileProcessor?.fetchIMEIInBackground(
-            context,
-            object: MXBase.FetchOEMInfoCallback {
-                override fun onSuccess(result: String) {
-                    imei.value = result
-                    showDebugToast(context, "IMEI", result)
-                }
-
-                override fun onError() {
-                    serial.value = "get serial number error"
-                    showDebugToast(context, "IMEI", "get serial number error")
-                }
-            })
     }
 
     fun setClockToAndroidReleaseDate(context: Context) {

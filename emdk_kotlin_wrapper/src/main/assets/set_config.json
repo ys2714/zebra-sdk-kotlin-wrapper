@@ -1,8 +1,7 @@
 {
   "CONFIG_MODE": "CREATE_IF_NOT_EXIST",
   "PROFILE_NAME": "=[PROFILE_NAME]",
-  "PLUGIN_CONFIG": [
-    {
+  "PLUGIN_CONFIG": [ {
       "PLUGIN_NAME": "BARCODE",
       "RESET_CONFIG": "true",
       "PARAM_LIST": {
@@ -13,8 +12,7 @@
         "decoder_code39": "true",
         "scanner_input_enabled": "true"
       }
-    },
-    {
+    }, {
       "PLUGIN_NAME": "INTENT",
       "RESET_CONFIG": "true",
       "PARAM_LIST": {

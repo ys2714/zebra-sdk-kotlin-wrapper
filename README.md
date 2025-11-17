@@ -117,6 +117,9 @@ decoder_upca
 decoder_upce0
 ```
 
+4. SET_CONFIG API PLUGIN_CONFIG parameter pass array doesn't work
+
+plese set plugin one by one by sending multiple intents
 
 ## URLs
 

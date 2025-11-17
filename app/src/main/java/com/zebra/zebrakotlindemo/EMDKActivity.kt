@@ -17,7 +17,7 @@ class EMDKActivity: ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.setupEMDKIfNeeded(this.applicationContext)
+        viewModel.handleOnCreate(this.applicationContext)
         setContent {
            RootView()
         }
@@ -25,7 +25,6 @@ class EMDKActivity: ComponentActivity() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.setupEMDKIfNeeded(this.applicationContext)
     }
 
     override fun onPause() {
@@ -52,18 +51,7 @@ class EMDKActivity: ComponentActivity() {
 //            RoundButton("Stop Scan") {
 //                viewModel.stopScan()
 //            }
-            Text("OEM Info",
-                modifier = Modifier
-                    .padding()
-            )
-            Text(viewModel.serial.value)
-            RoundButton("Fetch Serial Number") {
-                viewModel.fetchSerialNumber(this@EMDKActivity)
-            }
-            Text(viewModel.imei.value)
-            RoundButton("Fetch IMEI") {
-                viewModel.fetchIMEI(this@EMDKActivity)
-            }
+
             Text("Set System Clock",
                 modifier = Modifier
                     .padding()

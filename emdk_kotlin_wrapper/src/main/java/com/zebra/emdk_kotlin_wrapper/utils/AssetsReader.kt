@@ -37,7 +37,7 @@ object AssetsReader {
                 //normal static line
                 result = line
             } else {
-                //line with parameters
+                //line with parametersDeviceAdminReceiver
                 val placeholder = placeholderResult.value
                 for (entity in pmap.entries) {
                     val key = entity.key
@@ -46,8 +46,8 @@ object AssetsReader {
                         // find the param
                         if (line.contains(placeholder)) {
                             // has variable value
-                            Log.d(TAG, "replace $placeholder with $value in $fileName")
                             result = line.replace(placeholder, value)
+                            Log.d(TAG, "replace $placeholder with $value in $fileName")
                         } else {
                             // has fixed default value
                             result = line

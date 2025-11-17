@@ -3,13 +3,13 @@ package com.zebra.emdk_kotlin_wrapper.dw
 object DWConst {
 
     // JSON file names
-    const val CreateProfileJSON = "bundle_create_profile.json"
-    const val UpdateProfileJSON = "bundle_update_profile.json"
+    const val BindProfileJSON = "bind_profile_to_app.json"
     const val ScannerPluginJSON = "plugin_scanner.json"
     const val WorkflowPluginJSON = "plugin_workflow.json"
     const val IntentPluginJSON = "plugin_intent.json"
     const val IntentSecurePluginJSON = "plugin_intent_secure.json"
     const val BDFPluginJSON = "plugin_bdf.json"
+    const val KeystrokePluginJSON = "plugin_keystroke.json"
 
     // Common
     const val SEND_RESULT = "SEND_RESULT"
@@ -44,6 +44,8 @@ object DWConst {
     const val scanning_mode = "scanning_mode"
     const val barcode_trigger_mode = "barcode_trigger_mode"
 
+    // Plugin Keystroke
+    const val keystroke_output_enabled = "keystroke_output_enabled"
 
     // Plugin Intent
     const val intent_output_enabled = "intent_output_enabled"

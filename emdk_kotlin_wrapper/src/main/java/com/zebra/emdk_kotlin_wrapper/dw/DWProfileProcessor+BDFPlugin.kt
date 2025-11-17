@@ -14,7 +14,6 @@ fun DWProfileProcessor.bundleForBDFPlugin(context: Context,
         context,
         DWConst.BDFPluginJSON,
         mapOf(
-            DWConst.CONFIG_MODE to DWAPI.ConfigModeOptions.UPDATE.value,
             DWConst.PROFILE_NAME to profileName,
             DWConst.PROFILE_ENABLED to "true",
             DWConst.PACKAGE_NAME to context.packageName,

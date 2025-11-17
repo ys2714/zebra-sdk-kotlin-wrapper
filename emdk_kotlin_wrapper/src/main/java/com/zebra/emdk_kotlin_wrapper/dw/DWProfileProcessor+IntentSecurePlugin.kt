@@ -14,7 +14,6 @@ fun DWProfileProcessor.bundleForIntentSecurePlugin(context: Context,
         context,
         DWConst.IntentSecurePluginJSON,
         mapOf(
-            DWConst.CONFIG_MODE to DWAPI.ConfigModeOptions.UPDATE.value,
             DWConst.PROFILE_NAME to profileName,
             DWConst.PROFILE_ENABLED to "true",
             DWConst.PACKAGE_NAME to context.packageName,
@@ -23,7 +22,6 @@ fun DWProfileProcessor.bundleForIntentSecurePlugin(context: Context,
             DWConst.intent_category to "android.intent.category.DEFAULT",
             DWConst.intent_delivery to deliveryOptions.string,
             DWConst.intent_use_content_provider to "false",
-            DWConst.PACKAGE_NAME to context.packageName,
             DWConst.SIGNATURE to PackageUtils.getPackageSignature(context)
         )
     )

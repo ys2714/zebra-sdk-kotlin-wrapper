@@ -7,6 +7,8 @@
         <!-- Zebra Content Provider API -->
         <package android:name="com.zebra.zebracontentprovider" />
         <provider android:authorities="oem_info" />
+    </queries>
+    <queries>
         <package android:name="com.symbol.datawedge" />
         <intent>
             <action android:name="com.symbol.datawedge.api.ACTION" />
@@ -25,9 +27,12 @@
         <package android:name="com.zebra.devicemanager"/>
     </queries>
     <!-- Device Admin -->
+    <!--
     <uses-permission android:name="android.permission.BIND_DEVICE_ADMIN" />
+    -->
     <application>
         <uses-library android:name="com.symbol.emdk"/>
+        <!--
         <receiver android:name=".mx.MXProfileProcessor$DevAdminReceiver"
             android:exported="true"
             android:permission="android.permission.BIND_DEVICE_ADMIN">
@@ -35,5 +40,6 @@
                 <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
             </intent-filter>
         </receiver>
+        -->
     </application>
 </manifest>

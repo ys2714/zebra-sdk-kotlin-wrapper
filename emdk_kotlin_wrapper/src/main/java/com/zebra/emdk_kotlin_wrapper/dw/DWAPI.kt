@@ -1,10 +1,10 @@
 package com.zebra.emdk_kotlin_wrapper.dw
 
-import android.content.Context
-import android.content.Intent
-import android.os.Bundle
-
 object DWAPI {
+
+    const val TAG = "DWAPI"
+
+    const val MILLISECONDS_DELAY_BETWEEN_API_CALLS: Long = 200
 
     enum class StringBoolean(val value: String) {
         TRUE("true"),
@@ -27,6 +27,7 @@ object DWAPI {
         ENABLE_DATAWEDGE("com.symbol.datawedge.api.ENABLE_DATAWEDGE"),
         SOFT_SCAN_TRIGGER("com.symbol.datawedge.api.SOFT_SCAN_TRIGGER"),
         GET_DATAWEDGE_STATUS("com.symbol.datawedge.api.GET_DATAWEDGE_STATUS"),
+        GET_SCANNER_STATUS("com.symbol.datawedge.api.GET_SCANNER_STATUS"),
         ENUMERATE_SCANNERS("com.symbol.datawedge.api.ENUMERATE_SCANNERS")
     }
 
@@ -41,13 +42,23 @@ object DWAPI {
 
     enum class ResultExtraKeys(val value: String) {
         GET_DATAWEDGE_STATUS("com.symbol.datawedge.api.RESULT_GET_DATAWEDGE_STATUS"),
-        ENUMERATE_SCANNERS("com.symbol.datawedge.api.RESULT_ENUMERATE_SCANNERS")
+        ENUMERATE_SCANNERS("com.symbol.datawedge.api.RESULT_ENUMERATE_SCANNERS"),
+        SCANNER_STATUS("com.symbol.datawedge.api.RESULT_SCANNER_STATUS")
     }
 
     enum class ConfigModeOptions(val value: String) {
         CREATE_IF_NOT_EXIST("CREATE_IF_NOT_EXIST"),
         OVERWRITE("OVERWRITE"),
         UPDATE("UPDATE")
+    }
+
+    enum class ScannerStatus(val value: String) {
+        UNKNOWN("UNKNOWN"),
+        WAITING("WAITING"), // Scanner is ready to be triggered
+        SCANNING("SCANNING"), // Scanner is emitting a scanner beam
+        DISABLED("DISABLED"), // Scanner is disabled
+        CONNECTED("CONNECTED"), // An external (Bluetooth or serial) scanner is connected
+        DISCONNECTED("DISCONNECTED") // The external scanner is disconnected
     }
 
     enum class ScannerIdentifiers(val value: String) {
@@ -459,8 +470,6 @@ object DWAPI {
         const val RESULT_INFO = "RESULT_INFO"
         const val RESULT_CODE = "RESULT_CODE"
     }
-
-
 
     object Profile {
         const val NAME = "PROFILE_NAME"

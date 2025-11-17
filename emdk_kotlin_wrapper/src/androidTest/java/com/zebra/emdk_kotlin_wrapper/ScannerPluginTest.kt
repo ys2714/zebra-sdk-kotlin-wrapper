@@ -21,7 +21,10 @@ class ScannerPluginTest {
         try {
             val bundle = DWProfileProcessor.bundleForScannerPlugin(
                 appContext,
-                "test-scanner-profile-2", DWAPI.ScanInputModeOptions.SINGLE
+                "test-scanner-profile-2",
+                DWAPI.ScanInputModeOptions.SINGLE,
+                DWAPI.ResultActionNames.SCAN_RESULT_ACTION,
+                DWAPI.IntentDeliveryOptions.BROADCAST
             )
 
             val debugString = JsonUtils.bundleToJson(bundle)
