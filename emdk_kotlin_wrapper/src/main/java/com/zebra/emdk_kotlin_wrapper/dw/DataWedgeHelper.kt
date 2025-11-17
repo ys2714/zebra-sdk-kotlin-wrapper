@@ -214,10 +214,15 @@ object DataWedgeHelper {
         }
     }
 
-    fun configBarcodePlugin(context: Context, name: String, enable: Boolean, callback: ((Boolean) -> Unit)? = null) {
+    fun configBarcodePlugin(context: Context, name: String, enable: Boolean, hardTrigger: Boolean,callback: ((Boolean) -> Unit)? = null) {
         backgroundScope.launch {
             runCatching {
-                val bundle = DWProfileProcessor.bundleForBarcodePlugin(context, name, enable, DWAPI.ScanInputModeOptions.SINGLE)
+                val bundle = DWProfileProcessor.bundleForBarcodePlugin(
+                    context,
+                    name,
+                    enable,
+                    hardTrigger,
+                    DWAPI.ScanInputModeOptions.SINGLE)
                 DWAPI.sendSetConfigIntent(context, bundle)
             }.onSuccess {
                 delay(DWAPI.MILLISECONDS_DELAY_BETWEEN_API_CALLS)

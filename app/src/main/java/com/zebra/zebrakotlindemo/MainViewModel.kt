@@ -69,7 +69,7 @@ class MainViewModel {
                                             getScannerStatus(context)
                                             emdkPrepared.value = true
 
-                                            DataWedgeHelper.configBarcodePlugin(context, profileName, enable = false)
+                                            DataWedgeHelper.configBarcodePlugin(context, profileName, enable = false, hardTrigger = false)
                                             DataWedgeHelper.configKeystrokePlugin(context, profileName, false)
                                             DataWedgeHelper.configIntentPlugin(context, profileName)
 

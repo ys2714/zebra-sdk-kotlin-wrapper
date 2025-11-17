@@ -40,7 +40,7 @@ class DataWedgeViewModel : ViewModel() {
             }
         }.also {
             DataWedgeHelper.addScanDataListener(it)
-            DataWedgeHelper.configBarcodePlugin(context, MainViewModel.profileName, enable = true)
+            DataWedgeHelper.configBarcodePlugin(context, MainViewModel.profileName, enable = true, hardTrigger = false)
             getScannerStatus(context)
         }
     }
@@ -50,7 +50,7 @@ class DataWedgeViewModel : ViewModel() {
             DataWedgeHelper.removeScanDataListener(dataListener!!)
             dataListener = null
         }
-        DataWedgeHelper.configBarcodePlugin(context, MainViewModel.profileName, enable = false)
+        DataWedgeHelper.configBarcodePlugin(context, MainViewModel.profileName, enable = false, hardTrigger = false)
     }
 
     fun handleOnDestroy() {
@@ -60,6 +60,12 @@ class DataWedgeViewModel : ViewModel() {
         DataWedgeHelper.softScanTrigger(
             context,
             DWAPI.SoftScanTriggerOptions.START_SCANNING)
+    }
+
+    fun stopScanning(context: Context) {
+        DataWedgeHelper.softScanTrigger(
+            context,
+            DWAPI.SoftScanTriggerOptions.STOP_SCANNING)
     }
 
     fun getScannerStatus(context: Context) {

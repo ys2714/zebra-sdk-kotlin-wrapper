@@ -125,4 +125,25 @@ class MXBase {
                 return value.toString()
             }
     }
+
+    /**
+     * https://techdocs.zebra.com/mx/keymappingmgr/#key-code
+     *
+     * Button L1: 102
+     * Button R1: 103
+     * Button L2: 104
+     * Button R2: 105
+     * */
+    enum class KeyCodes(val value: Int) {
+        BUTTON_L1(102),
+        BUTTON_R1(103),
+        BUTTON_L2(104),
+        BUTTON_R2(105),
+        BUTTON_SCAN(10036);
+
+        fun toValueString(): String {
+            return value.toString()
+        }
+    }
+
 }

@@ -2,10 +2,8 @@ package com.zebra.emdk_kotlin_wrapper.dw
 
 import android.content.Context
 import android.os.Bundle
-import com.squareup.moshi.Json
 import com.zebra.emdk_kotlin_wrapper.utils.AssetsReader
 import com.zebra.emdk_kotlin_wrapper.utils.JsonUtils
-import com.zebra.emdk_kotlin_wrapper.utils.PackageUtils
 
 /**
 (*) Notes related to scanner_selection_by_identifier:
@@ -20,7 +18,11 @@ When using multiple scanners, the parameter scanner_selection_by_identifier must
 fun DWProfileProcessor.bundleForBarcodePlugin(context: Context,
                                               profileName: String,
                                               enable: Boolean,
+                                              enableHardTrigger: Boolean,
                                               scanningMode: DWAPI.ScanInputModeOptions): Bundle {
+    val pluginEnabled = if (enable) "true" else "false"
+    val hardTriggerEnabled = if (enableHardTrigger) DWAPI.BarcodeTriggerMode.ENABLED.string else DWAPI.BarcodeTriggerMode.DISABLED.string
+
     val jsonString = AssetsReader.readFileToStringWithParams(
         context,
         DWConst.ScannerPluginJSON,
@@ -28,11 +30,11 @@ fun DWProfileProcessor.bundleForBarcodePlugin(context: Context,
             DWConst.PROFILE_NAME to profileName,
             DWConst.PROFILE_ENABLED to "true",
 
-            DWConst.scanner_input_enabled to if (enable) "true" else "false",
+            DWConst.scanner_input_enabled to pluginEnabled,
             DWConst.scanner_selection to "auto",
             DWConst.scanner_selection_by_identifier to DWAPI.ScannerIdentifiers.AUTO.value,
             DWConst.scanning_mode to scanningMode.string,
-            DWConst.barcode_trigger_mode to DWAPI.BarcodeTriggerMode.ENABLED.string,
+            DWConst.barcode_trigger_mode to hardTriggerEnabled,
             // Code128
             DWConst.decoder_code128 to "true",
             // Others
