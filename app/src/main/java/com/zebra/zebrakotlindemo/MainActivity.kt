@@ -3,6 +3,8 @@ package com.zebra.zebrakotlindemo
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.KeyEvent
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
@@ -14,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.runtime.Composable
+import com.zebra.emdk_kotlin_wrapper.mx.MXBase
 
 class MainActivity : ComponentActivity() {
 
@@ -33,6 +36,32 @@ class MainActivity : ComponentActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (event == null) return super.onKeyDown(keyCode, event)
+        if (event.action == KeyEvent.ACTION_DOWN) {
+            when (keyCode) {
+                MXBase.KeyCodes.BUTTON_SCAN.value -> {
+                    Log.d("", "LEFT Scan PRESSED")
+                    startActivity(Intent(this, DataWedgeActivity::class.java))
+                }
+                MXBase.KeyCodes.BUTTON_R1.value -> {
+                    Log.d("", "RIGHT Scan PRESSED")
+                    startActivity(Intent(this, DataWedgeActivity::class.java))
+                }
+                MXBase.KeyCodes.BUTTON_L2.value -> {
+                    Log.d("", "PTT PRESSED")
+                    viewModel.getScannerStatus(this)
+                }
+                MXBase.KeyCodes.BUTTON_R2.value -> {
+                    Log.d("", "R2 PRESSED (if exist)")
+
+                }
+            }
+        }
+
+        return super.onKeyDown(keyCode, event)
     }
 
     @Composable
