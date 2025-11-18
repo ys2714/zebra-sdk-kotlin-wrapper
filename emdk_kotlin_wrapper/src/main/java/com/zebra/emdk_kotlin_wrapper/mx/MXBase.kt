@@ -47,6 +47,28 @@ class MXBase {
         }
     }
 
+    enum class ProfileXML(val fileName: String) {
+        AccessManagerAllowPermission("profile_access_manager_allow_permission.xml"),
+        AccessManagerAllowCallService("profile_access_manager_allow_call_service.xml"),
+        AppManagerInstallAndStart("profile_app_manager_install_and_start.xml"),
+        PowerManagerReset("profile_power_manager_reset.xml"),
+        ClockSet("profile_clock_set.xml"),
+        DevAdminManagerDisableLockScreen("profile_dev_admin_manager_disable_lock_screen.xml");
+
+        override fun toString() = fileName
+    }
+
+    enum class ProfileName(private val value: String) {
+        AccessManagerAllowPermission("AccessManagerAllowPermission"),
+        AccessManagerAllowCallService("AccessManagerAllowCallService"),
+        AppManagerInstallAndStart("AppManagerInstallAndStart"),
+        PowerManagerReset("PowerManagerReset"),
+        ClockSet("ClockSet"),
+        DevAdminManagerDisableLockScreen("DevAdminManagerDisableLockScreen");
+
+        override fun toString() = value
+    }
+
     /**
      * Specifies the Power Manager action to be performed. The values correspond
      * to options available in the MX Power Manager profile.

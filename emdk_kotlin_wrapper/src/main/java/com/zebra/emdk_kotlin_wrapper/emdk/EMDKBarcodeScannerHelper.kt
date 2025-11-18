@@ -48,7 +48,7 @@ class EMDKBarcodeScannerHelper(private val context: Context) {
     }
 
     init {
-        EMDKHelper.shared.prepare(context) {
+        EMDKHelper.shared.prepareBarcodeManager(context) {
             eventHandler = BarcodeScanEventHandler()
             barcodeScanner = EMDKHelper.shared.barcodeManager?.getDevice(BarcodeManager.DeviceIdentifier.DEFAULT)
             barcodeScanner?.let { scanner ->

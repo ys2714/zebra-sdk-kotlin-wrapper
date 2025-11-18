@@ -47,7 +47,7 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     // implementation(libs.gson)
-    implementation(libs.moshi)
+    // implementation(libs.moshi)
     // implementation(libs.gson.typeadapters.android)
 
     testImplementation(libs.junit)

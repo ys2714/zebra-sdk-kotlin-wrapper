@@ -1,6 +1,7 @@
 package com.zebra.emdk_kotlin_wrapper.mx
 
 import android.content.Context
+import com.symbol.emdk.ProfileManager
 import com.zebra.emdk_kotlin_wrapper.utils.PackageUtils
 
 /**
@@ -11,10 +12,15 @@ fun MXProfileProcessor.grantZebraBluetoothInsightServiceAccessPermission() {
 
 }
 
-fun MXProfileProcessor.getAllDangerousPermissions(ctx: Context, callback: MXBase.ProcessProfileCallback) {
-    val base64 = PackageUtils.getPackageSignature(ctx)
-    val name = ctx.packageName
+fun MXProfileProcessor.getAllDangerousPermissions(
+    context: Context,
+    profileManager: ProfileManager,
+    callback: MXBase.ProcessProfileCallback) {
+    val base64 = PackageUtils.getPackageSignature(context)
+    val name = context.packageName
     callAccessManagerAllowPermission(
+        context,
+        profileManager,
         MXBase.EPermissionType.ALL_DANGEROUS_PERMISSIONS.toString(),
         name,
         "",
@@ -23,31 +29,52 @@ fun MXProfileProcessor.getAllDangerousPermissions(ctx: Context, callback: MXBase
     )
 }
 
-fun MXProfileProcessor.getCallServicePermission(ctx: Context, serviceId: String, callback: MXBase.ProcessProfileCallback) {
-    val base64 = PackageUtils.getPackageSignature(ctx)
-    val name = ctx.packageName
+fun MXProfileProcessor.getCallServicePermission(
+    context: Context,
+    profileManager: ProfileManager,
+    serviceId: String,
+    callback: MXBase.ProcessProfileCallback) {
+    val base64 = PackageUtils.getPackageSignature(context)
+    val name = context.packageName
     callAccessManagerAllowCallService(
+        context,
+        profileManager,
         serviceId,
         name,
         base64,
         callback)
 }
 
-fun MXProfileProcessor.callAccessManagerAllowCallService(serviceIdentifier: String, callerPackageName: String, callerSignature: String, callback: MXBase.ProcessProfileCallback) {
+fun MXProfileProcessor.callAccessManagerAllowCallService(
+    context: Context,
+    profileManager: ProfileManager,
+    serviceIdentifier: String,
+    callerPackageName: String,
+    callerSignature: String,
+    callback: MXBase.ProcessProfileCallback) {
     val map = mapOf(
         MXConst.ServiceIdentifier to serviceIdentifier,
         MXConst.CallerPackageName to callerPackageName,
         MXConst.CallerSignature to callerSignature
     )
     processProfileWithCallback(
-        MXConst.AccessManagerAllowCallServiceXML,
-        MXConst.AccessManagerAllowCallService,
+        context,
+        profileManager,
+        MXBase.ProfileXML.AccessManagerAllowCallService,
+        MXBase.ProfileName.AccessManagerAllowCallService,
         map,
         callback
     )
 }
 
-fun MXProfileProcessor.callAccessManagerAllowPermission(permissionName: String, appPackageName: String, appClassName: String, appSignature: String, callback: MXBase.ProcessProfileCallback) {
+fun MXProfileProcessor.callAccessManagerAllowPermission(
+    context: Context,
+    profileManager: ProfileManager,
+    permissionName: String,
+    appPackageName: String,
+    appClassName: String,
+    appSignature: String,
+    callback: MXBase.ProcessProfileCallback) {
     val map = mapOf(
         MXConst.PermissionAccessPermissionName to permissionName,
         MXConst.PermissionAccessAction to "1", // 1: allow
@@ -56,22 +83,32 @@ fun MXProfileProcessor.callAccessManagerAllowPermission(permissionName: String, 
         MXConst.PermissionAccessSignature to appSignature
     )
     processProfileWithCallback(
-        MXConst.AccessManagerAllowPermissionXML,
-        MXConst.AccessManagerAllowPermission,
+        context,
+        profileManager,
+        MXBase.ProfileXML.AccessManagerAllowPermission,
+        MXBase.ProfileName.AccessManagerAllowPermission,
         map,
         callback
     )
 }
 
-fun MXProfileProcessor.callAppManagerInstallAndStart(apkPath: String, packageName: String, mainActivity: String, callback: MXBase.ProcessProfileCallback) {
+fun MXProfileProcessor.callAppManagerInstallAndStart(
+    context: Context,
+    profileManager: ProfileManager,
+    apkPath: String,
+    packageName: String,
+    mainActivity: String,
+    callback: MXBase.ProcessProfileCallback) {
     val map = mapOf(
         MXConst.APK to apkPath,
         MXConst.Package to packageName,
         MXConst.Class to mainActivity
     )
     processProfileWithCallback(
-        MXConst.AppManagerInstallAndStartXML,
-        MXConst.AppManagerInstallAndStart,
+        context,
+        profileManager,
+        MXBase.ProfileXML.AppManagerInstallAndStart,
+        MXBase.ProfileName.AppManagerInstallAndStart,
         map,
         callback
     )

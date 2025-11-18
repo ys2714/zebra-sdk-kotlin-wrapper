@@ -13,22 +13,6 @@ object MXConst {
     // DW Access Control
     const val AUTHORITY_URI = "content://com.zebra.devicemanager.zdmcontentprovider"
 
-    // Profile XML file names in assets
-    const val AccessManagerAllowPermissionXML = "profile_access_manager_allow_permission.xml"
-    const val AccessManagerAllowCallServiceXML = "profile_access_manager_allow_call_service.xml"
-    const val AppManagerInstallAndStartXML = "profile_app_manager_install_and_start.xml"
-    const val PowerManagerResetXML = "profile_power_manager_reset.xml"
-    const val ClockSetXML = "profile_clock_set.xml"
-    const val DevAdminManagerDisableLockScreenXML = "profile_dev_admin_manager_disable_lock_screen.xml"
-
-    // Profile Names
-    const val AccessManagerAllowPermission = "AccessManagerAllowPermission"
-    const val AccessManagerAllowCallService = "AccessManagerAllowCallService"
-    const val AppManagerInstallAndStart = "AppManagerInstallAndStart"
-    const val PowerManagerReset = "PowerManagerReset"
-    const val ClockSet = "ClockSet"
-    const val DevAdminManagerDisableLockScreen = "DevAdminManagerDisableLockScreen"
-
     // Profile Parameters
     const val ResetAction = "ResetAction"
     const val ZipFile = "ZipFile"

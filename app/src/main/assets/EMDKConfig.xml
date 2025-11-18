@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?><!--This is an auto generated document. Changes to this document may cause incorrect behavior.--><wap-provisioningdoc>
-    
   <characteristic type="ProfileInfo">
-        
     <parm name="created_wizard_version" value="14.0.0"/>
-      
   </characteristic>
-    
-  
-
+  <characteristic type="Profile">
+    <parm name="ProfileName" value="placeholder"/>
+    <parm name="ModifiedDate" value="2025-11-18 10:59:11"/>
+    <parm name="TargetSystemVersion" value="4.2"/>
+    <characteristic type="XmlMgr" version="4.2">
+      <parm name="emdk_name" value="placeholder"/>
+      <parm name="ProcessingMode" value="1"/>
+    </characteristic>
+  </characteristic>
+</wap-provisioningdoc>

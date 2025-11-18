@@ -1,18 +1,12 @@
 package com.zebra.emdk_kotlin_wrapper.emdk
 
 import android.content.Context
+import com.symbol.emdk.EMDKBase
 import com.symbol.emdk.EMDKManager
-import com.symbol.emdk.EMDKResults
 import com.symbol.emdk.ProfileManager
 import com.symbol.emdk.barcode.BarcodeManager
-import com.symbol.emdk.barcode.ScanDataCollection
-import com.symbol.emdk.barcode.Scanner
-import com.symbol.emdk.barcode.ScannerConfig
-import com.symbol.emdk.barcode.ScannerException
-import com.symbol.emdk.barcode.StatusData
-import com.zebra.emdk_kotlin_wrapper.mx.MXProfileProcessor
 
-class EMDKHelper() {
+class EMDKHelper private constructor() {
 
     companion object {
         private var instance: EMDKHelper? = null
@@ -26,48 +20,86 @@ class EMDKHelper() {
             }
     }
 
-    private var manager: EMDKManager? = null
-    var barcodeManager: BarcodeManager? = null
-    var profileManager: ProfileManager? = null
+    private var _manager: EMDKManager? = null
+    private var _barcodeManager: BarcodeManager? = null
+    private var _profileManager: ProfileManager? = null
 
-    private lateinit var callback: (success: Boolean) -> Unit
-
-
-    private inner class EMDKEventHandler: EMDKManager.EMDKListener {
-        override fun onOpened(p0: EMDKManager?) {
-            manager = p0
-            barcodeManager = manager?.getInstance(EMDKManager.FEATURE_TYPE.BARCODE) as? BarcodeManager
-            profileManager = manager?.getInstance(EMDKManager.FEATURE_TYPE.PROFILE) as? ProfileManager
-
-            if (manager != null) {
-                callback(true)
-            } else {
-                callback(false)
-            }
+    val barcodeManager: BarcodeManager?
+        get() {
+            return _barcodeManager
         }
 
-        override fun onClosed() {
-            manager?.release()
-            manager = null
-            barcodeManager = null
-            profileManager = null
+    val profileManager: ProfileManager?
+        get() {
+            return _profileManager
         }
+
+    fun prepareBarcodeManager(context: Context, callback: (success: Boolean) -> Unit) {
+        EMDKManager.getEMDKManager(
+            context,
+            object : EMDKManager.EMDKListener {
+                override fun onOpened(manager: EMDKManager?) {
+                    this@EMDKHelper._manager = manager?.also { emdkManager ->
+                        emdkManager.getInstanceAsync(
+                            EMDKManager.FEATURE_TYPE.BARCODE,
+                            object : EMDKManager.StatusListener {
+                            override fun onStatus(status: EMDKManager.StatusData?, base: EMDKBase?) {
+                                status?.also {
+                                    if (it.featureType == EMDKManager.FEATURE_TYPE.BARCODE) {
+                                        _barcodeManager = base as? BarcodeManager
+                                        callback(true)
+                                    } else {
+                                        callback(false)
+                                    }
+                                } ?: run {
+                                    callback(false)
+                                }
+                            }
+                        })
+                    }
+                }
+
+                override fun onClosed() {
+                    this@EMDKHelper.teardown()
+                }
+            })
     }
 
-    fun prepare(context: Context, callback: (success: Boolean) -> Unit) {
-        this.callback = callback
-        if (manager != null) {
-            callback(true)
-            return
-        }
-        val emdkEventHandler = EMDKEventHandler()
-        EMDKManager.getEMDKManager(context, emdkEventHandler)
+    fun prepareEMDKProfileManager(context: Context, callback: (success: Boolean) -> Unit) {
+        EMDKManager.getEMDKManager(
+            context,
+            object : EMDKManager.EMDKListener {
+                override fun onOpened(manager: EMDKManager?) {
+                    this@EMDKHelper._manager = manager?.also { emdkManager ->
+                        emdkManager.getInstanceAsync(
+                            EMDKManager.FEATURE_TYPE.PROFILE,
+                            object : EMDKManager.StatusListener {
+                            override fun onStatus(status: EMDKManager.StatusData?, base: EMDKBase?) {
+                                status?.also {
+                                    if (it.featureType == EMDKManager.FEATURE_TYPE.PROFILE) {
+                                        _profileManager = base as? ProfileManager
+                                        callback(true)
+                                    } else {
+                                        callback(false)
+                                    }
+                                } ?: run {
+                                    callback(false)
+                                }
+                            }
+                        })
+                    }
+                }
+
+                override fun onClosed() {
+                    this@EMDKHelper.teardown()
+                }
+            })
     }
 
     fun teardown() {
-        manager?.release()
-        manager = null
-        barcodeManager = null
-        profileManager = null
+        _manager?.release()
+        _manager = null
+        _barcodeManager = null
+        _profileManager = null
     }
 }

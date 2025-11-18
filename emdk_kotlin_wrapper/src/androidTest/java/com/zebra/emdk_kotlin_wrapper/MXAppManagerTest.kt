@@ -9,7 +9,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class AppManagerTest {
+class MXAppManagerTest {
 
     @Test
     fun checkAppManagerInstallAndStart() {
@@ -28,6 +28,9 @@ class AppManagerTest {
                     Pair(MXConst.Class, mainActivityClass)
                 )
             )
+            if (xmlString.contains("=[")) {
+                fail("profile XML params replacement error")
+            }
 
             if (xmlString.contains(apkPathValue) &&
                 xmlString.contains(appPackageNameValue) &&

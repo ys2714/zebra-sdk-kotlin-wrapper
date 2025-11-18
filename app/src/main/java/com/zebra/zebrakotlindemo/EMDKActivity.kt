@@ -52,6 +52,13 @@ class EMDKActivity: ComponentActivity() {
 //                viewModel.stopScan()
 //            }
 
+            Text("Sleep",
+                modifier = Modifier
+                    .padding()
+            )
+            RoundButton("Set Sleep") {
+                viewModel.setSleep(this@EMDKActivity)
+            }
             Text("Set System Clock",
                 modifier = Modifier
                     .padding()

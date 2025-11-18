@@ -2,7 +2,6 @@ package com.zebra.emdk_kotlin_wrapper
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.zebra.emdk_kotlin_wrapper.dw.DWConst
 import com.zebra.emdk_kotlin_wrapper.mx.MXConst
 import com.zebra.emdk_kotlin_wrapper.utils.AssetsReader
 import org.junit.Assert.fail
@@ -10,7 +9,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class ClockTest {
+class MXClockTest {
 
     /*
     const val isAutoTime = "isAutoTime"
@@ -47,6 +46,9 @@ class ClockTest {
                     Pair(MXConst.MilitaryTime, militaryTimeValue)
                 )
             )
+            if (xmlString.contains("=[")) {
+                fail("profile XML params replacement error")
+            }
 
             // Verify that the placeholders were successfully replaced
             if (xmlString.contains(dateValue) &&

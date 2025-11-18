@@ -75,6 +75,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier
                         .padding()
                 )
+                Text("PPID: " + viewModel.ppid.value)
                 Text("Serial Number: " + viewModel.serial.value)
                 Text("IMEI Number: " + viewModel.imei.value)
                 Text("Scanner Status: " + viewModel.scannerStatus.value)

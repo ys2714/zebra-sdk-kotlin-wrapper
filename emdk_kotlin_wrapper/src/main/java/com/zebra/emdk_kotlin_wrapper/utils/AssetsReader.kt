@@ -10,11 +10,11 @@ object AssetsReader {
 
     private const val TAG = "AssetsReader"
 
-    private val examptMandatoryParameters = arrayOf(
-        "=[Adaptive_Scanning]",
-        "=[Beam_Width]",
-        "=[m_bWeightMetric]"
-    )
+//    private val examptMandatoryParameters = arrayOf(
+//        "=[Adaptive_Scanning]",
+//        "=[Beam_Width]",
+//        "=[m_bWeightMetric]"
+//    )
 
     @Throws(RuntimeException::class)
     fun readFileToStringWithParams(context: Context,
@@ -60,7 +60,7 @@ object AssetsReader {
                 }
                 //no input for the param, skip the line if it was not mandatory
                 if (result == null) {
-                    if (placeholder.lowercase() != placeholder && !examptMandatoryParameters.contains(placeholder)) {
+                    if (placeholder.uppercase() == placeholder) {
                         throw RuntimeException("mandatory parameter not filled: $placeholder")
                     }
                     if (Regex("(\\{|\\[)+\\s+\"").containsMatchIn(line)) {

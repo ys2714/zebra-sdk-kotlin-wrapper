@@ -18,43 +18,60 @@ import kotlinx.coroutines.*
  * https://techdocs.zebra.com/emdk-for-android/14-0/guide/profile-manager-guides/
  *
  * */
-class MXProfileProcessor(private val context: Context) {
+object MXProfileProcessor {
 
-    private var profileManager: ProfileManager? = null
+    private val TAG = MXProfileProcessor::class.java.simpleName
 
     var foregroundScope = CoroutineScope(Dispatchers.Main + Job())
     var backgroundScope = CoroutineScope(Dispatchers.IO + Job())
 
-    init {
-        EMDKHelper.shared.prepare(context) {
-            profileManager = EMDKHelper.shared.profileManager
-        }
-    }
-
-    fun processProfileWithCallback(fileName: String,
-                                           profileName: String,
-                                           params: Map<String, String>? = null,
-                                           callback: MXBase.ProcessProfileCallback?) {
+    fun processProfileWithCallback(context: Context,
+                                   profileManager: ProfileManager,
+                                   fileName: MXBase.ProfileXML,
+                                   profileName: MXBase.ProfileName,
+                                   params: Map<String, String>? = null,
+                                   callback: MXBase.ProcessProfileCallback?) {
         backgroundScope.launch {
             val errorInfo: Deferred<MXBase.ErrorInfo?> = processProfile(
+                context,
+                profileManager,
                 fileName,
                 profileName,
                 params)
-            errorInfo.await()?.let {
-                callback?.onError(it)
-            } ?: callback?.onSuccess(profileName)
+            val info = errorInfo.await()
+            foregroundScope.launch {
+                if (callback != null) {
+                    if (info == null) {
+                        callback.onSuccess(profileName.toString())
+                    } else {
+                        callback.onError(info)
+                    }
+                }
+            }
         }
     }
 
-    private suspend fun processProfile(fileName: String, profileName: String, params: Map<String, String>? = null) : Deferred<MXBase.ErrorInfo?> {
+    private suspend fun processProfile(context: Context,
+                                       profileManager: ProfileManager,
+                                       fileName: MXBase.ProfileXML,
+                                       profileName: MXBase.ProfileName,
+                                       params: Map<String, String>? = null) : Deferred<MXBase.ErrorInfo?> {
         return backgroundScope.async {
-            val command = AssetsReader.readFileToStringWithParams(context, fileName, params)
-            val results = profileManager?.processProfile(
-                profileName,
+            // create profile if not exist
+            val createProfileResult = profileManager.processProfile(
+                profileName.toString(),
+                ProfileManager.PROFILE_FLAG.SET,
+                null as Array<String>?
+            )
+
+            val command = AssetsReader.readFileToStringWithParams(context, fileName.toString(), params)
+
+            val results = profileManager.processProfile(
+                profileName.toString(),
                 ProfileManager.PROFILE_FLAG.SET,
                 arrayOf(command)
             ) ?: return@async MXBase.ErrorInfo(
-                errorName = MXProfileProcessor.Companion.TAG,
+                errorName = MXProfileProcessor.TAG,
                 errorType = "ProfileError",
                 errorDescription = "Operation returned null result."
             )
@@ -69,26 +86,22 @@ class MXProfileProcessor(private val context: Context) {
                         }
                         return@async XMLParser.parseXML(parser)
                     } catch (e: XmlPullParserException) {
-                        Log.e(MXProfileProcessor.Companion.TAG, "Failed to parse XML response", e)
+                        Log.e(MXProfileProcessor.TAG, "Failed to parse XML response", e)
                         return@async MXBase.ErrorInfo(
-                            MXProfileProcessor.Companion.TAG,
+                            MXProfileProcessor.TAG,
                             "XmlPullParserException",
                             e.message ?: "Unknown parser exception")
                     }
                 }
                 else -> {
-                    Log.e(MXProfileProcessor.Companion.TAG, "Profile processing failed with status code: ${results.statusCode}")
+                    Log.e(MXProfileProcessor.TAG, "failed with status code: ${results.statusCode}")
                     return@async MXBase.ErrorInfo(
-                        MXProfileProcessor.Companion.TAG,
-                        "ProfileError",
-                        "Profile processing failed with status code: ${results.statusCode}")
+                        MXProfileProcessor.TAG,
+                        results.statusString,
+                        results.extendedStatusMessage)
                 }
             }
         }
-    }
-
-    companion object {
-        private val TAG = MXProfileProcessor::class.java.simpleName
     }
 
     /**

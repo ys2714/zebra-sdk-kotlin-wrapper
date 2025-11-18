@@ -4,6 +4,10 @@
         <parm name="ProfileName" value="ClockSet"/>
         <characteristic type="Clock" version="4.2" >
             <parm name="AutoTime" value="=[AutoTime]"/>
+            <characteristic type="AutoTimeDetails">
+                <parm name="NTPServer" value="=[NTPServer]"/>
+                <parm name="SyncInterval" value="=[SyncInterval]"/>
+            </characteristic>
             <parm name="TimeZone" value="=[TimeZone]"/>
             <parm name="Date" value="=[Date]"/>
             <parm name="Time" value="=[Time]"/>

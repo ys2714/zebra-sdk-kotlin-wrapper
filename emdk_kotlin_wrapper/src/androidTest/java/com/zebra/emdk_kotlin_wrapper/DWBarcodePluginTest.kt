@@ -5,26 +5,26 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.zebra.emdk_kotlin_wrapper.dw.DWAPI
 import com.zebra.emdk_kotlin_wrapper.dw.DWConst
 import com.zebra.emdk_kotlin_wrapper.dw.DWProfileProcessor
-import com.zebra.emdk_kotlin_wrapper.dw.bundleForScannerPlugin
+import com.zebra.emdk_kotlin_wrapper.dw.bundleForBarcodePlugin
 import com.zebra.emdk_kotlin_wrapper.utils.JsonUtils
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.Assert.fail
 
 @RunWith(AndroidJUnit4::class)
-class ScannerPluginTest {
+class DWBarcodePluginTest {
 
     @Test
     fun checkJsonBundleConvertion() {
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
 
         try {
-            val bundle = DWProfileProcessor.bundleForScannerPlugin(
+            val bundle = DWProfileProcessor.bundleForBarcodePlugin(
                 appContext,
                 "test-scanner-profile-2",
-                DWAPI.ScanInputModeOptions.SINGLE,
-                DWAPI.ResultActionNames.SCAN_RESULT_ACTION,
-                DWAPI.IntentDeliveryOptions.BROADCAST
+                true,
+                true,
+                DWAPI.ScanInputModeOptions.SINGLE
             )
 
             val debugString = JsonUtils.bundleToJson(bundle)

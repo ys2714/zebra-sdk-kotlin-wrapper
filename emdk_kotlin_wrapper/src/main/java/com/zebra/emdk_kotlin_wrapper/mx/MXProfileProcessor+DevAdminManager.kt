@@ -1,6 +1,7 @@
 package com.zebra.emdk_kotlin_wrapper.mx
 
 import android.content.Context
+import com.symbol.emdk.ProfileManager
 
 
 /**
@@ -18,15 +19,21 @@ import android.content.Context
  * 5 - None: Prevents the display of any Lock Screen at any time.
  * */
 
-fun MXProfileProcessor.setScreenLockType(context: Context, type: MXBase.ScreenLockType, callback: MXBase.ProcessProfileCallback) {
+fun MXProfileProcessor.setScreenLockType(
+    context: Context,
+    profileManager: ProfileManager,
+    type: MXBase.ScreenLockType,
+    callback: MXBase.ProcessProfileCallback) {
     val map = mapOf(
         MXConst.ScreenLockType to type.string,
         MXConst.DevAdminPkg to context.applicationContext.packageName,
         MXConst.DevAdminClass to MXProfileProcessor.DevAdminReceiver::class.simpleName!!
     )
     processProfileWithCallback(
-        MXConst.DevAdminManagerDisableLockScreenXML,
-        MXConst.DevAdminManagerDisableLockScreen,
+        context,
+        profileManager,
+        MXBase.ProfileXML.DevAdminManagerDisableLockScreen,
+        MXBase.ProfileName.DevAdminManagerDisableLockScreen,
         map,
         callback
     )

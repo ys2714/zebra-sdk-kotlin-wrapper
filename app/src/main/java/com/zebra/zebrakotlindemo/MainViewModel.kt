@@ -7,11 +7,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import com.zebra.emdk_kotlin_wrapper.dw.DataWedgeHelper
 import com.zebra.emdk_kotlin_wrapper.emdk.EMDKHelper
-import com.zebra.emdk_kotlin_wrapper.mx.MXBase
-import com.zebra.emdk_kotlin_wrapper.mx.MXProfileProcessor
-import com.zebra.emdk_kotlin_wrapper.mx.fetchIMEIInBackground
-import com.zebra.emdk_kotlin_wrapper.mx.fetchSerialNumberInBackground
-import com.zebra.emdk_kotlin_wrapper.mx.getCallServicePermission
+import com.zebra.emdk_kotlin_wrapper.mx.MXHelper
 import com.zebra.emdk_kotlin_wrapper.zdm.ZDMAuthHelper
 import com.zebra.emdk_kotlin_wrapper.zdm.ZDMConst
 import kotlinx.coroutines.CoroutineScope
@@ -24,12 +20,11 @@ class MainViewModel {
         val profileName = "ZebraKotlinDemo4"
     }
 
-    private var profileProcessor: MXProfileProcessor? = null
-
     var appAuthenticated = mutableStateOf(false)
     var emdkPrepared = mutableStateOf(false)
     var scannerStatus = mutableStateOf("")
 
+    var ppid: MutableState<String> = mutableStateOf("")
     var serial: MutableState<String> = mutableStateOf("")
     var imei: MutableState<String> = mutableStateOf("")
 
@@ -44,19 +39,17 @@ class MainViewModel {
         if (emdkPrepared.value == true) {
             return
         }
-        EMDKHelper.shared.prepare(context) {
-            profileProcessor = MXProfileProcessor(context)
+        EMDKHelper.shared.prepareEMDKProfileManager(context) {
 
-//            authenticateApp(context) { whiteListSuccess ->
-//                if (whiteListSuccess) {
-//
-//                } else {
-//
-//                }
-//            }
+            authenticateApp(context) { whiteListSuccess ->
+                if (whiteListSuccess) {
+                    fetchSerialNumber(context)
+                    fetchIMEI(context)
+                    fetchPPID(context)
+                } else {
 
-//             fetchSerialNumber(context)
-//             fetchIMEI(context)
+                }
+            }
 
             DataWedgeHelper.prepare(context) { enableSuccess ->
                 if (enableSuccess) {
@@ -67,11 +60,12 @@ class MainViewModel {
                                     DataWedgeHelper.bindProfileToApp(context, profileName, context.packageName) { configSuccess ->
                                         if (configSuccess) {
                                             getScannerStatus(context)
-                                            emdkPrepared.value = true
 
-                                            DataWedgeHelper.configBarcodePlugin(context, profileName, enable = false, hardTrigger = false)
+                                            DataWedgeHelper.configBarcodePlugin(context, profileName, enable = false, hardTrigger = true)
                                             DataWedgeHelper.configKeystrokePlugin(context, profileName, false)
                                             DataWedgeHelper.configIntentPlugin(context, profileName)
+
+                                            emdkPrepared.value = true
 
                                             Log.d("DataWedge", "Profile configured successfully")
                                         } else {
@@ -94,40 +88,41 @@ class MainViewModel {
         }
     }
 
-    fun fetchSerialNumber(context: Context) {
-        profileProcessor?.fetchSerialNumberInBackground(
-            context,
-            object: MXBase.FetchOEMInfoCallback {
-                override fun onSuccess(result: String) {
-                    serial.value = result
-                    // showDebugToast(context, "Serial Number", result)
-                }
+    fun fetchPPID(context: Context) {
+        MXHelper.fetchPPID(context, true) { result ->
+            if (!result.isEmpty()) {
+                ppid.value = result
+            } else {
+                ppid.value = "get ppid error"
+                showDebugToast(context, "PPID", "get ppid error")
+            }
+        }
+    }
 
-                override fun onError() {
-                    serial.value = "get serial number error"
-                    showDebugToast(context, "Serial Number", "get serial number error")
-                }
-            })
+    fun fetchSerialNumber(context: Context) {
+        MXHelper.fetchSerialNumber(context) { result ->
+            if (!result.isEmpty()) {
+                serial.value = result
+            } else {
+                serial.value = "get serial error"
+                showDebugToast(context, "Serial", "get serial error")
+            }
+        }
     }
 
     fun fetchIMEI(context: Context) {
-        profileProcessor?.fetchIMEIInBackground(
-            context,
-            object: MXBase.FetchOEMInfoCallback {
-                override fun onSuccess(result: String) {
-                    imei.value = result
-                    // showDebugToast(context, "IMEI", result)
-                }
-
-                override fun onError() {
-                    serial.value = "get serial number error"
-                    showDebugToast(context, "IMEI", "get serial number error")
-                }
-            })
+        MXHelper.fetchIMEI(context) { result ->
+            if (!result.isEmpty()) {
+                imei.value = result
+            } else {
+                imei.value = "get imei error"
+                showDebugToast(context, "IMEI", "get imei error")
+            }
+        }
     }
 
     fun authenticateApp(context: Context, callback: (Boolean) -> Unit) {
-        whiteListApproveApp(context) { success ->
+        MXHelper.whiteListApproveApp(context) { success ->
             if (success) {
                 // Token saved in ZDMTokenStore
                 getDWToken(context)
@@ -138,24 +133,6 @@ class MainViewModel {
                 callback(false)
             }
         }
-    }
-
-    fun whiteListApproveApp(context: Context, callback: (Boolean) -> Unit) {
-        profileProcessor?.getCallServicePermission(
-            context,
-            ZDMConst.DelegationScope.SCOPE_DW_CONFIG_API.value,
-            object : MXBase.ProcessProfileCallback {
-                override fun onSuccess(profileName: String) {
-                    showDebugToast(context, "Approve App Success", profileName)
-                    callback(true)
-                }
-
-                override fun onError(errorInfo: MXBase.ErrorInfo) {
-                    showDebugToast(context, "Approve App Error", errorInfo.errorDescription)
-                    callback(false)
-                }
-            }
-        )
     }
 
     fun getDWToken(context: Context) {

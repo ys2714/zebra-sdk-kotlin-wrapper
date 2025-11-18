@@ -1,9 +1,8 @@
 package com.zebra.emdk_kotlin_wrapper
 
+import android.R
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.zebra.emdk_kotlin_wrapper.dw.DWAPI
-import com.zebra.emdk_kotlin_wrapper.dw.DWConst
 import com.zebra.emdk_kotlin_wrapper.mx.MXConst
 import com.zebra.emdk_kotlin_wrapper.utils.AssetsReader
 import org.junit.Assert.fail
@@ -11,7 +10,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class AccessManagerTest {
+class MXAccessManagerTest {
 
     @Test
     fun checkAccessManagerAllowCallServiceXML() {
@@ -26,6 +25,10 @@ class AccessManagerTest {
                     Pair(MXConst.CallerSignature, "value3")
                 )
             )
+            if (xmlString.contains("=[")) {
+                fail("profile XML params replacement error")
+            }
+
             if (xmlString.contains("value1") &&
                 xmlString.contains("value2") &&
                 xmlString.contains("value3")) {

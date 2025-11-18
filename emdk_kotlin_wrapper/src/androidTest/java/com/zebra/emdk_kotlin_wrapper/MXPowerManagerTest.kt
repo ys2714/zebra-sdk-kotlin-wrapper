@@ -2,19 +2,38 @@ package com.zebra.emdk_kotlin_wrapper
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.zebra.emdk_kotlin_wrapper.dw.DWConst
+import com.zebra.emdk_kotlin_wrapper.mx.MXBase
 import com.zebra.emdk_kotlin_wrapper.mx.MXConst
+import com.zebra.emdk_kotlin_wrapper.mx.MXProfileProcessor
+import com.zebra.emdk_kotlin_wrapper.mx.callPowerManagerFeature
 import com.zebra.emdk_kotlin_wrapper.utils.AssetsReader
 import org.junit.Assert.fail
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class PowerManagerTest {
+class MXPowerManagerTest {
+
+    val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+    val profileProcessor = MXProfileProcessor(appContext)
+
+    @Test
+    fun checkCallPowerManagerFeature() {
+        profileProcessor.callPowerManagerFeature(
+            MXBase.PowerManagerOptions.SLEEP_MODE,
+            null,object : MXBase.ProcessProfileCallback {
+                override fun onSuccess(profileName: String) {
+
+                }
+
+                override fun onError(errorInfo: MXBase.ErrorInfo) {
+                    fail(errorInfo.errorDescription)
+                }
+            })
+    }
 
     @Test
     fun checkPowerManagerReset() {
-        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         try {
             // Define the values to replace the placeholders in the XML
             val resetActionValue = "1" // Example value for ResetAction
@@ -28,6 +47,9 @@ class PowerManagerTest {
                     Pair(MXConst.ZipFile, zipFileValue)
                 )
             )
+            if (xmlString.contains("=[")) {
+                fail("profile XML params replacement error")
+            }
 
             // Verify that the placeholders were successfully replaced
             if (xmlString.contains(resetActionValue) &&

@@ -121,6 +121,11 @@ decoder_upce0
 
 plese set plugin one by one by sending multiple intents
 
+5. EMDK doesn't work, profile manager return null
+
+you must setup EMDK AndroidStudio plugin, and create any empty profile to make it works.
+please check use the AndroidStudioMenu/EMDK/ProfileManager
+
 ## URLs
 
 [Zebra Signature Export Tool](https://techdocs.zebra.com/sigtools/)
