@@ -57,24 +57,26 @@ object MXProfileProcessor {
                                        profileName: MXBase.ProfileName,
                                        params: Map<String, String>? = null) : Deferred<MXBase.ErrorInfo?> {
         return backgroundScope.async {
-            // create profile if not exist
-            val createProfileResult = profileManager.processProfile(
-                profileName.toString(),
-                ProfileManager.PROFILE_FLAG.SET,
-                null as Array<String>?
-            )
-
-            val command = AssetsReader.readFileToStringWithParams(context, fileName.toString(), params)
-
-            val results = profileManager.processProfile(
-                profileName.toString(),
-                ProfileManager.PROFILE_FLAG.SET,
-                arrayOf(command)
-            ) ?: return@async MXBase.ErrorInfo(
-                errorName = MXProfileProcessor.TAG,
-                errorType = "ProfileError",
-                errorDescription = "Operation returned null result."
-            )
+            var results: EMDKResults
+            params?.also {
+                val command = AssetsReader.readFileToStringWithParams(context, fileName.toString(), params).trimIndent()
+                results = profileManager.processProfile(
+                    profileName.toString(),
+                    ProfileManager.PROFILE_FLAG.SET,
+                    arrayOf(command)
+                ) ?: return@async MXBase.ErrorInfo(
+                    errorName = MXProfileProcessor.TAG,
+                    errorType = "ProfileError",
+                    errorDescription = "Operation returned null result."
+                )
+            } ?: run {
+                // process the profile defined by AndroidStudio plugin in app/assets/EMDKConfig.xml
+                results = profileManager.processProfile(
+                    profileName.toString(),
+                    ProfileManager.PROFILE_FLAG.SET,
+                    null as Array<String>?
+                )
+            }
             when (results.statusCode) {
                 EMDKResults.STATUS_CODE.SUCCESS -> {
                     return@async null
@@ -94,7 +96,7 @@ object MXProfileProcessor {
                     }
                 }
                 else -> {
-                    Log.e(MXProfileProcessor.TAG, "failed with status code: ${results.statusCode}")
+                    Log.e(MXProfileProcessor.TAG, "failed with response: ${results.statusString}")
                     return@async MXBase.ErrorInfo(
                         MXProfileProcessor.TAG,
                         results.statusString,

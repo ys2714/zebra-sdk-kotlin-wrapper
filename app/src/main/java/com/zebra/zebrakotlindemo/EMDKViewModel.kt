@@ -38,8 +38,8 @@ class EMDKViewModel: ViewModel() {
 
     fun setClockToAndroidReleaseDate(context: Context) {
         val timeZone = "GMT+9"
-        val date = "2008-9-23"
-        val time = "8:09:23"
+        val date = "2008-09-23"
+        val time = "08:09:23"
         MXHelper.setSystemClock(
             context,
             timeZone,

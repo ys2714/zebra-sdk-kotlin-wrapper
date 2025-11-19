@@ -12,8 +12,8 @@ object DWAPI {
     }
 
     enum class StringEnabled(val value: String) {
-        ENABLED("enabled"),
-        DISABLED("disabled")
+        ENABLED("ENABLED"),
+        DISABLED("DISABLED")
     }
 
     enum class ActionNames(val value: String) {

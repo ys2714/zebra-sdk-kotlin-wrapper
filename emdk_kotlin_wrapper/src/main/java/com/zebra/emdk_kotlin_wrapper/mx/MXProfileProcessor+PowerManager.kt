@@ -21,25 +21,29 @@ fun MXProfileProcessor.callPowerManagerFeature(
         MXBase.PowerManagerOptions.ENTERPRISE_RESET,
         MXBase.PowerManagerOptions.FACTORY_RESET,
         MXBase.PowerManagerOptions.FULL_DEVICE_WIPE -> {
-            map[MXConst.ResetAction] = option.valueString()
             processProfileWithCallback(
                 context,
                 profileManager,
                 MXBase.ProfileXML.PowerManagerReset,
                 MXBase.ProfileName.PowerManagerReset,
-                map,
+                mapOf(
+                    MXConst.ResetAction to option.valueString(),
+                    MXConst.ZipFile to MXConst.ignoredValue
+                ),
                 callback
             )
         }
         MXBase.PowerManagerOptions.OS_UPDATE -> {
-            map[MXConst.ResetAction] = option.valueString()
-            osZipFilePath?.let { map[MXConst.ZipFile] = it }
+            val path: String = osZipFilePath?.also { it } ?: run { MXConst.ignoredValue }
             processProfileWithCallback(
                 context,
                 profileManager,
                 MXBase.ProfileXML.PowerManagerReset,
                 MXBase.ProfileName.PowerManagerReset,
-                map,
+                mapOf(
+                    MXConst.ResetAction to option.valueString(),
+                    MXConst.ZipFile to path
+                ),
                 callback
             )
         }

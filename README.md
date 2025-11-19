@@ -1,7 +1,8 @@
 # Non-Official Zebra SDK Kotlin Wrapper
-a kotlin wrapper of EMDK and DataWedge API, build for quick develop demo apps
+Please be aware that this library / application / sample is provided as a community project without any guarantee of support
 
 ## Purpose
+a kotlin wrapper of EMDK and DataWedge API, build for quick develop demo apps
 to simplify demo app development use kotlin language instead of Java
 
 ## Version
@@ -125,6 +126,10 @@ plese set plugin one by one by sending multiple intents
 
 you must setup EMDK AndroidStudio plugin, and create any empty profile to make it works.
 please check use the AndroidStudioMenu/EMDK/ProfileManager
+
+6. result of com.symbol.datawedge.api.RESULT_GET_DATAWEDGE_STATUS not sure uppercase or lowercase
+
+please always check "enabled" and "ENABLED" ignoring case.
 
 ## URLs
 

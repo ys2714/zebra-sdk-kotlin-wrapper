@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.Date
@@ -55,7 +56,15 @@ object DataWedgeHelper {
         registerReceiverIfNeeded(context)
         backgroundScope.launch {
             runCatching {
-                DWAPI.enableDW(context, true)
+                var enabled = false
+                while (!enabled) {
+                    val status1 = async { DWAPI.enableDW(context, true) }
+                    status1.await()
+                    delay(2 * 1000)
+                    val status2 = async { DWAPI.sendGetDWStatusIntent(context) }
+                    enabled = status2.await()
+                }
+                enabled
             }.onSuccess { enabled ->
                 val scannerList = DWAPI.sendEnumerateScannersIntent(context)
                 if (scannerList.isEmpty()) {

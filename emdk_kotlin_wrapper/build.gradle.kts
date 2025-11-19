@@ -39,8 +39,12 @@ kotlin {
 }
 
 dependencies {
-    compileOnly(libs.emdk)
+    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar", "*.aar"))))
 }
+
+//dependencies {
+//    implementation(libs.emdk)
+//}
 
 dependencies {
     implementation(libs.androidx.core.ktx)

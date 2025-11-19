@@ -36,7 +36,7 @@ class EMDKHelper private constructor() {
 
     fun prepareBarcodeManager(context: Context, callback: (success: Boolean) -> Unit) {
         EMDKManager.getEMDKManager(
-            context,
+            context.applicationContext,
             object : EMDKManager.EMDKListener {
                 override fun onOpened(manager: EMDKManager?) {
                     this@EMDKHelper._manager = manager?.also { emdkManager ->
@@ -67,7 +67,7 @@ class EMDKHelper private constructor() {
 
     fun prepareEMDKProfileManager(context: Context, callback: (success: Boolean) -> Unit) {
         EMDKManager.getEMDKManager(
-            context,
+            context.applicationContext,
             object : EMDKManager.EMDKListener {
                 override fun onOpened(manager: EMDKManager?) {
                     this@EMDKHelper._manager = manager?.also { emdkManager ->

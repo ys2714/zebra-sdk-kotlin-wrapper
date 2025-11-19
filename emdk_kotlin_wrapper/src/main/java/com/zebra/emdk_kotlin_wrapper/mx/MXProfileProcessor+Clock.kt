@@ -3,6 +3,12 @@ package com.zebra.emdk_kotlin_wrapper.mx
 import android.content.Context
 import com.symbol.emdk.ProfileManager
 
+/**
+ *
+ * https://techdocs.zebra.com/mx/clock/
+ *
+ *
+ * */
 fun MXProfileProcessor.callClockSetAuto(
     context: Context,
     profileManager: ProfileManager,

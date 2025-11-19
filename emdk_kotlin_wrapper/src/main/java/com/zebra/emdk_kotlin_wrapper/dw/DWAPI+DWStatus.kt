@@ -57,8 +57,8 @@ suspend fun DWAPI.sendGetDWStatusIntent(context: Context): Boolean = suspendCanc
             if (it.action == DWAPI.ResultActionNames.RESULT_ACTION.value &&
                 it.hasExtra(DWAPI.ResultExtraKeys.GET_DATAWEDGE_STATUS.value))
             {
-                val result = it.getStringExtra(DWAPI.ResultExtraKeys.GET_DATAWEDGE_STATUS.value)
-                val enabled = result == DWAPI.StringEnabled.ENABLED.value
+                val result = it.getStringExtra(DWAPI.ResultExtraKeys.GET_DATAWEDGE_STATUS.value) as String
+                val enabled = result.equals(DWAPI.StringEnabled.ENABLED.value, ignoreCase = true)
                 Log.d(DataWedgeHelper.TAG, "CHECK DW STATUS PROFILE RESULT: $enabled")
                 continuation.resumeWith(Result.success(enabled))
             } else {
