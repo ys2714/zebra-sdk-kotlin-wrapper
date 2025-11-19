@@ -2,6 +2,7 @@ package com.zebra.emdk_kotlin_wrapper
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import com.zebra.emdk_kotlin_wrapper.emdk.EMDKHelper
 import com.zebra.emdk_kotlin_wrapper.mx.MXBase
 import com.zebra.emdk_kotlin_wrapper.mx.MXConst
 import com.zebra.emdk_kotlin_wrapper.mx.MXProfileProcessor
@@ -15,21 +16,27 @@ import org.junit.runner.RunWith
 class MXPowerManagerTest {
 
     val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-    val profileProcessor = MXProfileProcessor(appContext)
 
     @Test
     fun checkCallPowerManagerFeature() {
-        profileProcessor.callPowerManagerFeature(
-            MXBase.PowerManagerOptions.SLEEP_MODE,
-            null,object : MXBase.ProcessProfileCallback {
-                override fun onSuccess(profileName: String) {
+        EMDKHelper.shared.prepare(appContext) { success ->
+            if (!success) {
+                fail("EMDK prepare failed")
+            }
+            MXProfileProcessor.callPowerManagerFeature(
+                appContext,
+                MXBase.PowerManagerOptions.SLEEP_MODE,
+                null,object : MXBase.ProcessProfileCallback {
+                    override fun onSuccess(profileName: String) {
 
-                }
+                    }
 
-                override fun onError(errorInfo: MXBase.ErrorInfo) {
-                    fail(errorInfo.errorDescription)
+                    override fun onError(errorInfo: MXBase.ErrorInfo) {
+                        fail(errorInfo.errorDescription)
+                    }
                 }
-            })
+            )
+        }
     }
 
     @Test
@@ -41,7 +48,7 @@ class MXPowerManagerTest {
 
             val xmlString = AssetsReader.readFileToStringWithParams(
                 appContext,
-                MXConst.PowerManagerResetXML, // Assumes this constant exists for the reset XML
+                MXBase.ProfileXML.PowerManagerReset.toString(), // Assumes this constant exists for the reset XML
                 mapOf(
                     Pair(MXConst.ResetAction, resetActionValue),
                     Pair(MXConst.ZipFile, zipFileValue)

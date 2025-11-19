@@ -6,6 +6,7 @@ import android.util.Log
 import android.util.Xml
 import com.symbol.emdk.EMDKResults
 import com.symbol.emdk.ProfileManager
+import com.zebra.emdk_kotlin_wrapper.emdk.EMDKHelper
 import com.zebra.emdk_kotlin_wrapper.utils.AssetsReader
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -24,15 +25,21 @@ internal object MXProfileProcessor {
     var foregroundScope = CoroutineScope(Dispatchers.Main + Job())
     var backgroundScope = CoroutineScope(Dispatchers.IO + Job())
 
+    internal val profileManager: ProfileManager
+        get() {
+            if (EMDKHelper.shared.profileManager == null) {
+                throw RuntimeException("please call EMDKHelper.prepare() before get profileManager")
+            }
+            return EMDKHelper.shared.profileManager!!
+        }
+
     fun processProfileWithCallback(context: Context,
-                                   profileManager: ProfileManager,
                                    fileName: MXBase.ProfileXML,
                                    profileName: MXBase.ProfileName,
                                    params: Map<String, String>? = null,
                                    callback: MXBase.ProcessProfileCallback?) {
         processProfile(
             context,
-            profileManager,
             fileName,
             profileName,
             params) { error ->
@@ -48,7 +55,9 @@ internal object MXProfileProcessor {
         }
     }
 
-    private fun addResultListener(profileManager: ProfileManager, profileName: MXBase.ProfileName, callback: (MXBase.ErrorInfo?) -> Unit) {
+    private fun addResultListener(
+        profileName: MXBase.ProfileName,
+        callback: (MXBase.ErrorInfo?) -> Unit) {
         profileManager.addDataListener(object : ProfileManager.DataListener {
             override fun onData(resultData: ProfileManager.ResultData?) {
                 resultData?.also { data ->
@@ -99,7 +108,6 @@ internal object MXProfileProcessor {
 
     private fun processProfile(
         context: Context,
-        profileManager: ProfileManager,
         fileName: MXBase.ProfileXML,
         profileName: MXBase.ProfileName,
         params: Map<String, String>? = null,
@@ -108,7 +116,7 @@ internal object MXProfileProcessor {
          backgroundScope.launch {
             params?.also {
                 val command = AssetsReader.readFileToStringWithParams(context, fileName.toString(), params).trimIndent()
-                addResultListener(profileManager, profileName, callback)
+                addResultListener(profileName, callback)
                 profileManager.processProfileAsync(
                     profileName.toString(),
                     ProfileManager.PROFILE_FLAG.SET,

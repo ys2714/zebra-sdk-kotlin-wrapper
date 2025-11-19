@@ -1,24 +1,13 @@
 package com.zebra.emdk_kotlin_wrapper.mx
 
 import android.content.Context
-import com.symbol.emdk.ProfileManager
-import com.zebra.emdk_kotlin_wrapper.emdk.EMDKHelper
 import com.zebra.emdk_kotlin_wrapper.zdm.ZDMConst
 
 object MXHelper {
 
-    private val profileManager: ProfileManager
-        get() {
-            if (EMDKHelper.shared.profileManager == null) {
-                throw RuntimeException("please call EMDKHelper.prepare() before get profileManager")
-            }
-            return EMDKHelper.shared.profileManager!!
-        }
-
     fun whiteListApproveApp(context: Context, callback: (Boolean) -> Unit) {
         MXProfileProcessor.getCallServicePermission(
             context,
-            this.profileManager,
             ZDMConst.DelegationScope.SCOPE_DW_CONFIG_API.value,
             object : MXBase.ProcessProfileCallback {
                 override fun onSuccess(profileName: String) {
@@ -35,7 +24,6 @@ object MXHelper {
     fun setDeviceToSleep(context: Context) {
         MXProfileProcessor.callPowerManagerFeature(
             context,
-            this.profileManager,
             MXBase.PowerManagerOptions.SLEEP_MODE
         )
     }
@@ -43,7 +31,6 @@ object MXHelper {
     fun setDeviceToReboot(context: Context) {
         MXProfileProcessor.callPowerManagerFeature(
             context,
-            this.profileManager,
             MXBase.PowerManagerOptions.REBOOT
         )
     }
@@ -51,7 +38,6 @@ object MXHelper {
     fun setSystemClock(context: Context, timeZone: String, date: String, time: String, callback: (Boolean) -> Unit) {
         MXProfileProcessor.callClockSet(
             context,
-            this.profileManager,
             true,
             timeZone,
             date,
@@ -71,7 +57,6 @@ object MXHelper {
     fun resetSystemClockToNTP(context: Context, ntpServer: String, syncInterval: String, callback: (Boolean) -> Unit) {
         MXProfileProcessor.callClockResetAuto(
             context,
-            this.profileManager,
             true,
             ntpServer,
             syncInterval,
@@ -90,7 +75,6 @@ object MXHelper {
     fun setScreenLockType(context: Context, lockType: MXBase.ScreenLockType, callback: (Boolean) -> Unit) {
         MXProfileProcessor.setScreenLockType(
             context,
-            this.profileManager,
             lockType,
             object : MXBase.ProcessProfileCallback {
                 override fun onSuccess(profileName: String) {
@@ -113,7 +97,6 @@ object MXHelper {
     fun fetchSerialNumber(context: Context, callback: (String) -> Unit) {
         MXProfileProcessor.fetchSerialNumberInBackground(
             context,
-            this.profileManager,
             callback
         )
     }
@@ -125,7 +108,7 @@ object MXHelper {
      * @param callback: return empty string "" if failed
      * */
     fun fetchPPID(context: Context, isDevDevice: Boolean, callback: (String) -> Unit) {
-        MXProfileProcessor.fetchSerialNumberInBackground(context, this.profileManager) { result ->
+        MXProfileProcessor.fetchSerialNumberInBackground(context) { result ->
             if (result.isEmpty()) {
                 callback("")
                 return@fetchSerialNumberInBackground
@@ -138,7 +121,7 @@ object MXHelper {
     }
 
     fun fetchIMEI(context: Context, callback: (String) -> Unit) {
-        MXProfileProcessor.fetchIMEIInBackground(context, this.profileManager) { result ->
+        MXProfileProcessor.fetchIMEIInBackground(context) { result ->
             callback(result)
         }
     }

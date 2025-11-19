@@ -1,7 +1,6 @@
 package com.zebra.emdk_kotlin_wrapper.mx
 
 import android.content.Context
-import com.symbol.emdk.ProfileManager
 
 /**
  * https://techdocs.zebra.com/emdk-for-android/14-0/mx/powermgr/
@@ -10,11 +9,9 @@ import com.symbol.emdk.ProfileManager
 @JvmOverloads
 internal fun MXProfileProcessor.callPowerManagerFeature(
     context: Context,
-    profileManager: ProfileManager,
     option: MXBase.PowerManagerOptions,
     osZipFilePath: String? = null,
     callback: MXBase.ProcessProfileCallback? = null) {
-    val map = mutableMapOf<String, String>()
     when (option) {
         MXBase.PowerManagerOptions.SLEEP_MODE,
         MXBase.PowerManagerOptions.REBOOT,
@@ -23,7 +20,6 @@ internal fun MXProfileProcessor.callPowerManagerFeature(
         MXBase.PowerManagerOptions.FULL_DEVICE_WIPE -> {
             processProfileWithCallback(
                 context,
-                profileManager,
                 MXBase.ProfileXML.PowerManagerReset,
                 MXBase.ProfileName.PowerManagerReset,
                 mapOf(
@@ -37,7 +33,6 @@ internal fun MXProfileProcessor.callPowerManagerFeature(
             val path: String = osZipFilePath?.also { it } ?: run { MXConst.ignoredValue }
             processProfileWithCallback(
                 context,
-                profileManager,
                 MXBase.ProfileXML.PowerManagerReset,
                 MXBase.ProfileName.PowerManagerReset,
                 mapOf(

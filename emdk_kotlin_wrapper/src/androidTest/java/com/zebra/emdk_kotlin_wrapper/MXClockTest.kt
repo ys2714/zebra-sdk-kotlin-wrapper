@@ -2,6 +2,7 @@ package com.zebra.emdk_kotlin_wrapper
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import com.zebra.emdk_kotlin_wrapper.mx.MXBase
 import com.zebra.emdk_kotlin_wrapper.mx.MXConst
 import com.zebra.emdk_kotlin_wrapper.utils.AssetsReader
 import org.junit.Assert.fail
@@ -35,7 +36,7 @@ class MXClockTest {
 
             val xmlString = AssetsReader.readFileToStringWithParams(
                 appContext,
-                MXConst.ClockSetXML,
+                MXBase.ProfileXML.ClockSet.toString(),
                 mapOf(
                     Pair(MXConst.Date, dateValue),
                     Pair(MXConst.Time, timeValue),

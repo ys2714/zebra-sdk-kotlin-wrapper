@@ -21,7 +21,6 @@ import com.symbol.emdk.ProfileManager
 
 internal fun MXProfileProcessor.setScreenLockType(
     context: Context,
-    profileManager: ProfileManager,
     type: MXBase.ScreenLockType,
     callback: MXBase.ProcessProfileCallback) {
     val map = mapOf(
@@ -29,7 +28,6 @@ internal fun MXProfileProcessor.setScreenLockType(
     )
     processProfileWithCallback(
         context,
-        profileManager,
         MXBase.ProfileXML.DevAdminManagerDisableLockScreen,
         MXBase.ProfileName.DevAdminManagerDisableLockScreen,
         map,

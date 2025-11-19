@@ -5,6 +5,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.zebra.emdk_kotlin_wrapper.dw.DWAPI
 import com.zebra.emdk_kotlin_wrapper.dw.DWConst
+import com.zebra.emdk_kotlin_wrapper.mx.MXBase
 import com.zebra.emdk_kotlin_wrapper.mx.MXConst
 import com.zebra.emdk_kotlin_wrapper.utils.AssetsReader
 import com.zebra.emdk_kotlin_wrapper.utils.JsonUtils
@@ -21,7 +22,7 @@ class AssetsReaderTest {
         try {
             val xmlString = AssetsReader.readFileToStringWithParams(
                 appContext,
-                MXConst.AccessManagerAllowCallServiceXML,
+                MXBase.ProfileXML.AccessManagerAllowCallService.toString(),
                 mapOf(
                     "Wrong_KEY" to "",
                     MXConst.ServiceIdentifier to "id",

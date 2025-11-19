@@ -11,7 +11,6 @@ import com.symbol.emdk.ProfileManager
  * */
 internal fun MXProfileProcessor.callClockResetAuto(
     context: Context,
-    profileManager: ProfileManager,
     is24Hours: Boolean,
     ntpServer: String,
     syncInterval: String,
@@ -25,7 +24,6 @@ internal fun MXProfileProcessor.callClockResetAuto(
     )
     processProfileWithCallback(
         context,
-        profileManager,
         MXBase.ProfileXML.ClockResetAuto,
         MXBase.ProfileName.ClockResetAuto,
         map,
@@ -35,7 +33,6 @@ internal fun MXProfileProcessor.callClockResetAuto(
 
 internal fun MXProfileProcessor.callClockSet(
     context: Context,
-    profileManager: ProfileManager,
     is24Hours: Boolean,
     timeZone: String,
     date: String,
@@ -51,7 +48,6 @@ internal fun MXProfileProcessor.callClockSet(
     )
     processProfileWithCallback(
         context,
-        profileManager,
         MXBase.ProfileXML.ClockSet,
         MXBase.ProfileName.ClockSet,
         map,

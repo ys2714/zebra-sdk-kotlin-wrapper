@@ -14,13 +14,11 @@ internal fun MXProfileProcessor.grantZebraBluetoothInsightServiceAccessPermissio
 
 internal fun MXProfileProcessor.getAllDangerousPermissions(
     context: Context,
-    profileManager: ProfileManager,
     callback: MXBase.ProcessProfileCallback) {
     val base64 = PackageUtils.getPackageSignature(context)
     val name = context.packageName
     callAccessManagerAllowPermission(
         context,
-        profileManager,
         MXBase.EPermissionType.ALL_DANGEROUS_PERMISSIONS.toString(),
         name,
         "",
@@ -31,14 +29,12 @@ internal fun MXProfileProcessor.getAllDangerousPermissions(
 
 internal fun MXProfileProcessor.getCallServicePermission(
     context: Context,
-    profileManager: ProfileManager,
     serviceId: String,
     callback: MXBase.ProcessProfileCallback) {
     val base64 = PackageUtils.getPackageSignature(context)
     val name = context.packageName
     callAccessManagerAllowCallService(
         context,
-        profileManager,
         serviceId,
         name,
         base64,
@@ -47,7 +43,6 @@ internal fun MXProfileProcessor.getCallServicePermission(
 
 internal fun MXProfileProcessor.callAccessManagerAllowCallService(
     context: Context,
-    profileManager: ProfileManager,
     serviceIdentifier: String,
     callerPackageName: String,
     callerSignature: String,
@@ -59,7 +54,6 @@ internal fun MXProfileProcessor.callAccessManagerAllowCallService(
     )
     processProfileWithCallback(
         context,
-        profileManager,
         MXBase.ProfileXML.AccessManagerAllowCallService,
         MXBase.ProfileName.AccessManagerAllowCallService,
         map,
@@ -69,7 +63,6 @@ internal fun MXProfileProcessor.callAccessManagerAllowCallService(
 
 internal fun MXProfileProcessor.callAccessManagerAllowPermission(
     context: Context,
-    profileManager: ProfileManager,
     permissionName: String,
     appPackageName: String,
     appClassName: String,
@@ -84,7 +77,6 @@ internal fun MXProfileProcessor.callAccessManagerAllowPermission(
     )
     processProfileWithCallback(
         context,
-        profileManager,
         MXBase.ProfileXML.AccessManagerAllowPermission,
         MXBase.ProfileName.AccessManagerAllowPermission,
         map,
@@ -94,7 +86,6 @@ internal fun MXProfileProcessor.callAccessManagerAllowPermission(
 
 internal fun MXProfileProcessor.callAppManagerInstallAndStart(
     context: Context,
-    profileManager: ProfileManager,
     apkPath: String,
     packageName: String,
     mainActivity: String,
@@ -106,7 +97,6 @@ internal fun MXProfileProcessor.callAppManagerInstallAndStart(
     )
     processProfileWithCallback(
         context,
-        profileManager,
         MXBase.ProfileXML.AppManagerInstallAndStart,
         MXBase.ProfileName.AppManagerInstallAndStart,
         map,

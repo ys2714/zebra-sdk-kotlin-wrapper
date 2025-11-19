@@ -3,6 +3,7 @@ package com.zebra.emdk_kotlin_wrapper
 import android.R
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import com.zebra.emdk_kotlin_wrapper.mx.MXBase
 import com.zebra.emdk_kotlin_wrapper.mx.MXConst
 import com.zebra.emdk_kotlin_wrapper.utils.AssetsReader
 import org.junit.Assert.fail
@@ -18,7 +19,7 @@ class MXAccessManagerTest {
         try {
             val xmlString = AssetsReader.readFileToStringWithParams(
                 appContext,
-                MXConst.AccessManagerAllowCallServiceXML,
+                MXBase.ProfileXML.AccessManagerAllowCallService.toString(),
                 mapOf(
                     Pair(MXConst.ServiceIdentifier, "value1"),
                     Pair(MXConst.CallerPackageName, "value2"),
@@ -47,7 +48,7 @@ class MXAccessManagerTest {
         try {
             val xmlString = AssetsReader.readFileToStringWithParams(
                 appContext,
-                MXConst.AccessManagerAllowPermissionXML,
+                MXBase.ProfileXML.AccessManagerAllowPermission.toString(),
                 mapOf(
                     Pair(MXConst.PermissionAccessAction, "value1"),
                     Pair(MXConst.PermissionAccessPackageName, "value2"),
