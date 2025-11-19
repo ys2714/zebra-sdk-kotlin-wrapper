@@ -34,6 +34,7 @@ object MXConst {
     const val DevAdminPkg = "DevAdminPkg"
     const val DevAdminClass = "DevAdminClass"
     const val ScreenLockType = "ScreenLockType"
+    const val ScreenShotUsage = "ScreenShotUsage"
 
     // Ignored Value
     const val ignoredValue = "ignoredValue"

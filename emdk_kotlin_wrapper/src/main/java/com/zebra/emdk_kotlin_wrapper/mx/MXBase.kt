@@ -54,7 +54,8 @@ class MXBase {
         PowerManagerReset("profile_power_manager_reset.xml"),
         ClockSet("profile_clock_set.xml"),
         ClockResetAuto("profile_clock_reset_auto.xml"),
-        DevAdminManagerDisableLockScreen("profile_dev_admin_manager_disable_lock_screen.xml");
+        DevAdminManagerDisableLockScreen("profile_dev_admin_manager_disable_lock_screen.xml"),
+        DisplayManagerDisableScreenShot("profile_display_manager_disable_screenshot.xml");
 
         override fun toString() = fileName
     }
@@ -66,7 +67,8 @@ class MXBase {
         PowerManagerReset("PowerManagerReset"),
         ClockSet("ClockSet"),
         ClockResetAuto("ClockResetAuto"),
-        DevAdminManagerDisableLockScreen("DevAdminManagerDisableLockScreen");
+        DevAdminManagerDisableLockScreen("DevAdminManagerDisableLockScreen"),
+        DisplayManagerDisableScreenShot("DisplayManagerDisableScreenShot");
 
         override fun toString() = value
     }
@@ -148,6 +150,25 @@ class MXBase {
             get() {
                 return value.toString()
             }
+    }
+
+    /**
+     * https://techdocs.zebra.com/emdk-for-android/14-0/mx/displaymgr/
+     *
+     * Screen Shot Enable/Disable
+     * Parm Name: ScreenShotUsage
+     *
+     * Options:
+     * 0 - Do Nothing
+     * 1 - Enable
+     * 2 - Disable
+     * */
+    enum class ScreenShotUsage(val value: Int) {
+        DO_NOTHING(0),
+        ENABLE(1),
+        DISABLE(2);
+
+        fun toValueString(): String = value.toString()
     }
 
     /**

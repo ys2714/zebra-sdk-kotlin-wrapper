@@ -11,4 +11,13 @@
       <parm name="ScreenLockType" value="5"/>
     </characteristic>
   </characteristic>
+  <characteristic type="Profile">
+    <parm name="ProfileName" value="DisplayManagerDisableScreenShot"/>
+    <parm name="ModifiedDate" value="2025-11-19 17:45:01"/>
+    <parm name="TargetSystemVersion" value="10.0"/>
+    <characteristic type="DisplayMgr" version="9.2">
+      <parm name="emdk_name" value="DisplayManagerDisableScreenShot"/>
+      <parm name="ScreenShotUsage" value="2"/>
+    </characteristic>
+  </characteristic>
 </wap-provisioningdoc>

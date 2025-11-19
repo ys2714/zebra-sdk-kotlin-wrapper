@@ -64,6 +64,18 @@ class EMDKViewModel: ViewModel() {
         }
     }
 
+    fun disableScreenShot(context: Context) {
+        MXHelper.setScreenShotUsage(context, MXBase.ScreenShotUsage.DISABLE) { success ->
+            showDebugToast(context, "Disable Screen Shot Success?", success.toString())
+        }
+    }
+
+    fun enableScreenShot(context: Context) {
+        MXHelper.setScreenShotUsage(context, MXBase.ScreenShotUsage.ENABLE) { success ->
+            showDebugToast(context, "Enable Screen Shot Success?", success.toString())
+        }
+    }
+
     fun showDebugToast(context: Context, type: String, data: String) {
         CoroutineScope(Dispatchers.Main).launch {
             Toast.makeText(context,

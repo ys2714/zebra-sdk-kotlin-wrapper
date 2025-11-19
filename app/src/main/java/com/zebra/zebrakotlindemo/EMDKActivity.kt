@@ -62,11 +62,25 @@ class EMDKActivity: ComponentActivity() {
             RoundButton("Set Clock back to Google NTP time") {
                 viewModel.setClockToGoogleNTPTime(this@EMDKActivity)
             }
+            Text("Set Lock Screen",
+                modifier = Modifier
+                    .padding()
+            )
             RoundButton("Disable Lock Screen") {
                 viewModel.disableLockScreen(this@EMDKActivity)
             }
             RoundButton("Enable Lock Screen") {
                 viewModel.enableLockScreen(this@EMDKActivity)
+            }
+            Text("Set Screenshot",
+                modifier = Modifier
+                    .padding()
+            )
+            RoundButton("Disable Screenshot") {
+                viewModel.disableScreenShot(this@EMDKActivity)
+            }
+            RoundButton("Enable Screenshot") {
+                viewModel.enableScreenShot(this@EMDKActivity)
             }
         }
     }

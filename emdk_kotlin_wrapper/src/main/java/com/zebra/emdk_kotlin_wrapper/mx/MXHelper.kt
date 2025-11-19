@@ -88,6 +88,18 @@ object MXHelper {
         )
     }
 
+    fun setScreenShotUsage(context: Context, usage: MXBase.ScreenShotUsage, callback: (Boolean) -> Unit) {
+        MXProfileProcessor.setScreenShotUsage(context, usage, object : MXBase.ProcessProfileCallback {
+            override fun onSuccess(profileName: String) {
+                callback(true)
+            }
+
+            override fun onError(errorInfo: MXBase.ErrorInfo) {
+                callback(false)
+            }
+        })
+    }
+
     /**
      *
      * @param context
