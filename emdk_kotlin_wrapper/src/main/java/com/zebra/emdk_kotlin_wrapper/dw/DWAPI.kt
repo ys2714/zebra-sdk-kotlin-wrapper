@@ -10,6 +10,7 @@ object DWAPI {
         TRUE("true"),
         FALSE("false");
 
+        @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
         override fun toString(): String {
             throw RuntimeException("Not Implemented")
         }
@@ -22,6 +23,7 @@ object DWAPI {
         ENABLED("ENABLED"),
         DISABLED("DISABLED");
 
+        @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
         override fun toString(): String {
             throw RuntimeException("Not Implemented")
         }
@@ -33,6 +35,7 @@ object DWAPI {
     enum class ActionNames(val value: String) {
         ACTION("com.symbol.datawedge.api.ACTION");
 
+        @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
         override fun toString(): String {
             throw RuntimeException("Not Implemented")
         }
@@ -51,6 +54,7 @@ object DWAPI {
         GET_SCANNER_STATUS("com.symbol.datawedge.api.GET_SCANNER_STATUS"),
         ENUMERATE_SCANNERS("com.symbol.datawedge.api.ENUMERATE_SCANNERS");
 
+        @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
         override fun toString(): String {
             throw RuntimeException("Not Implemented")
         }
@@ -62,6 +66,7 @@ object DWAPI {
     enum class ResultCategoryNames(val value: String) {
         CATEGORY_DEFAULT("android.intent.category.DEFAULT");
 
+        @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
         override fun toString(): String {
             throw RuntimeException("Not Implemented")
         }
@@ -74,6 +79,7 @@ object DWAPI {
         RESULT_ACTION("com.symbol.datawedge.api.RESULT_ACTION"),
         SCAN_RESULT_ACTION("com.zebra.emdk_kotlin_wrapper.SCAN_RESULT_ACTION");
 
+        @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
         override fun toString(): String {
             throw RuntimeException("Not Implemented")
         }
@@ -87,6 +93,7 @@ object DWAPI {
         ENUMERATE_SCANNERS("com.symbol.datawedge.api.RESULT_ENUMERATE_SCANNERS"),
         SCANNER_STATUS("com.symbol.datawedge.api.RESULT_SCANNER_STATUS");
 
+        @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
         override fun toString(): String {
             throw RuntimeException("Not Implemented")
         }
@@ -100,6 +107,7 @@ object DWAPI {
         OVERWRITE("OVERWRITE"),
         UPDATE("UPDATE");
 
+        @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
         override fun toString(): String {
             throw RuntimeException("Not Implemented")
         }
@@ -116,6 +124,7 @@ object DWAPI {
         CONNECTED("CONNECTED"), // An external (Bluetooth or serial) scanner is connected
         DISCONNECTED("DISCONNECTED"); // The external scanner is disconnected
 
+        @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
         override fun toString(): String {
             throw RuntimeException("Not Implemented")
         }
@@ -146,6 +155,7 @@ object DWAPI {
         USB_ZEBRACRADLE("USB_ZEBRACRADLE"),
         USB_SNAPI_ZEBRA("USB_SNAPI_ZEBRA");
 
+        @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
         override fun toString(): String {
             throw RuntimeException("Not Implemented")
         }
@@ -159,6 +169,7 @@ object DWAPI {
         LAST_RESULT("LAST_RESULT"),
         COMPLETE_RESULT("COMPLETE_RESULT");
 
+        @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
         override fun toString(): String {
             throw RuntimeException("Not Implemented")
         }
@@ -205,6 +216,7 @@ object DWAPI {
 
         UNKNOWN("UNKNOWN");
 
+        @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
         override fun toString(): String {
             throw RuntimeException("Not Implemented")
         }
@@ -224,6 +236,7 @@ object DWAPI {
         SOURCE_PROFILE_NAME("SOURCE_PROFILE_NAME"),
         RESULT_CODE("RESULT_CODE");
 
+        @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
         override fun toString(): String {
             throw RuntimeException("Not Implemented")
         }
@@ -237,6 +250,7 @@ object DWAPI {
         STOP_SCANNING("STOP_SCANNING"),
         TOGGLE_SCANNING("TOGGLE_SCANNING");
 
+        @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
         override fun toString(): String {
             throw RuntimeException("Not Implemented")
         }
@@ -250,6 +264,7 @@ object DWAPI {
         START_SERVICE(1),
         BROADCAST(2);
 
+        @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
         override fun toString(): String {
             throw RuntimeException("Not Implemented")
         }
@@ -264,6 +279,7 @@ object DWAPI {
         MULTI_BARCODE(3),
         DOCUMENT_CAPTURE(5);
 
+        @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
         override fun toString(): String {
             throw RuntimeException("Not Implemented")
         }
@@ -276,6 +292,7 @@ object DWAPI {
         IMAGER(1),
         CAMERA(2);
 
+        @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
         override fun toString(): String {
             throw RuntimeException("Not Implemented")
         }
@@ -292,6 +309,7 @@ object DWAPI {
         ocr_a_variant("ocr_a_variant"),
         ocr_b_variant("ocr_b_variant");
 
+        @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
         override fun toString(): String {
             throw RuntimeException("Not Implemented")
         }
@@ -305,6 +323,7 @@ object DWAPI {
         INVERSE_ONLY(1),
         AUTO(2);
 
+        @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
         override fun toString(): String {
             throw RuntimeException("Not Implemented")
         }
@@ -319,6 +338,7 @@ object DWAPI {
         RESERVED_2(2),
         BANKING(3);
 
+        @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
         override fun toString(): String {
             throw RuntimeException("Not Implemented")
         }
@@ -340,6 +360,7 @@ object DWAPI {
         VISA_TYPE_B(10),
         ICAO_TRAVEL_DOCUMENT(11);
 
+        @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
         override fun toString(): String {
             throw RuntimeException("Not Implemented")
         }
@@ -389,6 +410,7 @@ object DWAPI {
             INVERSE_ONLY(1),
             AUTO(2);
 
+            @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
             override fun toString(): String {
                 throw RuntimeException("Not Implemented")
             }
@@ -403,6 +425,7 @@ object DWAPI {
             RESERVED_2(2),
             BANKING(3);
 
+            @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
             override fun toString(): String {
                 throw RuntimeException("Not Implemented")
             }
@@ -424,6 +447,7 @@ object DWAPI {
             VISA_TYPE_B(10),
             ICAO_TRAVEL_DOCUMENT(11);
 
+            @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
             override fun toString(): String {
                 throw RuntimeException("Not Implemented")
             }
@@ -439,6 +463,7 @@ object DWAPI {
             DEGREE_90(3),
             OMNIDIRECTIONAL(4);
 
+            @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
             override fun toString(): String {
                 throw RuntimeException("Not Implemented")
             }
@@ -452,6 +477,7 @@ object DWAPI {
             LINE_2(2),
             LINE_3(3);
 
+            @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
             override fun toString(): String {
                 throw RuntimeException("Not Implemented")
             }
@@ -487,6 +513,7 @@ object DWAPI {
                 DIGIT_ADD_RL_SIMPLE(6),
                 HEALTH_INDUSTRY(9);
 
+                @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
                 override fun toString(): String {
                     throw RuntimeException("Not Implemented")
                 }
@@ -522,6 +549,7 @@ object DWAPI {
         DISABLED(0),
         ENABLED(1);
 
+        @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
         override fun toString(): String {
             throw RuntimeException("Not Implemented")
         }
@@ -542,6 +570,7 @@ object DWAPI {
             VOICE("VOICE"),
             WORKFLOW("WORKFLOW");
 
+            @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
             override fun toString(): String {
                 throw RuntimeException("Not Implemented")
             }
@@ -555,6 +584,7 @@ object DWAPI {
             ADF("ADF"),
             TOKEN("TOKEN");
 
+            @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
             override fun toString(): String {
                 throw RuntimeException("Not Implemented")
             }
@@ -568,6 +598,7 @@ object DWAPI {
             KEYSTROKE("KEYSTROKE"),
             IP("IP");
 
+            @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
             override fun toString(): String {
                 throw RuntimeException("Not Implemented")
             }
@@ -580,6 +611,7 @@ object DWAPI {
             DCP("DCP"),
             EKB("EKB");
 
+            @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
             override fun toString(): String {
                 throw RuntimeException("Not Implemented")
             }
@@ -600,6 +632,7 @@ object DWAPI {
             PICKLIST_OCR("picklist_ocr"),
             FREE_FORM_OCR("free_form_ocr");
 
+            @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
             override fun toString(): String {
                 throw RuntimeException("Not Implemented")
             }
@@ -643,6 +676,7 @@ object DWAPI {
             START_SERVICE(1),
             BROADCAST(2);
 
+            @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
             override fun toString(): String {
                 throw RuntimeException("Not Implemented")
             }

@@ -22,7 +22,7 @@ class MXAppManagerTest {
 
             val xmlString = AssetsReader.readFileToStringWithParams(
                 appContext,
-                MXBase.ProfileXML.AppManagerInstallAndStart.toString(),
+                MXBase.ProfileXML.AppManagerInstallAndStart.string,
                 mapOf(
                     Pair(MXConst.APK, apkPathValue),
                     Pair(MXConst.Package, appPackageNameValue),

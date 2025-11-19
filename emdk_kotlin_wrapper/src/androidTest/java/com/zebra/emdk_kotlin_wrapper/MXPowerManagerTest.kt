@@ -48,7 +48,7 @@ class MXPowerManagerTest {
 
             val xmlString = AssetsReader.readFileToStringWithParams(
                 appContext,
-                MXBase.ProfileXML.PowerManagerReset.toString(), // Assumes this constant exists for the reset XML
+                MXBase.ProfileXML.PowerManagerReset.string, // Assumes this constant exists for the reset XML
                 mapOf(
                     Pair(MXConst.ResetAction, resetActionValue),
                     Pair(MXConst.ZipFile, zipFileValue)

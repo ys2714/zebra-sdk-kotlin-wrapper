@@ -19,7 +19,7 @@ internal fun MXProfileProcessor.getAllDangerousPermissions(
     val name = context.packageName
     callAccessManagerAllowPermission(
         context,
-        MXBase.EPermissionType.ALL_DANGEROUS_PERMISSIONS.toString(),
+        MXBase.EPermissionType.ALL_DANGEROUS_PERMISSIONS.string,
         name,
         "",
         base64,

@@ -1,6 +1,9 @@
 package com.zebra.emdk_kotlin_wrapper.mx
 
+import android.os.Build
 import android.text.TextUtils
+import androidx.annotation.DeprecatedSinceApi
+import androidx.annotation.Discouraged
 
 class MXBase {
 
@@ -58,6 +61,7 @@ class MXBase {
         DisplayManagerDisableScreenShot("profile_display_manager_disable_screenshot.xml"),
         PowerKeyManagerSetPowerOffState("profile_powerkey_manager_set_poweroff_state.xml");
 
+        @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
         override fun toString(): String {
             throw RuntimeException("Not Implemented")
         }
@@ -77,6 +81,7 @@ class MXBase {
         DisplayManagerDisableScreenShot("DisplayManagerDisableScreenShot"),
         PowerKeyManagerSetPowerOffState("PowerKeyManagerSetPowerOffState");
 
+        @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
         override fun toString(): String {
             throw RuntimeException("Not Implemented")
         }
@@ -108,6 +113,7 @@ class MXBase {
         FULL_DEVICE_WIPE(7),
         OS_UPDATE(8);
 
+        @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
         override fun toString(): String {
             throw RuntimeException("Not Implemented")
         }
@@ -131,6 +137,7 @@ class MXBase {
         WRITE_SETTINGS("android.permission.WRITE_SETTINGS"),
         ACCESSIBILITY_SERVICE("ACCESSIBILITY_SERVICE_ACCESS");
 
+        @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
         override fun toString(): String {
             throw RuntimeException("Not Implemented")
         }
@@ -164,6 +171,7 @@ class MXBase {
         PASSWORD(4),
         NONE(5);
 
+        @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
         override fun toString(): String {
             throw RuntimeException("Not Implemented")
         }
@@ -188,6 +196,7 @@ class MXBase {
         ENABLE(1),
         DISABLE(2);
 
+        @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
         override fun toString(): String {
             throw RuntimeException("Not Implemented")
         }
@@ -212,6 +221,7 @@ class MXBase {
         SHOW(1),
         HIDE(2);
 
+        @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
         override fun toString(): String {
             throw RuntimeException("Not Implemented")
         }
@@ -235,6 +245,7 @@ class MXBase {
         BUTTON_R2(105),
         BUTTON_SCAN(10036);
 
+        @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
         override fun toString(): String {
             throw RuntimeException("Not Implemented")
         }

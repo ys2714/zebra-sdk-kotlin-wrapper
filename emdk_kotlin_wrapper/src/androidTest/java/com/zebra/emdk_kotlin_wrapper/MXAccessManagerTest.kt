@@ -19,7 +19,7 @@ class MXAccessManagerTest {
         try {
             val xmlString = AssetsReader.readFileToStringWithParams(
                 appContext,
-                MXBase.ProfileXML.AccessManagerAllowCallService.toString(),
+                MXBase.ProfileXML.AccessManagerAllowCallService.string,
                 mapOf(
                     Pair(MXConst.ServiceIdentifier, "value1"),
                     Pair(MXConst.CallerPackageName, "value2"),
@@ -48,7 +48,7 @@ class MXAccessManagerTest {
         try {
             val xmlString = AssetsReader.readFileToStringWithParams(
                 appContext,
-                MXBase.ProfileXML.AccessManagerAllowPermission.toString(),
+                MXBase.ProfileXML.AccessManagerAllowPermission.string,
                 mapOf(
                     Pair(MXConst.PermissionAccessAction, "value1"),
                     Pair(MXConst.PermissionAccessPackageName, "value2"),

@@ -22,7 +22,7 @@ class AssetsReaderTest {
         try {
             val xmlString = AssetsReader.readFileToStringWithParams(
                 appContext,
-                MXBase.ProfileXML.AccessManagerAllowCallService.toString(),
+                MXBase.ProfileXML.AccessManagerAllowCallService.string,
                 mapOf(
                     "Wrong_KEY" to "",
                     MXConst.ServiceIdentifier to "id",

@@ -36,7 +36,7 @@ class MXClockTest {
 
             val xmlString = AssetsReader.readFileToStringWithParams(
                 appContext,
-                MXBase.ProfileXML.ClockSet.toString(),
+                MXBase.ProfileXML.ClockSet.string,
                 mapOf(
                     Pair(MXConst.Date, dateValue),
                     Pair(MXConst.Time, timeValue),
