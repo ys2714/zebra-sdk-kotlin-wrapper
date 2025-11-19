@@ -5,7 +5,7 @@ import android.os.Bundle
 import com.zebra.emdk_kotlin_wrapper.utils.AssetsReader
 import com.zebra.emdk_kotlin_wrapper.utils.JsonUtils
 
-object DWProfileProcessor {
+internal object DWProfileProcessor {
 
     final const val TAG = "DWProfileProcessor"
 

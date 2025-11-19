@@ -24,6 +24,10 @@ class MainViewModel {
     var emdkPrepared = mutableStateOf(false)
     var scannerStatus = mutableStateOf("")
 
+    var emdkVersion: MutableState<String> = mutableStateOf("")
+    var mxVersion: MutableState<String> = mutableStateOf("")
+    var dwVersion: MutableState<String> = mutableStateOf("")
+
     var ppid: MutableState<String> = mutableStateOf("")
     var serial: MutableState<String> = mutableStateOf("")
     var imei: MutableState<String> = mutableStateOf("")
@@ -39,18 +43,24 @@ class MainViewModel {
         if (emdkPrepared.value == true) {
             return
         }
-        EMDKHelper.shared.prepareEMDKProfileManager(context) {
-
+        EMDKHelper.shared.prepare(context) {
+            // get versions
+            emdkVersion.value = EMDKHelper.shared.emdkVersion
+            mxVersion.value = EMDKHelper.shared.mxVersion
+            dwVersion.value = EMDKHelper.shared.dwVersion
+            // white list app
             authenticateApp(context) { whiteListSuccess ->
                 if (whiteListSuccess) {
-                    fetchSerialNumber(context)
-                    fetchIMEI(context)
-                    fetchPPID(context)
+                    fetchSerialNumber(context) {
+                        fetchPPID(context) {
+                            fetchIMEI(context) {}
+                        }
+                    }
                 } else {
 
                 }
             }
-
+            // prepare dw
             DataWedgeHelper.prepare(context) { enableSuccess ->
                 if (enableSuccess) {
                     DataWedgeHelper.deleteProfile(context, profileName) { success ->
@@ -88,7 +98,7 @@ class MainViewModel {
         }
     }
 
-    fun fetchPPID(context: Context) {
+    fun fetchPPID(context: Context, completion: () -> Unit) {
         MXHelper.fetchPPID(context, true) { result ->
             if (!result.isEmpty()) {
                 ppid.value = result
@@ -96,10 +106,11 @@ class MainViewModel {
                 ppid.value = "get ppid error"
                 showDebugToast(context, "PPID", "get ppid error")
             }
+            completion()
         }
     }
 
-    fun fetchSerialNumber(context: Context) {
+    fun fetchSerialNumber(context: Context, completion: () -> Unit) {
         MXHelper.fetchSerialNumber(context) { result ->
             if (!result.isEmpty()) {
                 serial.value = result
@@ -107,10 +118,11 @@ class MainViewModel {
                 serial.value = "get serial error"
                 showDebugToast(context, "Serial", "get serial error")
             }
+            completion()
         }
     }
 
-    fun fetchIMEI(context: Context) {
+    fun fetchIMEI(context: Context, completion: () -> Unit) {
         MXHelper.fetchIMEI(context) { result ->
             if (!result.isEmpty()) {
                 imei.value = result
@@ -118,6 +130,7 @@ class MainViewModel {
                 imei.value = "get imei error"
                 showDebugToast(context, "IMEI", "get imei error")
             }
+            completion()
         }
     }
 

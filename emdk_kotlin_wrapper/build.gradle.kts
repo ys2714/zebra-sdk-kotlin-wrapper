@@ -38,8 +38,9 @@ kotlin {
     }
 }
 
+// https://zebratech.jfrog.io/artifactory/EMDK-Android/
 dependencies {
-    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar", "*.aar"))))
+    compileOnly(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar", "*.aar"))))
 }
 
 //dependencies {

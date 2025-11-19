@@ -53,6 +53,7 @@ class MXBase {
         AppManagerInstallAndStart("profile_app_manager_install_and_start.xml"),
         PowerManagerReset("profile_power_manager_reset.xml"),
         ClockSet("profile_clock_set.xml"),
+        ClockResetAuto("profile_clock_reset_auto.xml"),
         DevAdminManagerDisableLockScreen("profile_dev_admin_manager_disable_lock_screen.xml");
 
         override fun toString() = fileName
@@ -64,6 +65,7 @@ class MXBase {
         AppManagerInstallAndStart("AppManagerInstallAndStart"),
         PowerManagerReset("PowerManagerReset"),
         ClockSet("ClockSet"),
+        ClockResetAuto("ClockResetAuto"),
         DevAdminManagerDisableLockScreen("DevAdminManagerDisableLockScreen");
 
         override fun toString() = value

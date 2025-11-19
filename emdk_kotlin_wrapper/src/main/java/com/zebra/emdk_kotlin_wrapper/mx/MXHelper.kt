@@ -7,107 +7,101 @@ import com.zebra.emdk_kotlin_wrapper.zdm.ZDMConst
 
 object MXHelper {
 
-    private val profileManager: ProfileManager?
+    private val profileManager: ProfileManager
         get() {
-            return EMDKHelper.shared.profileManager
+            if (EMDKHelper.shared.profileManager == null) {
+                throw RuntimeException("please call EMDKHelper.prepare() before get profileManager")
+            }
+            return EMDKHelper.shared.profileManager!!
         }
 
     fun whiteListApproveApp(context: Context, callback: (Boolean) -> Unit) {
-        profileManager?.also {
-            MXProfileProcessor.getCallServicePermission(
-                context,
-                it,
-                ZDMConst.DelegationScope.SCOPE_DW_CONFIG_API.value,
-                object : MXBase.ProcessProfileCallback {
-                    override fun onSuccess(profileName: String) {
-                        callback(true)
-                    }
-
-                    override fun onError(errorInfo: MXBase.ErrorInfo) {
-                        callback(false)
-                    }
+        MXProfileProcessor.getCallServicePermission(
+            context,
+            this.profileManager,
+            ZDMConst.DelegationScope.SCOPE_DW_CONFIG_API.value,
+            object : MXBase.ProcessProfileCallback {
+                override fun onSuccess(profileName: String) {
+                    callback(true)
                 }
-            )
-        } ?: run {
-            throw Exception("ProfileManager is null. please run after EMDKHelper.shared.prepare()")
-        }
+
+                override fun onError(errorInfo: MXBase.ErrorInfo) {
+                    callback(false)
+                }
+            }
+        )
     }
 
     fun setDeviceToSleep(context: Context) {
-        profileManager?.also {
-            MXProfileProcessor.callPowerManagerFeature(
-                context,
-                it,
-                MXBase.PowerManagerOptions.SLEEP_MODE)
-        } ?: run {
-            throw Exception("ProfileManager is null. please run after EMDKHelper.shared.prepare()")
-        }
+        MXProfileProcessor.callPowerManagerFeature(
+            context,
+            this.profileManager,
+            MXBase.PowerManagerOptions.SLEEP_MODE
+        )
+    }
+
+    fun setDeviceToReboot(context: Context) {
+        MXProfileProcessor.callPowerManagerFeature(
+            context,
+            this.profileManager,
+            MXBase.PowerManagerOptions.REBOOT
+        )
     }
 
     fun setSystemClock(context: Context, timeZone: String, date: String, time: String, callback: (Boolean) -> Unit) {
-        profileManager?.also {
-            MXProfileProcessor.callClockSet(
-                context,
-                it,
-                true,
-                timeZone,
-                date,
-                time,
-                object : MXBase.ProcessProfileCallback {
-                    override fun onSuccess(profileName: String) {
-                        callback(true)
-                    }
+        MXProfileProcessor.callClockSet(
+            context,
+            this.profileManager,
+            true,
+            timeZone,
+            date,
+            time,
+            object : MXBase.ProcessProfileCallback {
+                override fun onSuccess(profileName: String) {
+                    callback(true)
+                }
 
-                    override fun onError(errorInfo: MXBase.ErrorInfo) {
-                        callback(false)
-                    }
-                })
-        } ?: run {
-            throw Exception("ProfileManager is null. please run after EMDKHelper.shared.prepare()")
-        }
+                override fun onError(errorInfo: MXBase.ErrorInfo) {
+                    callback(false)
+                }
+            }
+        )
     }
 
     fun resetSystemClockToNTP(context: Context, ntpServer: String, syncInterval: String, callback: (Boolean) -> Unit) {
-        profileManager?.also {
-            MXProfileProcessor.callClockSetAuto(
-                context,
-                it,
-                true,
-                ntpServer,
-                syncInterval,
-                object : MXBase.ProcessProfileCallback {
-                    override fun onSuccess(profileName: String) {
-                        callback(true)
-                    }
+        MXProfileProcessor.callClockResetAuto(
+            context,
+            this.profileManager,
+            true,
+            ntpServer,
+            syncInterval,
+            object : MXBase.ProcessProfileCallback {
+                override fun onSuccess(profileName: String) {
+                    callback(true)
+                }
 
-                    override fun onError(errorInfo: MXBase.ErrorInfo) {
-                        callback(false)
-                    }
-                })
-        } ?: run {
-            throw Exception("ProfileManager is null. please run after EMDKHelper.shared.prepare()")
-        }
+                override fun onError(errorInfo: MXBase.ErrorInfo) {
+                    callback(false)
+                }
+            }
+        )
     }
 
     fun setScreenLockType(context: Context, lockType: MXBase.ScreenLockType, callback: (Boolean) -> Unit) {
-        profileManager?.also {
-            MXProfileProcessor.setScreenLockType(
-                context,
-                it,
-                lockType,
-                object : MXBase.ProcessProfileCallback {
-                    override fun onSuccess(profileName: String) {
-                        callback(true)
-                    }
-
-                    override fun onError(errorInfo: MXBase.ErrorInfo) {
-                        callback(false)
-                    }
+        MXProfileProcessor.setScreenLockType(
+            context,
+            this.profileManager,
+            lockType,
+            object : MXBase.ProcessProfileCallback {
+                override fun onSuccess(profileName: String) {
+                    callback(true)
                 }
-            )
-        } ?: run {
-            throw Exception("ProfileManager is null. please run after EMDKHelper.shared.prepare()")
-        }
+
+                override fun onError(errorInfo: MXBase.ErrorInfo) {
+                    callback(false)
+                }
+            }
+        )
     }
 
     /**
@@ -117,22 +111,11 @@ object MXHelper {
      * @param callback: return empty string "" if failed
      * */
     fun fetchSerialNumber(context: Context, callback: (String) -> Unit) {
-        profileManager?.also {
-            MXProfileProcessor.fetchSerialNumberInBackground(
-                context,
-                it,
-                object : MXBase.FetchOEMInfoCallback {
-                    override fun onSuccess(result: String) {
-                        callback(result)
-                    }
-
-                    override fun onError() {
-                        callback("")
-                    }
-                })
-        } ?: run {
-            throw Exception("ProfileManager is null. please run after EMDKHelper.shared.prepare()")
-        }
+        MXProfileProcessor.fetchSerialNumberInBackground(
+            context,
+            this.profileManager,
+            callback
+        )
     }
 
     /**
@@ -142,43 +125,21 @@ object MXHelper {
      * @param callback: return empty string "" if failed
      * */
     fun fetchPPID(context: Context, isDevDevice: Boolean, callback: (String) -> Unit) {
-        profileManager?.also {
-            MXProfileProcessor.fetchSerialNumberInBackground(
-                context,
-                it,
-                object : MXBase.FetchOEMInfoCallback {
-                    override fun onSuccess(result: String) {
-                        val suffix = result.takeLast(5)
-                        val prefix = if (isDevDevice) "619" else "610"
-                        val yppid = "$prefix$suffix"
-                        callback(yppid)
-                    }
-
-                    override fun onError() {
-                        callback("")
-                    }
-                })
-        } ?: run {
-            throw Exception("ProfileManager is null. please run after EMDKHelper.shared.prepare()")
+        MXProfileProcessor.fetchSerialNumberInBackground(context, this.profileManager) { result ->
+            if (result.isEmpty()) {
+                callback("")
+                return@fetchSerialNumberInBackground
+            }
+            val suffix = result.takeLast(5)
+            val prefix = if (isDevDevice) "619" else "610"
+            val yppid = "$prefix$suffix"
+            callback(yppid)
         }
     }
 
     fun fetchIMEI(context: Context, callback: (String) -> Unit) {
-        profileManager?.also {
-            MXProfileProcessor.fetchIMEIInBackground(
-                context,
-                it,
-                object : MXBase.FetchOEMInfoCallback {
-                    override fun onSuccess(result: String) {
-                        callback(result)
-                    }
-
-                    override fun onError() {
-                        callback("")
-                    }
-                })
-        } ?: run {
-            throw Exception("ProfileManager is null. please run after EMDKHelper.shared.prepare()")
+        MXProfileProcessor.fetchIMEIInBackground(context, this.profileManager) { result ->
+            callback(result)
         }
     }
 }

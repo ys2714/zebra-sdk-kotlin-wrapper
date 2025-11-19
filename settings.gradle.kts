@@ -18,11 +18,11 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-dependencyResolutionManagement {
-    repositories {
-        maven(url = "https://zebratech.jfrog.io/artifactory/EMDK-Android/")
-    }
-}
+//dependencyResolutionManagement {
+//    repositories {
+//        maven(url = "https://zebratech.jfrog.io/artifactory/EMDK-Android/")
+//    }
+//}
 rootProject.name = "ZebraKotlinDemo"
 include(":app")
 include(":emdk_kotlin_wrapper")

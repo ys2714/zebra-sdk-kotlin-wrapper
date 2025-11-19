@@ -71,7 +71,14 @@ class MainActivity : ComponentActivity() {
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally) {
-                Text("OEM Info",
+                Text("----Version Info----",
+                    modifier = Modifier
+                        .padding()
+                )
+                Text("EMDK Version: " + viewModel.emdkVersion.value)
+                Text("MX Version: " + viewModel.mxVersion.value)
+                Text("DW Version: " + viewModel.dwVersion.value)
+                Text("----OEM Info----",
                     modifier = Modifier
                         .padding()
                 )

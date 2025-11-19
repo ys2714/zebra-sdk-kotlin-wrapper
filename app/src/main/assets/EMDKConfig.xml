@@ -3,17 +3,12 @@
     <parm name="created_wizard_version" value="14.0.0"/>
   </characteristic>
   <characteristic type="Profile">
-    <parm name="ProfileName" value="ClockSet"/>
-    <parm name="ModifiedDate" value="2025-11-18 23:33:18"/>
+    <parm name="ProfileName" value="DevAdminManagerDisableLockScreen"/>
+    <parm name="ModifiedDate" value="2025-11-19 16:53:51"/>
     <parm name="TargetSystemVersion" value="10.0"/>
-    <characteristic type="Clock" version="6.0">
-      <parm name="emdk_name" value="ClockSet"/>
-      <parm name="AutoTimeZone" value="false"/>
-      <parm name="TimeZone" value="GMT+9"/>
-      <parm name="AutoTime" value="false"/>
-      <parm name="Date" value="2008-09-09"/>
-      <parm name="Time" value="10:20:00"/>
-      <parm name="MilitaryTime" value="1"/>
+    <characteristic type="DevAdmin" version="10.0">
+      <parm name="emdk_name" value="DevAdminManagerDisableLockScreen"/>
+      <parm name="ScreenLockType" value="5"/>
     </characteristic>
   </characteristic>
 </wap-provisioningdoc>

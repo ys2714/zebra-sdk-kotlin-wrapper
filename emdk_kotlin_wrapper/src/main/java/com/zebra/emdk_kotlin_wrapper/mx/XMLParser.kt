@@ -3,7 +3,7 @@ package com.zebra.emdk_kotlin_wrapper.mx
 import android.util.Log
 import org.xmlpull.v1.XmlPullParser
 
-object XMLParser {
+internal object XMLParser {
 
     private val TAG = XMLParser::class.java.simpleName
 

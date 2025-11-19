@@ -11,6 +11,6 @@ package com.zebra.emdk_kotlin_wrapper.mx
  * 1 - Enable
  * 2 - Disable
  * */
-fun MXProfileProcessor.disableScreenShotFeature() {
+internal fun MXProfileProcessor.disableScreenShotFeature() {
 
 }

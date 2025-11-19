@@ -3,7 +3,7 @@ package com.zebra.emdk_kotlin_wrapper.dw
 import android.content.Context
 import android.os.Bundle
 
-fun DWIntentFactory.simpleCreateProfileBundle(context: Context, profileName: String): Bundle {
+internal fun DWIntentFactory.simpleCreateProfileBundle(context: Context, profileName: String): Bundle {
     val profileConfig1 = Bundle().apply {
         putString("PROFILE_NAME", "$profileName")
         putString("PROFILE_ENABLED", "true")
@@ -18,7 +18,7 @@ fun DWIntentFactory.simpleCreateProfileBundle(context: Context, profileName: Str
     return profileConfig1
 }
 
-fun DWIntentFactory.simpleBarcodePluginBundle(context: Context, profileName: String): Bundle {
+internal fun DWIntentFactory.simpleBarcodePluginBundle(context: Context, profileName: String): Bundle {
     val profileConfig1 = Bundle().apply {
         putString("PROFILE_NAME", "$profileName")
         putString("PROFILE_ENABLED", "true")
@@ -41,7 +41,7 @@ fun DWIntentFactory.simpleBarcodePluginBundle(context: Context, profileName: Str
     return profileConfig1
 }
 
-fun DWIntentFactory.simpleKeystrokePluginBundle(context: Context, profileName: String): Bundle {
+internal fun DWIntentFactory.simpleKeystrokePluginBundle(context: Context, profileName: String): Bundle {
     val profileConfig1 = Bundle().apply {
         putString("PROFILE_NAME", "$profileName")
         putString("PROFILE_ENABLED", "true")
@@ -59,7 +59,7 @@ fun DWIntentFactory.simpleKeystrokePluginBundle(context: Context, profileName: S
     return profileConfig1
 }
 
-fun DWIntentFactory.simpleIntentPluginBundle(context: Context, profileName: String, intentAction: String): Bundle {
+internal fun DWIntentFactory.simpleIntentPluginBundle(context: Context, profileName: String, intentAction: String): Bundle {
     val profileConfig1 = Bundle().apply {
         putString("PROFILE_NAME", "$profileName")
         putString("PROFILE_ENABLED", "true")

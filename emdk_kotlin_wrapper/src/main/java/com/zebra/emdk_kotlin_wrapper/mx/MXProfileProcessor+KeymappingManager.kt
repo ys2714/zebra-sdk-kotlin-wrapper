@@ -8,10 +8,10 @@ import android.content.Intent
  * Send Intent
  * */
 
-fun MXProfileProcessor.remappingTriggerButton(intent: Intent) {
+internal fun MXProfileProcessor.remappingTriggerButton(intent: Intent) {
 
 }
 
-fun MXProfileProcessor.remappingActionButton(intent: Intent) {
+internal fun MXProfileProcessor.remappingActionButton(intent: Intent) {
 
 }

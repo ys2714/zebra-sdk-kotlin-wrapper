@@ -6,7 +6,7 @@ import com.zebra.emdk_kotlin_wrapper.utils.AssetsReader
 import com.zebra.emdk_kotlin_wrapper.utils.JsonUtils
 import com.zebra.emdk_kotlin_wrapper.utils.PackageUtils
 
-fun DWProfileProcessor.bundleForIntentSecurePlugin(context: Context,
+internal fun DWProfileProcessor.bundleForIntentSecurePlugin(context: Context,
                                 profileName: String,
                                 intentAction: String,
                                 deliveryOptions: DWAPI.IntentDeliveryOptions): Bundle {

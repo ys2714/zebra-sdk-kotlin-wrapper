@@ -5,7 +5,7 @@ import android.widget.Toast
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.zebra.emdk_kotlin_wrapper.emdk.EMDKBarcodeScannerHelper
+import com.zebra.emdk_kotlin_wrapper.emdk.EMDKHelper
 import com.zebra.emdk_kotlin_wrapper.mx.MXBase
 import com.zebra.emdk_kotlin_wrapper.mx.MXHelper
 import kotlinx.coroutines.CoroutineScope
@@ -16,24 +16,16 @@ class EMDKViewModel: ViewModel() {
 
     var text: MutableState<String> = mutableStateOf("")
 
-    private var scannerHelper: EMDKBarcodeScannerHelper? = null
-
     fun handleOnCreate(context: Context) {
-        scannerHelper = EMDKBarcodeScannerHelper(context)
-    }
 
-    fun startScan()  {
-        scannerHelper?.startRead { type, data, timestamp ->
-            text.value = data
-        }
-    }
-
-    fun stopScan() {
-        scannerHelper?.stopRead()
     }
 
     fun setSleep(context: Context) {
         MXHelper.setDeviceToSleep(context)
+    }
+
+    fun setReboot(context: Context) {
+        MXHelper.setDeviceToReboot(context)
     }
 
     fun setClockToAndroidReleaseDate(context: Context) {

@@ -9,9 +9,8 @@ import android.os.Parcelable
 import android.util.Log
 import androidx.core.content.ContextCompat
 import com.zebra.emdk_kotlin_wrapper.utils.JsonUtils
-import kotlinx.coroutines.suspendCancellableCoroutine
 
-object DWIntentFactory {
+internal object DWIntentFactory {
 
     const val TAG = "DWIntentFactory"
 

@@ -42,22 +42,15 @@ class EMDKActivity: ComponentActivity() {
             Modifier
                 .padding(horizontal = 16.dp)
         ) {
-//            StyledOutlinedTextField(newText.value) { newValue ->
-//                newText.value = newValue
-//            }
-//            RoundButton("Start Scan") {
-//                viewModel.startScan()
-//            }
-//            RoundButton("Stop Scan") {
-//                viewModel.stopScan()
-//            }
-
-            Text("Sleep",
+            Text("Power Management",
                 modifier = Modifier
                     .padding()
             )
             RoundButton("Set Sleep") {
                 viewModel.setSleep(this@EMDKActivity)
+            }
+            RoundButton("Reboot") {
+                viewModel.setReboot(this@EMDKActivity)
             }
             Text("Set System Clock",
                 modifier = Modifier

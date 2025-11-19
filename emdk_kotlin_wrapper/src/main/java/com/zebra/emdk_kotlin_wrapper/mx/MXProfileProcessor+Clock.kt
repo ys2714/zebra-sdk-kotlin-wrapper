@@ -9,7 +9,7 @@ import com.symbol.emdk.ProfileManager
  *
  *
  * */
-fun MXProfileProcessor.callClockSetAuto(
+internal fun MXProfileProcessor.callClockResetAuto(
     context: Context,
     profileManager: ProfileManager,
     is24Hours: Boolean,
@@ -18,25 +18,22 @@ fun MXProfileProcessor.callClockSetAuto(
     callback: MXBase.ProcessProfileCallback) {
     val militaryTime = if (is24Hours) "1" else "2"
     val map = mapOf(
-        MXConst.AutoTime to "true",
+        MXConst.TimeZone to "GMT+9", // ntp update every 30min, so use GMT+9 as default
         MXConst.NTPServer to ntpServer,
         MXConst.SyncInterval to syncInterval,
-        MXConst.TimeZone to MXConst.ignoredValue,
-        MXConst.Date to MXConst.ignoredValue,
-        MXConst.Time to MXConst.ignoredValue,
         MXConst.MilitaryTime to militaryTime
     )
     processProfileWithCallback(
         context,
         profileManager,
-        MXBase.ProfileXML.ClockSet,
-        MXBase.ProfileName.ClockSet,
+        MXBase.ProfileXML.ClockResetAuto,
+        MXBase.ProfileName.ClockResetAuto,
         map,
         callback
     )
 }
 
-fun MXProfileProcessor.callClockSet(
+internal fun MXProfileProcessor.callClockSet(
     context: Context,
     profileManager: ProfileManager,
     is24Hours: Boolean,
@@ -47,8 +44,6 @@ fun MXProfileProcessor.callClockSet(
     val militaryTime = if (is24Hours) "1" else "2"
     val map = mapOf(
         MXConst.AutoTime to "false",
-//        MXConst.NTPServer to MXConst.ignoredValue,
-//        MXConst.SyncInterval to MXConst.ignoredValue,
         MXConst.TimeZone to timeZone,
         MXConst.Date to date,
         MXConst.Time to time,

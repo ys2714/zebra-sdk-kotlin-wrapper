@@ -8,11 +8,11 @@ import com.zebra.emdk_kotlin_wrapper.utils.PackageUtils
  * 
  *
  * */
-fun MXProfileProcessor.grantZebraBluetoothInsightServiceAccessPermission() {
+internal fun MXProfileProcessor.grantZebraBluetoothInsightServiceAccessPermission() {
 
 }
 
-fun MXProfileProcessor.getAllDangerousPermissions(
+internal fun MXProfileProcessor.getAllDangerousPermissions(
     context: Context,
     profileManager: ProfileManager,
     callback: MXBase.ProcessProfileCallback) {
@@ -29,7 +29,7 @@ fun MXProfileProcessor.getAllDangerousPermissions(
     )
 }
 
-fun MXProfileProcessor.getCallServicePermission(
+internal fun MXProfileProcessor.getCallServicePermission(
     context: Context,
     profileManager: ProfileManager,
     serviceId: String,
@@ -45,7 +45,7 @@ fun MXProfileProcessor.getCallServicePermission(
         callback)
 }
 
-fun MXProfileProcessor.callAccessManagerAllowCallService(
+internal fun MXProfileProcessor.callAccessManagerAllowCallService(
     context: Context,
     profileManager: ProfileManager,
     serviceIdentifier: String,
@@ -67,7 +67,7 @@ fun MXProfileProcessor.callAccessManagerAllowCallService(
     )
 }
 
-fun MXProfileProcessor.callAccessManagerAllowPermission(
+internal fun MXProfileProcessor.callAccessManagerAllowPermission(
     context: Context,
     profileManager: ProfileManager,
     permissionName: String,
@@ -92,7 +92,7 @@ fun MXProfileProcessor.callAccessManagerAllowPermission(
     )
 }
 
-fun MXProfileProcessor.callAppManagerInstallAndStart(
+internal fun MXProfileProcessor.callAppManagerInstallAndStart(
     context: Context,
     profileManager: ProfileManager,
     apkPath: String,

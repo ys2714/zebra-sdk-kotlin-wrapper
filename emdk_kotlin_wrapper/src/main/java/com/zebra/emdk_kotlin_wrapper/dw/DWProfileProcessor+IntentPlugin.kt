@@ -5,7 +5,7 @@ import android.os.Bundle
 import com.zebra.emdk_kotlin_wrapper.utils.AssetsReader
 import com.zebra.emdk_kotlin_wrapper.utils.JsonUtils
 
-fun DWProfileProcessor.bundleForIntentPlugin(context: Context,
+internal fun DWProfileProcessor.bundleForIntentPlugin(context: Context,
                                              profileName: String,
                                              intentAction: DWAPI.ResultActionNames,
                                              intentCategory: DWAPI.ResultCategoryNames,

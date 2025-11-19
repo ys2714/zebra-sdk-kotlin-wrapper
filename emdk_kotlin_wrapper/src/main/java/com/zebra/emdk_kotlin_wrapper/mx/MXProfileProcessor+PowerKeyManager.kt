@@ -12,19 +12,19 @@ package com.zebra.emdk_kotlin_wrapper.mx
  * 2 - Hide: Prevents the Power-off button from being shown after the device power key is long-pressed.
  * */
 
-fun MXProfileProcessor.powerKeyMenuEnablePowerOffButton() {
+internal fun MXProfileProcessor.powerKeyMenuEnablePowerOffButton() {
 
 }
 
-fun MXProfileProcessor.powerKeyMenuDisablePowerOffButton() {
+internal fun MXProfileProcessor.powerKeyMenuDisablePowerOffButton() {
 
 }
 
 // also check DisplayManager
-fun MXProfileProcessor.powerKeyMenuDisableScreenshotButton() {
+internal fun MXProfileProcessor.powerKeyMenuDisableScreenshotButton() {
 
 }
 
-fun MXProfileProcessor.powerKeyMenuDisableRebootButton() {
+internal fun MXProfileProcessor.powerKeyMenuDisableRebootButton() {
 
 }

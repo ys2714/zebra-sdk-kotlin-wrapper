@@ -5,7 +5,7 @@ import android.os.Bundle
 import com.zebra.emdk_kotlin_wrapper.utils.AssetsReader
 import com.zebra.emdk_kotlin_wrapper.utils.JsonUtils
 
-fun DWProfileProcessor.bundleForSimpleScannerConfig(context: Context, name: String, intentAction: String): Bundle {
+internal fun DWProfileProcessor.bundleForSimpleScannerConfig(context: Context, name: String, intentAction: String): Bundle {
     val jsonString = AssetsReader.readFileToStringWithParams(
         context,
         "set_config.json",

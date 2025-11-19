@@ -5,7 +5,7 @@ import android.os.Bundle
 import com.zebra.emdk_kotlin_wrapper.utils.AssetsReader
 import com.zebra.emdk_kotlin_wrapper.utils.JsonUtils
 
-fun DWProfileProcessor.bundleForKeystrokePlugin(context: Context, profileName: String, enable: Boolean): Bundle {
+internal fun DWProfileProcessor.bundleForKeystrokePlugin(context: Context, profileName: String, enable: Boolean): Bundle {
     val jsonString = AssetsReader.readFileToStringWithParams(
         context,
         DWConst.KeystrokePluginJSON,

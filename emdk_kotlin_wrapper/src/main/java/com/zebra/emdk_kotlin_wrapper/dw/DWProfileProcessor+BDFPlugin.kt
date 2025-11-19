@@ -5,7 +5,7 @@ import android.os.Bundle
 import com.zebra.emdk_kotlin_wrapper.utils.AssetsReader
 import com.zebra.emdk_kotlin_wrapper.utils.JsonUtils
 
-fun DWProfileProcessor.bundleForBDFPlugin(context: Context,
+internal fun DWProfileProcessor.bundleForBDFPlugin(context: Context,
                        profileName: String,
                        outputPlugin: DWAPI.Plugin.Output,
                        sendDate: Boolean): Bundle {

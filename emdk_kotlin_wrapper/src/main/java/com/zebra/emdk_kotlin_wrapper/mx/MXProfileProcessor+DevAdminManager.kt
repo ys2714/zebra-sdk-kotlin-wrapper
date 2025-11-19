@@ -19,15 +19,13 @@ import com.symbol.emdk.ProfileManager
  * 5 - None: Prevents the display of any Lock Screen at any time.
  * */
 
-fun MXProfileProcessor.setScreenLockType(
+internal fun MXProfileProcessor.setScreenLockType(
     context: Context,
     profileManager: ProfileManager,
     type: MXBase.ScreenLockType,
     callback: MXBase.ProcessProfileCallback) {
     val map = mapOf(
-        MXConst.ScreenLockType to type.string,
-        MXConst.DevAdminPkg to context.applicationContext.packageName,
-        MXConst.DevAdminClass to MXProfileProcessor.DevAdminReceiver::class.simpleName!!
+        MXConst.ScreenLockType to type.string
     )
     processProfileWithCallback(
         context,

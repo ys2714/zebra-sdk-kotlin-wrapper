@@ -15,7 +15,7 @@ Only one internal scanner can be added. If an attempt is made to add another int
 Although triggers can be set that are not supported by that device, only supported triggers are displayed in the UI.
 When using multiple scanners, the parameter scanner_selection_by_identifier must be used with DataWedge APIs such as SWITCH_SCANNER_PARAMS, SOFT_SCAN_TRIGGER, etc. Otherwise error COMMAND_NOT_SUPPORTED is encountered.
 */
-fun DWProfileProcessor.bundleForBarcodePlugin(context: Context,
+internal fun DWProfileProcessor.bundleForBarcodePlugin(context: Context,
                                               profileName: String,
                                               enable: Boolean,
                                               enableHardTrigger: Boolean,

@@ -131,6 +131,66 @@ please check use the AndroidStudioMenu/EMDK/ProfileManager
 
 please always check "enabled" and "ENABLED" ignoring case.
 
+7. EMDK error: Failed to connect dependency services
+
+Initializing the EMDKManager in multiple activities incorrectly can lead to conflicts and this generic error message. 
+
+8. EMDK error: Failed to find provider info for com.zebra.devicemanager.zdmcontentprovider
+
+ZDNA Cloud
+
+## AndroidManifest.xml setup
+
+please set all queries in the same block
+
+1. EMDK
+```
+<queries>
+  <package android:name="com.symbol.emdk.emdkservice"/>
+</queries>
+
+<uses-permission android:name="com.symbol.emdk.permission.EMDK" />
+
+<application>
+   <uses-library android:name="com.symbol.emdk" android:required="false"/>
+</application>
+```
+
+2. DataWedge API
+```
+<queries>
+   <package android:name="com.symbol.datawedge" />
+   <intent>
+      <action android:name="com.symbol.datawedge.api.ACTION" />
+   </intent>
+</queries>
+
+<uses-permission android:name="com.symbol.datawedge.permission.RECEIVE_SCAN" />
+```
+
+3. Zebra Content Provider API
+```
+<queries>
+   <package android:name="com.zebra.zebracontentprovider" />
+   <provider android:authorities="oem_info" />
+</queries>
+<uses-permission android:name="com.zebra.provider.READ" />
+```
+
+4. Device Manager API (now called Zebra DNA Cloud)
+```
+<queries>
+   <package android:name="com.zebra.devicemanager"/>
+</queries>
+
+<uses-permission android:name="com.zebra.devicemanager.provider.READ_PERMISSION"/>
+```
+
+5. Device Admin API
+```
+<uses-permission android:name="android.permission.BIND_DEVICE_ADMIN" />
+```
+
 ## URLs
 
 [Zebra Signature Export Tool](https://techdocs.zebra.com/sigtools/)

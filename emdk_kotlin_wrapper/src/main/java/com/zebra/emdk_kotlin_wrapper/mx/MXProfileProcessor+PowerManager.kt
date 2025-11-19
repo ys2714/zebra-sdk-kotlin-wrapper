@@ -8,7 +8,7 @@ import com.symbol.emdk.ProfileManager
  *
  * */
 @JvmOverloads
-fun MXProfileProcessor.callPowerManagerFeature(
+internal fun MXProfileProcessor.callPowerManagerFeature(
     context: Context,
     profileManager: ProfileManager,
     option: MXBase.PowerManagerOptions,
