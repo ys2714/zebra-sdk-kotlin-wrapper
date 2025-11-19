@@ -1,6 +1,8 @@
 package com.zebra.emdk_kotlin_wrapper.mx
 
 import android.content.Context
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.zebra.emdk_kotlin_wrapper.zdm.ZDMConst
 
 object MXHelper {
@@ -98,6 +100,19 @@ object MXHelper {
                 callback(false)
             }
         })
+    }
+
+    @RequiresApi(Build.VERSION_CODES.R)
+    fun setPowerKeyMenuEnablePowerOffButton(context: Context, enable: Boolean, callback: (Boolean) -> Unit) {
+        MXProfileProcessor.powerKeyMenuEnablePowerOffButton(context, enable, callback)
+    }
+
+    fun powerKeyTriggerAutoScreenLock(context: Context, enable: Boolean, callback: (Boolean) -> Unit) {
+        MXProfileProcessor.powerKeyTriggerAutoScreenLock(context, enable, callback)
+    }
+
+    fun powerKeyAutoScreenLockSettingsOptionEnable(context: Context, enable: Boolean, callback: (Boolean) -> Unit) {
+        MXProfileProcessor.powerKeyAutoScreenLockSettingsOptionEnable(context, enable, callback)
     }
 
     /**

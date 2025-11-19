@@ -19,7 +19,7 @@ internal fun MXProfileProcessor.setScreenShotUsage(context: Context, usage: MXBa
         MXBase.ProfileXML.DisplayManagerDisableScreenShot,
         MXBase.ProfileName.DisplayManagerDisableScreenShot,
         mapOf(
-            MXConst.ScreenShotUsage to usage.toValueString()
+            MXConst.ScreenShotUsage to usage.string
         ),
         callback
     )
@@ -31,7 +31,7 @@ internal fun MXProfileProcessor.enableScreenShotFeature(context: Context, callba
         MXBase.ProfileXML.DisplayManagerDisableScreenShot,
         MXBase.ProfileName.DisplayManagerDisableScreenShot,
         mapOf(
-            MXConst.ScreenShotUsage to MXBase.ScreenShotUsage.ENABLE.toValueString()
+            MXConst.ScreenShotUsage to MXBase.ScreenShotUsage.ENABLE.string
         ),
         callback
     )

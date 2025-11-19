@@ -8,16 +8,37 @@ object DWAPI {
 
     enum class StringBoolean(val value: String) {
         TRUE("true"),
-        FALSE("false")
+        FALSE("false");
+
+        override fun toString(): String {
+            throw RuntimeException("Not Implemented")
+        }
+
+        val string: String
+            get() = value.toString()
     }
 
     enum class StringEnabled(val value: String) {
         ENABLED("ENABLED"),
-        DISABLED("DISABLED")
+        DISABLED("DISABLED");
+
+        override fun toString(): String {
+            throw RuntimeException("Not Implemented")
+        }
+
+        val string: String
+            get() = value.toString()
     }
 
     enum class ActionNames(val value: String) {
-        ACTION("com.symbol.datawedge.api.ACTION")
+        ACTION("com.symbol.datawedge.api.ACTION");
+
+        override fun toString(): String {
+            throw RuntimeException("Not Implemented")
+        }
+
+        val string: String
+            get() = value.toString()
     }
 
     enum class ActionExtraKeys(val value: String) { // Renamed from Action to avoid conflict with Intent Action
@@ -28,28 +49,63 @@ object DWAPI {
         SOFT_SCAN_TRIGGER("com.symbol.datawedge.api.SOFT_SCAN_TRIGGER"),
         GET_DATAWEDGE_STATUS("com.symbol.datawedge.api.GET_DATAWEDGE_STATUS"),
         GET_SCANNER_STATUS("com.symbol.datawedge.api.GET_SCANNER_STATUS"),
-        ENUMERATE_SCANNERS("com.symbol.datawedge.api.ENUMERATE_SCANNERS")
+        ENUMERATE_SCANNERS("com.symbol.datawedge.api.ENUMERATE_SCANNERS");
+
+        override fun toString(): String {
+            throw RuntimeException("Not Implemented")
+        }
+
+        val string: String
+            get() = value.toString()
     }
 
     enum class ResultCategoryNames(val value: String) {
-        CATEGORY_DEFAULT("android.intent.category.DEFAULT")
+        CATEGORY_DEFAULT("android.intent.category.DEFAULT");
+
+        override fun toString(): String {
+            throw RuntimeException("Not Implemented")
+        }
+
+        val string: String
+            get() = value.toString()
     }
 
     enum class ResultActionNames(val value: String) {
         RESULT_ACTION("com.symbol.datawedge.api.RESULT_ACTION"),
-        SCAN_RESULT_ACTION("com.zebra.emdk_kotlin_wrapper.SCAN_RESULT_ACTION")
+        SCAN_RESULT_ACTION("com.zebra.emdk_kotlin_wrapper.SCAN_RESULT_ACTION");
+
+        override fun toString(): String {
+            throw RuntimeException("Not Implemented")
+        }
+
+        val string: String
+            get() = value.toString()
     }
 
     enum class ResultExtraKeys(val value: String) {
         GET_DATAWEDGE_STATUS("com.symbol.datawedge.api.RESULT_GET_DATAWEDGE_STATUS"),
         ENUMERATE_SCANNERS("com.symbol.datawedge.api.RESULT_ENUMERATE_SCANNERS"),
-        SCANNER_STATUS("com.symbol.datawedge.api.RESULT_SCANNER_STATUS")
+        SCANNER_STATUS("com.symbol.datawedge.api.RESULT_SCANNER_STATUS");
+
+        override fun toString(): String {
+            throw RuntimeException("Not Implemented")
+        }
+
+        val string: String
+            get() = value.toString()
     }
 
     enum class ConfigModeOptions(val value: String) {
         CREATE_IF_NOT_EXIST("CREATE_IF_NOT_EXIST"),
         OVERWRITE("OVERWRITE"),
-        UPDATE("UPDATE")
+        UPDATE("UPDATE");
+
+        override fun toString(): String {
+            throw RuntimeException("Not Implemented")
+        }
+
+        val string: String
+            get() = value.toString()
     }
 
     enum class ScannerStatus(val value: String) {
@@ -58,7 +114,14 @@ object DWAPI {
         SCANNING("SCANNING"), // Scanner is emitting a scanner beam
         DISABLED("DISABLED"), // Scanner is disabled
         CONNECTED("CONNECTED"), // An external (Bluetooth or serial) scanner is connected
-        DISCONNECTED("DISCONNECTED") // The external scanner is disconnected
+        DISCONNECTED("DISCONNECTED"); // The external scanner is disconnected
+
+        override fun toString(): String {
+            throw RuntimeException("Not Implemented")
+        }
+
+        val string: String
+            get() = value.toString()
     }
 
     enum class ScannerIdentifiers(val value: String) {
@@ -81,13 +144,27 @@ object DWAPI {
         USB_TGCS_MP7000("USB_TGCS_MP7000"),
         USB_ZEBRA("USB_ZEBRA"),
         USB_ZEBRACRADLE("USB_ZEBRACRADLE"),
-        USB_SNAPI_ZEBRA("USB_SNAPI_ZEBRA")
+        USB_SNAPI_ZEBRA("USB_SNAPI_ZEBRA");
+
+        override fun toString(): String {
+            throw RuntimeException("Not Implemented")
+        }
+
+        val string: String
+            get() = value.toString()
     }
 
     enum class SendResultOptions(val value: String) {
         NONE("NONE"),
         LAST_RESULT("LAST_RESULT"),
-        COMPLETE_RESULT("COMPLETE_RESULT")
+        COMPLETE_RESULT("COMPLETE_RESULT");
+
+        override fun toString(): String {
+            throw RuntimeException("Not Implemented")
+        }
+
+        val string: String
+            get() = value.toString()
     }
 
     /**
@@ -126,7 +203,14 @@ object DWAPI {
         ERROR_NO_RESULT_INFO("ERROR_NO_RESULT_INFO"),
         ERROR_NO_DATAWEDGE_STATUS_IN_RESULT("ERROR_NO_DATAWEDGE_STATUS_IN_RESULT"),
 
-        UNKNOWN("UNKNOWN")
+        UNKNOWN("UNKNOWN");
+
+        override fun toString(): String {
+            throw RuntimeException("Not Implemented")
+        }
+
+        val string: String
+            get() = value.toString()
     }
 
     enum class ResultErrorCodes(val value: String) {
@@ -138,13 +222,27 @@ object DWAPI {
         PREVIOUS_PROFILE("PREVIOUS_PROFILE"),
         PROFILE_NAME("PROFILE_NAME"),
         SOURCE_PROFILE_NAME("SOURCE_PROFILE_NAME"),
-        RESULT_CODE("RESULT_CODE")
+        RESULT_CODE("RESULT_CODE");
+
+        override fun toString(): String {
+            throw RuntimeException("Not Implemented")
+        }
+
+        val string: String
+            get() = value.toString()
     }
 
     enum class SoftScanTriggerOptions(val value: String) {
         START_SCANNING("START_SCANNING"),
         STOP_SCANNING("STOP_SCANNING"),
-        TOGGLE_SCANNING("TOGGLE_SCANNING")
+        TOGGLE_SCANNING("TOGGLE_SCANNING");
+
+        override fun toString(): String {
+            throw RuntimeException("Not Implemented")
+        }
+
+        val string: String
+            get() = value.toString()
     }
 
     enum class IntentDeliveryOptions(val value: Int) {
@@ -152,8 +250,12 @@ object DWAPI {
         START_SERVICE(1),
         BROADCAST(2);
 
+        override fun toString(): String {
+            throw RuntimeException("Not Implemented")
+        }
+
         val string: String
-            get() = "$value"
+            get() = value.toString()
     }
 
     enum class ScanInputModeOptions(val value: Int) {
@@ -162,16 +264,24 @@ object DWAPI {
         MULTI_BARCODE(3),
         DOCUMENT_CAPTURE(5);
 
+        override fun toString(): String {
+            throw RuntimeException("Not Implemented")
+        }
+
         val string: String
-            get() = "$value"
+            get() = value.toString()
     }
 
     enum class WorkflowInputSourceOptions(val value: Int) {
         IMAGER(1),
         CAMERA(2);
 
+        override fun toString(): String {
+            throw RuntimeException("Not Implemented")
+        }
+
         val string: String
-            get() = "$value"
+            get() = value.toString()
     }
 
     enum class OCRDecoderOptions(val value: String) {
@@ -180,7 +290,14 @@ object DWAPI {
         decoder_micr("decoder_micr"),
         decoder_us_currency("decoder_us_currency"),
         ocr_a_variant("ocr_a_variant"),
-        ocr_b_variant("ocr_b_variant")
+        ocr_b_variant("ocr_b_variant");
+
+        override fun toString(): String {
+            throw RuntimeException("Not Implemented")
+        }
+
+        val string: String
+            get() = value.toString()
     }
 
     enum class OCRInverseOptions(val value: Int) {
@@ -188,8 +305,12 @@ object DWAPI {
         INVERSE_ONLY(1),
         AUTO(2);
 
+        override fun toString(): String {
+            throw RuntimeException("Not Implemented")
+        }
+
         val string: String
-            get() = "$value"
+            get() = value.toString()
     }
 
     enum class OCRAVariantOptions(val value: Int) {
@@ -198,8 +319,12 @@ object DWAPI {
         RESERVED_2(2),
         BANKING(3);
 
+        override fun toString(): String {
+            throw RuntimeException("Not Implemented")
+        }
+
         val string: String
-            get() = "$value"
+            get() = value.toString()
     }
 
     enum class OCRBVariantOptions(val value: Int) {
@@ -215,11 +340,13 @@ object DWAPI {
         VISA_TYPE_B(10),
         ICAO_TRAVEL_DOCUMENT(11);
 
+        override fun toString(): String {
+            throw RuntimeException("Not Implemented")
+        }
+
         val string: String
-            get() = "$value"
+            get() = value.toString()
     }
-
-
 
     object ScanInputParams {
         const val MODE = "scanning_mode"
@@ -262,8 +389,12 @@ object DWAPI {
             INVERSE_ONLY(1),
             AUTO(2);
 
+            override fun toString(): String {
+                throw RuntimeException("Not Implemented")
+            }
+
             val string: String
-                get() = "$value"
+                get() = value.toString()
         }
 
         enum class OCRAVariant(val value: Int) {
@@ -272,8 +403,12 @@ object DWAPI {
             RESERVED_2(2),
             BANKING(3);
 
+            override fun toString(): String {
+                throw RuntimeException("Not Implemented")
+            }
+
             val string: String
-                get() = "$value"
+                get() = value.toString()
         }
 
         enum class OCRBVariant(val value: Int) {
@@ -289,8 +424,12 @@ object DWAPI {
             VISA_TYPE_B(10),
             ICAO_TRAVEL_DOCUMENT(11);
 
+            override fun toString(): String {
+                throw RuntimeException("Not Implemented")
+            }
+
             val string: String
-                get() = "$value"
+                get() = value.toString()
         }
 
         enum class OrientationOptions(val value: Int) {
@@ -300,8 +439,12 @@ object DWAPI {
             DEGREE_90(3),
             OMNIDIRECTIONAL(4);
 
+            override fun toString(): String {
+                throw RuntimeException("Not Implemented")
+            }
+
             val string: String
-                get() = "$value"
+                get() = value.toString()
         }
 
         enum class LinesOptions(val value: Int) {
@@ -309,8 +452,12 @@ object DWAPI {
             LINE_2(2),
             LINE_3(3);
 
+            override fun toString(): String {
+                throw RuntimeException("Not Implemented")
+            }
+
             val string: String
-                get() = "$value"
+                get() = value.toString()
         }
 
         object Chars {
@@ -340,8 +487,12 @@ object DWAPI {
                 DIGIT_ADD_RL_SIMPLE(6),
                 HEALTH_INDUSTRY(9);
 
+                override fun toString(): String {
+                    throw RuntimeException("Not Implemented")
+                }
+
                 val string: String
-                    get() = "$value"
+                    get() = value.toString()
             }
         }
     }
@@ -371,8 +522,12 @@ object DWAPI {
         DISABLED(0),
         ENABLED(1);
 
+        override fun toString(): String {
+            throw RuntimeException("Not Implemented")
+        }
+
         val string: String
-            get() = "$value"
+            get() = value.toString()
     }
 
     object Plugin {
@@ -385,24 +540,52 @@ object DWAPI {
             RFID("RFID"),
             SERIAL("SERIAL"),
             VOICE("VOICE"),
-            WORKFLOW("WORKFLOW")
+            WORKFLOW("WORKFLOW");
+
+            override fun toString(): String {
+                throw RuntimeException("Not Implemented")
+            }
+
+            val string: String
+                get() = value.toString()
         }
 
         enum class Processing(val value: String) {
             BDF("BDF"),
             ADF("ADF"),
-            TOKEN("TOKEN")
+            TOKEN("TOKEN");
+
+            override fun toString(): String {
+                throw RuntimeException("Not Implemented")
+            }
+
+            val string: String
+                get() = value.toString()
         }
 
         enum class Output(val value: String) {
             INTENT("INTENT"),
             KEYSTROKE("KEYSTROKE"),
-            IP("IP")
+            IP("IP");
+
+            override fun toString(): String {
+                throw RuntimeException("Not Implemented")
+            }
+
+            val string: String
+                get() = value.toString()
         }
 
         enum class Utilities(val value: String) {
             DCP("DCP"),
-            EKB("EKB")
+            EKB("EKB");
+
+            override fun toString(): String {
+                throw RuntimeException("Not Implemented")
+            }
+
+            val string: String
+                get() = value.toString()
         }
 
         enum class WorkflowName(val value: String) {
@@ -415,7 +598,14 @@ object DWAPI {
             FREE_FORM_CAPTURE("free_form_capture"),
             DOCUMENT_CAPTURE("document_capture"),
             PICKLIST_OCR("picklist_ocr"),
-            FREE_FORM_OCR("free_form_ocr")
+            FREE_FORM_OCR("free_form_ocr");
+
+            override fun toString(): String {
+                throw RuntimeException("Not Implemented")
+            }
+
+            val string: String
+                get() = value.toString()
         }
     }
 
@@ -453,8 +643,12 @@ object DWAPI {
             START_SERVICE(1),
             BROADCAST(2);
 
+            override fun toString(): String {
+                throw RuntimeException("Not Implemented")
+            }
+
             val string: String
-                get() = "$value"
+                get() = value.toString()
         }
     }
 

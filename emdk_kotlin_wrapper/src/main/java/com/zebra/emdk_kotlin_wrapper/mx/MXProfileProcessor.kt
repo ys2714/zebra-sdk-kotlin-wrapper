@@ -46,7 +46,7 @@ internal object MXProfileProcessor {
             foregroundScope.launch {
                 if (callback != null) {
                     if (error == null) {
-                        callback.onSuccess(profileName.toString())
+                        callback.onSuccess(profileName.string)
                     } else {
                         callback.onError(error)
                     }
@@ -61,7 +61,7 @@ internal object MXProfileProcessor {
         profileManager.addDataListener(object : ProfileManager.DataListener {
             override fun onData(resultData: ProfileManager.ResultData?) {
                 resultData?.also { data ->
-                    if (data.profileName == profileName.toString()) {
+                    if (data.profileName == profileName.string) {
 
                         when (data.result.statusCode) {
                             EMDKResults.STATUS_CODE.SUCCESS -> {
@@ -115,17 +115,17 @@ internal object MXProfileProcessor {
     ) {
          backgroundScope.launch {
             params?.also {
-                val command = AssetsReader.readFileToStringWithParams(context, fileName.toString(), params).trimIndent()
+                val command = AssetsReader.readFileToStringWithParams(context, fileName.string, it).trimIndent()
                 addResultListener(profileName, callback)
                 profileManager.processProfileAsync(
-                    profileName.toString(),
+                    profileName.string,
                     ProfileManager.PROFILE_FLAG.SET,
                     arrayOf(command)
                 )
             } ?: run {
                 // process the profile defined by AndroidStudio plugin in app/assets/EMDKConfig.xml
                 profileManager.processProfileAsync(
-                    profileName.toString(),
+                    profileName.string,
                     ProfileManager.PROFILE_FLAG.SET,
                     null as Array<String>?
                 )

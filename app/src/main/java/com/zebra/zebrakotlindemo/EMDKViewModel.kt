@@ -1,7 +1,9 @@
 package com.zebra.zebrakotlindemo
 
 import android.content.Context
+import android.os.Build
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -59,8 +61,16 @@ class EMDKViewModel: ViewModel() {
     }
 
     fun enableLockScreen(context: Context) {
-        MXHelper.setScreenLockType(context, MXBase.ScreenLockType.PIN) { success ->
-            showDebugToast(context, "Enable Lock Screen Success?", success.toString())
+        MXHelper.powerKeyAutoScreenLockSettingsOptionEnable(context, enable = true) { success ->
+            showDebugToast(context, "Screen Lock settings enabled?", success.toString())
+
+            MXHelper.powerKeyTriggerAutoScreenLock(context, enable = true) { success ->
+                showDebugToast(context, "Power Key Screen Lock enabled?", success.toString())
+
+                MXHelper.setScreenLockType(context, MXBase.ScreenLockType.PIN) { success ->
+                    showDebugToast(context, "Enable Lock Screen Success?", success.toString())
+                }
+            }
         }
     }
 
@@ -73,6 +83,20 @@ class EMDKViewModel: ViewModel() {
     fun enableScreenShot(context: Context) {
         MXHelper.setScreenShotUsage(context, MXBase.ScreenShotUsage.ENABLE) { success ->
             showDebugToast(context, "Enable Screen Shot Success?", success.toString())
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.R)
+    fun disablePowerOff(context: Context) {
+        MXHelper.setPowerKeyMenuEnablePowerOffButton(context, false) { success ->
+            showDebugToast(context, "Disable Power Off Success?", success.toString())
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.R)
+    fun enablePowerOff(context: Context) {
+        MXHelper.setPowerKeyMenuEnablePowerOffButton(context, true) { success ->
+            showDebugToast(context, "Enable Power Off Success?", success.toString())
         }
     }
 

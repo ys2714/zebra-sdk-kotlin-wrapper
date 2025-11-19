@@ -5,6 +5,7 @@ import android.content.Context
 /**
  * https://techdocs.zebra.com/emdk-for-android/14-0/mx/powermgr/
  *
+
  * */
 @JvmOverloads
 internal fun MXProfileProcessor.callPowerManagerFeature(
@@ -23,7 +24,7 @@ internal fun MXProfileProcessor.callPowerManagerFeature(
                 MXBase.ProfileXML.PowerManagerReset,
                 MXBase.ProfileName.PowerManagerReset,
                 mapOf(
-                    MXConst.ResetAction to option.valueString(),
+                    MXConst.ResetAction to option.string,
                     MXConst.ZipFile to MXConst.ignoredValue
                 ),
                 callback
@@ -36,7 +37,7 @@ internal fun MXProfileProcessor.callPowerManagerFeature(
                 MXBase.ProfileXML.PowerManagerReset,
                 MXBase.ProfileName.PowerManagerReset,
                 mapOf(
-                    MXConst.ResetAction to option.valueString(),
+                    MXConst.ResetAction to option.string,
                     MXConst.ZipFile to path
                 ),
                 callback

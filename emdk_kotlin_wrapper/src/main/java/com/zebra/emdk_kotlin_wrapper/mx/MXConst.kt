@@ -35,6 +35,13 @@ object MXConst {
     const val DevAdminClass = "DevAdminClass"
     const val ScreenLockType = "ScreenLockType"
     const val ScreenShotUsage = "ScreenShotUsage"
+    const val PowerOffState = "PowerOffState"
+    const val AirPlaneMode = "AirPlaneMode"
+    const val SafeMode = "SafeMode"
+    const val TouchPanel = "TouchPanel"
+    const val TouchPanelMode = "TouchPanelMode"
+    const val AutoScreenLockOption = "AutoScreenLockOption"
+    const val AutoScreenLockState = "AutoScreenLockState"
 
     // Ignored Value
     const val ignoredValue = "ignoredValue"

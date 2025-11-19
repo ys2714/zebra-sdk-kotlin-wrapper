@@ -47,7 +47,7 @@ class MXBase {
         }
     }
 
-    enum class ProfileXML(val fileName: String) {
+    enum class ProfileXML(val value: String) {
         AccessManagerAllowPermission("profile_access_manager_allow_permission.xml"),
         AccessManagerAllowCallService("profile_access_manager_allow_call_service.xml"),
         AppManagerInstallAndStart("profile_app_manager_install_and_start.xml"),
@@ -55,9 +55,15 @@ class MXBase {
         ClockSet("profile_clock_set.xml"),
         ClockResetAuto("profile_clock_reset_auto.xml"),
         DevAdminManagerDisableLockScreen("profile_dev_admin_manager_disable_lock_screen.xml"),
-        DisplayManagerDisableScreenShot("profile_display_manager_disable_screenshot.xml");
+        DisplayManagerDisableScreenShot("profile_display_manager_disable_screenshot.xml"),
+        PowerKeyManagerSetPowerOffState("profile_powerkey_manager_set_poweroff_state.xml");
 
-        override fun toString() = fileName
+        override fun toString(): String {
+            throw RuntimeException("Not Implemented")
+        }
+
+        val string: String
+            get() = value
     }
 
     enum class ProfileName(private val value: String) {
@@ -68,9 +74,15 @@ class MXBase {
         ClockSet("ClockSet"),
         ClockResetAuto("ClockResetAuto"),
         DevAdminManagerDisableLockScreen("DevAdminManagerDisableLockScreen"),
-        DisplayManagerDisableScreenShot("DisplayManagerDisableScreenShot");
+        DisplayManagerDisableScreenShot("DisplayManagerDisableScreenShot"),
+        PowerKeyManagerSetPowerOffState("PowerKeyManagerSetPowerOffState");
 
-        override fun toString() = value
+        override fun toString(): String {
+            throw RuntimeException("Not Implemented")
+        }
+
+        val string: String
+            get() = value
     }
 
     /**
@@ -96,12 +108,15 @@ class MXBase {
         FULL_DEVICE_WIPE(7),
         OS_UPDATE(8);
 
-        fun valueString(): String {
-            return value.toString()
+        override fun toString(): String {
+            throw RuntimeException("Not Implemented")
         }
+
+        val string: String
+            get() = value.toString()
     }
 
-    enum class EPermissionType(private val stringContent: String) {
+    enum class EPermissionType(private val value: String) {
         ACCESS_NOTIFICATIONS("android.permission.ACCESS_NOTIFICATIONS"),
         PACKAGE_USAGE_STATS("android.permission.PACKAGE_USAGE_STATS"),
         SYSTEM_ALERT_WINDOW("android.permission.SYSTEM_ALERT_WINDOW"),
@@ -117,11 +132,14 @@ class MXBase {
         ACCESSIBILITY_SERVICE("ACCESSIBILITY_SERVICE_ACCESS");
 
         override fun toString(): String {
-            return stringContent
+            throw RuntimeException("Not Implemented")
         }
 
+        val string: String
+            get() = value.toString()
+
         companion object {
-            private val lookup = EPermissionType.entries.associateBy { it.stringContent }
+            private val lookup = EPermissionType.entries.associateBy { it.value }
             fun fromString(permissionType: String): EPermissionType? {
                 return lookup[permissionType]
             }
@@ -146,10 +164,12 @@ class MXBase {
         PASSWORD(4),
         NONE(5);
 
+        override fun toString(): String {
+            throw RuntimeException("Not Implemented")
+        }
+
         val string: String
-            get() {
-                return value.toString()
-            }
+            get() = value.toString()
     }
 
     /**
@@ -168,7 +188,36 @@ class MXBase {
         ENABLE(1),
         DISABLE(2);
 
-        fun toValueString(): String = value.toString()
+        override fun toString(): String {
+            throw RuntimeException("Not Implemented")
+        }
+
+        val string: String
+            get() = value.toString()
+    }
+
+    /**
+     * https://techdocs.zebra.com/emdk-for-android/14-0/mx/powerkeymgr/
+     *
+     * Power-off Button Show/Hide
+     * Parm Name: PowerOffState
+     *
+     * Options:
+     * 0 - Do not change: This value (or the absence of this parm from the XML) causes no change to the Power-off Menu; any previously selected setting is retained.
+     * 1 - Show: Enables the Power-off button to be shown after the device power key is long-pressed.
+     * 2 - Hide: Prevents the Power-off button from being shown after the device power key is long-pressed.
+     * */
+    enum class ShowHideState(val value: Int) {
+        DO_NOT_CHANGE(0),
+        SHOW(1),
+        HIDE(2);
+
+        override fun toString(): String {
+            throw RuntimeException("Not Implemented")
+        }
+
+        val string: String
+            get() = value.toString()
     }
 
     /**
@@ -186,9 +235,11 @@ class MXBase {
         BUTTON_R2(105),
         BUTTON_SCAN(10036);
 
-        fun toValueString(): String {
-            return value.toString()
+        override fun toString(): String {
+            throw RuntimeException("Not Implemented")
         }
-    }
 
+        val string: String
+            get() = value.toString()
+    }
 }

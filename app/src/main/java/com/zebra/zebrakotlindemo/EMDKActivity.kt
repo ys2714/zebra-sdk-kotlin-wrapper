@@ -1,5 +1,6 @@
 package com.zebra.zebrakotlindemo
 
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -52,7 +53,7 @@ class EMDKActivity: ComponentActivity() {
             RoundButton("Reboot") {
                 viewModel.setReboot(this@EMDKActivity)
             }
-            Text("Set System Clock",
+            Text("System Clock",
                 modifier = Modifier
                     .padding()
             )
@@ -62,7 +63,7 @@ class EMDKActivity: ComponentActivity() {
             RoundButton("Set Clock back to Google NTP time") {
                 viewModel.setClockToGoogleNTPTime(this@EMDKActivity)
             }
-            Text("Set Lock Screen",
+            Text("Lock Screen",
                 modifier = Modifier
                     .padding()
             )
@@ -72,7 +73,7 @@ class EMDKActivity: ComponentActivity() {
             RoundButton("Enable Lock Screen") {
                 viewModel.enableLockScreen(this@EMDKActivity)
             }
-            Text("Set Screenshot",
+            Text("Screenshot (Power + Volume Down)",
                 modifier = Modifier
                     .padding()
             )
@@ -81,6 +82,24 @@ class EMDKActivity: ComponentActivity() {
             }
             RoundButton("Enable Screenshot") {
                 viewModel.enableScreenShot(this@EMDKActivity)
+            }
+            Text("Power Key Menu (Long Press Power Key)",
+                modifier = Modifier
+                    .padding()
+            )
+            RoundButton("Disable Power Off Button") {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    viewModel.disablePowerOff(this@EMDKActivity)
+                } else {
+                    viewModel.showDebugToast(this@EMDKActivity, "Not Supported", "need android 11 or above")
+                }
+            }
+            RoundButton("Enable Power Off Button") {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    viewModel.enablePowerOff(this@EMDKActivity)
+                } else {
+                    viewModel.showDebugToast(this@EMDKActivity, "Not Supported", "need android 11 or above")
+                }
             }
         }
     }

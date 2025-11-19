@@ -93,7 +93,7 @@ class MainViewModel {
 
     fun getScannerStatus(context: Context) {
         DataWedgeHelper.getScannerStatus(context, 1) { status ->
-            scannerStatus.value = status.toString()
+            scannerStatus.value = status.string
             // showDebugToast(context, "Scanner Status", status.toString())
         }
     }
