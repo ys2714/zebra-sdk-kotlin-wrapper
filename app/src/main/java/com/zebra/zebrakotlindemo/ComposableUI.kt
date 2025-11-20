@@ -22,21 +22,38 @@ import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.rounded.Menu
 
 @Composable
-fun RoundButton(title: String, onClick: () -> Unit) {
-    Button(
-        modifier = Modifier
-            .fillMaxWidth()
-        , onClick = {
-            onClick()
+fun RoundButton(title: String, modifier: Modifier? = null, onClick: () -> Unit) {
+    if (modifier != null) {
+        Button(
+            modifier = modifier
+            , onClick = {
+                onClick()
+            }
+            , colors = ButtonColors(
+                containerColor = Color.Blue,
+                contentColor = Color(0xFFFFFFFF),
+                disabledContentColor = Color.White,
+                disabledContainerColor = Color.LightGray
+            )
+        ) {
+            Text(text = title)
         }
-        , colors = ButtonColors(
-            containerColor = Color.Blue,
-            contentColor = Color(0xFFFFFFFF),
-            disabledContentColor = Color.White,
-            disabledContainerColor = Color.LightGray
-        )
-    ) {
-        Text(text = title)
+    } else {
+        Button(
+            modifier = Modifier
+                .fillMaxWidth()
+            , onClick = {
+                onClick()
+            }
+            , colors = ButtonColors(
+                containerColor = Color.Blue,
+                contentColor = Color(0xFFFFFFFF),
+                disabledContentColor = Color.White,
+                disabledContainerColor = Color.LightGray
+            )
+        ) {
+            Text(text = title)
+        }
     }
 }
 

@@ -1,12 +1,16 @@
 package com.zebra.zebrakotlindemo
 
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import com.zebra.emdk_kotlin_wrapper.dw.DataWedgeHelper
 import com.zebra.emdk_kotlin_wrapper.emdk.EMDKHelper
+import com.zebra.emdk_kotlin_wrapper.mx.MXBase
 import com.zebra.emdk_kotlin_wrapper.mx.MXHelper
 import com.zebra.emdk_kotlin_wrapper.zdm.ZDMAuthHelper
 import com.zebra.emdk_kotlin_wrapper.zdm.ZDMConst
@@ -74,6 +78,10 @@ class MainViewModel {
                                             DataWedgeHelper.configBarcodePlugin(context, profileName, enable = false, hardTrigger = true)
                                             DataWedgeHelper.configKeystrokePlugin(context, profileName, false)
                                             DataWedgeHelper.configIntentPlugin(context, profileName)
+
+                                            MXHelper.setScreenLockType(context, MXBase.ScreenLockType.NONE) { success ->
+                                                // will show customized lock screen
+                                            }
 
                                             emdkPrepared.value = true
 

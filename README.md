@@ -137,7 +137,12 @@ Initializing the EMDKManager in multiple activities incorrectly can lead to conf
 
 8. EMDK error: Failed to find provider info for com.zebra.devicemanager.zdmcontentprovider
 
-ZDNA Cloud
+ZDNA Cloud Client or Device Manager not installed ?
+
+9. MX PowerKeyManager TouchPanelMode and TouchPanel have same function ?
+
+TouchPanel from MX 5.0
+TouchPanelMode from MX 10.2
 
 ## AndroidManifest.xml setup
 

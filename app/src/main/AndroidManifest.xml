@@ -33,6 +33,10 @@
             android:name=".DataWedgeActivity">
         </activity>
 
+        <activity
+            android:exported="true"
+            android:name=".ScreenLockActivity">
+        </activity>
     </application>
 
 </manifest>

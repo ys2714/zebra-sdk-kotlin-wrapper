@@ -6,9 +6,12 @@ import android.view.KeyEvent
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.zebra.emdk_kotlin_wrapper.mx.MXBase
 
 class DataWedgeActivity : ComponentActivity() {
@@ -86,7 +89,10 @@ class DataWedgeActivity : ComponentActivity() {
     @Composable
     fun RootView() {
         val newText = remember { viewModel.text }
-        Column {
+        Column(
+            Modifier
+                .padding(horizontal = 16.dp)
+        ) {
             Text("Scanner Status: " + viewModel.scannerStatus.value)
             StyledOutlinedTextField(newText.value) { newValue ->
                newText.value = newValue

@@ -16,7 +16,9 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.unit.dp
 import com.zebra.emdk_kotlin_wrapper.mx.MXBase
+import com.zebra.emdk_kotlin_wrapper.utils.ZebraSystemEventMonitor
 
 class MainActivity : ComponentActivity() {
 
@@ -32,6 +34,26 @@ class MainActivity : ComponentActivity() {
     override fun onResume() {
         super.onResume()
         viewModel.prepare(this)
+        ZebraSystemEventMonitor.registerScreenOFFListener(this) { isScreenOff ->
+            if (isScreenOff) {
+                ScreenLockActivity.start(this)
+                Log.d("", "Screen OFF")
+            } else {
+                Log.d("", "Screen ON")
+            }
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        ZebraSystemEventMonitor.registerScreenOFFListener(this) { isScreenOff ->
+            if (isScreenOff) {
+                Log.d("", "Screen OFF")
+            } else {
+                ScreenLockActivity.start(this)
+                Log.d("", "Screen ON")
+            }
+        }
     }
 
     override fun onDestroy() {
@@ -68,7 +90,10 @@ class MainActivity : ComponentActivity() {
     fun RootView(context: Context) {
         if (viewModel.emdkPrepared.value) {
             Column(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 16.dp)
+                ,
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally) {
                 Text("----Version Info----",

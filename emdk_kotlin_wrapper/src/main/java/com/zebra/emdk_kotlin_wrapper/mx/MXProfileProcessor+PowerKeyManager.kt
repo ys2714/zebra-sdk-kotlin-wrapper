@@ -18,6 +18,8 @@ import androidx.annotation.RequiresApi
  * */
 
 /**
+ *  https://techdocs.zebra.com/emdk-for-android/14-0/mx/powerkeymgr/
+ *
  *  Power-off Button Show/Hide (MX11.4+)
  *  Parm Name: PowerOffState
  *  Options:
@@ -48,13 +50,15 @@ internal fun MXProfileProcessor.powerKeyMenuEnablePowerOffButton(context: Contex
 }
 
 /**
-* Airplane Mode Show/Hide (MX4.3+) Note: Not supported in devices running Android 8.x Oreo or later
-* Parm Name: AirPlaneMode
-* Options:
-* 0 - Do not change: This value (or the absence of this parm from the XML) causes no change to Power-off Menu settings; any previously selected setting is retained.
-* 1 - Show Menu Option: Enables Airplane Mode to be controlled from the Power Off menu.
-* 2 - Do not show Menu Option: Prevents Airplane Mode from being controlled from the Power Off menu (see NOTE, above).
-*/
+ * https://techdocs.zebra.com/emdk-for-android/14-0/mx/powerkeymgr/
+ *
+ * Airplane Mode Show/Hide (MX4.3+) Note: Not supported in devices running Android 8.x Oreo or later
+ * Parm Name: AirPlaneMode
+ * Options:
+ * 0 - Do not change: This value (or the absence of this parm from the XML) causes no change to Power-off Menu settings; any previously selected setting is retained.
+ * 1 - Show Menu Option: Enables Airplane Mode to be controlled from the Power Off menu.
+ * 2 - Do not show Menu Option: Prevents Airplane Mode from being controlled from the Power Off menu (see NOTE, above).
+ * */
 internal fun MXProfileProcessor.powerKeyMenuEnableAirplanModeButton(context: Context, enable: Boolean, callback: (Boolean) -> Unit) {
     val enableValue = if (enable) MXBase.ShowHideState.SHOW.string else MXBase.ShowHideState.HIDE.string
     processProfileWithCallback(
@@ -77,13 +81,15 @@ internal fun MXProfileProcessor.powerKeyMenuEnableAirplanModeButton(context: Con
 }
 
 /**
-* Touch Panel Show/Hide (MX5.0+)
-* Parm Name: TouchPanel
-* Options:
-* 0 - Do not change: This value (or the absence of this parm from the XML) causes no change to the Power-off Menu; any previously selected setting is retained.
-* 1 - Show Menu Option: Enables the Touch Panel to be controlled from the Power-off Menu (if the device supports this option).
-* 2 - Do not show Menu Option: Prevents the Touch Panel from being controlled from the Power-off Menu (if the device supports this option).
-*/
+ * https://techdocs.zebra.com/emdk-for-android/14-0/mx/powerkeymgr/
+ *
+ * Touch Panel Show/Hide (MX5.0+) Note: this is for glove mode
+ * Parm Name: TouchPanel
+ * Options:
+ * 0 - Do not change: This value (or the absence of this parm from the XML) causes no change to the Power-off Menu; any previously selected setting is retained.
+ * 1 - Show Menu Option: Enables the Touch Panel to be controlled from the Power-off Menu (if the device supports this option).
+ * 2 - Do not show Menu Option: Prevents the Touch Panel from being controlled from the Power-off Menu (if the device supports this option).
+ * */
 internal fun MXProfileProcessor.powerKeyMenuEnableTouchPanel(context: Context, enable: Boolean, callback: (Boolean) -> Unit) {
     val enableValue = if (enable) MXBase.ShowHideState.SHOW.string else MXBase.ShowHideState.HIDE.string
     processProfileWithCallback(
@@ -106,7 +112,9 @@ internal fun MXProfileProcessor.powerKeyMenuEnableTouchPanel(context: Context, e
 }
 
 /**
- * Touch Panel Mode Show/Hide (MX10.2+)
+ * https://techdocs.zebra.com/emdk-for-android/14-0/mx/powerkeymgr/
+ *
+ * Touch Panel Mode Show/Hide (MX10.2+) Note: this is for glove mode
  * Parm Name: TouchPanelMode
  * Options:
  * 0 - Do not change: This value (or the absence of this parm from the XML) causes no change to the Power-off Menu; any previously selected setting is retained.
