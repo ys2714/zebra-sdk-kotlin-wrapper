@@ -5,14 +5,14 @@ import android.content.Context
 /**
  * https://techdocs.zebra.com/emdk-for-android/14-0/mx/powermgr/
  *
-
  * */
 @JvmOverloads
 internal fun MXProfileProcessor.callPowerManagerFeature(
     context: Context,
     option: MXBase.PowerManagerOptions,
     osZipFilePath: String? = null,
-    callback: MXBase.ProcessProfileCallback? = null) {
+    delaySeconds: Long = 0,
+    callback: (MXBase.ErrorInfo?) -> Unit) {
     when (option) {
         MXBase.PowerManagerOptions.SLEEP_MODE,
         MXBase.PowerManagerOptions.REBOOT,
@@ -27,6 +27,7 @@ internal fun MXProfileProcessor.callPowerManagerFeature(
                     MXConst.ResetAction to option.string,
                     MXConst.ZipFile to MXConst.ignoredValue
                 ),
+                delaySeconds,
                 callback
             )
         }
@@ -40,6 +41,7 @@ internal fun MXProfileProcessor.callPowerManagerFeature(
                     MXConst.ResetAction to option.string,
                     MXConst.ZipFile to path
                 ),
+                delaySeconds,
                 callback
             )
         }

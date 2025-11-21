@@ -42,6 +42,12 @@ object MXConst {
     const val TouchPanelMode = "TouchPanelMode"
     const val AutoScreenLockOption = "AutoScreenLockOption"
     const val AutoScreenLockState = "AutoScreenLockState"
+    const val KeyIdentifier = "KeyIdentifier"
+    const val BaseIntentAction = "BaseIntentAction"
+    const val BaseIntentCategory = "BaseIntentCategory"
+    const val BaseIntentStringExtraName = "BaseIntentStringExtraName"
+    const val BaseIntentStringExtraValue = "BaseIntentStringExtraValue"
+    const val EXTRA_KEY_IDENTIFIER = "EXTRA_KEY_IDENTIFIER"
 
     // Ignored Value
     const val ignoredValue = "ignoredValue"

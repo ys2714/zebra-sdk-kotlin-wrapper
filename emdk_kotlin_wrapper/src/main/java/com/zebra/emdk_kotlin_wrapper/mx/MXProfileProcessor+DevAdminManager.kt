@@ -22,7 +22,8 @@ import com.symbol.emdk.ProfileManager
 internal fun MXProfileProcessor.setScreenLockType(
     context: Context,
     type: MXBase.ScreenLockType,
-    callback: MXBase.ProcessProfileCallback) {
+    delaySeconds: Long = 0,
+    callback: (MXBase.ErrorInfo?) -> Unit) {
     val map = mapOf(
         MXConst.ScreenLockType to type.string
     )
@@ -31,6 +32,7 @@ internal fun MXProfileProcessor.setScreenLockType(
         MXBase.ProfileXML.DevAdminManagerDisableLockScreen,
         MXBase.ProfileName.DevAdminManagerDisableLockScreen,
         map,
+        delaySeconds,
         callback
     )
 }

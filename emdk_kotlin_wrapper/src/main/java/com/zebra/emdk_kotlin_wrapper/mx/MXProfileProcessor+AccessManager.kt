@@ -14,7 +14,8 @@ internal fun MXProfileProcessor.grantZebraBluetoothInsightServiceAccessPermissio
 
 internal fun MXProfileProcessor.getAllDangerousPermissions(
     context: Context,
-    callback: MXBase.ProcessProfileCallback) {
+    delaySeconds: Long = 0,
+    callback: (MXBase.ErrorInfo?) -> Unit) {
     val base64 = PackageUtils.getPackageSignature(context)
     val name = context.packageName
     callAccessManagerAllowPermission(
@@ -23,6 +24,7 @@ internal fun MXProfileProcessor.getAllDangerousPermissions(
         name,
         "",
         base64,
+        delaySeconds,
         callback
     )
 }
@@ -30,7 +32,8 @@ internal fun MXProfileProcessor.getAllDangerousPermissions(
 internal fun MXProfileProcessor.getCallServicePermission(
     context: Context,
     serviceId: String,
-    callback: MXBase.ProcessProfileCallback) {
+    delaySeconds: Long = 0,
+    callback: (MXBase.ErrorInfo?) -> Unit) {
     val base64 = PackageUtils.getPackageSignature(context)
     val name = context.packageName
     callAccessManagerAllowCallService(
@@ -38,6 +41,7 @@ internal fun MXProfileProcessor.getCallServicePermission(
         serviceId,
         name,
         base64,
+        delaySeconds,
         callback)
 }
 
@@ -46,7 +50,8 @@ internal fun MXProfileProcessor.callAccessManagerAllowCallService(
     serviceIdentifier: String,
     callerPackageName: String,
     callerSignature: String,
-    callback: MXBase.ProcessProfileCallback) {
+    delaySeconds: Long = 0,
+    callback: (MXBase.ErrorInfo?) -> Unit) {
     val map = mapOf(
         MXConst.ServiceIdentifier to serviceIdentifier,
         MXConst.CallerPackageName to callerPackageName,
@@ -57,6 +62,7 @@ internal fun MXProfileProcessor.callAccessManagerAllowCallService(
         MXBase.ProfileXML.AccessManagerAllowCallService,
         MXBase.ProfileName.AccessManagerAllowCallService,
         map,
+        delaySeconds,
         callback
     )
 }
@@ -67,7 +73,8 @@ internal fun MXProfileProcessor.callAccessManagerAllowPermission(
     appPackageName: String,
     appClassName: String,
     appSignature: String,
-    callback: MXBase.ProcessProfileCallback) {
+    delaySeconds: Long = 0,
+    callback: (MXBase.ErrorInfo?) -> Unit) {
     val map = mapOf(
         MXConst.PermissionAccessPermissionName to permissionName,
         MXConst.PermissionAccessAction to "1", // 1: allow
@@ -80,6 +87,7 @@ internal fun MXProfileProcessor.callAccessManagerAllowPermission(
         MXBase.ProfileXML.AccessManagerAllowPermission,
         MXBase.ProfileName.AccessManagerAllowPermission,
         map,
+        delaySeconds,
         callback
     )
 }
@@ -89,7 +97,8 @@ internal fun MXProfileProcessor.callAppManagerInstallAndStart(
     apkPath: String,
     packageName: String,
     mainActivity: String,
-    callback: MXBase.ProcessProfileCallback) {
+    delaySeconds: Long = 0,
+    callback: (MXBase.ErrorInfo?) -> Unit) {
     val map = mapOf(
         MXConst.APK to apkPath,
         MXConst.Package to packageName,
@@ -100,6 +109,7 @@ internal fun MXProfileProcessor.callAppManagerInstallAndStart(
         MXBase.ProfileXML.AppManagerInstallAndStart,
         MXBase.ProfileName.AppManagerInstallAndStart,
         map,
+        delaySeconds,
         callback
     )
 }

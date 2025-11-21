@@ -7,112 +7,99 @@ import com.zebra.emdk_kotlin_wrapper.zdm.ZDMConst
 
 object MXHelper {
 
-    fun whiteListApproveApp(context: Context, callback: (Boolean) -> Unit) {
+    fun whiteListApproveApp(context: Context, delaySeconds: Long = 0, callback: (Boolean) -> Unit) {
         MXProfileProcessor.getCallServicePermission(
             context,
             ZDMConst.DelegationScope.SCOPE_DW_CONFIG_API.value,
-            object : MXBase.ProcessProfileCallback {
-                override fun onSuccess(profileName: String) {
-                    callback(true)
-                }
-
-                override fun onError(errorInfo: MXBase.ErrorInfo) {
-                    callback(false)
-                }
+            delaySeconds,
+            { error ->
+                callback(error == null)
             }
         )
     }
 
-    fun setDeviceToSleep(context: Context) {
+    fun setDeviceToSleep(context: Context, delaySeconds: Long = 0) {
         MXProfileProcessor.callPowerManagerFeature(
             context,
-            MXBase.PowerManagerOptions.SLEEP_MODE
-        )
+            MXBase.PowerManagerOptions.SLEEP_MODE,
+            delaySeconds = delaySeconds
+        ) {}
     }
 
-    fun setDeviceToReboot(context: Context) {
+    fun setDeviceToReboot(context: Context, delaySeconds: Long = 0) {
         MXProfileProcessor.callPowerManagerFeature(
             context,
-            MXBase.PowerManagerOptions.REBOOT
-        )
+            MXBase.PowerManagerOptions.REBOOT,
+            delaySeconds = delaySeconds
+        ) {}
     }
 
-    fun setSystemClock(context: Context, timeZone: String, date: String, time: String, callback: (Boolean) -> Unit) {
+    fun setSystemClock(context: Context, timeZone: String, date: String, time: String, delaySeconds: Long = 0, callback: (Boolean) -> Unit) {
         MXProfileProcessor.callClockSet(
             context,
             true,
             timeZone,
             date,
             time,
-            object : MXBase.ProcessProfileCallback {
-                override fun onSuccess(profileName: String) {
-                    callback(true)
-                }
-
-                override fun onError(errorInfo: MXBase.ErrorInfo) {
-                    callback(false)
-                }
+            delaySeconds,
+            { error ->
+                callback(error == null)
             }
         )
     }
 
-    fun resetSystemClockToNTP(context: Context, ntpServer: String, syncInterval: String, callback: (Boolean) -> Unit) {
+    fun resetSystemClockToNTP(context: Context, ntpServer: String, syncInterval: String, delaySeconds: Long = 0, callback: (Boolean) -> Unit) {
         MXProfileProcessor.callClockResetAuto(
             context,
             true,
             ntpServer,
             syncInterval,
-            object : MXBase.ProcessProfileCallback {
-                override fun onSuccess(profileName: String) {
-                    callback(true)
-                }
-
-                override fun onError(errorInfo: MXBase.ErrorInfo) {
-                    callback(false)
-                }
+            delaySeconds,
+            { error ->
+                callback(error == null)
             }
         )
     }
 
-    fun setScreenLockType(context: Context, lockType: MXBase.ScreenLockType, callback: (Boolean) -> Unit) {
+    fun setScreenLockType(context: Context, lockType: MXBase.ScreenLockType, delaySeconds: Long = 0, callback: (Boolean) -> Unit) {
         MXProfileProcessor.setScreenLockType(
             context,
             lockType,
-            object : MXBase.ProcessProfileCallback {
-                override fun onSuccess(profileName: String) {
-                    callback(true)
-                }
-
-                override fun onError(errorInfo: MXBase.ErrorInfo) {
-                    callback(false)
-                }
+            delaySeconds,
+            { error ->
+                callback(error == null)
             }
         )
     }
 
-    fun setScreenShotUsage(context: Context, usage: MXBase.ScreenShotUsage, callback: (Boolean) -> Unit) {
-        MXProfileProcessor.setScreenShotUsage(context, usage, object : MXBase.ProcessProfileCallback {
-            override fun onSuccess(profileName: String) {
-                callback(true)
+    fun setScreenShotUsage(context: Context, usage: MXBase.ScreenShotUsage, delaySeconds: Long = 0, callback: (Boolean) -> Unit) {
+        MXProfileProcessor.setScreenShotUsage(
+            context,
+            usage,
+            delaySeconds,
+            { error ->
+                callback(error == null)
             }
-
-            override fun onError(errorInfo: MXBase.ErrorInfo) {
-                callback(false)
-            }
-        })
+        )
     }
 
     @RequiresApi(Build.VERSION_CODES.R)
-    fun setPowerKeyMenuEnablePowerOffButton(context: Context, enable: Boolean, callback: (Boolean) -> Unit) {
-        MXProfileProcessor.powerKeyMenuEnablePowerOffButton(context, enable, callback)
+    fun setPowerKeyMenuEnablePowerOffButton(context: Context, enable: Boolean, delaySeconds: Long = 0, callback: (Boolean) -> Unit) {
+        MXProfileProcessor.powerKeyMenuEnablePowerOffButton(context, enable, delaySeconds) {
+            callback(it == null)
+        }
     }
 
-    fun powerKeyTriggerAutoScreenLock(context: Context, enable: Boolean, callback: (Boolean) -> Unit) {
-        MXProfileProcessor.powerKeyTriggerAutoScreenLock(context, enable, callback)
+    fun powerKeyTriggerAutoScreenLock(context: Context, enable: Boolean, delaySeconds: Long = 0, callback: (Boolean) -> Unit) {
+        MXProfileProcessor.powerKeyTriggerAutoScreenLock(context, enable, delaySeconds) {
+            callback(it == null)
+        }
     }
 
-    fun powerKeyAutoScreenLockSettingsOptionEnable(context: Context, enable: Boolean, callback: (Boolean) -> Unit) {
-        MXProfileProcessor.powerKeyAutoScreenLockSettingsOptionEnable(context, enable, callback)
+    fun powerKeyAutoScreenLockSettingsOptionEnable(context: Context, enable: Boolean, delaySeconds: Long = 0, callback: (Boolean) -> Unit) {
+        MXProfileProcessor.powerKeyAutoScreenLockSettingsOptionEnable(context, enable, delaySeconds) {
+            callback(it == null)
+        }
     }
 
     /**
@@ -121,9 +108,10 @@ object MXHelper {
      * @param isDevDevice indicate get PPID for development device or production device
      * @param callback: return empty string "" if failed
      * */
-    fun fetchSerialNumber(context: Context, callback: (String) -> Unit) {
+    fun fetchSerialNumber(context: Context, delaySeconds: Long = 0, callback: (String) -> Unit) {
         MXProfileProcessor.fetchSerialNumberInBackground(
             context,
+            delaySeconds,
             callback
         )
     }
@@ -134,8 +122,8 @@ object MXHelper {
      * @param isDevDevice indicate get PPID for development device or production device
      * @param callback: return empty string "" if failed
      * */
-    fun fetchPPID(context: Context, isDevDevice: Boolean, callback: (String) -> Unit) {
-        MXProfileProcessor.fetchSerialNumberInBackground(context) { result ->
+    fun fetchPPID(context: Context, isDevDevice: Boolean, delaySeconds: Long = 0, callback: (String) -> Unit) {
+        MXProfileProcessor.fetchSerialNumberInBackground(context, delaySeconds) { result ->
             if (result.isEmpty()) {
                 callback("")
                 return@fetchSerialNumberInBackground
@@ -147,9 +135,27 @@ object MXHelper {
         }
     }
 
-    fun fetchIMEI(context: Context, callback: (String) -> Unit) {
-        MXProfileProcessor.fetchIMEIInBackground(context) { result ->
+    fun fetchIMEI(context: Context, delaySeconds: Long = 0, callback: (String) -> Unit) {
+        MXProfileProcessor.fetchIMEIInBackground(context, delaySeconds) { result ->
             callback(result)
+        }
+    }
+
+    fun setKeyMappingToSendIntent(context: Context, keyIdentifier: MXBase.KeyIdentifiers, intentAction: String, intentCategory: String, delaySeconds: Long = 0, callback: (Boolean) -> Unit) {
+        MXProfileProcessor.remappingKeyToSendIntent(
+            context,
+            keyIdentifier,
+            intentAction,
+            intentCategory,
+            delaySeconds
+        ) { error ->
+            callback(error == null)
+        }
+    }
+
+    fun setKeyMappingToDefault(context: Context, delaySeconds: Long = 0, callback: (Boolean) -> Unit) {
+        MXProfileProcessor.remappingAllKeyToDefault(context, delaySeconds) { error ->
+            callback(error == null)
         }
     }
 }

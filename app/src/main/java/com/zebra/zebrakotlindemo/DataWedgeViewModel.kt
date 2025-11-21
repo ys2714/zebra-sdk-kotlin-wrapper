@@ -35,7 +35,11 @@ class DataWedgeViewModel : ViewModel() {
                 text.value = value
             }
 
-            override fun onDestroy() {
+            override fun getID(): String {
+                return hashCode().toString()
+            }
+
+            override fun onDisposal() {
                 dataListener = null
             }
         }.also {

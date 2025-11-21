@@ -24,6 +24,18 @@ class MainActivity : ComponentActivity() {
 
     private val viewModel = MainViewModel()
 
+    companion object {
+        const val TAG = "MainActivity"
+
+        fun start(context: Context) {
+            context.startActivity(
+                Intent(context, MainActivity::class.java).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                }
+            )
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -61,28 +73,10 @@ class MainActivity : ComponentActivity() {
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        if (event == null) return super.onKeyDown(keyCode, event)
-        if (event.action == KeyEvent.ACTION_DOWN) {
-            when (keyCode) {
-                MXBase.KeyCodes.BUTTON_SCAN.value -> {
-                    Log.d("", "LEFT Scan PRESSED")
-                    startActivity(Intent(this, DataWedgeActivity::class.java))
-                }
-                MXBase.KeyCodes.BUTTON_R1.value -> {
-                    Log.d("", "RIGHT Scan PRESSED")
-                    startActivity(Intent(this, DataWedgeActivity::class.java))
-                }
-                MXBase.KeyCodes.BUTTON_L2.value -> {
-                    Log.d("", "PTT PRESSED")
-                    viewModel.getScannerStatus(this)
-                }
-                MXBase.KeyCodes.BUTTON_R2.value -> {
-                    Log.d("", "R2 PRESSED (if exist)")
-
-                }
-            }
+        if (keyCode == MXBase.KeyCodes.SCAN.value
+            || keyCode == MXBase.KeyCodes.RIGHT_TRIGGER_1.value) {
+            DataWedgeActivity.start(this)
         }
-
         return super.onKeyDown(keyCode, event)
     }
 

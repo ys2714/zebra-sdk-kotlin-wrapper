@@ -61,10 +61,10 @@ class EMDKViewModel: ViewModel() {
     }
 
     fun enableLockScreen(context: Context) {
-        MXHelper.powerKeyAutoScreenLockSettingsOptionEnable(context, enable = true) { success ->
+        MXHelper.powerKeyAutoScreenLockSettingsOptionEnable(context, enable = true, delaySeconds = 0) { success ->
             showDebugToast(context, "Screen Lock settings enabled?", success.toString())
 
-            MXHelper.powerKeyTriggerAutoScreenLock(context, enable = true) { success ->
+            MXHelper.powerKeyTriggerAutoScreenLock(context, enable = true, delaySeconds = 0) { success ->
                 showDebugToast(context, "Power Key Screen Lock enabled?", success.toString())
 
                 MXHelper.setScreenLockType(context, MXBase.ScreenLockType.PIN) { success ->

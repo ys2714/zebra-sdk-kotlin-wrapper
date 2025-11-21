@@ -13,7 +13,7 @@ import android.content.Context
  * 1 - Enable
  * 2 - Disable
  * */
-internal fun MXProfileProcessor.setScreenShotUsage(context: Context, usage: MXBase.ScreenShotUsage, callback: MXBase.ProcessProfileCallback) {
+internal fun MXProfileProcessor.setScreenShotUsage(context: Context, usage: MXBase.ScreenShotUsage, delaySeconds: Long = 0, callback: (MXBase.ErrorInfo?) -> Unit) {
     processProfileWithCallback(
         context,
         MXBase.ProfileXML.DisplayManagerDisableScreenShot,
@@ -21,11 +21,12 @@ internal fun MXProfileProcessor.setScreenShotUsage(context: Context, usage: MXBa
         mapOf(
             MXConst.ScreenShotUsage to usage.string
         ),
+        delaySeconds,
         callback
     )
 }
 
-internal fun MXProfileProcessor.enableScreenShotFeature(context: Context, callback: MXBase.ProcessProfileCallback) {
+internal fun MXProfileProcessor.enableScreenShotFeature(context: Context, delaySeconds: Long = 0, callback: (MXBase.ErrorInfo?) -> Unit) {
     processProfileWithCallback(
         context,
         MXBase.ProfileXML.DisplayManagerDisableScreenShot,
@@ -33,6 +34,7 @@ internal fun MXProfileProcessor.enableScreenShotFeature(context: Context, callba
         mapOf(
             MXConst.ScreenShotUsage to MXBase.ScreenShotUsage.ENABLE.string
         ),
+        delaySeconds,
         callback
     )
 }

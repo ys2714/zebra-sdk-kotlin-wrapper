@@ -10,12 +10,6 @@ object AssetsReader {
 
     private const val TAG = "AssetsReader"
 
-//    private val examptMandatoryParameters = arrayOf(
-//        "=[Adaptive_Scanning]",
-//        "=[Beam_Width]",
-//        "=[m_bWeightMetric]"
-//    )
-
     @Throws(RuntimeException::class)
     fun readFileToStringWithParams(context: Context,
                                    fileName: String,
@@ -112,13 +106,16 @@ object AssetsReader {
                         }
                         val cleanLine = lineBuilder.toString()
                             .trim() //remove start and end spaces
+                            .trimIndent() //remove indentation
                             .replace("\\s+", " ") //unify spaces to single space
                             .replace("\r\n", "") //remove windows new lines first
                             .replace("\n", "") //remove new lines
                         lineProcessor(cleanLine)?.let {
-                            stringBuilder
-                                .append(it)
-                                .append(delimiter)
+                            if (!it.isEmpty()) {
+                                stringBuilder
+                                    .append(it)
+                                    .append(delimiter)
+                            }
                         }
                     }
                     Log.d(TAG, "LAST CHAR: $nextChar")

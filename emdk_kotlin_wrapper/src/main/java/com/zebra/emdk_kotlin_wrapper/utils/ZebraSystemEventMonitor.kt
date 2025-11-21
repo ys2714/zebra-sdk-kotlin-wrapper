@@ -4,11 +4,12 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import androidx.core.content.ContextCompat
 
 object ZebraSystemEventMonitor {
 
     fun registerScreenOFFListener(context: Context, callback: (Boolean) -> Unit) {
-        context.applicationContext.registerReceiver(
+        ContextCompat.registerReceiver(context.applicationContext,
             object : BroadcastReceiver() {
                 override fun onReceive(
                     context: Context?,
@@ -30,7 +31,8 @@ object ZebraSystemEventMonitor {
             IntentFilter().apply {
                 addAction(Intent.ACTION_SCREEN_OFF)
                 addAction(Intent.ACTION_SCREEN_ON)
-            }
+            },
+            ContextCompat.RECEIVER_NOT_EXPORTED
         )
     }
 }

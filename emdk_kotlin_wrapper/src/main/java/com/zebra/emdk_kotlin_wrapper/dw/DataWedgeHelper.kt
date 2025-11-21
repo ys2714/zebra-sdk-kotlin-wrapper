@@ -7,6 +7,8 @@ import android.content.IntentFilter
 import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import com.zebra.emdk_kotlin_wrapper.utils.FixedSizeQueue
+import com.zebra.emdk_kotlin_wrapper.utils.FixedSizeQueueItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -19,33 +21,25 @@ object DataWedgeHelper {
 
     final val TAG = "DataWedgeHelper"
 
-    interface ScanDataListener {
+    interface ScanDataListener: FixedSizeQueueItem {
         fun onData(type: String, value: String, timestamp: String)
-        fun onDestroy()
     }
 
+    // this singleton receiver will redirect result to listeners
     private var dataReceiver: DataReceiver? = null
-
-    private val listeners: ArrayList<ScanDataListener> = arrayListOf()
-    private const val LISTENER_LIMIT = 10
+    private val listeners = FixedSizeQueue<ScanDataListener>(50)
 
     private val backgroundScope = CoroutineScope(Dispatchers.IO + Job())
     private val foregroundScope = CoroutineScope(Dispatchers.Main + Job())
 
     private fun notifyListeners(type: String, value: String, timestamp: String) {
-        listeners.forEach {
+        listeners.items.forEach {
             it.onData(type, value, timestamp)
         }
     }
 
     fun addScanDataListener(listener: ScanDataListener) {
-        if (listeners.size < LISTENER_LIMIT) {
-            listeners.add(listener)
-        } else {
-            val first = listeners.removeAt(0)
-            first.onDestroy()
-            listeners.add(listener)
-        }
+        listeners.enqueue(listener)
     }
 
     fun removeScanDataListener(listener: ScanDataListener) {
@@ -336,7 +330,7 @@ object DataWedgeHelper {
         }
     }
 
-    fun registerReceiverIfNeeded(context: Context) {
+    private fun registerReceiverIfNeeded(context: Context) {
         if (dataReceiver != null) {
             Log.d(TAG, "DataReceiver already registered. skip")
             return
@@ -353,7 +347,7 @@ object DataWedgeHelper {
         )
     }
 
-    class DataReceiver: BroadcastReceiver() {
+    private class DataReceiver: BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent == null) {
                 Toast.makeText(context, "intent is null", Toast.LENGTH_LONG).show()

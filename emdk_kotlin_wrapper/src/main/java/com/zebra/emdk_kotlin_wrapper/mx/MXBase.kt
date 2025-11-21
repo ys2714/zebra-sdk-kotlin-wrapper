@@ -1,9 +1,6 @@
 package com.zebra.emdk_kotlin_wrapper.mx
 
-import android.os.Build
 import android.text.TextUtils
-import androidx.annotation.DeprecatedSinceApi
-import androidx.annotation.Discouraged
 
 class MXBase {
 
@@ -14,11 +11,6 @@ class MXBase {
     interface FetchOEMInfoCallback {
         fun onSuccess(result: String)
         fun onError()
-    }
-
-    interface ProcessProfileCallback {
-        fun onSuccess(profileName: String)
-        fun onError(errorInfo: ErrorInfo)
     }
 
     interface EventListener {
@@ -34,7 +26,7 @@ class MXBase {
         var errorType: String = "",
         // contains the error description for parm or characteristic error.
         var errorDescription: String = ""
-    ) {
+    ) : Throwable() {
         fun buildFailureMessage(): String {
             return when {
                 !TextUtils.isEmpty(errorName) && !TextUtils.isEmpty(errorType) -> {
@@ -51,6 +43,7 @@ class MXBase {
     }
 
     enum class ProfileXML(val value: String) {
+        None("None"),
         AccessManagerAllowPermission("profile_access_manager_allow_permission.xml"),
         AccessManagerAllowCallService("profile_access_manager_allow_call_service.xml"),
         AppManagerInstallAndStart("profile_app_manager_install_and_start.xml"),
@@ -59,7 +52,9 @@ class MXBase {
         ClockResetAuto("profile_clock_reset_auto.xml"),
         DevAdminManagerDisableLockScreen("profile_dev_admin_manager_disable_lock_screen.xml"),
         DisplayManagerDisableScreenShot("profile_display_manager_disable_screenshot.xml"),
-        PowerKeyManagerSetPowerOffState("profile_powerkey_manager_set_poweroff_state.xml");
+        PowerKeyManagerSetPowerOffState("profile_powerkey_manager_set_poweroff_state.xml"),
+        KeymappingManagerSetKeySendIntent("profile_keymapping_manager_set_key_send_intent.xml"),
+        KeymappingManagerSetAllToDefault("profile_keymapping_manager_set_all_to_default.xml");
 
         @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
         override fun toString(): String {
@@ -79,7 +74,9 @@ class MXBase {
         ClockResetAuto("ClockResetAuto"),
         DevAdminManagerDisableLockScreen("DevAdminManagerDisableLockScreen"),
         DisplayManagerDisableScreenShot("DisplayManagerDisableScreenShot"),
-        PowerKeyManagerSetPowerOffState("PowerKeyManagerSetPowerOffState");
+        PowerKeyManagerSetPowerOffState("PowerKeyManagerSetPowerOffState"),
+        KeymappingManagerSetKeySendIntent("KeymappingManagerSetKeySendIntent"),
+        KeymappingManagerSetAllToDefault("KeymappingManagerSetAllToDefault");
 
         @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
         override fun toString(): String {
@@ -231,19 +228,69 @@ class MXBase {
     }
 
     /**
+     * https://techdocs.zebra.com/mx/keymappingmgr/#key-identifier
+     *
+     * */
+    enum class KeyIdentifiers(val value: String) {
+        VOLUMEUP("VOLUMEUP"),
+        VOLUMEDOWN("VOLUMEDOWN"),
+        SCAN("SCAN"),
+        GRIP_TRIGGER("GRIP_TRIGGER"),
+        GRIP_TRIGGER_2("GRIP_TRIGGER_2"),
+        LEFT_TRIGGER_1("LEFT_TRIGGER_1"),
+        LEFT_TRIGGER_2("LEFT_TRIGGER_2"),
+        RIGHT_TRIGGER_1("RIGHT_TRIGGER_1"),
+        RIGHT_TRIGGER_2	("RIGHT_TRIGGER_2"),
+        LEFT_TRIGGER("LEFT_TRIGGER"),
+        RIGHT_TRIGGER("RIGHT_TRIGGER"),
+        CENTER_TRIGGER("CENTER_TRIGGER"),
+        GUN_TRIGGER("GUN_TRIGGER"),
+        HEADSET_HOOK("HEADSET_HOOK"),
+        BACK("BACK"),
+        HOME("HOME"),
+        MENU("MENU"),
+        RECENT("RECENT"),
+        POWER("POWER"),
+        REAR_BUTTON("REAR_BUTTON"),
+        LEFT_EXTERNAL_TRIGGER("LEFT_EXTERNAL_TRIGGER"),
+        RIGHT_EXTERNAL_TRIGGER("RIGHT_EXTERNAL_TRIGGER"),
+        BLUETOOTH_REMOTE_TRIGGER_1("BLUETOOTH_REMOTE_TRIGGER_1"),
+        BLUETOOTH_REMOTE_TRIGGER_2("BLUETOOTH_REMOTE_TRIGGER_2"),
+        DO_NOT_DISTURB("DO_NOT_DISTURB"), //WS50
+        TOP_BUTTON("TOP_BUTTON"), //EM45
+        RIGHT_BUTTON("RIGHT_BUTTON"), //EM45
+        CHANNEL_SWITCH("CHANNEL_SWITCH"), //FR55
+        ALERT_BUTTON("ALERT_BUTTON"), //FR55
+        DURESS("DURESS"); //emergency call button
+
+        override fun toString(): String {
+            return string
+        }
+
+        val string: String
+            get() = value.toString()
+    }
+
+    /**
      * https://techdocs.zebra.com/mx/keymappingmgr/#key-code
      *
-     * Button L1: 102
-     * Button R1: 103
-     * Button L2: 104
-     * Button R2: 105
      * */
     enum class KeyCodes(val value: Int) {
-        BUTTON_L1(102),
-        BUTTON_R1(103),
-        BUTTON_L2(104),
-        BUTTON_R2(105),
-        BUTTON_SCAN(10036);
+        VOLUMEUP(24),
+        VOLUMEDOWN(25),
+        SCAN(10036),
+        LEFT_TRIGGER_1(102),
+        RIGHT_TRIGGER_1(103),
+        LEFT_TRIGGER_2(104),
+        RIGHT_TRIGGER_2	(105),
+        HEADSET_HOOK(79),
+        BACK(4),
+        HOME(3),
+        MENU(82),
+        POWER(26),
+        DO_NOT_DISTURB(10043), //WS50
+        CHANNEL_SWITCH(10044), //FR55
+        DURESS(10045); //emergency call button
 
         @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
         override fun toString(): String {

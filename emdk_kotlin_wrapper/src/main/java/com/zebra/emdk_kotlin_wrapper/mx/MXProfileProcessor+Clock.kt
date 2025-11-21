@@ -14,7 +14,8 @@ internal fun MXProfileProcessor.callClockResetAuto(
     is24Hours: Boolean,
     ntpServer: String,
     syncInterval: String,
-    callback: MXBase.ProcessProfileCallback) {
+    delaySeconds: Long = 0,
+    callback: (MXBase.ErrorInfo?) -> Unit) {
     val militaryTime = if (is24Hours) "1" else "2"
     val map = mapOf(
         MXConst.TimeZone to "GMT+9", // ntp update every 30min, so use GMT+9 as default
@@ -27,6 +28,7 @@ internal fun MXProfileProcessor.callClockResetAuto(
         MXBase.ProfileXML.ClockResetAuto,
         MXBase.ProfileName.ClockResetAuto,
         map,
+        delaySeconds,
         callback
     )
 }
@@ -37,7 +39,8 @@ internal fun MXProfileProcessor.callClockSet(
     timeZone: String,
     date: String,
     time: String,
-    callback: MXBase.ProcessProfileCallback) {
+    delaySeconds: Long = 0,
+    callback: (MXBase.ErrorInfo?) -> Unit) {
     val militaryTime = if (is24Hours) "1" else "2"
     val map = mapOf(
         MXConst.AutoTime to "false",
@@ -51,6 +54,7 @@ internal fun MXProfileProcessor.callClockSet(
         MXBase.ProfileXML.ClockSet,
         MXBase.ProfileName.ClockSet,
         map,
+        delaySeconds,
         callback
     )
 }

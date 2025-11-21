@@ -8,6 +8,8 @@ import com.symbol.emdk.EMDKResults
 import com.symbol.emdk.ProfileManager
 import com.zebra.emdk_kotlin_wrapper.emdk.EMDKHelper
 import com.zebra.emdk_kotlin_wrapper.utils.AssetsReader
+import com.zebra.emdk_kotlin_wrapper.utils.FixedSizeQueue
+import com.zebra.emdk_kotlin_wrapper.utils.FixedSizeQueueItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.xmlpull.v1.XmlPullParserException
@@ -20,10 +22,10 @@ import kotlinx.coroutines.*
  * */
 internal object MXProfileProcessor {
 
-    private val TAG = MXProfileProcessor::class.java.simpleName
+    internal val TAG = MXProfileProcessor::class.java.simpleName
 
-    var foregroundScope = CoroutineScope(Dispatchers.Main + Job())
-    var backgroundScope = CoroutineScope(Dispatchers.IO + Job())
+    internal var foregroundScope = CoroutineScope(Dispatchers.Main + Job())
+    internal var backgroundScope = CoroutineScope(Dispatchers.IO + Job())
 
     internal val profileManager: ProfileManager
         get() {
@@ -33,104 +35,103 @@ internal object MXProfileProcessor {
             return EMDKHelper.shared.profileManager!!
         }
 
+    // handling max 20 profiles at the same time, for the 21th profile, the first will be disposed
+    private val listeners = FixedSizeQueue<ProfileDataListener>(20)
+
+    class ProfileDataListener(
+        val profileName: MXBase.ProfileName,
+        val callback: (Result<MXBase.ErrorInfo?>) -> Unit
+    ): ProfileManager.DataListener, FixedSizeQueueItem {
+        override fun onData(data: ProfileManager.ResultData?) {
+            if (data == null) return
+            if (data.profileName == profileName.string) {
+                when (data.result.statusCode) {
+                    EMDKResults.STATUS_CODE.SUCCESS -> {
+                            callback(Result.success(null))
+                    }
+                    EMDKResults.STATUS_CODE.CHECK_XML -> {
+                        try {
+                            XMLParser.parseXML(
+                                Xml.newPullParser().apply {
+                                    setInput(StringReader(data.result.statusString))
+                                }
+                            ).onSuccess {
+                                    callback(Result.success(null))
+                            }.onFailure { error ->
+                                    callback(Result.failure(error))
+                            }
+                        } catch (e: XmlPullParserException) {
+                            Log.e(MXProfileProcessor.TAG, "Failed to parse XML response", e)
+                                val error = MXBase.ErrorInfo(
+                                    MXProfileProcessor.TAG,
+                                    "XmlPullParserException",
+                                    e.message ?: "Unknown parser exception")
+                                callback(Result.failure(error))
+                        }
+                    }
+                    else -> {
+                        Log.e(MXProfileProcessor.TAG, "failed with response: ${data.result.statusString}")
+                            val error = MXBase.ErrorInfo(
+                                MXProfileProcessor.TAG,
+                                data.result.statusString,
+                                data.result.extendedStatusMessage)
+                            callback(Result.failure(error))
+                    }
+                }
+            } else {
+                // other profile name, ignore
+            }
+        }
+
+        override fun getID(): String {
+            return profileName.string
+        }
+
+        override fun onDisposal() {
+            profileManager.removeDataListener(this)
+        }
+    }
+
     fun processProfileWithCallback(context: Context,
                                    fileName: MXBase.ProfileXML,
                                    profileName: MXBase.ProfileName,
                                    params: Map<String, String>? = null,
-                                   callback: MXBase.ProcessProfileCallback?) {
-        processProfile(
-            context,
-            fileName,
-            profileName,
-            params) { error ->
-            foregroundScope.launch {
-                if (callback != null) {
-                    if (error == null) {
-                        callback.onSuccess(profileName.string)
-                    } else {
-                        callback.onError(error)
-                    }
+                                   delaySeconds: Long = 0,
+                                   callback: (MXBase.ErrorInfo?) -> Unit) {
+        backgroundScope.launch {
+            if (fileName == MXBase.ProfileXML.None) {
+                val completion = async { processProfile(context, profileName, null) }
+                val result = completion.await()
+                delay(delaySeconds * 1000)
+                foregroundScope.launch {
+                    callback(result)
+                }
+            } else {
+                val content = AssetsReader.readFileToStringWithParams(context, fileName.string, params).trimIndent()
+                val completion = async { processProfile(context, profileName, arrayOf(content)) }
+                val result = completion.await()
+                delay(delaySeconds * 1000)
+                foregroundScope.launch {
+                    callback(result)
                 }
             }
         }
     }
 
-    private fun addResultListener(
-        profileName: MXBase.ProfileName,
-        callback: (MXBase.ErrorInfo?) -> Unit) {
-        profileManager.addDataListener(object : ProfileManager.DataListener {
-            override fun onData(resultData: ProfileManager.ResultData?) {
-                resultData?.also { data ->
-                    if (data.profileName == profileName.string) {
-
-                        when (data.result.statusCode) {
-                            EMDKResults.STATUS_CODE.SUCCESS -> {
-                                callback(null)
-                            }
-                            EMDKResults.STATUS_CODE.CHECK_XML -> {
-                                try {
-                                    val parser = Xml.newPullParser().apply {
-                                        setInput(StringReader(data.result.statusString))
-                                    }
-                                    val error = XMLParser.parseXML(parser)
-                                    callback(error)
-                                } catch (e: XmlPullParserException) {
-                                    Log.e(MXProfileProcessor.TAG, "Failed to parse XML response", e)
-                                    val error = MXBase.ErrorInfo(
-                                        MXProfileProcessor.TAG,
-                                        "XmlPullParserException",
-                                        e.message ?: "Unknown parser exception")
-                                    callback(error)
-                                }
-                            }
-                            else -> {
-                                Log.e(MXProfileProcessor.TAG, "failed with response: ${data.result.statusString}")
-                                val error = MXBase.ErrorInfo(
-                                    MXProfileProcessor.TAG,
-                                    data.result.statusString,
-                                    data.result.extendedStatusMessage)
-                                callback(error)
-                            }
-                        }
-
-                        profileManager.removeDataListener(this)
-                    } else {
-                        // other profile name, ignore
-                        profileManager.removeDataListener(this)
-                    }
-                } ?: run {
-                    // no data, ignore
-                    profileManager.removeDataListener(this)
-                }
+    private suspend fun processProfile(context: Context,
+                               profileName: MXBase.ProfileName,
+                               profileContent: Array<String>?) : MXBase.ErrorInfo? = suspendCancellableCoroutine { continuation ->
+        val listener = ProfileDataListener(profileName, { result ->
+            if (continuation.isActive) {
+                continuation.resumeWith(result)
             }
         })
-    }
-
-    private fun processProfile(
-        context: Context,
-        fileName: MXBase.ProfileXML,
-        profileName: MXBase.ProfileName,
-        params: Map<String, String>? = null,
-        callback: (MXBase.ErrorInfo?) -> Unit
-    ) {
-         backgroundScope.launch {
-            params?.also {
-                val command = AssetsReader.readFileToStringWithParams(context, fileName.string, it).trimIndent()
-                addResultListener(profileName, callback)
-                profileManager.processProfileAsync(
-                    profileName.string,
-                    ProfileManager.PROFILE_FLAG.SET,
-                    arrayOf(command)
-                )
-            } ?: run {
-                // process the profile defined by AndroidStudio plugin in app/assets/EMDKConfig.xml
-                profileManager.processProfileAsync(
-                    profileName.string,
-                    ProfileManager.PROFILE_FLAG.SET,
-                    null as Array<String>?
-                )
-            }
-        }
+        listeners.enqueue(listener)
+        profileManager.addDataListener(listener)
+        profileManager.processProfileAsync(
+            profileName.string,
+            ProfileManager.PROFILE_FLAG.SET,
+            profileContent)
     }
 
     /**

@@ -28,7 +28,7 @@ import androidx.annotation.RequiresApi
  *  2 - Hide: Prevents the Power-off button from being shown after the device power key is long-pressed.
  * */
 @RequiresApi(Build.VERSION_CODES.R)
-internal fun MXProfileProcessor.powerKeyMenuEnablePowerOffButton(context: Context, enable: Boolean, callback: (Boolean) -> Unit) {
+internal fun MXProfileProcessor.powerKeyMenuEnablePowerOffButton(context: Context, enable: Boolean, delaySeconds: Long, callback: (MXBase.ErrorInfo?) -> Unit) {
     val enableValue = if (enable) MXBase.ShowHideState.SHOW.string else MXBase.ShowHideState.HIDE.string
     processProfileWithCallback(
         context,
@@ -37,15 +37,8 @@ internal fun MXProfileProcessor.powerKeyMenuEnablePowerOffButton(context: Contex
         mapOf(
             MXConst.PowerOffState to enableValue
         ),
-        object : MXBase.ProcessProfileCallback {
-            override fun onSuccess(profileName: String) {
-                callback(true)
-            }
-
-            override fun onError(errorInfo: MXBase.ErrorInfo) {
-                callback(false)
-            }
-        }
+        delaySeconds,
+        callback
     )
 }
 
@@ -59,7 +52,7 @@ internal fun MXProfileProcessor.powerKeyMenuEnablePowerOffButton(context: Contex
  * 1 - Show Menu Option: Enables Airplane Mode to be controlled from the Power Off menu.
  * 2 - Do not show Menu Option: Prevents Airplane Mode from being controlled from the Power Off menu (see NOTE, above).
  * */
-internal fun MXProfileProcessor.powerKeyMenuEnableAirplanModeButton(context: Context, enable: Boolean, callback: (Boolean) -> Unit) {
+internal fun MXProfileProcessor.powerKeyMenuEnableAirplanModeButton(context: Context, enable: Boolean, delaySeconds: Long, callback: (MXBase.ErrorInfo?) -> Unit) {
     val enableValue = if (enable) MXBase.ShowHideState.SHOW.string else MXBase.ShowHideState.HIDE.string
     processProfileWithCallback(
         context,
@@ -68,15 +61,8 @@ internal fun MXProfileProcessor.powerKeyMenuEnableAirplanModeButton(context: Con
         mapOf(
             MXConst.AirPlaneMode to enableValue
         ),
-        object : MXBase.ProcessProfileCallback {
-            override fun onSuccess(profileName: String) {
-                callback(true)
-            }
-
-            override fun onError(errorInfo: MXBase.ErrorInfo) {
-                callback(false)
-            }
-        }
+        delaySeconds,
+        callback
     )
 }
 
@@ -90,7 +76,7 @@ internal fun MXProfileProcessor.powerKeyMenuEnableAirplanModeButton(context: Con
  * 1 - Show Menu Option: Enables the Touch Panel to be controlled from the Power-off Menu (if the device supports this option).
  * 2 - Do not show Menu Option: Prevents the Touch Panel from being controlled from the Power-off Menu (if the device supports this option).
  * */
-internal fun MXProfileProcessor.powerKeyMenuEnableTouchPanel(context: Context, enable: Boolean, callback: (Boolean) -> Unit) {
+internal fun MXProfileProcessor.powerKeyMenuEnableTouchPanel(context: Context, enable: Boolean, delaySeconds: Long, callback: (MXBase.ErrorInfo?) -> Unit) {
     val enableValue = if (enable) MXBase.ShowHideState.SHOW.string else MXBase.ShowHideState.HIDE.string
     processProfileWithCallback(
         context,
@@ -99,15 +85,8 @@ internal fun MXProfileProcessor.powerKeyMenuEnableTouchPanel(context: Context, e
         mapOf(
             MXConst.TouchPanel to enableValue
         ),
-        object : MXBase.ProcessProfileCallback {
-            override fun onSuccess(profileName: String) {
-                callback(true)
-            }
-
-            override fun onError(errorInfo: MXBase.ErrorInfo) {
-                callback(false)
-            }
-        }
+        delaySeconds,
+        callback
     )
 }
 
@@ -121,7 +100,7 @@ internal fun MXProfileProcessor.powerKeyMenuEnableTouchPanel(context: Context, e
  * 1 - Show: Enables the Touch Panel Mode to be controlled from the Power-off Menu (if the device supports this option).
  * 2 - Do not show: Prevents the Touch Panel Mode from being controlled from the Power-off Menu (if the device supports this option).
  */
-internal fun MXProfileProcessor.powerKeyMenuEnableTouchPanelMode(context: Context, enable: Boolean, callback: (Boolean) -> Unit) {
+internal fun MXProfileProcessor.powerKeyMenuEnableTouchPanelMode(context: Context, enable: Boolean, delaySeconds: Long, callback: (MXBase.ErrorInfo?) -> Unit) {
     val enableValue = if (enable) MXBase.ShowHideState.SHOW.string else MXBase.ShowHideState.HIDE.string
     processProfileWithCallback(
         context,
@@ -130,15 +109,8 @@ internal fun MXProfileProcessor.powerKeyMenuEnableTouchPanelMode(context: Contex
         mapOf(
             MXConst.TouchPanelMode to enableValue
         ),
-        object : MXBase.ProcessProfileCallback {
-            override fun onSuccess(profileName: String) {
-                callback(true)
-            }
-
-            override fun onError(errorInfo: MXBase.ErrorInfo) {
-                callback(false)
-            }
-        }
+        delaySeconds,
+        callback
     )
 }
 
@@ -150,7 +122,7 @@ internal fun MXProfileProcessor.powerKeyMenuEnableTouchPanelMode(context: Contex
  * 1 - Show Menu Option: Enables Safe Mode to be controlled from the Power-off Menu.
  * 2 - Do not show Menu Option: Prevents Safe Mode from being controlled from the Power-off Menu (see NOTE, above).
  * */
-internal fun MXProfileProcessor.powerKeyMenuEnableSafeMode(context: Context, enable: Boolean, callback: (Boolean) -> Unit) {
+internal fun MXProfileProcessor.powerKeyMenuEnableSafeMode(context: Context, enable: Boolean, delaySeconds: Long, callback: (MXBase.ErrorInfo?) -> Unit) {
     val enableValue = if (enable) MXBase.ShowHideState.SHOW.string else MXBase.ShowHideState.HIDE.string
     processProfileWithCallback(
         context,
@@ -159,15 +131,8 @@ internal fun MXProfileProcessor.powerKeyMenuEnableSafeMode(context: Context, ena
         mapOf(
             MXConst.SafeMode to enableValue
         ),
-        object : MXBase.ProcessProfileCallback {
-            override fun onSuccess(profileName: String) {
-                callback(true)
-            }
-
-            override fun onError(errorInfo: MXBase.ErrorInfo) {
-                callback(false)
-            }
-        }
+        delaySeconds,
+        callback
     )
 }
 
@@ -180,7 +145,7 @@ internal fun MXProfileProcessor.powerKeyMenuEnableSafeMode(context: Context, ena
  * 1 - Turn on: Forces the screen to lock whenever the screen is turned off using the power key.
  * 2 - Turn off: Prevents the screen from locking when turned off using the power key unless the Screen-lock Timeout Interval was exceeded.
  * */
-internal fun MXProfileProcessor.powerKeyTriggerAutoScreenLock(context: Context, enable: Boolean, callback: (Boolean) -> Unit) {
+internal fun MXProfileProcessor.powerKeyTriggerAutoScreenLock(context: Context, enable: Boolean, delaySeconds: Long, callback: (MXBase.ErrorInfo?) -> Unit) {
     val enableValue = if (enable) MXBase.ShowHideState.SHOW.string else MXBase.ShowHideState.HIDE.string
     processProfileWithCallback(
         context,
@@ -189,15 +154,8 @@ internal fun MXProfileProcessor.powerKeyTriggerAutoScreenLock(context: Context, 
         mapOf(
             MXConst.AutoScreenLockState to enableValue
         ),
-        object : MXBase.ProcessProfileCallback {
-            override fun onSuccess(profileName: String) {
-                callback(true)
-            }
-
-            override fun onError(errorInfo: MXBase.ErrorInfo) {
-                callback(false)
-            }
-        }
+        delaySeconds,
+        callback
     )
 }
 
@@ -210,7 +168,7 @@ internal fun MXProfileProcessor.powerKeyTriggerAutoScreenLock(context: Context, 
  * 1 - Turn on: Enables the Auto Screen Lock option to be controlled from the Android Settings panel.
  * 2 - Turn off: Prevents the Auto Screen Lock option from being controlled from the Android Settings panel.
  * */
-internal fun MXProfileProcessor.powerKeyAutoScreenLockSettingsOptionEnable(context: Context, enable: Boolean, callback: (Boolean) -> Unit) {
+internal fun MXProfileProcessor.powerKeyAutoScreenLockSettingsOptionEnable(context: Context, enable: Boolean, delaySeconds: Long, callback: (MXBase.ErrorInfo?) -> Unit) {
     val enableValue = if (enable) MXBase.ShowHideState.SHOW.string else MXBase.ShowHideState.HIDE.string
     processProfileWithCallback(
         context,
@@ -219,14 +177,7 @@ internal fun MXProfileProcessor.powerKeyAutoScreenLockSettingsOptionEnable(conte
         mapOf(
             MXConst.AutoScreenLockOption to enableValue
         ),
-        object : MXBase.ProcessProfileCallback {
-            override fun onSuccess(profileName: String) {
-                callback(true)
-            }
-
-            override fun onError(errorInfo: MXBase.ErrorInfo) {
-                callback(false)
-            }
-        }
+        delaySeconds,
+        callback
     )
 }

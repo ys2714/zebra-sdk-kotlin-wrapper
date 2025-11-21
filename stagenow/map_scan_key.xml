@@ -1,0 +1,17 @@
+﻿<wap-provisioningdoc>
+  <characteristic version="9.2" type="KeyMappingMgr">
+    <parm name="Action" value="1" />
+    <characteristic type="KeyMapping">
+      <parm name="KeyIdentifier" value="SCAN" />
+      <characteristic type="BaseTable">
+        <parm name="BaseBehavior" value="3" />
+        <parm name="BaseSendIntent" value="1" />
+        <parm name="BaseIntentType" value="2" />
+        <parm name="BaseIntentAction" value="com.zebra.emdk_kotlin_wrapper.SCAN_KEY_DOWN_ACTION" />
+        <parm name="BaseIntentCategory" value="android.intent.category.DEFAULT" />
+        <parm name="BaseIntentAddKeyState" value="0" />
+        <parm name="BaseIntentIncludeFlags" value="00000000" />
+      </characteristic>
+    </characteristic>
+  </characteristic>
+</wap-provisioningdoc>

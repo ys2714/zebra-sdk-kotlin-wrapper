@@ -1,5 +1,7 @@
 package com.zebra.zebrakotlindemo
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
@@ -15,6 +17,18 @@ import androidx.compose.ui.unit.dp
 import com.zebra.emdk_kotlin_wrapper.mx.MXBase
 
 class DataWedgeActivity : ComponentActivity() {
+
+    companion object {
+        const val TAG = "DataWedgeActivity"
+
+        fun start(context: Context) {
+            context.startActivity(
+                Intent(context, DataWedgeActivity::class.java).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                }
+            )
+        }
+    }
 
     val viewModel = DataWedgeViewModel()
 
@@ -45,37 +59,36 @@ class DataWedgeActivity : ComponentActivity() {
         if (event == null) return super.onKeyDown(keyCode, event)
         if (event.action == KeyEvent.ACTION_DOWN) {
             when (keyCode) {
-                MXBase.KeyCodes.BUTTON_SCAN.value -> {
+                MXBase.KeyCodes.SCAN.value -> {
                     Log.d("", "LEFT Scan PRESSED")
                     viewModel.startScanning(this)
                 }
-                MXBase.KeyCodes.BUTTON_R1.value -> {
+                MXBase.KeyCodes.RIGHT_TRIGGER_1.value -> {
                     Log.d("", "RIGHT Scan PRESSED")
                     viewModel.startScanning(this)
                 }
-                MXBase.KeyCodes.BUTTON_L2.value -> {
+                MXBase.KeyCodes.LEFT_TRIGGER_1.value -> {
                     Log.d("", "PTT PRESSED")
-                    viewModel.getScannerStatus(this)
+                    finish()
                 }
-                MXBase.KeyCodes.BUTTON_R2.value -> {
+                MXBase.KeyCodes.RIGHT_TRIGGER_2.value -> {
                     Log.d("", "R2 PRESSED (if exist)")
-
                 }
             }
         } else if (event.action == KeyEvent.ACTION_UP) {
             when (keyCode) {
-                MXBase.KeyCodes.BUTTON_SCAN.value -> {
+                MXBase.KeyCodes.SCAN.value -> {
                     Log.d("", "LEFT Scan PRESSED")
                     viewModel.stopScanning(this)
                 }
-                MXBase.KeyCodes.BUTTON_R1.value -> {
+                MXBase.KeyCodes.RIGHT_TRIGGER_1.value -> {
                     Log.d("", "RIGHT Scan PRESSED")
                     viewModel.stopScanning(this)
                 }
-                MXBase.KeyCodes.BUTTON_L2.value -> {
+                MXBase.KeyCodes.LEFT_TRIGGER_2.value -> {
                     Log.d("", "PTT PRESSED")
                 }
-                MXBase.KeyCodes.BUTTON_R2.value -> {
+                MXBase.KeyCodes.RIGHT_TRIGGER_2.value -> {
                     Log.d("", "R2 PRESSED (if exist)")
                 }
             }

@@ -94,26 +94,22 @@ class EMDKHelper private constructor() {
                         val profileResult = async { prepareProfileManager(manager) }
                         _profileManager = profileResult.await()
 
-//                        val barcodeResult = async { prepareBarcodeManager(manager) }
-//                        _barcodeManager = barcodeResult.await()
-
                         complete(true)
                     }
                 }
 
                 override fun onClosed() {
                     this@EMDKHelper.teardown()
-                    throw Exception("EMDK closed !!!")
                 }
             }
         )
     }
 
     fun teardown() {
+        _versionManager = null
+        _profileManager = null
         _manager?.release()
         _manager = null
-//        _barcodeManager = null
-        _profileManager = null
     }
 
     private suspend fun prepareVersionManager(emdkManager: EMDKManager): VersionManager? = suspendCancellableCoroutine { continuation ->

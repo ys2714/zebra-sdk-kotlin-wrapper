@@ -8,23 +8,25 @@ internal object XMLParser {
     private val TAG = XMLParser::class.java.simpleName
 
     // Method to parse the XML response using XML Pull Parser
-    fun parseXML(myParser: XmlPullParser): MXBase.ErrorInfo? {
+    fun parseXML(myParser: XmlPullParser): Result<MXBase.ErrorInfo?> {
         try {
             var event = myParser.eventType
             while (event != XmlPullParser.END_DOCUMENT) {
                 if (event == XmlPullParser.START_TAG) {
                     when (myParser.name) {
                         "parm-error" -> {
-                            return MXBase.ErrorInfo().apply {
-                                errorName = myParser.getAttributeValue(null, "name")
+                            return Result.failure(MXBase.ErrorInfo().apply {
+                                errorName = "characteristic-error"
+                                errorType = "XMLParser"
                                 errorDescription = myParser.getAttributeValue(null, "desc")
-                            }
+                            })
                         }
                         "characteristic-error" -> {
-                            return MXBase.ErrorInfo().apply {
-                                errorType = myParser.getAttributeValue(null, "type")
+                            return Result.failure(MXBase.ErrorInfo().apply {
+                                errorName = "characteristic-error"
+                                errorType = "XMLParser"
                                 errorDescription = myParser.getAttributeValue(null, "desc")
-                            }
+                            })
                         }
                     }
                 }
@@ -32,12 +34,12 @@ internal object XMLParser {
             }
         } catch (e: Exception) { // Catching generic Exception to include both XmlPullParserException and IOException
             Log.e(TAG, "Failed to parse XML response", e)
-            return MXBase.ErrorInfo().apply {
+            return Result.failure(MXBase.ErrorInfo().apply {
                 errorName = "Generic Exception"
                 errorType = "XmlPullParserException and IOException"
                 errorDescription = e.message ?: "Failed to parse XML response"
-            }
+            })
         }
-        return null
+        return Result.success(null)
     }
 }
