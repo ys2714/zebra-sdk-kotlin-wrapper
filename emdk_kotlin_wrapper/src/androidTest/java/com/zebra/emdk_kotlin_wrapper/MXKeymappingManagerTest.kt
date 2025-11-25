@@ -12,9 +12,7 @@ import com.zebra.emdk_kotlin_wrapper.mx.MXBase
 import com.zebra.emdk_kotlin_wrapper.mx.MXConst
 import com.zebra.emdk_kotlin_wrapper.mx.MXProfileProcessor
 import kotlinx.coroutines.CompletableDeferred
-import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.suspendCancellableCoroutine
 import org.junit.Assert.fail
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -34,14 +32,18 @@ class MXKeymappingManagerTest {
             }
             MXProfileProcessor.processProfileWithCallback(
                 appContext,
-                MXBase.ProfileXML.KeymappingManagerSetScanKey,
-                MXBase.ProfileName.KeymappingManagerSetScanKey,
+                MXBase.ProfileXML.KeymappingManagerSetKeySendIntent,
+                MXBase.ProfileName.KeymappingManagerSetKeySendIntent,
                 mapOf(
                     MXConst.KeyIdentifier to "SCAN",
                     MXConst.BaseIntentAction to "com.my.action",
                     MXConst.BaseIntentCategory to "com.my.category"
-                ), object : MXBase.ProcessProfileCallback {
-                    override fun onSuccess(profileName: String) {
+                ), 1,  { errorInfo ->
+                    if (errorInfo != null) {
+                        fail("error: ${errorInfo.errorDescription}")
+                    } else {
+                        complete.complete(Unit)
+
 
                         ContextCompat.registerReceiver(
                             appContext, object : BroadcastReceiver() {
@@ -64,11 +66,6 @@ class MXKeymappingManagerTest {
                             },
                             ContextCompat.RECEIVER_EXPORTED
                         )
-
-                    }
-
-                    override fun onError(errorInfo: MXBase.ErrorInfo) {
-                        fail(errorInfo.errorDescription)
                     }
                 }
             )

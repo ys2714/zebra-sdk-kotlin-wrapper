@@ -8,6 +8,8 @@ import com.zebra.emdk_kotlin_wrapper.mx.MXConst
 import com.zebra.emdk_kotlin_wrapper.mx.MXProfileProcessor
 import com.zebra.emdk_kotlin_wrapper.mx.callPowerManagerFeature
 import com.zebra.emdk_kotlin_wrapper.utils.AssetsReader
+import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert.fail
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -18,7 +20,9 @@ class MXPowerManagerTest {
     val appContext = InstrumentationRegistry.getInstrumentation().targetContext
 
     @Test
-    fun checkCallPowerManagerFeature() {
+    fun checkCallPowerManagerFeature() = runBlocking {
+        val completion = CompletableDeferred<Unit>()
+
         EMDKHelper.shared.prepare(appContext) { success ->
             if (!success) {
                 fail("EMDK prepare failed")
@@ -26,17 +30,17 @@ class MXPowerManagerTest {
             MXProfileProcessor.callPowerManagerFeature(
                 appContext,
                 MXBase.PowerManagerOptions.SLEEP_MODE,
-                null,object : MXBase.ProcessProfileCallback {
-                    override fun onSuccess(profileName: String) {
-
-                    }
-
-                    override fun onError(errorInfo: MXBase.ErrorInfo) {
+                null,1,  { errorInfo ->
+                    if (errorInfo != null) {
                         fail(errorInfo.errorDescription)
+                    } else {
+                        completion.complete(Unit)
                     }
                 }
             )
         }
+
+        completion.await()
     }
 
     @Test
