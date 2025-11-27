@@ -2,29 +2,44 @@ package com.zebra.zebrakotlindemo;
 
 import android.content.Context;
 
-import com.zebra.emdk_kotlin_wrapper.dw.DataWedgeHelper;
-
-import kotlin.Unit;
-import kotlin.jvm.functions.Function1;
+import com.zebra.emdk_kotlin_wrapper.java_interface.BooleanCompletion;
+import com.zebra.emdk_kotlin_wrapper.java_interface.DWHelperJava;
+import com.zebra.emdk_kotlin_wrapper.java_interface.EMDKHelperJava;
+import com.zebra.emdk_kotlin_wrapper.java_interface.MXHelperJava;
+import com.zebra.emdk_kotlin_wrapper.java_interface.StringCompletion;
 
 public class JavaCompatibilityTestFixture {
 
     void callKotlinObject(Context context) {
-        DataWedgeHelper.INSTANCE.prepare(context, new Function1<Boolean, Unit>() {
+        EMDKHelperJava.prepare(context, new BooleanCompletion() {
             @Override
-            public Unit invoke(Boolean aBoolean) {
-                return null;
+            public void onComplete(Boolean success) {
+
+            }
+        });
+
+        DWHelperJava.prepare(context, new BooleanCompletion() {
+            @Override
+            public void onComplete(Boolean success) {
+                
+            }
+        });
+
+        MXHelperJava.fetchPPID(context, true, new StringCompletion() {
+            @Override
+            public void onComplete(String result) {
+
             }
         });
     }
 
     void callKotlinObjectWithNullableCallback(Context context) {
-        DataWedgeHelper.INSTANCE.enableDW(context, null);
+        DWHelperJava.enableDW(context, null);
 
-        DataWedgeHelper.INSTANCE.enableDW(context, new Function1<Boolean, Unit>() {
+        DWHelperJava.enableDW(context, new BooleanCompletion() {
             @Override
-            public Unit invoke(Boolean aBoolean) {
-                return null;
+            public void onComplete(Boolean success) {
+
             }
         });
     }
