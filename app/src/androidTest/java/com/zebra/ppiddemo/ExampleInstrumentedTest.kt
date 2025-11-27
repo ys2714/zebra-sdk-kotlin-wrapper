@@ -1,4 +1,4 @@
-package com.zebra.zebrakotlindemo
+package com.zebra.ppiddemo
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

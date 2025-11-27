@@ -1,4 +1,4 @@
-package com.zebra.zebrakotlindemo.ui.theme
+package com.zebra.ppiddemo.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

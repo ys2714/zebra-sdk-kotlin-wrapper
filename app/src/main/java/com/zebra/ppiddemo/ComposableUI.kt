@@ -1,8 +1,6 @@
-package com.zebra.zebrakotlindemo
+package com.zebra.ppiddemo
 
-import android.graphics.drawable.Icon
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
@@ -19,7 +17,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.rounded.Menu
 
 @Composable
 fun RoundButton(title: String, modifier: Modifier? = null, onClick: () -> Unit) {

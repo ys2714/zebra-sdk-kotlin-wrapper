@@ -1,4 +1,4 @@
-package com.zebra.zebrakotlindemo
+package com.zebra.ppiddemo
 
 import org.junit.Test
 
