@@ -52,18 +52,37 @@ class MainViewModel {
             emdkVersion.value = EMDKHelper.shared.emdkVersion
             mxVersion.value = EMDKHelper.shared.mxVersion
             dwVersion.value = EMDKHelper.shared.dwVersion
-            // white list app
-            authenticateApp(context) { whiteListSuccess ->
-                if (whiteListSuccess) {
-                    fetchSerialNumber(context) {
-                        fetchPPID(context) {
-                            fetchIMEI(context) {}
-                        }
-                    }
-                } else {
 
+            // key mapping
+            val doesSetKeyMapping = false
+            if (doesSetKeyMapping) {
+                ZebraKeyEventMonitor.resetAllKeyDownToDefault(context, delaySeconds = 1) {
+                    ZebraKeyEventMonitor.registerKeyDownListener(context, MXBase.KeyIdentifiers.LEFT_TRIGGER_2, delaySeconds = 1) {
+                        showDebugToast(context, "Push To Talk", "press the PTT key to talk")
+                    }
                 }
             }
+            // copy DW profiles
+            val doesCopyDWProfiles = false
+            if (doesCopyDWProfiles) {
+                MXHelper.copyAndImportFreeFormOCRProfile(context, delaySeconds = 3) { success ->
+                    showDebugToast(context, "Profile", "Free Form OCR Profile configured successfully? $success")
+                }
+            }
+            // white list app
+//            authenticateApp(context) { whiteListSuccess ->
+//                if (whiteListSuccess) {
+//                    fetchSerialNumber(context) {
+//                        fetchPPID(context) {
+//                            fetchIMEI(context) {
+//
+//                            }
+//                        }
+//                    }
+//                } else {
+//
+//                }
+//            }
             // prepare dw
             DataWedgeHelper.prepare(context) { enableSuccess ->
                 if (enableSuccess) {
@@ -71,40 +90,30 @@ class MainViewModel {
                         if (success) {
                             DataWedgeHelper.createProfile(context, profileName) { createSuccess ->
                                 if (createSuccess) {
-                                    // DataWedgeHelper.bindProfileToApp(context, profileName, context.packageName) { configSuccess ->
-                                        // if (configSuccess) {
+                                     DataWedgeHelper.bindProfileToApp(context, profileName, context.packageName) { configSuccess ->
+                                         if (configSuccess) {
                                             getScannerStatus(context)
 
-//                                            DataWedgeHelper.configBarcodePlugin(context, profileName, enable = false, hardTrigger = false)
-//                                            DataWedgeHelper.configKeystrokePlugin(context, profileName, false)
-//                                            DataWedgeHelper.configIntentPlugin(context, profileName)
-
-//                                            MXHelper.setScreenLockType(context, MXBase.ScreenLockType.NONE) { success ->
-//                                                // will show customized lock screen
-//                                            }
-
-//                                            ZebraKeyEventMonitor.resetAllKeyDownToDefault(context, delaySeconds = 1) {
-//                                                ZebraKeyEventMonitor.registerKeyDownListener(context, MXBase.KeyIdentifiers.LEFT_TRIGGER_2, delaySeconds = 1) {
-//                                                    showDebugToast(context, "Push To Talk", "press the PTT key to talk")
-//                                                }
-//                                                emdkPrepared.value = true
-//                                            }
-
-//                                            MXHelper.copyAndImportFreeFormOCRProfile(context, delaySeconds = 3) { success ->
-//                                                showDebugToast(context, "Profile", "Free Form OCR Profile configured successfully? $success")
-//                                            }
+                                            DataWedgeHelper.configBarcodePlugin(context, profileName, enable = false, hardTrigger = false)
+                                            DataWedgeHelper.configKeystrokePlugin(context, profileName, false)
+                                            DataWedgeHelper.configIntentPlugin(context, profileName)
+                                             emdkPrepared.value = true
 
                                             Log.d("DataWedge", "Profile configured successfully")
-                                        //} else {
-                                        //    Log.e("DataWedge", "Failed to configure profile")
-                                        //}
-                                    //}
+                                        } else {
+                                            Log.e("DataWedge", "Failed to configure profile")
+                                        }
+                                    }
                                 }
                             }
                         }
                     }
                 }
             }
+            // set screen lock type
+//            MXHelper.setScreenLockType(context, MXBase.ScreenLockType.NONE) { success ->
+//                // will show customized lock screen
+//            }
         }
     }
 

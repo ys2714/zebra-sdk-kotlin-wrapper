@@ -1,28 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!--This is an auto generated document. Changes to this document may cause incorrect behavior.--><wap-provisioningdoc>
-      
-  
   <characteristic type="ProfileInfo">
-            
-    
     <parm name="created_wizard_version" value="14.0.0"/>
-          
-  
-  </characteristic>
-    
-  
-  <characteristic type="Profile">
-        
-    <parm name="ProfileName" value="setPIN"/>
-        
-    <parm name="ModifiedDate" value="2025-12-02 21:00:21"/>
-        
-    <parm name="TargetSystemVersion" value="10.0"/>
-      
-  </characteristic>
-  
-  <characteristic type="Profile">
-    <parm name="ProfileName" value="load_profile_from_xml"/>
-    <parm name="ModifiedDate" value="2025-12-04 22:15:05"/>
-    <parm name="TargetSystemVersion" value="10.0"/>
   </characteristic>
 </wap-provisioningdoc>

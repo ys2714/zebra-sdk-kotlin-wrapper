@@ -18,8 +18,8 @@ internal fun MXProfileProcessor.importProfile(
     callback: (MXBase.ErrorInfo?) -> Unit) {
     processProfileWithCallback(
         context,
-        MXBase.ProfileXML.FileManagerCopyEmbeddedFreeFormOCR,
-        MXBase.ProfileName.FileManagerCopyEmbeddedFreeFormOCR,
+        MXBase.ProfileXML.DataWedgeManagerImportProfile,
+        MXBase.ProfileName.DataWedgeManagerImportProfile,
         mapOf(
             MXConst.ConfigurationFile to profileFileName
         ),

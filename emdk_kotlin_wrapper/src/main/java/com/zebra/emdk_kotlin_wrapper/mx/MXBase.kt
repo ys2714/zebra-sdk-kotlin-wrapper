@@ -58,9 +58,10 @@ class MXBase {
         DataWedgeManagerImportProfile("profile_datawedge_manager_import_profile.xml"),
         FileManagerCopyEmbeddedFreeFormOCR("profile_file_manager_copy_embedded_free_form_ocr.xml");
 
-        @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
+        @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.WARNING)
         override fun toString(): String {
-            throw RuntimeException("Not Implemented")
+            // throw RuntimeException("Not Implemented")
+            return value
         }
 
         val string: String
@@ -82,9 +83,10 @@ class MXBase {
         DataWedgeManagerImportProfile("DataWedgeManagerImportProfile"),
         FileManagerCopyEmbeddedFreeFormOCR("FileManagerCopyEmbeddedFreeFormOCR");
 
-        @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
+        @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.WARNING)
         override fun toString(): String {
-            throw RuntimeException("Not Implemented")
+            // throw RuntimeException("Not Implemented")
+            return value
         }
 
         val string: String

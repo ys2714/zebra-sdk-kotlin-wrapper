@@ -149,6 +149,8 @@ TouchPanelMode from MX 10.2
 Error Message:
 Key PLUGIN_CONFIG expected ArrayList but value was a [Landroid.os.Parcelable
 
+11. Failed to access dependency component.
+
 ## AndroidManifest.xml setup
 
 please set all queries in the same block

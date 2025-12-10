@@ -109,7 +109,7 @@ internal fun String.trimNewLines(): String {
 }
 
 internal fun String.trimSpace(): String {
-    return this.replace(" ", "")
+    return this.replace(Regex("\\s+"), " ")
 }
 
 internal fun String.compressStringByTrimAll(): String {

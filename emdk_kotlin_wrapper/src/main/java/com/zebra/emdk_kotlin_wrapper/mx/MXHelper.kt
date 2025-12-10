@@ -166,7 +166,7 @@ object MXHelper {
             if (errorInfo1 != null) {
                 callback(false)
             } else {
-                MXProfileProcessor.importProfile(context, name, delaySeconds) { errorInfo2 ->
+                MXProfileProcessor.importProfile(context, target, delaySeconds) { errorInfo2 ->
                     callback(errorInfo2 == null)
                 }
             }
