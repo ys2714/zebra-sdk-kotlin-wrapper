@@ -71,34 +71,34 @@ class MainViewModel {
                         if (success) {
                             DataWedgeHelper.createProfile(context, profileName) { createSuccess ->
                                 if (createSuccess) {
-                                    // DataWedgeHelper.bindProfileToApp(context, profileName, context.packageName) { configSuccess ->
-                                        // if (configSuccess) {
+                                     DataWedgeHelper.bindProfileToApp(context, profileName, context.packageName) { configSuccess ->
+                                         if (configSuccess) {
                                             getScannerStatus(context)
 
-//                                            DataWedgeHelper.configBarcodePlugin(context, profileName, enable = false, hardTrigger = false)
-//                                            DataWedgeHelper.configKeystrokePlugin(context, profileName, false)
-//                                            DataWedgeHelper.configIntentPlugin(context, profileName)
+                                            DataWedgeHelper.configBarcodePlugin(context, profileName, enable = false, hardTrigger = false)
+                                            DataWedgeHelper.configKeystrokePlugin(context, profileName, false)
+                                            DataWedgeHelper.configIntentPlugin(context, profileName)
 
-//                                            MXHelper.setScreenLockType(context, MXBase.ScreenLockType.NONE) { success ->
-//                                                // will show customized lock screen
-//                                            }
+                                            MXHelper.setScreenLockType(context, MXBase.ScreenLockType.NONE) { success ->
+                                                // will show customized lock screen
+                                            }
 
-//                                            ZebraKeyEventMonitor.resetAllKeyDownToDefault(context, delaySeconds = 1) {
-//                                                ZebraKeyEventMonitor.registerKeyDownListener(context, MXBase.KeyIdentifiers.LEFT_TRIGGER_2, delaySeconds = 1) {
-//                                                    showDebugToast(context, "Push To Talk", "press the PTT key to talk")
-//                                                }
-//                                                emdkPrepared.value = true
-//                                            }
+                                            ZebraKeyEventMonitor.resetAllKeyDownToDefault(context, delaySeconds = 1) {
+                                                ZebraKeyEventMonitor.registerKeyDownListener(context, MXBase.KeyIdentifiers.LEFT_TRIGGER_2, delaySeconds = 1) {
+                                                    showDebugToast(context, "Push To Talk", "press the PTT key to talk")
+                                                }
+                                                emdkPrepared.value = true
+                                            }
 
 //                                            MXHelper.copyAndImportFreeFormOCRProfile(context, delaySeconds = 3) { success ->
 //                                                showDebugToast(context, "Profile", "Free Form OCR Profile configured successfully? $success")
 //                                            }
 
                                             Log.d("DataWedge", "Profile configured successfully")
-                                        //} else {
-                                        //    Log.e("DataWedge", "Failed to configure profile")
-                                        //}
-                                    //}
+                                        } else {
+                                            Log.e("DataWedge", "Failed to configure profile")
+                                        }
+                                    }
                                 }
                             }
                         }
