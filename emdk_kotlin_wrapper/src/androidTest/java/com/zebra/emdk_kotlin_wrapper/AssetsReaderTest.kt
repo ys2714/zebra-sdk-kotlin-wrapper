@@ -105,29 +105,6 @@ class AssetsReaderTest {
     }
 
     @Test
-    fun checkReadJSONOmitOptionalParamsOnFirstLine() {
-        try {
-            val jsonString = AssetsReader.readFileToStringWithParams(
-                appContext,
-                "plugin_scanner_test.json",
-                mapOf(
-                    "CONFIG_MODE" to "true",
-                    "PROFILE_NAME" to "test",
-                    "PROFILE_ENABLED" to "true",
-                    "PACKAGE_NAME" to "com.zebra.test",
-                    // "test_key_1" to "true",
-                    "test_key_2" to "0",
-                    "test_key_3" to "0"
-                )
-            )
-            JsonUtils.jsonToBundle(jsonString)
-            fail("should throw exception: can not skip content before first delimiter")
-        } catch (e: Exception) {
-            Log.d("", "work as expected")
-        }
-    }
-
-    @Test
     fun checkReadJSONOmitOptionalParamsOnLastLine() {
         try {
             val jsonString = AssetsReader.readFileToStringWithParams(

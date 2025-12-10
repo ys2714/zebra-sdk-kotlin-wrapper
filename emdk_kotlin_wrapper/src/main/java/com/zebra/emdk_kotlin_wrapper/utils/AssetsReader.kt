@@ -104,12 +104,7 @@ object AssetsReader {
                         while (reader.read().also { nextChar = it } != -1 && nextChar.toChar() != delimiter) {
                             lineBuilder.append(nextChar.toChar())
                         }
-                        val cleanLine = lineBuilder.toString()
-                            .trim() //remove start and end spaces
-                            .trimIndent() //remove indentation
-                            .replace("\\s+", " ") //unify spaces to single space
-                            .replace("\r\n", "") //remove windows new lines first
-                            .replace("\n", "") //remove new lines
+                        val cleanLine = lineBuilder.toString().compressStringByTrimAll()
                         lineProcessor(cleanLine)?.let {
                             if (!it.isEmpty()) {
                                 stringBuilder

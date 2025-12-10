@@ -47,6 +47,7 @@ object DWAPI {
     enum class ActionExtraKeys(val value: String) { // Renamed from Action to avoid conflict with Intent Action
         CREATE_PROFILE("com.symbol.datawedge.api.CREATE_PROFILE"),
         DELETE_PROFILE("com.symbol.datawedge.api.DELETE_PROFILE"),
+        SWITCH_TO_PROFILE("com.symbol.datawedge.api.SWITCH_TO_PROFILE"),
         SET_CONFIG("com.symbol.datawedge.api.SET_CONFIG"),
         ENABLE_DATAWEDGE("com.symbol.datawedge.api.ENABLE_DATAWEDGE"),
         SOFT_SCAN_TRIGGER("com.symbol.datawedge.api.SOFT_SCAN_TRIGGER"),

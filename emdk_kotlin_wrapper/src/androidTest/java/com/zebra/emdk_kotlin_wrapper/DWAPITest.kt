@@ -100,7 +100,7 @@ class DWAPITest {
                 assert(deleteSuccess, { "delete profile failed" })
                 DataWedgeHelper.createProfile(context, profileName) { createSuccess ->
                     assert(createSuccess, { "create profile failed" })
-                    DataWedgeHelper.bindProfileToApp(context, profileName, context.packageName) { configSuccess ->
+                    DataWedgeHelper.switchProfile(context, profileName) { configSuccess ->
                         assert(configSuccess, { "config profile failed" })
                         DWIntentFactory.callDWAPI(context, DWAPI.ActionExtraKeys.DELETE_PROFILE, profileName) {}
                         complete.complete(Unit)

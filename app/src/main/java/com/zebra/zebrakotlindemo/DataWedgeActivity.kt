@@ -107,14 +107,21 @@ class DataWedgeActivity : ComponentActivity() {
                 .padding(horizontal = 16.dp)
         ) {
             Text("Scanner Status: " + viewModel.scannerStatus.value)
-            StyledOutlinedTextField(newText.value) { newValue ->
-               newText.value = newValue
+            RoundButton("Refresh Scanner Status") {
+                viewModel.getScannerStatus(this@DataWedgeActivity)
+            }
+            StyledOutlinedTextField("scan barcode or manually input", newText.value) { newValue ->
+                newText.value = newValue
             }
             RoundButton("Push Scan Button or Tap this") {
                 viewModel.startScanning(this@DataWedgeActivity)
             }
-            RoundButton("Refresh Scanner Status") {
-                viewModel.getScannerStatus(this@DataWedgeActivity)
+            Text("Current Profile: " + viewModel.profileName.value)
+            RoundButton("Switch Profile") {
+                viewModel.switchProfile(this@DataWedgeActivity)
+            }
+            StyledOutlinedTextField("scan expired date (OCR)", newText.value) { newValue ->
+                newText.value = newValue
             }
         }
     }

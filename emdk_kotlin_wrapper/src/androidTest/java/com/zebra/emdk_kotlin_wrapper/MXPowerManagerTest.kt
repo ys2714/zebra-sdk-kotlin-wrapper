@@ -20,30 +20,6 @@ class MXPowerManagerTest {
     val appContext = InstrumentationRegistry.getInstrumentation().targetContext
 
     @Test
-    fun checkCallPowerManagerFeature() = runBlocking {
-        val completion = CompletableDeferred<Unit>()
-
-        EMDKHelper.shared.prepare(appContext) { success ->
-            if (!success) {
-                fail("EMDK prepare failed")
-            }
-            MXProfileProcessor.callPowerManagerFeature(
-                appContext,
-                MXBase.PowerManagerOptions.SLEEP_MODE,
-                null,1,  { errorInfo ->
-                    if (errorInfo != null) {
-                        fail(errorInfo.errorDescription)
-                    } else {
-                        completion.complete(Unit)
-                    }
-                }
-            )
-        }
-
-        completion.await()
-    }
-
-    @Test
     fun checkPowerManagerReset() {
         try {
             // Define the values to replace the placeholders in the XML

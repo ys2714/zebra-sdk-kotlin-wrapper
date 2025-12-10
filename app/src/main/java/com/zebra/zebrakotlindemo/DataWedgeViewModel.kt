@@ -13,6 +13,8 @@ import kotlinx.coroutines.launch
 
 class DataWedgeViewModel : ViewModel() {
 
+    var profileName: MutableState<String> = mutableStateOf("")
+
     var text: MutableState<String> = mutableStateOf("")
 
     var dataListener: DataWedgeHelper.ScanDataListener? = null
@@ -76,6 +78,28 @@ class DataWedgeViewModel : ViewModel() {
         DataWedgeHelper.getScannerStatus(context, 1) { status ->
             scannerStatus.value = status.string
             // showDebugToast(context, "Scanner Status", status.string)
+        }
+    }
+
+    fun switchProfile(context: Context) {
+        if (this.profileName.value == "ocr_workflow") {
+            DataWedgeHelper.switchProfile(context, MainViewModel.profileName) { success ->
+                if (success) {
+                    profileName.value = "ZebraKotlinDemo4"
+                    showDebugToast(context, "Switch Profile ${this.profileName.value}", "Success")
+                } else {
+                    showDebugToast(context, "Switch Profile", "Fail")
+                }
+            }
+        } else {
+            DataWedgeHelper.switchProfile(context, "ocr_workflow") { success ->
+                if (success) {
+                    profileName.value = "ocr_workflow"
+                    showDebugToast(context, "Switch Profile ${this.profileName.value}", "Success")
+                } else {
+                    showDebugToast(context, "Switch Profile", "Fail")
+                }
+            }
         }
     }
 
