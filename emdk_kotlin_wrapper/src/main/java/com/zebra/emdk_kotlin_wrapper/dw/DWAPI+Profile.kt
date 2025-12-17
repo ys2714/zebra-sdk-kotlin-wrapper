@@ -30,6 +30,43 @@ suspend fun DWAPI.sendSetConfigIntent(context: Context, extra: Bundle): Boolean 
 }
 
 /**
+ * https://techdocs.zebra.com/datawedge/15-0/guide/api/getconfig/
+ *
+ * Parameters
+ * ACTION [string]: "com.symbol.datawedge.api.ACTION"
+ * EXTRA_DATA [string]: "com.symbol.datawedge.api.GET_CONFIG"
+ * EXTRA VALUE [bundle]: "<PROFILE_NAME>", "<PLUGIN_CONFIG>"
+ *
+ * PLUGIN_CONFIG [bundle] -
+ * PLUGIN_NAME [string] - single plug-in name (i.e. "barcode") or ArrayList of plugin names:
+ * PROCESS_PLUGIN_NAME [list of bundles] - For example:
+ * PLUGIN_NAME - "ADF", "BDF"
+ * OUTPUT_PLUGIN_NAME - "KEYSTROKE"
+ * ...
+ * PLUGIN_NAME - "BDF"
+ * OUTPUT_PLUGIN_NAME - "INTENT"
+ *
+ * Return Values
+ * Returns a nested bundle with the Profile name, status and a Profile config bundle containing the PARAM_LIST bundle.
+ * EXTRA NAME: "com.symbol.datawedge.api.GET_CONFIG_RESULT"
+ * BUNDLE: <mainbundle> (see parameters below)
+ *
+ * */
+suspend fun DWAPI.sendGetConfigIntent(context: Context, extra: Bundle): Bundle = suspendCancellableCoroutine { continuation ->
+    DWIntentFactory.callDWAPI(context, DWAPI.ActionExtraKeys.GET_CONFIG, extra) { result ->
+        result.onSuccess {
+            it.getBundleExtra(DWAPI.ResultExtraKeys.GET_CONFIG.value)?.let { bundle ->
+                continuation.resumeWith(Result.success(bundle))
+            } ?: run {
+                continuation.resumeWith(Result.failure(Exception("No Result")))
+            }
+        }.onFailure {
+            continuation.resumeWith(Result.failure(it))
+        }
+    }
+}
+
+/**
  * https://techdocs.zebra.com/datawedge/latest/guide/api/createprofile/
  *
  * - Parameters:
