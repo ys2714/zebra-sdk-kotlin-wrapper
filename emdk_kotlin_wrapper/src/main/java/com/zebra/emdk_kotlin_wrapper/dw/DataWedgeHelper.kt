@@ -4,6 +4,8 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -171,6 +173,37 @@ object DataWedgeHelper {
                         callback?.invoke(false)
                     }
                 }
+            }
+        }
+    }
+
+    fun getProfile(context: Context, name: String, callback: ((Bundle) -> Unit)? = null) {
+        backgroundScope.launch {
+            runCatching {
+                DWAPI.sendGetConfigIntent(context, Bundle().apply {
+                    putString("PROFILE_NAME", name)
+                    putBundle("PLUGIN_CONFIG",
+                        Bundle().apply {
+                            putStringArrayList("PLUGIN_NAME", arrayListOf<String>(
+                                "BARCODE",
+                                "MSR",
+                                "RFID",
+                                "SERIAL",
+                                "VOICE",
+                                "WORKFLOW",
+                                "INTENT",
+                                "KEYSTROKE",
+                                "IP",
+                                "DCP",
+                                "EKB"
+                            ))
+                        }
+                    )
+                })
+            }.onSuccess { bundle ->
+                callback?.invoke(bundle)
+            }.onFailure {
+                callback?.invoke(Bundle())
             }
         }
     }

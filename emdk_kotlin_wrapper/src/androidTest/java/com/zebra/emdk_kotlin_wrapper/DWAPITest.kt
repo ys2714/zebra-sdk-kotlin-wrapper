@@ -6,6 +6,8 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.zebra.emdk_kotlin_wrapper.dw.DWAPI
 import com.zebra.emdk_kotlin_wrapper.dw.DWIntentFactory
 import com.zebra.emdk_kotlin_wrapper.dw.DataWedgeHelper
+import com.zebra.emdk_kotlin_wrapper.utils.FileUtils
+import com.zebra.emdk_kotlin_wrapper.utils.JsonUtils
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.fail
@@ -66,6 +68,18 @@ class DWAPITest {
                 assert(success2)
                 complete.complete(Unit)
             }
+        }
+        complete.await()
+    }
+
+    @Test
+    fun checkGetProfile() = runBlocking {
+        val complete = CompletableDeferred<Unit>()
+        val profileName = "ZebraKotlinDemo4"
+        DataWedgeHelper.getProfile(context, profileName) { bundle ->
+            val jsonString = JsonUtils.bundleToJson(bundle)
+            FileUtils.saveTextToDownloads(context,"$profileName.json", jsonString)
+            complete.complete(Unit)
         }
         complete.await()
     }
