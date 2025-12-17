@@ -79,3 +79,49 @@ internal fun DWIntentFactory.simpleIntentPluginBundle(context: Context, profileN
     }
     return profileConfig1
 }
+
+internal fun DWIntentFactory.barcodeInputIntentOutputBundle(context: Context, profileName: String, intentAction: String): Bundle {
+    val profileConfig = Bundle().apply {
+        putString("PROFILE_NAME", "$profileName")
+        putString("PROFILE_ENABLED", "true")
+        putString("CONFIG_MODE", "CREATE_IF_NOT_EXIST")
+        putParcelableArrayList("PLUGIN_CONFIG", arrayListOf(
+            Bundle().apply {
+                putString("PLUGIN_NAME", "BARCODE")
+                putString("RESET_CONFIG", "true") //  This is the default
+                putBundle("PARAM_LIST", Bundle().apply {
+                    putString("scanner_selection", "auto")
+                    putString("scanner_input_enabled", "true")
+                    putString("decoder_code128", "true")
+                    putString("decoder_code39", "true")
+                    putString("decoder_ean13", "true")
+                    putString("decoder_upca", "true")
+                })
+            },
+            Bundle().apply {
+                putString("PLUGIN_NAME", "KEYSTROKE")
+                putString("RESET_CONFIG", "true") //  This is the default
+                putBundle("PARAM_LIST", Bundle().apply {
+                    putString("keystroke_output_enabled", "false")
+                })
+            },
+            Bundle().apply {
+                putString("PLUGIN_NAME", "INTENT")
+                putString("RESET_CONFIG", "true")
+                putBundle("PARAM_LIST", Bundle().apply {
+                    putString("intent_output_enabled", "true")
+                    putString("intent_action", "$intentAction")
+                    putString("intent_category", "android.intent.category.DEFAULT")
+                    putString("intent_delivery", DWAPI.IntentDeliveryOptions.BROADCAST.string)
+                })
+            }
+        ))
+        putParcelableArrayList("APP_LIST", arrayListOf(
+            Bundle().apply {
+                putString("PACKAGE_NAME", context.packageName)
+                putStringArray("ACTIVITY_LIST", arrayOf<String>("*"))
+            }
+        ))
+    }
+    return profileConfig
+}
