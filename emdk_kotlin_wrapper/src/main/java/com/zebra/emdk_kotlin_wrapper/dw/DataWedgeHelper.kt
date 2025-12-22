@@ -238,12 +238,12 @@ object DataWedgeHelper {
             runCatching {
                 DWAPI.sendSwitchProfileIntent(context, name)
             }.onSuccess { success ->
-                delay(DWAPI.MILLISECONDS_DELAY_BETWEEN_API_CALLS)
+                // delay(DWAPI.MILLISECONDS_DELAY_BETWEEN_API_CALLS)
                 foregroundScope.launch {
                     callback?.invoke(success)
                 }
             }.onFailure {
-                delay(DWAPI.MILLISECONDS_DELAY_BETWEEN_API_CALLS)
+                // delay(DWAPI.MILLISECONDS_DELAY_BETWEEN_API_CALLS)
                 foregroundScope.launch {
                     Log.e(TAG, "SWITCH PROFILE FAIL. Exception: ${it.message}")
                     callback?.invoke(false)
@@ -280,6 +280,27 @@ object DataWedgeHelper {
                     enable,
                     hardTrigger,
                     DWAPI.ScanInputModeOptions.SINGLE)
+                DWAPI.sendSetConfigIntent(context, bundle)
+            }.onSuccess {
+                delay(DWAPI.MILLISECONDS_DELAY_BETWEEN_API_CALLS)
+                foregroundScope.launch {
+                    callback?.invoke(true)
+                }
+            }.onFailure {
+                delay(DWAPI.MILLISECONDS_DELAY_BETWEEN_API_CALLS)
+                foregroundScope.launch {
+                    callback?.invoke(false)
+                }
+            }
+        }
+    }
+
+    fun configWorkflowPlugin(context: Context, name: String, enable: Boolean,callback: ((Boolean) -> Unit)? = null) {
+        backgroundScope.launch {
+            runCatching {
+                val bundle = DWProfileProcessor.bundleForWorkflowPlugin(
+                    context,
+                    name, enable)
                 DWAPI.sendSetConfigIntent(context, bundle)
             }.onSuccess {
                 delay(DWAPI.MILLISECONDS_DELAY_BETWEEN_API_CALLS)

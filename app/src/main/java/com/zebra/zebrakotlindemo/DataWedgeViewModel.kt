@@ -15,9 +15,6 @@ import kotlinx.coroutines.launch
 
 class DataWedgeViewModel : ViewModel() {
 
-    val barcodeProfileName = "barcode_intent"
-    val ocrProfileName = "workflow_intent"
-
     var profileName: MutableState<String> = mutableStateOf("")
 
     var barcodeText: MutableState<String> = mutableStateOf("")
@@ -27,9 +24,9 @@ class DataWedgeViewModel : ViewModel() {
     var scannerStatus = mutableStateOf("")
 
     fun handleOnCreate(context: Context) {
-        DataWedgeHelper.switchProfile(context, barcodeProfileName) { success ->
+        DataWedgeHelper.switchProfile(context, MainViewModel.barcodeProfileName) { success ->
             if (success) {
-                profileName.value = barcodeProfileName
+                profileName.value = MainViewModel.barcodeProfileName
             } else {
                 showDebugToast(context, "Switch Profile", "Fail")
             }
@@ -46,7 +43,7 @@ class DataWedgeViewModel : ViewModel() {
                 value: String,
                 timestamp: String
             ) {
-                if (profileName.value == ocrProfileName) {
+                if (profileName.value == MainViewModel.ocrProfileName) {
                     ocrText.value = value
                 } else {
                     barcodeText.value = value
@@ -62,7 +59,8 @@ class DataWedgeViewModel : ViewModel() {
             }
         }.also {
             DataWedgeHelper.addScanDataListener(it)
-            DataWedgeHelper.configBarcodePlugin(context, MainViewModel.profileName, enable = true, hardTrigger = false)
+            DataWedgeHelper.configBarcodePlugin(context, MainViewModel.barcodeProfileName, enable = true, hardTrigger = false)
+            DataWedgeHelper.configWorkflowPlugin(context, MainViewModel.barcodeProfileName, enable = false)
             getScannerStatus(context)
         }
     }
@@ -72,7 +70,7 @@ class DataWedgeViewModel : ViewModel() {
             DataWedgeHelper.removeScanDataListener(dataListener!!)
             dataListener = null
         }
-        DataWedgeHelper.configBarcodePlugin(context, MainViewModel.profileName, enable = false, hardTrigger = false)
+        DataWedgeHelper.configBarcodePlugin(context, MainViewModel.barcodeProfileName, enable = false, hardTrigger = false)
     }
 
     fun handleOnDestroy() {
@@ -97,30 +95,42 @@ class DataWedgeViewModel : ViewModel() {
         }
     }
 
+    val updateOrSwitch = false
+
     fun switchToBarcodeProfile(context: Context) {
-        DataWedgeHelper.switchProfile(context, barcodeProfileName) { success ->
-            if (success) {
-                profileName.value = barcodeProfileName
-                //showDebugToast(context, "Switch Profile ${this.profileName.value}", "Success")
-            } else {
-                showDebugToast(context, "Switch Profile", "Fail")
+        if (updateOrSwitch) {
+            DataWedgeHelper.configWorkflowPlugin(context, MainViewModel.barcodeProfileName, enable = false)
+            DataWedgeHelper.configBarcodePlugin(context, MainViewModel.barcodeProfileName, enable = true, hardTrigger = false)
+        } else {
+            DataWedgeHelper.switchProfile(context, MainViewModel.barcodeProfileName) { success ->
+                if (success) {
+                    profileName.value = MainViewModel.barcodeProfileName
+                    //showDebugToast(context, "Switch Profile ${this.profileName.value}", "Success")
+                } else {
+                    showDebugToast(context, "Switch Profile", "Fail")
+                }
             }
         }
     }
 
     fun switchToOCRProfile(context: Context) {
-        DataWedgeHelper.switchProfile(context, ocrProfileName) { success ->
-            if (success) {
-                profileName.value = ocrProfileName
-                //showDebugToast(context, "Switch Profile ${this.profileName.value}", "Success")
-            } else {
-                showDebugToast(context, "Switch Profile", "Fail")
+        if (updateOrSwitch) {
+            DataWedgeHelper.configBarcodePlugin(context, MainViewModel.barcodeProfileName, enable = false, hardTrigger = false)
+            DataWedgeHelper.configWorkflowPlugin(context, MainViewModel.barcodeProfileName, enable = true)
+        } else {
+            DataWedgeHelper.switchProfile(context, MainViewModel.ocrProfileName) { success ->
+                if (success) {
+                    profileName.value = MainViewModel.ocrProfileName
+                    //showDebugToast(context, "Switch Profile ${this.profileName.value}", "Success")
+                } else {
+                    showDebugToast(context, "Switch Profile", "Fail")
+                }
             }
         }
     }
 
     fun toggleProfile(context: Context) {
-        if (this.profileName.value == ocrProfileName) {
+        if (this.profileName.value == MainViewModel.ocrProfileName) {
             switchToBarcodeProfile(context)
         } else {
             switchToOCRProfile(context)
@@ -140,7 +150,7 @@ class DataWedgeViewModel : ViewModel() {
                     val json = JsonUtils.bundleToJson(bundle)
                     FileUtils.saveTextToDownloads(context, profileName, json)
                     // switch back
-                    DataWedgeHelper.switchProfile(context, MainViewModel.profileName) { success -> }
+                    DataWedgeHelper.switchProfile(context, MainViewModel.barcodeProfileName) { success -> }
                 }
             }
         }

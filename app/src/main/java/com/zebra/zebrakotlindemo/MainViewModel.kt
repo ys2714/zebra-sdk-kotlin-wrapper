@@ -24,7 +24,8 @@ import kotlinx.coroutines.launch
 class MainViewModel {
 
     companion object {
-        val profileName = "ZebraKotlinDemo4"
+        val barcodeProfileName = "barcode_intent"
+        val ocrProfileName = "workflow_intent"
     }
 
     var appAuthenticated = mutableStateOf(false)
@@ -93,17 +94,18 @@ class MainViewModel {
     }
 
     fun createProfileWithHelper(context: Context) {
-        DataWedgeHelper.deleteProfile(context, profileName) { success ->
+        DataWedgeHelper.deleteProfile(context, barcodeProfileName) { success ->
             if (success) {
-                DataWedgeHelper.createProfile(context, profileName) { createSuccess ->
+                DataWedgeHelper.createProfile(context, barcodeProfileName) { createSuccess ->
                     if (createSuccess) {
-                        DataWedgeHelper.bindProfileToApp(context, profileName, context.packageName) { configSuccess ->
+                        DataWedgeHelper.bindProfileToApp(context, barcodeProfileName, context.packageName) { configSuccess ->
                             if (configSuccess) {
                                 getScannerStatus(context)
 
-                                DataWedgeHelper.configBarcodePlugin(context, profileName, enable = false, hardTrigger = false)
-                                DataWedgeHelper.configKeystrokePlugin(context, profileName, false)
-                                DataWedgeHelper.configIntentPlugin(context, profileName)
+                                DataWedgeHelper.configBarcodePlugin(context, barcodeProfileName, enable = false, hardTrigger = false)
+                                DataWedgeHelper.configWorkflowPlugin(context, barcodeProfileName, false)
+                                DataWedgeHelper.configKeystrokePlugin(context, barcodeProfileName, false)
+                                DataWedgeHelper.configIntentPlugin(context, barcodeProfileName)
 
                                 MXHelper.setScreenLockType(context, MXBase.ScreenLockType.NONE) { success ->
                                     // will show customized lock screen
