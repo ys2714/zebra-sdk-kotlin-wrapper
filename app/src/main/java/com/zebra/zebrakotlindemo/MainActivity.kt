@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.unit.dp
 import com.zebra.emdk_kotlin_wrapper.mx.MXBase
 import com.zebra.emdk_kotlin_wrapper.utils.ZebraSystemEventMonitor
@@ -82,6 +83,8 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun RootView(context: Context) {
+        val profileNeedExport = remember { viewModel.profileNeedExport }
+
         if (viewModel.emdkPrepared.value) {
             Column(
                 modifier = Modifier
@@ -111,6 +114,7 @@ class MainActivity : ComponentActivity() {
                 RoundButton("DataWedge") {
                     startActivity(Intent(context, DataWedgeActivity::class.java))
                 }
+
             }
         } else {
             Column(

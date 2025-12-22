@@ -8,11 +8,16 @@ import android.view.KeyEvent
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.unit.dp
 import com.zebra.emdk_kotlin_wrapper.mx.MXBase
 
@@ -101,28 +106,59 @@ class DataWedgeActivity : ComponentActivity() {
 
     @Composable
     fun RootView() {
-        val newText = remember { viewModel.text }
+        val barcodeText = remember { viewModel.barcodeText }
+        val ocrText = remember { viewModel.ocrText }
+        val profileNeedExport = remember { mutableStateOf("") }
+
         Column(
             Modifier
                 .padding(horizontal = 16.dp)
         ) {
             Text("Scanner Status: " + viewModel.scannerStatus.value)
+            Text("Current Profile: " + viewModel.profileName.value)
             RoundButton("Refresh Scanner Status") {
                 viewModel.getScannerStatus(this@DataWedgeActivity)
             }
-            StyledOutlinedTextField("scan barcode or manually input", newText.value) { newValue ->
-                newText.value = newValue
+            RoundButton("Toggle Profile") {
+                viewModel.toggleProfile(this@DataWedgeActivity)
+            }
+            StyledOutlinedTextField(
+                "scan barcode or manually input",
+                barcodeText.value,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .onFocusChanged( { focusState ->
+                    if (focusState.isFocused) {
+                        viewModel.switchToBarcodeProfile(this@DataWedgeActivity)
+                    }
+                })
+            ) { newValue ->
+                barcodeText.value = newValue
+            }
+            StyledOutlinedTextField(
+                "scan expired date (OCR)",
+                ocrText.value,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .onFocusChanged( { focusState ->
+                    if (focusState.isFocused) {
+                        viewModel.switchToOCRProfile(this@DataWedgeActivity)
+                    }
+                })
+            ) { newValue ->
+                ocrText.value = newValue
             }
             RoundButton("Push Scan Button or Tap this") {
                 viewModel.startScanning(this@DataWedgeActivity)
             }
-            Text("Current Profile: " + viewModel.profileName.value)
-            RoundButton("Switch Profile") {
-                viewModel.switchProfile(this@DataWedgeActivity)
+            /*
+            StyledOutlinedTextField("please input profile name", profileNeedExport.value) { newValue ->
+                profileNeedExport.value = newValue
             }
-            StyledOutlinedTextField("scan expired date (OCR)", newText.value) { newValue ->
-                newText.value = newValue
+            RoundButton("Export DW Profile as JSON") {
+                viewModel.exportProfile(this@DataWedgeActivity, profileNeedExport.value)
             }
+            */
         }
     }
 }

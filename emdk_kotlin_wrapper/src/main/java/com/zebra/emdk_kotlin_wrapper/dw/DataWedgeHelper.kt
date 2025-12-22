@@ -9,8 +9,10 @@ import android.os.Parcelable
 import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import com.zebra.emdk_kotlin_wrapper.utils.AssetsReader
 import com.zebra.emdk_kotlin_wrapper.utils.FixedSizeQueue
 import com.zebra.emdk_kotlin_wrapper.utils.FixedSizeQueueItem
+import com.zebra.emdk_kotlin_wrapper.utils.JsonUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -322,6 +324,30 @@ object DataWedgeHelper {
                     DWAPI.ResultCategoryNames.CATEGORY_DEFAULT,
                     DWAPI.IntentDeliveryOptions.BROADCAST
                 )
+                DWAPI.sendSetConfigIntent(context, bundle)
+            }.onSuccess {
+                delay(DWAPI.MILLISECONDS_DELAY_BETWEEN_API_CALLS)
+                foregroundScope.launch {
+                    callback?.invoke(true)
+                }
+            }.onFailure {
+                delay(DWAPI.MILLISECONDS_DELAY_BETWEEN_API_CALLS)
+                foregroundScope.launch {
+                    callback?.invoke(false)
+                }
+            }
+        }
+    }
+
+    fun configWithJSON(context: Context, fileName: String, callback: ((Boolean) -> Unit)? = null) {
+        backgroundScope.launch {
+            runCatching {
+                val jsonString = AssetsReader.readFileToStringWithParams(
+                    context,
+                    fileName,
+                    mapOf()
+                )
+                val bundle = JsonUtils.jsonToBundle(jsonString)
                 DWAPI.sendSetConfigIntent(context, bundle)
             }.onSuccess {
                 delay(DWAPI.MILLISECONDS_DELAY_BETWEEN_API_CALLS)
