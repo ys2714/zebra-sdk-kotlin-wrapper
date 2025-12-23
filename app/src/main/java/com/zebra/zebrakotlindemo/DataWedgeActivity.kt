@@ -149,6 +149,7 @@ class DataWedgeActivity : ComponentActivity() {
                 ocrText.value = newValue
             }
             RoundButton("Push Scan Button or Tap this") {
+                viewModel.stopScanning(this@DataWedgeActivity)
                 viewModel.startScanning(this@DataWedgeActivity)
             }
             /*

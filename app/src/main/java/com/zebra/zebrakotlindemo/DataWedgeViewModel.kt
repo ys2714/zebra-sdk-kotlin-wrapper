@@ -16,6 +16,7 @@ import kotlinx.coroutines.launch
 class DataWedgeViewModel : ViewModel() {
 
     var profileName: MutableState<String> = mutableStateOf("")
+    var shouldConfigProfileByAPI: Boolean = false
 
     var barcodeText: MutableState<String> = mutableStateOf("")
     var ocrText: MutableState<String> = mutableStateOf("")
@@ -59,8 +60,10 @@ class DataWedgeViewModel : ViewModel() {
             }
         }.also {
             DataWedgeHelper.addScanDataListener(it)
-            DataWedgeHelper.configBarcodePlugin(context, MainViewModel.barcodeProfileName, enable = true, hardTrigger = false)
-            DataWedgeHelper.configWorkflowPlugin(context, MainViewModel.barcodeProfileName, enable = false)
+            if (shouldConfigProfileByAPI) {
+                DataWedgeHelper.configBarcodePlugin(context, MainViewModel.barcodeProfileName, enable = true, hardTrigger = false)
+                DataWedgeHelper.configWorkflowPlugin(context, MainViewModel.barcodeProfileName, enable = false)
+            }
             getScannerStatus(context)
         }
     }
@@ -70,7 +73,9 @@ class DataWedgeViewModel : ViewModel() {
             DataWedgeHelper.removeScanDataListener(dataListener!!)
             dataListener = null
         }
-        DataWedgeHelper.configBarcodePlugin(context, MainViewModel.barcodeProfileName, enable = false, hardTrigger = false)
+        if (shouldConfigProfileByAPI) {
+            DataWedgeHelper.configBarcodePlugin(context, MainViewModel.barcodeProfileName, enable = false, hardTrigger = false)
+        }
     }
 
     fun handleOnDestroy() {
@@ -95,10 +100,8 @@ class DataWedgeViewModel : ViewModel() {
         }
     }
 
-    val updateOrSwitch = false
-
     fun switchToBarcodeProfile(context: Context) {
-        if (updateOrSwitch) {
+        if (shouldConfigProfileByAPI) {
             DataWedgeHelper.configWorkflowPlugin(context, MainViewModel.barcodeProfileName, enable = false)
             DataWedgeHelper.configBarcodePlugin(context, MainViewModel.barcodeProfileName, enable = true, hardTrigger = false)
         } else {
@@ -114,7 +117,7 @@ class DataWedgeViewModel : ViewModel() {
     }
 
     fun switchToOCRProfile(context: Context) {
-        if (updateOrSwitch) {
+        if (shouldConfigProfileByAPI) {
             DataWedgeHelper.configBarcodePlugin(context, MainViewModel.barcodeProfileName, enable = false, hardTrigger = false)
             DataWedgeHelper.configWorkflowPlugin(context, MainViewModel.barcodeProfileName, enable = true)
         } else {
