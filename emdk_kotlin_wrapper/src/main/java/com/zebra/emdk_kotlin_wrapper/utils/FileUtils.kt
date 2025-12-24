@@ -6,12 +6,19 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import java.io.IOException
 import java.nio.charset.StandardCharsets
 
 object FileUtils {
 
     private val TAG = FileUtils::class.java.simpleName
+
+    private val backgroundScope = CoroutineScope(Dispatchers.IO + Job())
+    private val foregroundScope = CoroutineScope(Dispatchers.Main + Job())
 
     /**
      * Saves a text string to a file in the public "Download" directory.
@@ -60,15 +67,20 @@ object FileUtils {
             resolver.openOutputStream(fileUri)?.use { outputStream ->
                 // Write the text content to the file.
                 outputStream.write(fileContent.toByteArray(StandardCharsets.UTF_8))
-                Toast.makeText(context, "File saved to Downloads folder", Toast.LENGTH_LONG).show()
+                toastMessage(context, "File saved to Downloads folder")
             } ?: throw IOException("Failed to open output stream for $fileUri")
         } catch (e: IOException) {
             // Handle potential I/O errors, for example, if storage is full.
-            Log.d(TAG, e.message ?: "")
-            Toast.makeText(context, "Error saving file: ${e.message}", Toast.LENGTH_LONG).show()
-
+            toastMessage(context, "Error saving file: ${e.message}")
             // If an error occurs, it's good practice to delete the incomplete file entry.
             resolver.delete(fileUri, null, null)
+        }
+    }
+
+    private fun toastMessage(context: Context, message: String) {
+        Log.d(TAG, message)
+        foregroundScope.launch {
+            Toast.makeText(context, message, Toast.LENGTH_LONG).show()
         }
     }
 }

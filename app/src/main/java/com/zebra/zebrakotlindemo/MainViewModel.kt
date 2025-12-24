@@ -1,8 +1,6 @@
 package com.zebra.zebrakotlindemo
 
 import android.content.Context
-import android.content.Intent
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -11,7 +9,6 @@ import com.zebra.emdk_kotlin_wrapper.emdk.EMDKHelper
 import com.zebra.emdk_kotlin_wrapper.mx.MXBase
 import com.zebra.emdk_kotlin_wrapper.mx.MXHelper
 import com.zebra.emdk_kotlin_wrapper.utils.ZebraKeyEventMonitor
-import com.zebra.emdk_kotlin_wrapper.utils.ZebraSystemEventMonitor
 import com.zebra.emdk_kotlin_wrapper.zdm.ZDMAuthHelper
 import com.zebra.emdk_kotlin_wrapper.zdm.ZDMConst
 import kotlinx.coroutines.CoroutineScope
@@ -19,10 +16,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainViewModel {
-
-    companion object {
-        val profileName = "ZebraKotlinDemo4"
-    }
 
     var appAuthenticated = mutableStateOf(false)
     var emdkPrepared = mutableStateOf(false)
@@ -67,41 +60,30 @@ class MainViewModel {
             // prepare dw
             DataWedgeHelper.prepare(context) { enableSuccess ->
                 if (enableSuccess) {
-                    DataWedgeHelper.deleteProfile(context, profileName) { success ->
-                        if (success) {
-                            DataWedgeHelper.createProfile(context, profileName) { createSuccess ->
-                                if (createSuccess) {
-                                    DataWedgeHelper.bindProfileToApp(context, profileName, context.packageName) { configSuccess ->
-                                        if (configSuccess) {
-                                            getScannerStatus(context)
-
-                                            DataWedgeHelper.configBarcodePlugin(context, profileName, enable = false, hardTrigger = false)
-                                            DataWedgeHelper.configKeystrokePlugin(context, profileName, false)
-                                            DataWedgeHelper.configIntentPlugin(context, profileName)
-
-                                            MXHelper.setScreenLockType(context, MXBase.ScreenLockType.NONE) { success ->
-                                                // will show customized lock screen
-                                            }
-
-                                            ZebraKeyEventMonitor.resetAllKeyDownToDefault(context, delaySeconds = 1) {
-                                                ZebraKeyEventMonitor.registerKeyDownListener(context, MXBase.KeyIdentifiers.LEFT_TRIGGER_2, delaySeconds = 1) {
-                                                    showDebugToast(context, "Push To Talk", "press the PTT key to talk")
-                                                }
-                                                emdkPrepared.value = true
-                                            }
-
-
-                                            Log.d("DataWedge", "Profile configured successfully")
-                                        } else {
-                                            Log.e("DataWedge", "Failed to configure profile")
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                    getScannerStatus(context)
+                    setupKeyMapping(context) {
+                        emdkPrepared.value = true
                     }
+                } else {
+                    throw RuntimeException("MainViewModel - DataWedge prepare failed")
                 }
             }
+        }
+    }
+
+    fun setupKeyMapping(context: Context, completion: () -> Unit) {
+        ZebraKeyEventMonitor.resetAllKeyDownToDefault(context, delaySeconds = 1) {
+            ZebraKeyEventMonitor.registerKeyDownListener(context, MXBase.KeyIdentifiers.LEFT_TRIGGER_2, delaySeconds = 1) {
+                showDebugToast(context, "Push To Talk", "press the PTT key to talk")
+            }
+            completion()
+        }
+    }
+
+    fun importProfile(context: Context, completion: (Boolean) -> Unit) {
+        MXHelper.copyAndImportFreeFormOCRProfile(context, delaySeconds = 3) { success ->
+            showDebugToast(context, "Profile", "Free Form OCR Profile configured successfully? $success")
+            completion(success)
         }
     }
 

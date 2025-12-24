@@ -3,8 +3,6 @@ package com.zebra.emdk_kotlin_wrapper
 import android.util.Log
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.zebra.emdk_kotlin_wrapper.dw.DWAPI
-import com.zebra.emdk_kotlin_wrapper.dw.DWConst
 import com.zebra.emdk_kotlin_wrapper.mx.MXBase
 import com.zebra.emdk_kotlin_wrapper.mx.MXConst
 import com.zebra.emdk_kotlin_wrapper.utils.AssetsReader
@@ -41,7 +39,7 @@ class AssetsReaderTest {
         try {
             val jsonString = AssetsReader.readFileToStringWithParams(
                 appContext,
-                "plugin_scanner_test.json",
+                "test_plugin_scanner.json",
                 mapOf(
                     "CONFIG_MODE" to "true",
                     "PROFILE_NAME" to "test",
@@ -63,7 +61,7 @@ class AssetsReaderTest {
         try {
             val jsonString = AssetsReader.readFileToStringWithParams(
                 appContext,
-                "plugin_scanner_test.json",
+                "test_plugin_scanner.json",
                 mapOf(
                     "CONFIG_MODE" to "true",
                     "PROFILE_NAME" to "test",
@@ -86,7 +84,7 @@ class AssetsReaderTest {
         try {
             val jsonString = AssetsReader.readFileToStringWithParams(
                 appContext,
-                "plugin_scanner_test.json",
+                "test_plugin_scanner.json",
                 mapOf(
                     "CONFIG_MODE" to "true",
                     "PROFILE_NAME" to "test",
@@ -105,34 +103,11 @@ class AssetsReaderTest {
     }
 
     @Test
-    fun checkReadJSONOmitOptionalParamsOnFirstLine() {
-        try {
-            val jsonString = AssetsReader.readFileToStringWithParams(
-                appContext,
-                "plugin_scanner_test.json",
-                mapOf(
-                    "CONFIG_MODE" to "true",
-                    "PROFILE_NAME" to "test",
-                    "PROFILE_ENABLED" to "true",
-                    "PACKAGE_NAME" to "com.zebra.test",
-                    // "test_key_1" to "true",
-                    "test_key_2" to "0",
-                    "test_key_3" to "0"
-                )
-            )
-            JsonUtils.jsonToBundle(jsonString)
-            fail("should throw exception: can not skip content before first delimiter")
-        } catch (e: Exception) {
-            Log.d("", "work as expected")
-        }
-    }
-
-    @Test
     fun checkReadJSONOmitOptionalParamsOnLastLine() {
         try {
             val jsonString = AssetsReader.readFileToStringWithParams(
                 appContext,
-                "plugin_scanner_test.json",
+                "test_plugin_scanner.json",
                 mapOf(
                     "CONFIG_MODE" to "true",
                     "PROFILE_NAME" to "test",

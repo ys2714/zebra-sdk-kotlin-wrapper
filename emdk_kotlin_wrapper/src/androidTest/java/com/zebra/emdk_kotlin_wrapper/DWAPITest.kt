@@ -6,6 +6,8 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.zebra.emdk_kotlin_wrapper.dw.DWAPI
 import com.zebra.emdk_kotlin_wrapper.dw.DWIntentFactory
 import com.zebra.emdk_kotlin_wrapper.dw.DataWedgeHelper
+import com.zebra.emdk_kotlin_wrapper.utils.FileUtils
+import com.zebra.emdk_kotlin_wrapper.utils.JsonUtils
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.fail
@@ -71,6 +73,18 @@ class DWAPITest {
     }
 
     @Test
+    fun checkGetProfile() = runBlocking {
+        val complete = CompletableDeferred<Unit>()
+        val profileName = "ZebraKotlinDemo4"
+        DataWedgeHelper.getProfile(context, profileName) { bundle ->
+            val jsonString = JsonUtils.bundleToJson(bundle)
+            FileUtils.saveTextToDownloads(context,"$profileName.json", jsonString)
+            complete.complete(Unit)
+        }
+        complete.await()
+    }
+
+    @Test
     fun checkGetScannerList() = runBlocking {
         val complete = CompletableDeferred<Unit>()
         DataWedgeHelper.getScannerList(context) { list ->
@@ -100,7 +114,7 @@ class DWAPITest {
                 assert(deleteSuccess, { "delete profile failed" })
                 DataWedgeHelper.createProfile(context, profileName) { createSuccess ->
                     assert(createSuccess, { "create profile failed" })
-                    DataWedgeHelper.bindProfileToApp(context, profileName, context.packageName) { configSuccess ->
+                    DataWedgeHelper.switchProfile(context, profileName) { configSuccess ->
                         assert(configSuccess, { "config profile failed" })
                         DWIntentFactory.callDWAPI(context, DWAPI.ActionExtraKeys.DELETE_PROFILE, profileName) {}
                         complete.complete(Unit)

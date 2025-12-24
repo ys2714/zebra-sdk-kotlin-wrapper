@@ -4,11 +4,15 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import com.zebra.emdk_kotlin_wrapper.utils.AssetsReader
 import com.zebra.emdk_kotlin_wrapper.utils.FixedSizeQueue
 import com.zebra.emdk_kotlin_wrapper.utils.FixedSizeQueueItem
+import com.zebra.emdk_kotlin_wrapper.utils.JsonUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -54,7 +58,7 @@ object DataWedgeHelper {
                 while (!enabled) {
                     val status1 = async { DWAPI.enableDW(context, true) }
                     status1.await()
-                    delay(2 * 1000)
+                    delay(1 * 1000)
                     val status2 = async { DWAPI.sendGetDWStatusIntent(context) }
                     enabled = status2.await()
                 }
@@ -175,6 +179,37 @@ object DataWedgeHelper {
         }
     }
 
+    fun getProfile(context: Context, name: String, callback: ((Bundle) -> Unit)? = null) {
+        backgroundScope.launch {
+            runCatching {
+                DWAPI.sendGetConfigIntent(context, Bundle().apply {
+                    putString("PROFILE_NAME", name)
+                    putBundle("PLUGIN_CONFIG",
+                        Bundle().apply {
+                            putStringArrayList("PLUGIN_NAME", arrayListOf<String>(
+                                "BARCODE",
+                                "MSR",
+                                "RFID",
+                                "SERIAL",
+                                "VOICE",
+                                "WORKFLOW",
+                                "INTENT",
+                                "KEYSTROKE",
+                                "IP",
+                                "DCP",
+                                "EKB"
+                            ))
+                        }
+                    )
+                })
+            }.onSuccess { bundle ->
+                callback?.invoke(bundle)
+            }.onFailure {
+                callback?.invoke(Bundle())
+            }
+        }
+    }
+
     fun deleteProfile(context: Context, name: String, callback: ((Boolean) -> Unit)? = null) {
         backgroundScope.launch {
             runCatching {
@@ -193,6 +228,25 @@ object DataWedgeHelper {
                         Log.e(TAG, "DELETE PROFILE FAIL. Exception: ${it.message}")
                         callback?.invoke(false)
                     }
+                }
+            }
+        }
+    }
+
+    fun switchProfile(context: Context, name: String, callback: ((Boolean) -> Unit)? = null) {
+        backgroundScope.launch {
+            runCatching {
+                DWAPI.sendSwitchProfileIntent(context, name)
+            }.onSuccess { success ->
+                // delay(DWAPI.MILLISECONDS_DELAY_BETWEEN_API_CALLS)
+                foregroundScope.launch {
+                    callback?.invoke(success)
+                }
+            }.onFailure {
+                // delay(DWAPI.MILLISECONDS_DELAY_BETWEEN_API_CALLS)
+                foregroundScope.launch {
+                    Log.e(TAG, "SWITCH PROFILE FAIL. Exception: ${it.message}")
+                    callback?.invoke(false)
                 }
             }
         }
@@ -241,6 +295,27 @@ object DataWedgeHelper {
         }
     }
 
+    fun configWorkflowPlugin(context: Context, name: String, enable: Boolean,callback: ((Boolean) -> Unit)? = null) {
+        backgroundScope.launch {
+            runCatching {
+                val bundle = DWProfileProcessor.bundleForWorkflowPlugin(
+                    context,
+                    name, enable)
+                DWAPI.sendSetConfigIntent(context, bundle)
+            }.onSuccess {
+                delay(DWAPI.MILLISECONDS_DELAY_BETWEEN_API_CALLS)
+                foregroundScope.launch {
+                    callback?.invoke(true)
+                }
+            }.onFailure {
+                delay(DWAPI.MILLISECONDS_DELAY_BETWEEN_API_CALLS)
+                foregroundScope.launch {
+                    callback?.invoke(false)
+                }
+            }
+        }
+    }
+
     fun configKeystrokePlugin(context: Context, name: String, enable: Boolean, callback: ((Boolean) -> Unit)? = null) {
         backgroundScope.launch {
             runCatching {
@@ -270,6 +345,30 @@ object DataWedgeHelper {
                     DWAPI.ResultCategoryNames.CATEGORY_DEFAULT,
                     DWAPI.IntentDeliveryOptions.BROADCAST
                 )
+                DWAPI.sendSetConfigIntent(context, bundle)
+            }.onSuccess {
+                delay(DWAPI.MILLISECONDS_DELAY_BETWEEN_API_CALLS)
+                foregroundScope.launch {
+                    callback?.invoke(true)
+                }
+            }.onFailure {
+                delay(DWAPI.MILLISECONDS_DELAY_BETWEEN_API_CALLS)
+                foregroundScope.launch {
+                    callback?.invoke(false)
+                }
+            }
+        }
+    }
+
+    fun configWithJSON(context: Context, fileName: String, params: Map<String, String>, callback: ((Boolean) -> Unit)? = null) {
+        backgroundScope.launch {
+            runCatching {
+                val jsonString = AssetsReader.readFileToStringWithParams(
+                    context,
+                    fileName,
+                    params
+                )
+                val bundle = JsonUtils.jsonToBundle(jsonString)
                 DWAPI.sendSetConfigIntent(context, bundle)
             }.onSuccess {
                 delay(DWAPI.MILLISECONDS_DELAY_BETWEEN_API_CALLS)

@@ -47,6 +47,8 @@ object MXConst {
     const val BaseIntentCategory = "BaseIntentCategory"
     const val BaseIntentStringExtraName = "BaseIntentStringExtraName"
     const val BaseIntentStringExtraValue = "BaseIntentStringExtraValue"
+    const val TargetPathAndFileName = "TargetPathAndFileName"
+    const val ConfigurationFile = "ConfigurationFile"
     const val EXTRA_KEY_IDENTIFIER = "EXTRA_KEY_IDENTIFIER"
 
     // Ignored Value
