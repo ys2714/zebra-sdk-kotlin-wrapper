@@ -3,8 +3,6 @@ package com.zebra.emdk_kotlin_wrapper
 import android.util.Log
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.zebra.emdk_kotlin_wrapper.dw.DWAPI
-import com.zebra.emdk_kotlin_wrapper.dw.DWConst
 import com.zebra.emdk_kotlin_wrapper.mx.MXBase
 import com.zebra.emdk_kotlin_wrapper.mx.MXConst
 import com.zebra.emdk_kotlin_wrapper.utils.AssetsReader
@@ -41,7 +39,7 @@ class AssetsReaderTest {
         try {
             val jsonString = AssetsReader.readFileToStringWithParams(
                 appContext,
-                "plugin_scanner_test.json",
+                "test_plugin_scanner.json",
                 mapOf(
                     "CONFIG_MODE" to "true",
                     "PROFILE_NAME" to "test",
@@ -63,7 +61,7 @@ class AssetsReaderTest {
         try {
             val jsonString = AssetsReader.readFileToStringWithParams(
                 appContext,
-                "plugin_scanner_test.json",
+                "test_plugin_scanner.json",
                 mapOf(
                     "CONFIG_MODE" to "true",
                     "PROFILE_NAME" to "test",
@@ -86,7 +84,7 @@ class AssetsReaderTest {
         try {
             val jsonString = AssetsReader.readFileToStringWithParams(
                 appContext,
-                "plugin_scanner_test.json",
+                "test_plugin_scanner.json",
                 mapOf(
                     "CONFIG_MODE" to "true",
                     "PROFILE_NAME" to "test",
@@ -109,7 +107,7 @@ class AssetsReaderTest {
         try {
             val jsonString = AssetsReader.readFileToStringWithParams(
                 appContext,
-                "plugin_scanner_test.json",
+                "test_plugin_scanner.json",
                 mapOf(
                     "CONFIG_MODE" to "true",
                     "PROFILE_NAME" to "test",

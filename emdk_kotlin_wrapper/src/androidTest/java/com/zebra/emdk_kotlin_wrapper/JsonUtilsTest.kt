@@ -17,7 +17,7 @@ class JsonUtilsTest {
 //    fun checkJsonToBundle() {
 //        val jsonString = AssetsReader.readFileToStringWithParams(
 //            context,
-//            "set_config.json",
+//            "test_simple_profile.json",
 //            mapOf(
 //                "PROFILE_NAME" to "test-profile",
 //                "PACKAGE_NAME" to "com.zebra.demo",
