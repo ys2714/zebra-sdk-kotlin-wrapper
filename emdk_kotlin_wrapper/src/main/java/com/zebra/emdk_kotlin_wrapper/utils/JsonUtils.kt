@@ -56,21 +56,21 @@ object JsonUtils {
             when (val value = jsonObject.get(key)) {
                 is JSONObject -> bundle.putBundle(key, toBundle(value))
                 is JSONArray -> {
-                    val list = value
-                    if (list.length() > 0) {
+                    val list = toList(value)
+                    if (list.count() > 0) {
                         when (list.get(0)) {
                             is JSONObject -> {
                                 val parcelables = arrayListOf<Parcelable>()
-                                for (i in 0 until list.length()) {
-                                    val item = list.getJSONObject(i)
-                                    parcelables.add(toBundle(item))
+                                for (i in 0 until list.count()) {
+                                    val item = list.get(i) as Bundle
+                                    parcelables.add(item)
                                 }
                                 bundle.putParcelableArrayList(key, parcelables)
                             }
                             is String -> {
                                 val strings = arrayListOf<String>()
-                                for (i in 0 until list.length()) {
-                                    val item = list.getString(i)
+                                for (i in 0 until list.count()) {
+                                    val item = list.get(i) as String
                                     strings.add(item)
                                 }
                                 bundle.putStringArrayList(key, strings)
@@ -88,20 +88,20 @@ object JsonUtils {
         return bundle
     }
 
-//    private fun toList(jsonArray: JSONArray): List<Any> {
-//        val list = mutableListOf<Any>()
-//        for (i in 0 until jsonArray.length()) {
-//            val value = jsonArray.get(i)
-//            if (value is JSONObject) {
-//                list.add(toBundle(value))
-//            } else if (value is JSONArray) {
-//                list.add(toList(value))
-//            } else {
-//                list.add(value)
-//            }
-//        }
-//        return list
-//    }
+    private fun toList(jsonArray: JSONArray): List<Any> {
+        val list = mutableListOf<Any>()
+        for (i in 0 until jsonArray.length()) {
+            val value = jsonArray.get(i)
+            if (value is JSONObject) {
+                list.add(toBundle(value))
+            } else if (value is JSONArray) {
+                list.add(toList(value))
+            } else {
+                list.add(value)
+            }
+        }
+        return list
+    }
 }
 
 internal fun String.trimNewLines(): String {
@@ -114,4 +114,8 @@ internal fun String.trimSpace(): String {
 
 internal fun String.compressStringByTrimAll(): String {
     return this.trim().trimIndent().trimNewLines().trimSpace()
+}
+
+internal fun String.compressStringByTrim(): String {
+    return this.trim().trimIndent().trimNewLines()
 }

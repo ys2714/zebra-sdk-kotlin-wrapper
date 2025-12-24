@@ -11,17 +11,29 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class DataWedgeViewModel : ViewModel() {
+class DataWedgeBasicViewModel : ViewModel() {
 
-    var profileName: MutableState<String> = mutableStateOf("")
+    companion object {
+        val barcodeProfileName = "barcode_intent"
+        val ocrProfileName = "workflow_intent"
+    }
 
-    var text: MutableState<String> = mutableStateOf("")
+    var currentProfileName: MutableState<String> = mutableStateOf("")
+
+    var barcodeText: MutableState<String> = mutableStateOf("")
+    var ocrText: MutableState<String> = mutableStateOf("")
 
     var dataListener: DataWedgeHelper.ScanDataListener? = null
     var scannerStatus = mutableStateOf("")
 
     fun handleOnCreate(context: Context) {
-
+        DataWedgeHelper.switchProfile(context, barcodeProfileName) { success ->
+            if (success) {
+                currentProfileName.value = barcodeProfileName
+            } else {
+                showDebugToast(context, "Switch Profile", "Fail")
+            }
+        }
     }
 
     fun handleOnResume(context: Context) {
@@ -34,7 +46,11 @@ class DataWedgeViewModel : ViewModel() {
                 value: String,
                 timestamp: String
             ) {
-                text.value = value
+                if (currentProfileName.value == ocrProfileName) {
+                    ocrText.value = value
+                } else {
+                    barcodeText.value = value
+                }
             }
 
             override fun getID(): String {
@@ -46,7 +62,6 @@ class DataWedgeViewModel : ViewModel() {
             }
         }.also {
             DataWedgeHelper.addScanDataListener(it)
-            DataWedgeHelper.configBarcodePlugin(context, MainViewModel.profileName, enable = true, hardTrigger = false)
             getScannerStatus(context)
         }
     }
@@ -56,11 +71,9 @@ class DataWedgeViewModel : ViewModel() {
             DataWedgeHelper.removeScanDataListener(dataListener!!)
             dataListener = null
         }
-        DataWedgeHelper.configBarcodePlugin(context, MainViewModel.profileName, enable = false, hardTrigger = false)
     }
 
-    fun handleOnDestroy() {
-    }
+    fun handleOnDestroy() {}
 
     fun startScanning(context: Context) {
         DataWedgeHelper.softScanTrigger(
@@ -81,31 +94,39 @@ class DataWedgeViewModel : ViewModel() {
         }
     }
 
-    fun switchProfile(context: Context) {
-        if (this.profileName.value == "ocr_workflow") {
-            DataWedgeHelper.switchProfile(context, MainViewModel.profileName) { success ->
-                if (success) {
-                    profileName.value = "ZebraKotlinDemo4"
-                    showDebugToast(context, "Switch Profile ${this.profileName.value}", "Success")
-                } else {
-                    showDebugToast(context, "Switch Profile", "Fail")
-                }
+    fun switchToBarcodeProfile(context: Context) {
+        DataWedgeHelper.switchProfile(context, barcodeProfileName) { success ->
+            if (success) {
+                currentProfileName.value = barcodeProfileName
+                //showDebugToast(context, "Switch Profile ${this.profileName.value}", "Success")
+            } else {
+                showDebugToast(context, "Switch Profile", "Fail")
             }
+        }
+    }
+
+    fun switchToOCRProfile(context: Context) {
+        DataWedgeHelper.switchProfile(context, ocrProfileName) { success ->
+            if (success) {
+                currentProfileName.value = ocrProfileName
+                //showDebugToast(context, "Switch Profile ${this.profileName.value}", "Success")
+            } else {
+                showDebugToast(context, "Switch Profile", "Fail")
+            }
+        }
+    }
+
+    fun toggleProfile(context: Context) {
+        if (this.currentProfileName.value == ocrProfileName) {
+            switchToBarcodeProfile(context)
         } else {
-            DataWedgeHelper.switchProfile(context, "ocr_workflow") { success ->
-                if (success) {
-                    profileName.value = "ocr_workflow"
-                    showDebugToast(context, "Switch Profile ${this.profileName.value}", "Success")
-                } else {
-                    showDebugToast(context, "Switch Profile", "Fail")
-                }
-            }
+            switchToOCRProfile(context)
         }
     }
 
     fun showDebugToast(context: Context, type: String, data: String) {
         CoroutineScope(Dispatchers.Main).launch {
-            Toast.makeText(context, "$type\n$data", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "$type\n$data", Toast.LENGTH_SHORT).show()
         }
     }
 }

@@ -75,7 +75,7 @@ class MainActivity : ComponentActivity() {
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (keyCode == MXBase.KeyCodes.SCAN.value
             || keyCode == MXBase.KeyCodes.RIGHT_TRIGGER_1.value) {
-            DataWedgeActivity.start(this)
+            DataWedgeBasicActivity.start(this)
         }
         return super.onKeyDown(keyCode, event)
     }
@@ -108,8 +108,14 @@ class MainActivity : ComponentActivity() {
                 RoundButton("EMDK") {
                     startActivity(Intent(context, EMDKActivity::class.java))
                 }
-                RoundButton("DataWedge") {
-                    startActivity(Intent(context, DataWedgeActivity::class.java))
+                RoundButton("DataWedge Basic") {
+                    startActivity(Intent(context, DataWedgeBasicActivity::class.java))
+                }
+                RoundButton("DataWedge Advanced") {
+                    startActivity(Intent(context, DataWedgeAdvancedActivity::class.java))
+                }
+                RoundButton("DataWedge Profile") {
+                    startActivity(Intent(context, DataWedgeProfileActivity::class.java))
                 }
             }
         } else {

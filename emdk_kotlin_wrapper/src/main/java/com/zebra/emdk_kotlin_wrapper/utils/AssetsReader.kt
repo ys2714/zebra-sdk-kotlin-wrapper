@@ -104,7 +104,7 @@ object AssetsReader {
                         while (reader.read().also { nextChar = it } != -1 && nextChar.toChar() != delimiter) {
                             lineBuilder.append(nextChar.toChar())
                         }
-                        val cleanLine = lineBuilder.toString().compressStringByTrimAll()
+                        val cleanLine = lineBuilder.toString().compressStringByTrim()
                         lineProcessor(cleanLine)?.let {
                             if (!it.isEmpty()) {
                                 stringBuilder

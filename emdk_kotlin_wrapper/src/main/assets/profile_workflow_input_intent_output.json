@@ -1,0 +1,23 @@
+{
+  "CONFIG_MODE": "UPDATE",
+  "PROFILE_NAME": "barcode_intent_advanced",
+  "PLUGIN_CONFIG": [
+    {
+      "PLUGIN_NAME": "BARCODE",
+      "RESET_CONFIG": "false",
+      "PARAM_LIST": {
+        "scanner_input_enabled": "false"
+      }
+    },
+    {
+      "PLUGIN_NAME": "WORKFLOW",
+      "RESET_CONFIG": "false",
+      "workflow_input_enabled": "true",
+      "selected_workflow_name": "free_form_ocr",
+      "PARAM_LIST": [
+        {}
+      ]
+    }
+  ],
+  "PROFILE_ENABLED": "true"
+}

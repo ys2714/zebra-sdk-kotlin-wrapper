@@ -1,8 +1,6 @@
 package com.zebra.zebrakotlindemo
 
 import android.content.Context
-import android.content.Intent
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -11,7 +9,6 @@ import com.zebra.emdk_kotlin_wrapper.emdk.EMDKHelper
 import com.zebra.emdk_kotlin_wrapper.mx.MXBase
 import com.zebra.emdk_kotlin_wrapper.mx.MXHelper
 import com.zebra.emdk_kotlin_wrapper.utils.ZebraKeyEventMonitor
-import com.zebra.emdk_kotlin_wrapper.utils.ZebraSystemEventMonitor
 import com.zebra.emdk_kotlin_wrapper.zdm.ZDMAuthHelper
 import com.zebra.emdk_kotlin_wrapper.zdm.ZDMConst
 import kotlinx.coroutines.CoroutineScope
@@ -19,10 +16,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainViewModel {
-
-    companion object {
-        val profileName = "ZebraKotlinDemo4"
-    }
 
     var appAuthenticated = mutableStateOf(false)
     var emdkPrepared = mutableStateOf(false)
@@ -52,68 +45,57 @@ class MainViewModel {
             emdkVersion.value = EMDKHelper.shared.emdkVersion
             mxVersion.value = EMDKHelper.shared.mxVersion
             dwVersion.value = EMDKHelper.shared.dwVersion
-
-            // key mapping
-            val doesSetKeyMapping = false
-            if (doesSetKeyMapping) {
-                ZebraKeyEventMonitor.resetAllKeyDownToDefault(context, delaySeconds = 1) {
-                    ZebraKeyEventMonitor.registerKeyDownListener(context, MXBase.KeyIdentifiers.LEFT_TRIGGER_2, delaySeconds = 1) {
-                        showDebugToast(context, "Push To Talk", "press the PTT key to talk")
-                    }
-                }
-            }
-            // copy DW profiles
-            val doesCopyDWProfiles = false
-            if (doesCopyDWProfiles) {
-                MXHelper.copyAndImportFreeFormOCRProfile(context, delaySeconds = 3) { success ->
-                    showDebugToast(context, "Profile", "Free Form OCR Profile configured successfully? $success")
-                }
-            }
             // white list app
-//            authenticateApp(context) { whiteListSuccess ->
-//                if (whiteListSuccess) {
-//                    fetchSerialNumber(context) {
-//                        fetchPPID(context) {
-//                            fetchIMEI(context) {
-//
-//                            }
-//                        }
-//                    }
-//                } else {
-//
-//                }
-//            }
+            authenticateApp(context) { whiteListSuccess ->
+                if (whiteListSuccess) {
+                    fetchSerialNumber(context) {
+                        fetchPPID(context) {
+                            fetchIMEI(context) {}
+                        }
+                    }
+                } else {
+
+                }
+            }
             // prepare dw
             DataWedgeHelper.prepare(context) { enableSuccess ->
                 if (enableSuccess) {
-                    DataWedgeHelper.deleteProfile(context, profileName) { success ->
-                        if (success) {
-                            DataWedgeHelper.createProfile(context, profileName) { createSuccess ->
-                                if (createSuccess) {
-                                     DataWedgeHelper.bindProfileToApp(context, profileName, context.packageName) { configSuccess ->
-                                         if (configSuccess) {
-                                            getScannerStatus(context)
-
-                                            DataWedgeHelper.configBarcodePlugin(context, profileName, enable = false, hardTrigger = false)
-                                            DataWedgeHelper.configKeystrokePlugin(context, profileName, false)
-                                            DataWedgeHelper.configIntentPlugin(context, profileName)
-                                             emdkPrepared.value = true
-
-                                            Log.d("DataWedge", "Profile configured successfully")
-                                        } else {
-                                            Log.e("DataWedge", "Failed to configure profile")
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                    getScannerStatus(context)
+                    setupKeyMapping(context) {
+                        emdkPrepared.value = true
                     }
+                } else {
+                    throw RuntimeException("MainViewModel - DataWedge prepare failed")
                 }
             }
-            // set screen lock type
-//            MXHelper.setScreenLockType(context, MXBase.ScreenLockType.NONE) { success ->
-//                // will show customized lock screen
-//            }
+        }
+    }
+
+    fun setupKeyMapping(context: Context, completion: () -> Unit) {
+        ZebraKeyEventMonitor.resetAllKeyDownToDefault(context, delaySeconds = 1) {
+            ZebraKeyEventMonitor.registerKeyDownListener(context, MXBase.KeyIdentifiers.LEFT_TRIGGER_2, delaySeconds = 1) {
+                showDebugToast(context, "Push To Talk", "press the PTT key to talk")
+            }
+            completion()
+        }
+    }
+
+    fun importProfile(context: Context, completion: (Boolean) -> Unit) {
+        MXHelper.copyAndImportFreeFormOCRProfile(context, delaySeconds = 3) { success ->
+            showDebugToast(context, "Profile", "Free Form OCR Profile configured successfully? $success")
+            completion(success)
+        }
+    }
+
+    fun createProfileWithJSON(context: Context, completion: (Boolean) -> Unit) {
+        DataWedgeHelper.configWithJSON(context, "profile_barcode_input_intent_output.json") { success ->
+            if (success) {
+                DataWedgeHelper.switchProfile(context, "barcode_intent") { switchSuccess ->
+                    completion(switchSuccess)
+                }
+            } else {
+                completion(false)
+            }
         }
     }
 
