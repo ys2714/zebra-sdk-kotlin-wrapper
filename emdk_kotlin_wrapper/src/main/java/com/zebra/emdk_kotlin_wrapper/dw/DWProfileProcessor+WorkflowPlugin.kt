@@ -13,7 +13,8 @@ internal fun DWProfileProcessor.bundleForWorkflowPlugin(context: Context,
         DWConst.WorkflowPluginJSON,
         mapOf(
             DWConst.PROFILE_NAME to profileName,
-            DWConst.PROFILE_ENABLED to enabledString
+            DWConst.PROFILE_ENABLED to "true",
+            "workflow_input_enabled" to enabledString
         )
     )
     return JsonUtils.jsonToBundle(jsonString)

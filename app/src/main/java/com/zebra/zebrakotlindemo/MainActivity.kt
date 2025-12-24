@@ -16,7 +16,6 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.unit.dp
 import com.zebra.emdk_kotlin_wrapper.mx.MXBase
 import com.zebra.emdk_kotlin_wrapper.utils.ZebraSystemEventMonitor
@@ -76,15 +75,13 @@ class MainActivity : ComponentActivity() {
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (keyCode == MXBase.KeyCodes.SCAN.value
             || keyCode == MXBase.KeyCodes.RIGHT_TRIGGER_1.value) {
-            DataWedgeActivity.start(this)
+            DataWedgeBasicActivity.start(this)
         }
         return super.onKeyDown(keyCode, event)
     }
 
     @Composable
     fun RootView(context: Context) {
-        val profileNeedExport = remember { viewModel.profileNeedExport }
-
         if (viewModel.emdkPrepared.value) {
             Column(
                 modifier = Modifier
@@ -111,10 +108,15 @@ class MainActivity : ComponentActivity() {
                 RoundButton("EMDK") {
                     startActivity(Intent(context, EMDKActivity::class.java))
                 }
-                RoundButton("DataWedge") {
-                    startActivity(Intent(context, DataWedgeActivity::class.java))
+                RoundButton("DataWedge Basic") {
+                    startActivity(Intent(context, DataWedgeBasicActivity::class.java))
                 }
-
+                RoundButton("DataWedge Advanced") {
+                    startActivity(Intent(context, DataWedgeAdvancedActivity::class.java))
+                }
+                RoundButton("DataWedge Profile") {
+                    startActivity(Intent(context, DataWedgeProfileActivity::class.java))
+                }
             }
         } else {
             Column(

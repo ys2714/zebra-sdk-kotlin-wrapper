@@ -42,7 +42,23 @@ internal fun DWProfileProcessor.bundleForBarcodePlugin(context: Context,
             DWConst.decoder_pdf417 to "true",
             DWConst.decoder_qrcode to "true",
             // UPC
-            DWConst.decoder_upca to "true"
+            DWConst.decoder_upca to "true",
+            // OCR
+            "ocr_check_digit_multiplier" to "121212121212",
+            "ocr_lines" to "1",
+            "ocr_b_variant" to "0",
+            "ocr_quiet_zone" to "50",
+            "decoder_ocr_a" to "false",
+            "decoder_ocr_b" to "false",
+            "ocr_subset" to "!\\\"#\$%()*+,-.\\/0123456789<>ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz\\\\^|",
+            "ocr_check_digit_modulus" to "1",
+            "ocr_orientation" to "0",
+            "ocr_a_variant" to "0",
+            "ocr_b_variant" to "0",
+            "ocr_check_digit_validation" to "0",
+            "ocr_max_chars" to "100",
+            "ocr_template" to "99999999",
+            "ocr_min_chars" to "3"
         )
     )
     val bundle = JsonUtils.jsonToBundle(jsonString)

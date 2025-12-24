@@ -1,6 +1,6 @@
 {
   "CONFIG_MODE": "CREATE_IF_NOT_EXIST",
-  "PROFILE_NAME": "barcode_intent",
+  "PROFILE_NAME": "barcode_intent_advanced",
   "PLUGIN_CONFIG": [
     {
       "PLUGIN_NAME": "BARCODE",
@@ -83,7 +83,6 @@
         "picklist": "0",
         "enable_udi_hibcc": "true",
         "starting_focus": "none",
-        "SCANNER_STATUS": "CONNECTED",
         "decoder_trioptic39": "false",
         "decoder_uspostnet_report_check_digit": "false",
         "decoder_upce0_convert_to_upca": "false",
@@ -136,7 +135,7 @@
         "decoder_code39_verify_check_digit": "false",
         "decoder_matrix_2of5_redundancy": "false",
         "decoder_us4state_fics": "false",
-        "decode_audio_feedback_uri": "content:\/\/media\/internal\/audio\/media\/199",
+        "decode_audio_feedback_uri": "decode-short",
         "decoder_matrix_2of5_length1": "10",
         "decoder_matrix_2of5_length2": "0",
         "decoder_gs1_databar": "true",
@@ -153,7 +152,6 @@
         "decoder_finnish_postal_4s": "false",
         "decoder_korean_3of5": "false",
         "ocr_a_variant": "0",
-        "SCANNER_TYPE": "INTERNAL_IMAGER",
         "decoder_dotcode_eccerasure": "10",
         "decoder_microqr": "false",
         "decode_screen_translucency": "35",
@@ -204,7 +202,6 @@
         "decoder_hanxin": "false",
         "code_id_type": "0",
         "presentation_mode_sensitivity": "120",
-        "scanner_input_enabled": "false",
         "decoder_code39_redundancy": "false",
         "ocr_template": "99999999",
         "upcean_coupon_report": "2",
@@ -227,27 +224,35 @@
         "decoder_upce0_preamble": "0",
         "decoder_us4state": "false",
         "decoder_micropdf": "false",
-        "auto_charset_preferred_order": "UTF-8;GB2312"
+        "auto_charset_preferred_order": "UTF-8;GB2312",
+        "scanner_input_enabled": "false"
       }
     },
     {
       "PLUGIN_NAME": "WORKFLOW",
-      "workflow_input_enabled": "false"
+      "RESET_CONFIG": "true",
+      "workflow_input_enabled": "true",
+      "selected_workflow_name": "free_form_ocr",
+      "PARAM_LIST": [
+        {}
+      ]
     },
     {
       "PLUGIN_NAME": "INTENT",
+      "RESET_CONFIG": "true",
       "PARAM_LIST": {
         "intent_start_foreground_service_on_failure": "false",
         "intent_use_content_provider": "false",
         "intent_category": "android.intent.category.DEFAULT",
         "intent_delivery": "2",
         "intent_action": "com.zebra.emdk_kotlin_wrapper.SCAN_RESULT_ACTION",
-        "intent_output_enabled": "true",
-        "intent_flag_receiver_foreground": "false"
+        "intent_flag_receiver_foreground": "false",
+        "intent_output_enabled": "true"
       }
     },
     {
       "PLUGIN_NAME": "KEYSTROKE",
+      "RESET_CONFIG": "true",
       "PARAM_LIST": {
         "keystroke_display_datawedge_keyboard": "false",
         "keystroke_send_enter_as_string": "0",
@@ -256,9 +261,9 @@
         "keystroke_datawedge_keyboard_display_timeout": "10",
         "keystroke_action_char": "NONE",
         "keystroke_send_tab_as_string": "false",
-        "keystroke_output_enabled": "false",
         "keystroke_delay_extended_ascii": "0",
-        "keystroke_send_control_chars_as_events": "false"
+        "keystroke_send_control_chars_as_events": "false",
+        "keystroke_output_enabled": "false"
       }
     }
   ],

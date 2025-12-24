@@ -1,8 +1,6 @@
 package com.zebra.zebrakotlindemo
 
-import android.graphics.drawable.Icon
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
@@ -19,7 +17,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.rounded.Menu
 
 @Composable
 fun RoundButton(title: String, modifier: Modifier? = null, onClick: () -> Unit) {
@@ -61,6 +58,7 @@ fun RoundButton(title: String, modifier: Modifier? = null, onClick: () -> Unit) 
 fun StyledOutlinedTextField(
     placeholder: String = "scan barcode or manually input",
     currentValue: String,
+    keyboardType: KeyboardType = KeyboardType.Number,
     modifier: Modifier = Modifier.fillMaxWidth(),
     valueChangeAction: (String) -> Unit) {
     val focusManager = LocalFocusManager.current
@@ -89,7 +87,7 @@ fun StyledOutlinedTextField(
 
         // Configure the keyboard
         keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Number, // Use the email keyboard
+            keyboardType = keyboardType, // Use the email keyboard
             imeAction = ImeAction.Done // Show a "Done" button
         )
     )

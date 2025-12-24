@@ -6,7 +6,7 @@
     "PLUGIN_NAME": "WORKFLOW",
     "RESET_CONFIG": "true",
     "selected_workflow_name": "free_form_ocr",
-    "workflow_input_enabled": "true",
+    "workflow_input_enabled": "=[workflow_input_enabled]",
     "PARAM_LIST": [
       {}
     ]

@@ -30,7 +30,17 @@
 
         <activity
             android:exported="true"
-            android:name=".DataWedgeActivity">
+            android:name=".DataWedgeBasicActivity">
+        </activity>
+
+        <activity
+            android:exported="true"
+            android:name=".DataWedgeAdvancedActivity">
+        </activity>
+
+        <activity
+            android:exported="true"
+            android:name=".DataWedgeProfileActivity">
         </activity>
 
         <activity

@@ -1,20 +1,14 @@
 package com.zebra.zebrakotlindemo
 
 import android.content.Context
-import android.content.Intent
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.draganddrop.DragAndDropTargetModifierNode
 import com.zebra.emdk_kotlin_wrapper.dw.DataWedgeHelper
 import com.zebra.emdk_kotlin_wrapper.emdk.EMDKHelper
 import com.zebra.emdk_kotlin_wrapper.mx.MXBase
 import com.zebra.emdk_kotlin_wrapper.mx.MXHelper
-import com.zebra.emdk_kotlin_wrapper.utils.FileUtils
-import com.zebra.emdk_kotlin_wrapper.utils.JsonUtils
 import com.zebra.emdk_kotlin_wrapper.utils.ZebraKeyEventMonitor
-import com.zebra.emdk_kotlin_wrapper.utils.ZebraSystemEventMonitor
 import com.zebra.emdk_kotlin_wrapper.zdm.ZDMAuthHelper
 import com.zebra.emdk_kotlin_wrapper.zdm.ZDMConst
 import kotlinx.coroutines.CoroutineScope
@@ -22,11 +16,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainViewModel {
-
-    companion object {
-        val barcodeProfileName = "barcode_intent"
-        val ocrProfileName = "workflow_intent"
-    }
 
     var appAuthenticated = mutableStateOf(false)
     var emdkPrepared = mutableStateOf(false)
@@ -39,8 +28,6 @@ class MainViewModel {
     var ppid: MutableState<String> = mutableStateOf("")
     var serial: MutableState<String> = mutableStateOf("")
     var imei: MutableState<String> = mutableStateOf("")
-
-    var profileNeedExport: MutableState<String> = mutableStateOf("")
 
     /**
      *
@@ -73,62 +60,41 @@ class MainViewModel {
             // prepare dw
             DataWedgeHelper.prepare(context) { enableSuccess ->
                 if (enableSuccess) {
-                    emdkPrepared.value = true
+                    getScannerStatus(context)
+                    setupKeyMapping(context) {
+                        emdkPrepared.value = true
+                    }
+                } else {
+                    throw RuntimeException("MainViewModel - DataWedge prepare failed")
                 }
             }
         }
     }
 
-    fun createProfileWithJSON(context: Context) {
+    fun setupKeyMapping(context: Context, completion: () -> Unit) {
+        ZebraKeyEventMonitor.resetAllKeyDownToDefault(context, delaySeconds = 1) {
+            ZebraKeyEventMonitor.registerKeyDownListener(context, MXBase.KeyIdentifiers.LEFT_TRIGGER_2, delaySeconds = 1) {
+                showDebugToast(context, "Push To Talk", "press the PTT key to talk")
+            }
+            completion()
+        }
+    }
+
+    fun importProfile(context: Context, completion: (Boolean) -> Unit) {
+        MXHelper.copyAndImportFreeFormOCRProfile(context, delaySeconds = 3) { success ->
+            showDebugToast(context, "Profile", "Free Form OCR Profile configured successfully? $success")
+            completion(success)
+        }
+    }
+
+    fun createProfileWithJSON(context: Context, completion: (Boolean) -> Unit) {
         DataWedgeHelper.configWithJSON(context, "profile_barcode_input_intent_output.json") { success ->
             if (success) {
                 DataWedgeHelper.switchProfile(context, "barcode_intent") { switchSuccess ->
-                    if (switchSuccess) {
-                        emdkPrepared.value = true
-                    }
+                    completion(switchSuccess)
                 }
             } else {
-                emdkPrepared.value = false
-            }
-        }
-    }
-
-    fun createProfileWithHelper(context: Context) {
-        DataWedgeHelper.deleteProfile(context, barcodeProfileName) { success ->
-            if (success) {
-                DataWedgeHelper.createProfile(context, barcodeProfileName) { createSuccess ->
-                    if (createSuccess) {
-                        DataWedgeHelper.bindProfileToApp(context, barcodeProfileName, context.packageName) { configSuccess ->
-                            if (configSuccess) {
-                                getScannerStatus(context)
-
-                                DataWedgeHelper.configBarcodePlugin(context, barcodeProfileName, enable = false, hardTrigger = false)
-                                DataWedgeHelper.configWorkflowPlugin(context, barcodeProfileName, false)
-                                DataWedgeHelper.configKeystrokePlugin(context, barcodeProfileName, false)
-                                DataWedgeHelper.configIntentPlugin(context, barcodeProfileName)
-
-                                MXHelper.setScreenLockType(context, MXBase.ScreenLockType.NONE) { success ->
-                                    // will show customized lock screen
-                                }
-
-                                ZebraKeyEventMonitor.resetAllKeyDownToDefault(context, delaySeconds = 1) {
-                                    ZebraKeyEventMonitor.registerKeyDownListener(context, MXBase.KeyIdentifiers.LEFT_TRIGGER_2, delaySeconds = 1) {
-                                        showDebugToast(context, "Push To Talk", "press the PTT key to talk")
-                                    }
-                                    emdkPrepared.value = true
-                                }
-
-//                                            MXHelper.copyAndImportFreeFormOCRProfile(context, delaySeconds = 3) { success ->
-//                                                showDebugToast(context, "Profile", "Free Form OCR Profile configured successfully? $success")
-//                                            }
-
-                                Log.d("DataWedge", "Profile configured successfully")
-                            } else {
-                                Log.e("DataWedge", "Failed to configure profile")
-                            }
-                        }
-                    }
-                }
+                completion(false)
             }
         }
     }
@@ -202,6 +168,4 @@ class MainViewModel {
                 Toast.LENGTH_LONG).show()
         }
     }
-
-
 }

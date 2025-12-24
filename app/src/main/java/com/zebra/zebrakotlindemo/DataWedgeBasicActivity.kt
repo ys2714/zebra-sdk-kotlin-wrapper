@@ -8,8 +8,6 @@ import android.view.KeyEvent
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
@@ -21,21 +19,21 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.unit.dp
 import com.zebra.emdk_kotlin_wrapper.mx.MXBase
 
-class DataWedgeActivity : ComponentActivity() {
+class DataWedgeBasicActivity : ComponentActivity() {
 
     companion object {
-        const val TAG = "DataWedgeActivity"
+        const val TAG = "DataWedgeBasicActivity"
 
         fun start(context: Context) {
             context.startActivity(
-                Intent(context, DataWedgeActivity::class.java).apply {
+                Intent(context, DataWedgeBasicActivity::class.java).apply {
                     addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 }
             )
         }
     }
 
-    val viewModel = DataWedgeViewModel()
+    val viewModel = DataWedgeBasicViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -115,12 +113,12 @@ class DataWedgeActivity : ComponentActivity() {
                 .padding(horizontal = 16.dp)
         ) {
             Text("Scanner Status: " + viewModel.scannerStatus.value)
-            Text("Current Profile: " + viewModel.profileName.value)
+            Text("Current Profile: " + viewModel.currentProfileName.value)
             RoundButton("Refresh Scanner Status") {
-                viewModel.getScannerStatus(this@DataWedgeActivity)
+                viewModel.getScannerStatus(this@DataWedgeBasicActivity)
             }
             RoundButton("Toggle Profile") {
-                viewModel.toggleProfile(this@DataWedgeActivity)
+                viewModel.toggleProfile(this@DataWedgeBasicActivity)
             }
             StyledOutlinedTextField(
                 "scan barcode or manually input",
@@ -129,7 +127,7 @@ class DataWedgeActivity : ComponentActivity() {
                     .fillMaxWidth()
                     .onFocusChanged( { focusState ->
                     if (focusState.isFocused) {
-                        viewModel.switchToBarcodeProfile(this@DataWedgeActivity)
+                        viewModel.switchToBarcodeProfile(this@DataWedgeBasicActivity)
                     }
                 })
             ) { newValue ->
@@ -142,24 +140,16 @@ class DataWedgeActivity : ComponentActivity() {
                     .fillMaxWidth()
                     .onFocusChanged( { focusState ->
                     if (focusState.isFocused) {
-                        viewModel.switchToOCRProfile(this@DataWedgeActivity)
+                        viewModel.switchToOCRProfile(this@DataWedgeBasicActivity)
                     }
                 })
             ) { newValue ->
                 ocrText.value = newValue
             }
             RoundButton("Push Scan Button or Tap this") {
-                viewModel.stopScanning(this@DataWedgeActivity)
-                viewModel.startScanning(this@DataWedgeActivity)
+                viewModel.stopScanning(this@DataWedgeBasicActivity)
+                viewModel.startScanning(this@DataWedgeBasicActivity)
             }
-            /*
-            StyledOutlinedTextField("please input profile name", profileNeedExport.value) { newValue ->
-                profileNeedExport.value = newValue
-            }
-            RoundButton("Export DW Profile as JSON") {
-                viewModel.exportProfile(this@DataWedgeActivity, profileNeedExport.value)
-            }
-            */
         }
     }
 }
