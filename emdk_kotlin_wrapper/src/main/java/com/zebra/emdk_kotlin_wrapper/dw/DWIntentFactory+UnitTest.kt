@@ -91,11 +91,10 @@ internal fun DWIntentFactory.barcodeInputIntentOutputBundle(context: Context, pr
                 putString("RESET_CONFIG", "true") //  This is the default
                 putBundle("PARAM_LIST", Bundle().apply {
                     putString("scanner_selection", "auto")
+                    putString("scanner_selection_by_identifier", "AUTO")
                     putString("scanner_input_enabled", "true")
                     putString("decoder_code128", "true")
-                    putString("decoder_code39", "true")
                     putString("decoder_ean13", "true")
-                    putString("decoder_upca", "true")
                 })
             },
             Bundle().apply {
@@ -114,12 +113,6 @@ internal fun DWIntentFactory.barcodeInputIntentOutputBundle(context: Context, pr
                     putString("intent_category", "android.intent.category.DEFAULT")
                     putString("intent_delivery", DWAPI.IntentDeliveryOptions.BROADCAST.string)
                 })
-            }
-        ))
-        putParcelableArrayList("APP_LIST", arrayListOf(
-            Bundle().apply {
-                putString("PACKAGE_NAME", context.packageName)
-                putStringArray("ACTIVITY_LIST", arrayOf<String>("*"))
             }
         ))
     }

@@ -87,18 +87,6 @@ class MainViewModel {
         }
     }
 
-    fun createProfileWithJSON(context: Context, completion: (Boolean) -> Unit) {
-        DataWedgeHelper.configWithJSON(context, "profile_barcode_input_intent_output.json") { success ->
-            if (success) {
-                DataWedgeHelper.switchProfile(context, "barcode_intent") { switchSuccess ->
-                    completion(switchSuccess)
-                }
-            } else {
-                completion(false)
-            }
-        }
-    }
-
     fun getScannerStatus(context: Context) {
         DataWedgeHelper.getScannerStatus(context, 1) { status ->
             scannerStatus.value = status.string

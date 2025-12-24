@@ -103,7 +103,7 @@
         "upcean_security_level": "1",
         "code39_enable_marginless_decode": "false",
         "ocr_subset": "!\"#$%()*+,-.\/0123456789<>ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz\\^|",
-        "barcode_trigger_mode": "0",
+        "barcode_trigger_mode": "1",
         "decoder_uk_postal_report_check_digit": "false",
         "decoder_codabar_redundancy": "true",
         "1d_marginless_decode_effort_level": "1",
@@ -225,16 +225,20 @@
         "decoder_us4state": "false",
         "decoder_micropdf": "false",
         "auto_charset_preferred_order": "UTF-8;GB2312",
-        "scanner_input_enabled": "false"
+        "scanner_input_enabled": "=[scanner_input_enabled]"
       }
     },
     {
       "PLUGIN_NAME": "WORKFLOW",
       "RESET_CONFIG": "true",
-      "workflow_input_enabled": "true",
+      "workflow_input_enabled": "=[workflow_input_enabled]",
       "selected_workflow_name": "free_form_ocr",
+      "workflow_input_source": "1",
       "PARAM_LIST": [
-        {}
+        {
+          "output_image": "0",
+          "illumination": "off"
+        }
       ]
     },
     {
@@ -267,13 +271,5 @@
       }
     }
   ],
-  "PROFILE_ENABLED": "true",
-  "APP_LIST": [
-    {
-      "PACKAGE_NAME": "com.zebra.zebrakotlindemo",
-      "ACTIVITY_LIST": [
-        "*"
-      ]
-    }
-  ]
+  "PROFILE_ENABLED": "true"
 }

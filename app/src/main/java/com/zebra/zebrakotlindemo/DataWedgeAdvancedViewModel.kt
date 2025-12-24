@@ -15,11 +15,11 @@ import kotlinx.coroutines.launch
 class DataWedgeAdvancedViewModel : ViewModel() {
 
     companion object {
-        val barcodeProfileName = "barcode_intent_advanced"
-        val ocrProfileName = "workflow_intent_advanced"
+        val barcodePluginName = "BARCODE"
+        val workflowPluginName = "WORKFLOW"
     }
 
-    var currentProfileName: MutableState<String> = mutableStateOf("")
+    var currentInputPluginName: MutableState<String> = mutableStateOf("")
 
     var barcodeText: MutableState<String> = mutableStateOf("")
     var ocrText: MutableState<String> = mutableStateOf("")
@@ -28,11 +28,19 @@ class DataWedgeAdvancedViewModel : ViewModel() {
     var scannerStatus = mutableStateOf("")
 
     fun handleOnCreate(context: Context) {
-//        createProfileWithHelper(context) {
-//            switchToBarcodePlugin(context)
-//        }
-
-        DataWedgeHelper.configWithJSON(context, "profile_barcode_input_intent_output.json") {}
+        DataWedgeHelper.configWithJSON(
+            context,
+            "barcode_intent_advanced_create.json",
+            mapOf(
+                "scanner_input_enabled" to "true",
+                "workflow_input_enabled" to "false"
+            )
+        ) { success ->
+            if (success) {
+                DataWedgeHelper.switchProfile(context, "barcode_intent_advanced")
+                currentInputPluginName.value = barcodePluginName
+            }
+        }
     }
 
     fun handleOnResume(context: Context) {
@@ -45,7 +53,7 @@ class DataWedgeAdvancedViewModel : ViewModel() {
                 value: String,
                 timestamp: String
             ) {
-                if (currentProfileName.value == ocrProfileName) {
+                if (currentInputPluginName.value == workflowPluginName) {
                     ocrText.value = value
                 } else {
                     barcodeText.value = value
@@ -96,52 +104,38 @@ class DataWedgeAdvancedViewModel : ViewModel() {
     }
 
     fun switchToBarcodePlugin(context: Context) {
-        //DataWedgeHelper.configWorkflowPlugin(context, barcodeProfileName, enable = false)
-        //DataWedgeHelper.configBarcodePlugin(context, barcodeProfileName, enable = true, hardTrigger = false)
+        DataWedgeHelper.configWithJSON(
+            context,
+            "barcode_intent_advanced_update.json",
+            mapOf(
+                "scanner_input_enabled" to "true",
+                "workflow_input_enabled" to "false"
+            )
+        ) { success ->
+            if (success) {
+                DataWedgeHelper.switchProfile(context, "barcode_intent_advanced") {
+                    currentInputPluginName.value = barcodePluginName
+                }
+            }
+            //showDebugToast(context, "", "switch to Barcode $success")
+        }
     }
 
     fun switchToOCRPlugin(context: Context) {
-        DataWedgeHelper.configWithJSON(context, "profile_workflow_input_intent_output.json") {
-            success ->
-            showDebugToast(context, "", "switch to OCR $success")
-        }
-
-        //DataWedgeHelper.configBarcodePlugin(context, barcodeProfileName, enable = false, hardTrigger = false)
-        //DataWedgeHelper.configWorkflowPlugin(context, barcodeProfileName, enable = true)
-    }
-
-    fun disablePlugins(context: Context) {
-        DataWedgeHelper.configBarcodePlugin(context, barcodeProfileName, enable = false, hardTrigger = false)
-        DataWedgeHelper.configWorkflowPlugin(context, barcodeProfileName, enable = false)
-    }
-
-    fun enablePlugins(context: Context) {
-        DataWedgeHelper.configBarcodePlugin(context, barcodeProfileName, enable = true, hardTrigger = false)
-        DataWedgeHelper.configWorkflowPlugin(context, barcodeProfileName, enable = true)
-    }
-
-    fun createProfileWithHelper(context: Context, completion: () -> Unit) {
-        DataWedgeHelper.deleteProfile(context, barcodeProfileName) { success ->
-            if (!success) {
-                throw RuntimeException("MainViewModel - delete profile failed: $barcodeProfileName")
-            }
-            DataWedgeHelper.createProfile(context, barcodeProfileName) { createSuccess ->
-                if (!createSuccess) {
-                    throw RuntimeException("MainViewModel - create profile failed: $barcodeProfileName")
-                }
-                DataWedgeHelper.switchProfile(context, barcodeProfileName) { switchSuccess ->
-                    if (!switchSuccess) {
-                        throw RuntimeException("MainViewModel - switch profile failed: $barcodeProfileName")
-                    }
-                    getScannerStatus(context)
-                    DataWedgeHelper.configBarcodePlugin(context, barcodeProfileName, enable = false, hardTrigger = false)
-                    DataWedgeHelper.configWorkflowPlugin(context, barcodeProfileName, false)
-                    DataWedgeHelper.configKeystrokePlugin(context, barcodeProfileName, false)
-                    DataWedgeHelper.configIntentPlugin(context, barcodeProfileName)
-                    Log.d("DataWedge", "Profile configured successfully")
-                    completion()
+        DataWedgeHelper.configWithJSON(
+            context,
+            "barcode_intent_advanced_update.json",
+            mapOf(
+                "scanner_input_enabled" to "false",
+                "workflow_input_enabled" to "true"
+            )
+        ) { success ->
+            if (success) {
+                DataWedgeHelper.switchProfile(context, "barcode_intent_advanced") {
+                    currentInputPluginName.value = workflowPluginName
                 }
             }
+            // showDebugToast(context, "", "switch to OCR $success")
         }
     }
 

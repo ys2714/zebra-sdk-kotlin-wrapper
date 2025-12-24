@@ -50,7 +50,7 @@ class DataWedgeAdvancedActivity : ComponentActivity() {
                 .padding(horizontal = 16.dp)
         ) {
             Text("Scanner Status: " + viewModel.scannerStatus.value)
-            Text("Current Profile: " + viewModel.currentProfileName.value)
+            Text("Current Plugin: " + viewModel.currentInputPluginName.value)
             RoundButton("Refresh Scanner Status") {
                 viewModel.getScannerStatus(this@DataWedgeAdvancedActivity)
             }

@@ -6,16 +6,22 @@
       "PLUGIN_NAME": "BARCODE",
       "RESET_CONFIG": "false",
       "PARAM_LIST": {
-        "scanner_input_enabled": "false"
+        "scanner_selection": "auto",
+        "scanner_input_enabled": "=[scanner_input_enabled]",
+        "scanner_selection_by_identifier": "AUTO"
       }
     },
     {
       "PLUGIN_NAME": "WORKFLOW",
       "RESET_CONFIG": "false",
-      "workflow_input_enabled": "true",
+      "workflow_input_enabled": "=[workflow_input_enabled]",
       "selected_workflow_name": "free_form_ocr",
+      "workflow_input_source": "1",
       "PARAM_LIST": [
-        {}
+        {
+          "output_image": "0",
+          "illumination": "off"
+        }
       ]
     }
   ],

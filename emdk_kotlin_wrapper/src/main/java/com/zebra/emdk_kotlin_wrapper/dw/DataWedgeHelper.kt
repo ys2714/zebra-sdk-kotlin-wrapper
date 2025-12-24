@@ -360,13 +360,13 @@ object DataWedgeHelper {
         }
     }
 
-    fun configWithJSON(context: Context, fileName: String, callback: ((Boolean) -> Unit)? = null) {
+    fun configWithJSON(context: Context, fileName: String, params: Map<String, String>, callback: ((Boolean) -> Unit)? = null) {
         backgroundScope.launch {
             runCatching {
                 val jsonString = AssetsReader.readFileToStringWithParams(
                     context,
                     fileName,
-                    mapOf()
+                    params
                 )
                 val bundle = JsonUtils.jsonToBundle(jsonString)
                 DWAPI.sendSetConfigIntent(context, bundle)
