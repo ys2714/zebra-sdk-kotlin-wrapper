@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import android.os.Parcelable
 import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -29,25 +28,47 @@ object DataWedgeHelper {
         fun onData(type: String, value: String, timestamp: String)
     }
 
+    // please return the DWAPI.NotificationType.value in getID() method
+    interface SessionStatusListener: FixedSizeQueueItem {
+        fun onStatus(type: DWAPI.NotificationType, status: String, profileName: String)
+    }
+
     // this singleton receiver will redirect result to listeners
     private var dataReceiver: DataReceiver? = null
-    private val listeners = FixedSizeQueue<ScanDataListener>(50)
+    private var notificationReveiver: NotificationReceiver? = null
+
+    private val scanDataListeners = FixedSizeQueue<ScanDataListener>(50)
+    private val sessionStatusListeners = FixedSizeQueue<SessionStatusListener>(50)
 
     private val backgroundScope = CoroutineScope(Dispatchers.IO + Job())
     private val foregroundScope = CoroutineScope(Dispatchers.Main + Job())
 
-    private fun notifyListeners(type: String, value: String, timestamp: String) {
-        listeners.items.forEach {
+    private fun notifyDataListeners(type: String, value: String, timestamp: String) {
+        scanDataListeners.items.forEach {
             it.onData(type, value, timestamp)
         }
     }
 
+    private fun notifyStatusListeners(type: DWAPI.NotificationType, status: String, profileName: String) {
+        sessionStatusListeners.items.forEach {
+            it.onStatus(type, status, profileName)
+        }
+    }
+
     fun addScanDataListener(listener: ScanDataListener) {
-        listeners.enqueue(listener)
+        scanDataListeners.enqueue(listener)
     }
 
     fun removeScanDataListener(listener: ScanDataListener) {
-        listeners.remove(listener)
+        scanDataListeners.remove(listener)
+    }
+
+    fun addSessionStatusListener(listener: SessionStatusListener) {
+        sessionStatusListeners.enqueue(listener)
+    }
+
+    fun removeSessionStatusListener(listener: SessionStatusListener) {
+        sessionStatusListeners.remove(listener)
     }
 
     fun prepare(context: Context, callback: (Boolean) -> Unit) {
@@ -148,6 +169,30 @@ object DataWedgeHelper {
                     }
                 }
             }
+        }
+    }
+
+    fun enableScannerStatusNotification(context: Context, callback: ((success: Boolean) -> Unit)? = null) {
+        DWAPI.registerNotification(context, DWAPI.NotificationType.SCANNER_STATUS) {
+            callback?.invoke(it)
+        }
+    }
+
+    fun disableScannerStatusNotification(context: Context, callback: ((success: Boolean) -> Unit)? = null) {
+        DWAPI.unregisterNotification(context, DWAPI.NotificationType.SCANNER_STATUS) {
+            callback?.invoke(it)
+        }
+    }
+
+    fun enableWorkflowStatusNotification(context: Context, callback: ((success: Boolean) -> Unit)? = null) {
+        DWAPI.registerNotification(context, DWAPI.NotificationType.WORKFLOW_STATUS) {
+            callback?.invoke(it)
+        }
+    }
+
+    fun disableWorkflowStatusNotification(context: Context, callback: ((success: Boolean) -> Unit)? = null) {
+        DWAPI.unregisterNotification(context, DWAPI.NotificationType.WORKFLOW_STATUS) {
+            callback?.invoke(it)
         }
     }
 
@@ -444,6 +489,20 @@ object DataWedgeHelper {
             },
             ContextCompat.RECEIVER_EXPORTED
         )
+        if (notificationReveiver != null) {
+            Log.d(TAG, "NotificationReceiver already registered. skip")
+            return
+        }
+        notificationReveiver = NotificationReceiver()
+        ContextCompat.registerReceiver(
+            context.applicationContext,
+            notificationReveiver,
+            IntentFilter().apply {
+                addCategory(DWAPI.ResultCategoryNames.CATEGORY_DEFAULT.value)
+                addAction("com.symbol.datawedge.api.NOTIFICATION_ACTION")
+            },
+            ContextCompat.RECEIVER_EXPORTED
+        )
     }
 
     private class DataReceiver: BroadcastReceiver() {
@@ -468,7 +527,47 @@ object DataWedgeHelper {
                 val data = it.getString(DWAPI.ScanResult.DATA) ?: ""
                 val timestamp: Long = it.getLong(DWAPI.ScanResult.TIME)
                 val date = Date(timestamp)
-                notifyListeners(type, data, date.toString())
+                notifyDataListeners(type, data, date.toString())
+            }
+        }
+    }
+
+    private class NotificationReceiver: BroadcastReceiver() {
+        override fun onReceive(
+            context: Context?,
+            intent: Intent?
+        ) {
+            if (intent == null) {
+                return
+            }
+            if (intent.action != "com.symbol.datawedge.api.NOTIFICATION_ACTION") {
+                return
+            }
+            if (!intent.hasExtra("com.symbol.datawedge.api.NOTIFICATION")) {
+                return
+            }
+            val bundle = intent.getBundleExtra("com.symbol.datawedge.api.NOTIFICATION") ?: return
+            val typeString = bundle.getString("NOTIFICATION_TYPE") ?: return
+            val type = DWAPI.NotificationType.valueOf(typeString)
+            when (type) {
+                DWAPI.NotificationType.CONFIGURATION_UPDATE -> {
+                    notifyStatusListeners(type, "", "")
+                }
+                DWAPI.NotificationType.PROFILE_SWITCH -> {
+                    val enabled = bundle.getString("PROFILE_ENABLED") ?: ""
+                    val profile = bundle.getString("PROFILE_NAME") ?: ""
+                    notifyStatusListeners(type, enabled, profile)
+                }
+                DWAPI.NotificationType.SCANNER_STATUS -> {
+                    val status = bundle.getString("STATUS") ?: ""
+                    val profile = bundle.getString("PROFILE_NAME") ?: ""
+                    notifyStatusListeners(type, status, profile)
+                }
+                DWAPI.NotificationType.WORKFLOW_STATUS -> {
+                    val status = bundle.getString("STATUS") ?: ""
+                    val profile = bundle.getString("PROFILE_NAME") ?: ""
+                    notifyStatusListeners(type, status, profile)
+                }
             }
         }
     }

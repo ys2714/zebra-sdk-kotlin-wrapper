@@ -1,5 +1,7 @@
 package com.zebra.emdk_kotlin_wrapper.dw
 
+import android.content.BroadcastReceiver
+
 object DWAPI {
 
     const val TAG = "DWAPI"
@@ -54,6 +56,8 @@ object DWAPI {
         SOFT_SCAN_TRIGGER("com.symbol.datawedge.api.SOFT_SCAN_TRIGGER"),
         GET_DATAWEDGE_STATUS("com.symbol.datawedge.api.GET_DATAWEDGE_STATUS"),
         GET_SCANNER_STATUS("com.symbol.datawedge.api.GET_SCANNER_STATUS"),
+        REGISTER_FOR_NOTIFICATION("com.symbol.datawedge.api.REGISTER_FOR_NOTIFICATION"),
+        UNREGISTER_FOR_NOTIFICATION("com.symbol.datawedge.api.UNREGISTER_FOR_NOTIFICATION"),
         ENUMERATE_SCANNERS("com.symbol.datawedge.api.ENUMERATE_SCANNERS");
 
         @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
@@ -370,6 +374,50 @@ object DWAPI {
 
         val string: String
             get() = value.toString()
+    }
+
+    enum class NotificationType(val value: String) {
+        CONFIGURATION_UPDATE("CONFIGURATION_UPDATE"),
+        PROFILE_SWITCH("PROFILE_SWITCH"),
+        SCANNER_STATUS("SCANNER_STATUS"),
+        WORKFLOW_STATUS("WORKFLOW_STATUS");
+
+        @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
+        override fun toString(): String {
+            throw RuntimeException("Not Implemented")
+        }
+
+        val string: String
+            get() = value.toString()
+    }
+
+    enum class NotificationConfigurationUpdateStatus(val value: String) {
+        PROFILE_IMPORTED("PROFILE_IMPORTED"),
+        FULL_DB_IMPORTED("FULL_DB_IMPORTED");
+    }
+
+    enum class NotificationProfileSwitchStatus(val value: String) {
+        PROFILE_IMPORTED("PROFILE_IMPORTED"),
+        FULL_DB_IMPORTED("FULL_DB_IMPORTED");
+    }
+
+    enum class NotificationScannerStatus(val value: String) {
+        WAITING("WAITING"),
+        SCANNING("SCANNING"),
+        CONNECTED("CONNECTED"),
+        DISCONNECTED("DISCONNECTED"),
+        IDLE("IDLE"),
+        DISABLED("DISABLED");
+    }
+
+    enum class NotificationWorkflowStatus(val value: String) {
+        PLUGIN_READY("PLUGIN_READY"),
+        DISABLED("DISABLED"),
+        WORKFLOW_READY("WORKFLOW_READY"),
+        WORKFLOW_ENABLED("WORKFLOW_ENABLED"),
+        SESSION_STARTED("SESSION_STARTED"),
+        CAPTURING_STARTED("CAPTURING_STARTED"),
+        CAPTURING_STOPPED("CAPTURING_STOPPED");
     }
 
     object ScanInputParams {
@@ -726,4 +774,6 @@ object DWAPI {
         const val DELAY_EXTENDED_ASCII = "keystroke_delay_extended_ascii"
         const val DELAY_CONTROL_CHARS = "keystroke_delay_control_chars"
     }
+
+
 }

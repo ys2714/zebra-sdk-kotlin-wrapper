@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.zebra.emdk_kotlin_wrapper.dw.DWAPI
 import com.zebra.emdk_kotlin_wrapper.dw.DataWedgeHelper
+import com.zebra.zebrakotlindemo.DataWedgeAdvancedViewModel.Companion.workflowPluginName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,7 +25,26 @@ class DataWedgeBasicViewModel : ViewModel() {
     var ocrText: MutableState<String> = mutableStateOf("")
 
     var dataListener: DataWedgeHelper.ScanDataListener? = null
+    var statusListener: DataWedgeHelper.SessionStatusListener? = null
+
     var scannerStatus = mutableStateOf("")
+    var sessionStatus = mutableStateOf("")
+
+    fun isWaitingWorkflowSession(): Boolean {
+        if (currentProfileName.value == ocrProfileName) {
+            if (sessionStatus.value == "WORKFLOW_STATUS SESSION_STARTED") {
+                return false
+            }
+            else if (sessionStatus.value == "WORKFLOW_STATUS DISABLED") {
+                return false
+            }
+            else {
+                return true
+            }
+        } else {
+            return false
+        }
+    }
 
     fun handleOnCreate(context: Context) {
         DataWedgeHelper.switchProfile(context, barcodeProfileName) { success ->
@@ -64,6 +84,30 @@ class DataWedgeBasicViewModel : ViewModel() {
             DataWedgeHelper.addScanDataListener(it)
             getScannerStatus(context)
         }
+        if (statusListener != null) {
+            return
+        }
+        statusListener = object : DataWedgeHelper.SessionStatusListener {
+            override fun onStatus(
+                type: DWAPI.NotificationType,
+                status: String,
+                profileName: String
+            ) {
+                sessionStatus.value = "${type.value} $status"
+            }
+
+            override fun getID(): String {
+                return hashCode().toString()
+            }
+
+            override fun onDisposal() {
+                statusListener = null
+            }
+        }.also {
+            DataWedgeHelper.addSessionStatusListener(it)
+            DataWedgeHelper.enableScannerStatusNotification(context)
+            DataWedgeHelper.enableWorkflowStatusNotification(context)
+        }
     }
 
     fun handleOnPause(context: Context) {
@@ -71,9 +115,17 @@ class DataWedgeBasicViewModel : ViewModel() {
             DataWedgeHelper.removeScanDataListener(dataListener!!)
             dataListener = null
         }
+        if (statusListener != null) {
+            DataWedgeHelper.removeSessionStatusListener(statusListener!!)
+            DataWedgeHelper.disableScannerStatusNotification(context)
+            DataWedgeHelper.disableWorkflowStatusNotification(context)
+            statusListener = null
+        }
     }
 
-    fun handleOnDestroy() {}
+    fun handleOnDestroy(context: Context) {
+        handleOnPause(context)
+    }
 
     fun startScanning(context: Context) {
         DataWedgeHelper.softScanTrigger(

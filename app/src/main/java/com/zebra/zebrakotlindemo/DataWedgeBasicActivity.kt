@@ -7,13 +7,17 @@ import android.util.Log
 import android.view.KeyEvent
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.unit.dp
@@ -55,7 +59,7 @@ class DataWedgeBasicActivity : ComponentActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        viewModel.handleOnDestroy()
+        viewModel.handleOnDestroy(this)
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
@@ -113,6 +117,7 @@ class DataWedgeBasicActivity : ComponentActivity() {
                 .padding(horizontal = 16.dp)
         ) {
             Text("Scanner Status: " + viewModel.scannerStatus.value)
+            Text("Session Status: " + viewModel.sessionStatus.value)
             Text("Current Profile: " + viewModel.currentProfileName.value)
             RoundButton("Refresh Scanner Status") {
                 viewModel.getScannerStatus(this@DataWedgeBasicActivity)
@@ -146,9 +151,22 @@ class DataWedgeBasicActivity : ComponentActivity() {
             ) { newValue ->
                 ocrText.value = newValue
             }
-            RoundButton("Push Scan Button or Tap this") {
-                viewModel.stopScanning(this@DataWedgeBasicActivity)
-                viewModel.startScanning(this@DataWedgeBasicActivity)
+            if (viewModel.isWaitingWorkflowSession()) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 10.dp)
+                    ,
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    CircularProgressIndicator()
+                }
+            } else {
+                RoundButton("Push Scan Button or Tap this") {
+                    viewModel.stopScanning(this@DataWedgeBasicActivity)
+                    viewModel.startScanning(this@DataWedgeBasicActivity)
+                }
             }
         }
     }
