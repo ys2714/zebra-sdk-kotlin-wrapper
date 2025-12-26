@@ -50,6 +50,7 @@ object DWAPI {
         CREATE_PROFILE("com.symbol.datawedge.api.CREATE_PROFILE"),
         DELETE_PROFILE("com.symbol.datawedge.api.DELETE_PROFILE"),
         SWITCH_TO_PROFILE("com.symbol.datawedge.api.SWITCH_TO_PROFILE"),
+        SWITCH_DATACAPTURE("com.symbol.datawedge.api.SWITCH_DATACAPTURE"),
         SET_CONFIG("com.symbol.datawedge.api.SET_CONFIG"),
         GET_CONFIG("com.symbol.datawedge.api.GET_CONFIG"),
         ENABLE_DATAWEDGE("com.symbol.datawedge.api.ENABLE_DATAWEDGE"),

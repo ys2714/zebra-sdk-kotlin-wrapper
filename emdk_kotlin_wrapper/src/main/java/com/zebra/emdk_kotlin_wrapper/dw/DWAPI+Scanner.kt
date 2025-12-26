@@ -65,6 +65,16 @@ suspend fun DWAPI.sendGetSelectedScannerStatusIntent(context: Context): DWAPI.Sc
     }
 }
 
+suspend fun DWAPI.sendSwitchDataCaptureIntent(context: Context, plugin: DWAPI.Plugin.Input): Boolean = suspendCancellableCoroutine { continuation ->
+    DWIntentFactory.callDWAPI(context, DWAPI.ActionExtraKeys.SWITCH_DATACAPTURE, plugin.value) { result ->
+        result.onSuccess {
+            continuation.resumeWith(Result.success(true))
+        }.onFailure {
+            continuation.resumeWith(Result.failure(it))
+        }
+    }
+}
+
 private fun callDWAPIEnumerateScannersHandler(intent: Intent, callback: (List<DWScannerInfo>) -> Unit) {
     if (intent.action == DWAPI.ResultActionNames.RESULT_ACTION.value &&
         intent.hasExtra(DWAPI.ResultExtraKeys.ENUMERATE_SCANNERS.value)
