@@ -3,6 +3,7 @@ package com.zebra.emdk_kotlin_wrapper.mx
 import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.zebra.emdk_kotlin_wrapper.utils.DeviceInfoUtils
 import com.zebra.emdk_kotlin_wrapper.zdm.ZDMConst
 
 object MXHelper {
@@ -136,6 +137,9 @@ object MXHelper {
     }
 
     fun fetchIMEI(context: Context, delaySeconds: Long = 0, callback: (String) -> Unit) {
+        if (!DeviceInfoUtils.hasTelephonyFeature(context)) {
+            callback("")
+        }
         MXProfileProcessor.fetchIMEIInBackground(context, delaySeconds) { result ->
             callback(result)
         }

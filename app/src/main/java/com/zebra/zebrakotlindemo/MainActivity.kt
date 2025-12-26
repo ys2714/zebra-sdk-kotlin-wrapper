@@ -103,7 +103,9 @@ class MainActivity : ComponentActivity() {
                 )
                 Text("PPID: " + viewModel.ppid.value)
                 Text("Serial Number: " + viewModel.serial.value)
-                Text("IMEI Number: " + viewModel.imei.value)
+                if (viewModel.hasTelephonyFeature.value) {
+                    Text("IMEI Number: " + viewModel.imei.value)
+                }
                 Text("Scanner Status: " + viewModel.scannerStatus.value)
                 RoundButton("EMDK") {
                     startActivity(Intent(context, EMDKActivity::class.java))
