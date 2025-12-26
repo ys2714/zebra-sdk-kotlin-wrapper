@@ -8,6 +8,7 @@ import com.zebra.emdk_kotlin_wrapper.dw.DataWedgeHelper
 import com.zebra.emdk_kotlin_wrapper.emdk.EMDKHelper
 import com.zebra.emdk_kotlin_wrapper.mx.MXBase
 import com.zebra.emdk_kotlin_wrapper.mx.MXHelper
+import com.zebra.emdk_kotlin_wrapper.utils.DeviceInfoUtils
 import com.zebra.emdk_kotlin_wrapper.utils.ZebraKeyEventMonitor
 import com.zebra.emdk_kotlin_wrapper.zdm.ZDMAuthHelper
 import com.zebra.emdk_kotlin_wrapper.zdm.ZDMConst
@@ -28,6 +29,7 @@ class MainViewModel {
     var ppid: MutableState<String> = mutableStateOf("")
     var serial: MutableState<String> = mutableStateOf("")
     var imei: MutableState<String> = mutableStateOf("")
+    var hasTelephonyFeature: MutableState<Boolean> = mutableStateOf(true)
 
     /**
      *
@@ -119,6 +121,11 @@ class MainViewModel {
     }
 
     fun fetchIMEI(context: Context, completion: () -> Unit) {
+        if (!DeviceInfoUtils.hasTelephonyFeature(context)) {
+            hasTelephonyFeature.value = false
+            completion()
+            return
+        }
         MXHelper.fetchIMEI(context) { result ->
             if (!result.isEmpty()) {
                 imei.value = result
