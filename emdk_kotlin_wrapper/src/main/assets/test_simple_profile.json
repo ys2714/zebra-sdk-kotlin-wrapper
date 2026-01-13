@@ -2,7 +2,7 @@
   "CONFIG_MODE": "CREATE_IF_NOT_EXIST",
   "PROFILE_NAME": "=[PROFILE_NAME]",
   "PLUGIN_CONFIG": [ {
-      "PLUGIN_NAME": "BARCODE",
+      "PLUGIN_NAME": "WORKFLOW",
       "RESET_CONFIG": "true",
       "PARAM_LIST": {
         "scanner_selection": "auto",

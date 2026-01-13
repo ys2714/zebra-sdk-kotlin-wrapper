@@ -53,6 +53,7 @@ dependencies {
 }
 
 dependencies {
+    implementation(libs.androidx.lifecycle.process)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.commons.net)
 }
