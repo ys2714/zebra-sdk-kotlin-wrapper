@@ -162,4 +162,18 @@ object MXHelper {
             callback(error == null)
         }
     }
+
+    fun copyAndImportFreeFormOCRProfile(context: Context, delaySeconds: Long = 0, callback: (Boolean) -> Unit) {
+        val target = "/data/tmp/public/dwprofile_ocr_workflow.db"
+        val name = "dwprofile_ocr_workflow.db"
+        MXProfileProcessor.copyEmbeddedFreeFormOCRProfile(context, target, delaySeconds) { errorInfo1 ->
+            if (errorInfo1 != null) {
+                callback(false)
+            } else {
+                MXProfileProcessor.importProfile(context, target, delaySeconds) { errorInfo2 ->
+                    callback(errorInfo2 == null)
+                }
+            }
+        }
+    }
 }

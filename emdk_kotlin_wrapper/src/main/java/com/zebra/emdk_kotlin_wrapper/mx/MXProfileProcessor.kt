@@ -40,14 +40,14 @@ internal object MXProfileProcessor {
 
     class ProfileDataListener(
         val profileName: MXBase.ProfileName,
-        val callback: (Result<MXBase.ErrorInfo?>) -> Unit
+        val callback: (ProfileDataListener, Result<MXBase.ErrorInfo?>) -> Unit
     ): ProfileManager.DataListener, FixedSizeQueueItem {
         override fun onData(data: ProfileManager.ResultData?) {
             if (data == null) return
             if (data.profileName == profileName.string) {
                 when (data.result.statusCode) {
                     EMDKResults.STATUS_CODE.SUCCESS -> {
-                            callback(Result.success(null))
+                            callback(this, Result.success(null))
                     }
                     EMDKResults.STATUS_CODE.CHECK_XML -> {
                         try {
@@ -56,9 +56,9 @@ internal object MXProfileProcessor {
                                     setInput(StringReader(data.result.statusString))
                                 }
                             ).onSuccess {
-                                    callback(Result.success(null))
+                                    callback(this, Result.success(null))
                             }.onFailure { error ->
-                                    callback(Result.failure(error))
+                                    callback(this, Result.failure(error))
                             }
                         } catch (e: XmlPullParserException) {
                             Log.e(MXProfileProcessor.TAG, "Failed to parse XML response", e)
@@ -66,7 +66,7 @@ internal object MXProfileProcessor {
                                     MXProfileProcessor.TAG,
                                     "XmlPullParserException",
                                     e.message ?: "Unknown parser exception")
-                                callback(Result.failure(error))
+                                callback(this, Result.failure(error))
                         }
                     }
                     else -> {
@@ -75,7 +75,7 @@ internal object MXProfileProcessor {
                                 MXProfileProcessor.TAG,
                                 data.result.statusString,
                                 data.result.extendedStatusMessage)
-                            callback(Result.failure(error))
+                            callback(this, Result.failure(error))
                     }
                 }
             } else {
@@ -121,9 +121,10 @@ internal object MXProfileProcessor {
     private suspend fun processProfile(context: Context,
                                profileName: MXBase.ProfileName,
                                profileContent: Array<String>?) : MXBase.ErrorInfo? = suspendCancellableCoroutine { continuation ->
-        val listener = ProfileDataListener(profileName, { result ->
+        val listener = ProfileDataListener(profileName, { listener, result ->
             if (continuation.isActive) {
                 continuation.resumeWith(result)
+                listeners.remove(listener)
             }
         })
         listeners.enqueue(listener)

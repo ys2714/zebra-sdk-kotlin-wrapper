@@ -30,6 +30,43 @@ suspend fun DWAPI.sendSetConfigIntent(context: Context, extra: Bundle): Boolean 
 }
 
 /**
+ * https://techdocs.zebra.com/datawedge/15-0/guide/api/getconfig/
+ *
+ * Parameters
+ * ACTION [string]: "com.symbol.datawedge.api.ACTION"
+ * EXTRA_DATA [string]: "com.symbol.datawedge.api.GET_CONFIG"
+ * EXTRA VALUE [bundle]: "<PROFILE_NAME>", "<PLUGIN_CONFIG>"
+ *
+ * PLUGIN_CONFIG [bundle] -
+ * PLUGIN_NAME [string] - single plug-in name (i.e. "barcode") or ArrayList of plugin names:
+ * PROCESS_PLUGIN_NAME [list of bundles] - For example:
+ * PLUGIN_NAME - "ADF", "BDF"
+ * OUTPUT_PLUGIN_NAME - "KEYSTROKE"
+ * ...
+ * PLUGIN_NAME - "BDF"
+ * OUTPUT_PLUGIN_NAME - "INTENT"
+ *
+ * Return Values
+ * Returns a nested bundle with the Profile name, status and a Profile config bundle containing the PARAM_LIST bundle.
+ * EXTRA NAME: "com.symbol.datawedge.api.GET_CONFIG_RESULT"
+ * BUNDLE: <mainbundle> (see parameters below)
+ *
+ * */
+suspend fun DWAPI.sendGetConfigIntent(context: Context, extra: Bundle): Bundle = suspendCancellableCoroutine { continuation ->
+    DWIntentFactory.callDWAPI(context, DWAPI.ActionExtraKeys.GET_CONFIG, extra) { result ->
+        result.onSuccess {
+            it.getBundleExtra(DWAPI.ResultExtraKeys.GET_CONFIG.value)?.let { bundle ->
+                continuation.resumeWith(Result.success(bundle))
+            } ?: run {
+                continuation.resumeWith(Result.failure(Exception("No Result")))
+            }
+        }.onFailure {
+            continuation.resumeWith(Result.failure(it))
+        }
+    }
+}
+
+/**
  * https://techdocs.zebra.com/datawedge/latest/guide/api/createprofile/
  *
  * - Parameters:
@@ -57,6 +94,38 @@ suspend fun DWAPI.sendDeleteProfileIntent(context: Context, name: String): Boole
             continuation.resumeWith(Result.success(true))
         }.onFailure {
             if (it.message == DWAPI.ResultCodes.PROFILE_NOT_FOUND.value) {
+                continuation.resumeWith(Result.success(true))
+            } else {
+                continuation.resumeWith(Result.failure(it))
+            }
+        }
+    }
+}
+
+/**
+ * https://techdocs.zebra.com/datawedge/latest/guide/api/switchtoprofile/
+ *
+ * - Parameters:
+ * ACTION [String]: "com.symbol.datawedge.api.ACTION"
+ * EXTRA_DATA [String]: "com.symbol.datawedge.api.SWITCH_TO_PROFILE"
+ * <profile name>: The Profile name (a case-sensitive string) to set as the active Profile.
+ *
+ * - Result Codes:
+ * DataWedge returns the following error codes if the app includes the intent extras SEND_RESULT and COMMAND_IDENTIFIER to enable the app to get results using the DataWedge result intent mechanism. See Example, below.
+ *
+ * PROFILE_HAS_APP_ASSOCIATION - FAILURE
+ * PROFILE_NOT_FOUND - FAILURE
+ * PROFILE_ALREADY_SET - FAILURE
+ * PROFILE_NAME_EMPTY - FAILURE
+ * DATAWEDGE_DISABLED - FAILURE
+ *
+ * */
+suspend fun DWAPI.sendSwitchProfileIntent(context: Context, name: String): Boolean = suspendCancellableCoroutine { continuation ->
+    DWIntentFactory.callDWAPI(context, DWAPI.ActionExtraKeys.SWITCH_TO_PROFILE, name) { result ->
+        result.onSuccess {
+            continuation.resumeWith(Result.success(true))
+        }.onFailure {
+            if (it.message == DWAPI.ResultCodes.PROFILE_ALREADY_SET.value) {
                 continuation.resumeWith(Result.success(true))
             } else {
                 continuation.resumeWith(Result.failure(it))

@@ -1,8 +1,6 @@
 package com.zebra.emdk_kotlin_wrapper.mx
 
 import android.content.Context
-import com.symbol.emdk.ProfileManager
-
 
 /**
  * https://techdocs.zebra.com/emdk-for-android/14-0/mx/devadmin/

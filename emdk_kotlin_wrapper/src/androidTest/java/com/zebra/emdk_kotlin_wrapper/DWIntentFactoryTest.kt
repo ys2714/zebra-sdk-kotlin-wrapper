@@ -5,7 +5,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.zebra.emdk_kotlin_wrapper.dw.DWAPI
 import com.zebra.emdk_kotlin_wrapper.dw.DWIntentFactory
-import com.zebra.emdk_kotlin_wrapper.dw.DWProfileProcessor
+import com.zebra.emdk_kotlin_wrapper.dw.DataWedgeHelper
+import com.zebra.emdk_kotlin_wrapper.dw.barcodeInputIntentOutputBundle
 import com.zebra.emdk_kotlin_wrapper.dw.simpleBarcodePluginBundle
 import com.zebra.emdk_kotlin_wrapper.dw.simpleCreateProfileBundle
 import com.zebra.emdk_kotlin_wrapper.dw.simpleIntentPluginBundle
@@ -64,27 +65,29 @@ class DWIntentFactoryTest {
     }
 
     @Test
-    fun checkCallDWAPI() = runBlocking {
+    fun checkSetMultiPluginsByArray() = runBlocking {
         val complete = CompletableDeferred<Unit>()
-        val profileName = "bundle_update_profile_${(0..99999999).random()}"
-        val packageName = context.packageName
-        val bundle = DWProfileProcessor.bundleForBindProfile(context, profileName, packageName)
+        val profileName = "checkSetMultiPluginsByArray-profile-1"
 
-        DWIntentFactory.callDWAPI(context, DWAPI.ActionExtraKeys.SET_CONFIG, bundle) { result ->
+        val bundle = DWIntentFactory.barcodeInputIntentOutputBundle(
+            context,
+            profileName,
+            DWAPI.ResultActionNames.SCAN_RESULT_ACTION.value)
+
+        DWIntentFactory.callDWAPI(
+            context,
+            DWAPI.ActionExtraKeys.SET_CONFIG,
+            bundle
+        ) { result ->
             result.onSuccess {
-                Log.d("DWIntentFactoryTest", "Success")
-                DWIntentFactory.callDWAPI(context, DWAPI.ActionExtraKeys.DELETE_PROFILE, profileName) {}
                 complete.complete(Unit)
             }.onFailure {
-                if (it.message == DWAPI.ResultCodes.APP_ALREADY_ASSOCIATED.value) {
-                    DWIntentFactory.callDWAPI(context, DWAPI.ActionExtraKeys.DELETE_PROFILE, profileName) {}
-                    complete.complete(Unit)
-                } else {
-                    DWIntentFactory.callDWAPI(context, DWAPI.ActionExtraKeys.DELETE_PROFILE, profileName) {}
-                    fail(it.message)
-                }
+                DataWedgeHelper.deleteProfile(context, profileName) { }
+                fail(it.message)
             }
         }
+
         complete.await()
+        DataWedgeHelper.deleteProfile(context, profileName) { }
     }
 }

@@ -144,6 +144,13 @@ ZDNA Cloud Client or Device Manager not installed ?
 TouchPanel from MX 5.0
 TouchPanelMode from MX 10.2
 
+10. be careful about the json file format
+
+Error Message:
+Key PLUGIN_CONFIG expected ArrayList but value was a [Landroid.os.Parcelable
+
+11. Failed to access dependency component.
+
 ## AndroidManifest.xml setup
 
 please set all queries in the same block

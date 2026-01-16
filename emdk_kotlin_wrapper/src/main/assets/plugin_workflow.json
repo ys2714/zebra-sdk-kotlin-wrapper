@@ -5,15 +5,10 @@
   "PLUGIN_CONFIG": {
     "PLUGIN_NAME": "WORKFLOW",
     "RESET_CONFIG": "true",
-    "PARAM_LIST": {
-      "workflow_input_enabled": "=[workflow_input_enabled]",
-      "selected_workflow_name": "=[selected_workflow_name]",
-      "workflow_free_form_ocr_enabled": "=[workflow_free_form_ocr_enabled]",
-      "workflow_input_source": "=[workflow_input_source]",
-      "decoder_micr": "=[decoder_micr]",
-      "decoder_ocr_a": "=[decoder_ocr_a]",
-      "decoder_ocr_b": "=[decoder_ocr_b]",
-      "decoder_us_currency": "=[decoder_us_currency]"
-    }
+    "selected_workflow_name": "free_form_ocr",
+    "workflow_input_enabled": "=[workflow_input_enabled]",
+    "PARAM_LIST": [
+      {}
+    ]
   }
 }

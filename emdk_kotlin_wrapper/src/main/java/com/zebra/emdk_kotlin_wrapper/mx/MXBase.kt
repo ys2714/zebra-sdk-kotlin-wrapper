@@ -54,11 +54,14 @@ class MXBase {
         DisplayManagerDisableScreenShot("profile_display_manager_disable_screenshot.xml"),
         PowerKeyManagerSetPowerOffState("profile_powerkey_manager_set_poweroff_state.xml"),
         KeymappingManagerSetKeySendIntent("profile_keymapping_manager_set_key_send_intent.xml"),
-        KeymappingManagerSetAllToDefault("profile_keymapping_manager_set_all_to_default.xml");
+        KeymappingManagerSetAllToDefault("profile_keymapping_manager_set_all_to_default.xml"),
+        DataWedgeManagerImportProfile("profile_datawedge_manager_import_profile.xml"),
+        FileManagerCopyEmbeddedFreeFormOCR("profile_file_manager_copy_embedded_free_form_ocr.xml");
 
-        @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
+        @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.WARNING)
         override fun toString(): String {
-            throw RuntimeException("Not Implemented")
+            // throw RuntimeException("Not Implemented")
+            return value
         }
 
         val string: String
@@ -76,11 +79,14 @@ class MXBase {
         DisplayManagerDisableScreenShot("DisplayManagerDisableScreenShot"),
         PowerKeyManagerSetPowerOffState("PowerKeyManagerSetPowerOffState"),
         KeymappingManagerSetKeySendIntent("KeymappingManagerSetKeySendIntent"),
-        KeymappingManagerSetAllToDefault("KeymappingManagerSetAllToDefault");
+        KeymappingManagerSetAllToDefault("KeymappingManagerSetAllToDefault"),
+        DataWedgeManagerImportProfile("DataWedgeManagerImportProfile"),
+        FileManagerCopyEmbeddedFreeFormOCR("FileManagerCopyEmbeddedFreeFormOCR");
 
-        @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
+        @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.WARNING)
         override fun toString(): String {
-            throw RuntimeException("Not Implemented")
+            // throw RuntimeException("Not Implemented")
+            return value
         }
 
         val string: String
@@ -300,4 +306,7 @@ class MXBase {
         val string: String
             get() = value.toString()
     }
+}
+
+class DataWedgeManager {
 }
