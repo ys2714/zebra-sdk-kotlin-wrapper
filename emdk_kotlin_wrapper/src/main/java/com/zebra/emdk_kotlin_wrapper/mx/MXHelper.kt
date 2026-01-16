@@ -136,6 +136,24 @@ object MXHelper {
         }
     }
 
+    /**
+     *
+     * @param context
+     * @param isDevDevice indicate get PPID for development device or production device
+     * @param callback: return empty string "" if failed
+     * */
+    fun generatePPID(context: Context, prefix: String, digitsFromSerial: Int, delaySeconds: Long = 0, callback: (String) -> Unit) {
+        MXProfileProcessor.fetchSerialNumberInBackground(context, delaySeconds) { result ->
+            if (result.isEmpty()) {
+                callback("")
+                return@fetchSerialNumberInBackground
+            }
+            val suffix = result.takeLast(digitsFromSerial)
+            val yppid = "$prefix$suffix"
+            callback(yppid)
+        }
+    }
+
     fun fetchIMEI(context: Context, delaySeconds: Long = 0, callback: (String) -> Unit) {
         if (!DeviceInfoUtils.hasTelephonyFeature(context)) {
             callback("")

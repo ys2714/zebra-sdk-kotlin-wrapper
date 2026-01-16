@@ -14,7 +14,8 @@ class MainViewModelKotlin {
 
     var emdkPrepared = mutableStateOf(false)
 
-    var ppid: MutableState<String> = mutableStateOf("")
+    var ppid35: MutableState<String> = mutableStateOf("")
+    var ppid26: MutableState<String> = mutableStateOf("")
     var serial: MutableState<String> = mutableStateOf("")
 
     fun prepareEMDK(context: Context) {
@@ -29,9 +30,21 @@ class MainViewModelKotlin {
     fun fetchPPID(context: Context, completion: () -> Unit) {
         MXHelper.fetchPPID(context, true) { result ->
             if (!result.isEmpty()) {
-                ppid.value = result
+                ppid35.value = result
             } else {
-                ppid.value = "get ppid error"
+                ppid35.value = "get ppid error"
+                showDebugToast(context, "PPID", "get ppid error")
+            }
+            completion()
+        }
+    }
+
+    fun generatePPID(context: Context, prefix: String, completion: () -> Unit) {
+        MXHelper.generatePPID(context, prefix, 6) { result ->
+            if (!result.isEmpty()) {
+                ppid26.value = result
+            } else {
+                ppid26.value = "get ppid error"
                 showDebugToast(context, "PPID", "get ppid error")
             }
             completion()

@@ -45,10 +45,14 @@ class MainActivityKotlin : ComponentActivity() {
                     modifier = Modifier
                         .padding()
                 )
-                Text("PPID: " + viewModel.ppid.value)
+                Text("PPID (3+5): " + viewModel.ppid35.value)
+                Text("PPID (2+6): " + viewModel.ppid26.value)
                 Text("Serial Number: " + viewModel.serial.value)
-                RoundButton("GET PPID") {
+                RoundButton("GET PPID (3+5)") {
                     viewModel.fetchPPID(context) {}
+                }
+                RoundButton("GET PPID (2+6)") {
+                    viewModel.generatePPID(context, "19") {}
                 }
                 RoundButton("GET Serial Number") {
                     viewModel.fetchSerialNumber(context) {}
