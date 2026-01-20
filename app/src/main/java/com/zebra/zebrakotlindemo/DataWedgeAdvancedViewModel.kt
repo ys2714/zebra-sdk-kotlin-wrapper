@@ -52,7 +52,11 @@ class DataWedgeAdvancedViewModel : ViewModel() {
             "barcode_intent_advanced_create.json",
             mapOf(
                 "scanner_input_enabled" to "true",
-                "workflow_input_enabled" to "false"
+                "workflow_input_enabled" to "false",
+                "barcode_trigger_mode" to "1",
+                "aim_type" to "8",
+                "aim_timer" to "6000",
+                "beam_timer" to "6000"
             )
         ) { success ->
             if (success) {
@@ -160,7 +164,11 @@ class DataWedgeAdvancedViewModel : ViewModel() {
             "barcode_intent_advanced_update.json",
             mapOf(
                 "scanner_input_enabled" to "true",
-                "workflow_input_enabled" to "false"
+                "workflow_input_enabled" to "false",
+                "barcode_trigger_mode" to "1",
+                "aim_type" to "8",
+                "aim_timer" to "6000",
+                "beam_timer" to "6000"
             )
         ) { success ->
             if (success) {
@@ -178,7 +186,11 @@ class DataWedgeAdvancedViewModel : ViewModel() {
             "barcode_intent_advanced_update.json",
             mapOf(
                 "scanner_input_enabled" to "false",
-                "workflow_input_enabled" to "true"
+                "workflow_input_enabled" to "true",
+                "barcode_trigger_mode" to "1",
+                "aim_type" to "8",
+                "aim_timer" to "6000",
+                "beam_timer" to "6000"
             )
         ) { success ->
             if (success) {

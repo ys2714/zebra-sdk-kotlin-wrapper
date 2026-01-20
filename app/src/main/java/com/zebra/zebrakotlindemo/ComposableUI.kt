@@ -19,7 +19,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 
 @Composable
-fun RoundButton(title: String, modifier: Modifier? = null, onClick: () -> Unit) {
+fun RoundButton(title: String,
+                color: Color = Color.Blue,
+                modifier: Modifier? = null,
+                onClick: () -> Unit) {
     if (modifier != null) {
         Button(
             modifier = modifier
@@ -27,7 +30,7 @@ fun RoundButton(title: String, modifier: Modifier? = null, onClick: () -> Unit) 
                 onClick()
             }
             , colors = ButtonColors(
-                containerColor = Color.Blue,
+                containerColor = color,
                 contentColor = Color(0xFFFFFFFF),
                 disabledContentColor = Color.White,
                 disabledContainerColor = Color.LightGray
@@ -43,7 +46,7 @@ fun RoundButton(title: String, modifier: Modifier? = null, onClick: () -> Unit) 
                 onClick()
             }
             , colors = ButtonColors(
-                containerColor = Color.Blue,
+                containerColor = color,
                 contentColor = Color(0xFFFFFFFF),
                 disabledContentColor = Color.White,
                 disabledContainerColor = Color.LightGray
@@ -91,10 +94,4 @@ fun StyledOutlinedTextField(
             imeAction = ImeAction.Done // Show a "Done" button
         )
     )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-
 }

@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
@@ -17,9 +16,8 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.key
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.Lifecycle
+import androidx.compose.ui.graphics.Color
 import com.zebra.emdk_kotlin_wrapper.mx.MXBase
 import com.zebra.emdk_kotlin_wrapper.utils.ZebraSystemEventMonitor
 
@@ -127,6 +125,13 @@ class MainActivity : ComponentActivity() {
                 }
                 RoundButton("DataWedge Profile") {
                     startActivity(Intent(context, DataWedgeProfileActivity::class.java))
+                }
+                RoundButton("DataWedge Trigger Control Demo", color = Color.DarkGray) {
+                    startActivity(Intent(context, DataWedgeTriggerActivity::class.java))
+                }
+                RoundButton("[WIP] Crash App to get tombstone log", color = Color.Red) {
+                    CBridge.makeACrash()
+                    // throw RuntimeException("Crash App to get tombstone log")
                 }
             }
         } else {

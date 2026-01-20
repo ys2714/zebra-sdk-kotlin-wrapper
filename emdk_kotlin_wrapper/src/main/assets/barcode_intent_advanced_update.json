@@ -7,7 +7,11 @@
       "RESET_CONFIG": "false",
       "PARAM_LIST": {
         "scanner_selection": "auto",
+        "barcode_trigger_mode": "=[barcode_trigger_mode]",
         "scanner_input_enabled": "=[scanner_input_enabled]",
+        "aim_type": "=[aim_type]",
+        "aim_timer": "=[aim_timer]",
+        "beam_timer": "=[beam_timer]",
         "scanner_selection_by_identifier": "AUTO"
       }
     },
