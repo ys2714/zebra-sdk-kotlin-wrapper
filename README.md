@@ -11,7 +11,25 @@ com.symbol:emdk:11.0.134
 ## Notice
 OCR features needs license
 
+## Key APIs
+```
+EMDKHelper.prepare()
+EMDKHelper.teardown()
 
+DataWedgeHelper.prepare()
+DataWedgeHelper.checkDWStatus()
+DataWedgeHelper.enableDW()
+DataWedgeHelper.disableDW()
+DataWedgeHelper.switchProfile()
+DataWedgeHelper.configWithJSON()
+DataWedgeHelper.softScanTrigger()
+DataWedgeHelper.getScannerStatus()
+
+MXHelper.whiteListApproveApp()
+MXHelper.setDeviceToSleep()
+MXHelper.setDeviceToReboot()
+MXHelper.setSystemClock()
+```
 ## Export .crt file from apk
 
 set environment path for windows
