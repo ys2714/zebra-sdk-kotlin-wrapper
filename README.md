@@ -29,7 +29,31 @@ MXHelper.whiteListApproveApp()
 MXHelper.setDeviceToSleep()
 MXHelper.setDeviceToReboot()
 MXHelper.setSystemClock()
+MXHelper.fetchSerialNumber()
+MXHelper.fetchIMEI()
 ```
+
+## Key Feature - config DataWedge use JSON format.
+
+dedicated way to config scan engine: manually set a profile use DataWedge app and export the .db file
+the problem of the dedicated way is, any change in the profile can not be tracked by version management system like git.
+
+example of using configWithJSON(), the json files located in emdk_kotlin_wrapper/src/main/assets
+```
+        DataWedgeHelper.configWithJSON(
+            context,
+            "barcode_intent_advanced_create.json",
+            mapOf(
+                "scanner_input_enabled" to "true",
+                "workflow_input_enabled" to "false",
+                "barcode_trigger_mode" to "1",
+                "aim_type" to "8",
+                "aim_timer" to "6000",
+                "beam_timer" to "6000"
+            )
+        ) { success -> }
+``` 
+
 ## Export .crt file from apk
 
 set environment path for windows
