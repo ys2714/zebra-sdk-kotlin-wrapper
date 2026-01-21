@@ -46,6 +46,12 @@
         <activity
             android:exported="true"
             android:screenOrientation="portrait"
+            android:name=".DataWedgeTriggerBasicActivity">
+        </activity>
+
+        <activity
+            android:exported="true"
+            android:screenOrientation="portrait"
             android:name=".DataWedgeTriggerActivity">
         </activity>
 

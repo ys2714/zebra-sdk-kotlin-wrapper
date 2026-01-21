@@ -14,6 +14,8 @@ import com.zebra.emdk_kotlin_wrapper.mx.MXBase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.Timer
+import kotlin.concurrent.schedule
 
 class DataWedgeTriggerViewModel : ViewModel() {
 
@@ -120,11 +122,10 @@ class DataWedgeTriggerViewModel : ViewModel() {
     }
 
     fun startScanning(context: Context) {
-        stopScanning(context)
         DataWedgeHelper.softScanTrigger(
             context,
             DWAPI.SoftScanTriggerOptions.START_SCANNING)
-        startCountdownTimer()
+        startCountdownTimer(context)
     }
 
     fun stopScanning(context: Context) {
@@ -132,6 +133,15 @@ class DataWedgeTriggerViewModel : ViewModel() {
             context,
             DWAPI.SoftScanTriggerOptions.STOP_SCANNING)
         stopCountdownTimer()
+    }
+
+    fun stopScanningWithDelay(context: Context, delayMilliSeconds: Long) {
+        stopCountdownTimer()
+        Timer().schedule(delayMilliSeconds) {
+            DataWedgeHelper.softScanTrigger(
+                context,
+                DWAPI.SoftScanTriggerOptions.STOP_SCANNING)
+        }
     }
 
     // Setup Listeners
@@ -147,7 +157,7 @@ class DataWedgeTriggerViewModel : ViewModel() {
                 timestamp: String
             ) {
                 barcodeText.value = value
-                stopScanning(context)
+                stopScanningWithDelay(context, 20)
             }
 
             override fun getID(): String {
@@ -207,11 +217,17 @@ class DataWedgeTriggerViewModel : ViewModel() {
 
     // Timers
 
-    fun startCountdownTimer() {
+    fun startCountdownTimer(context: Context) {
         stopCountdownTimer()
         countDownTimer = object : CountDownTimer((countDownSeconds) * 1000L, 1L * 1000L) {
             override fun onFinish() {
                 scanActivatingRemainSeconds.value = countDownSeconds - 1
+                // if the scan triggered by hardware button,
+                // the scan session will end automatically when timeout.
+                // but,
+                // if the scan triggered by software button on UI,
+                // it will never stop until we call this on timeout.
+                stopScanningWithDelay(context, 200)
             }
 
             override fun onTick(millisUntilFinished: Long) {

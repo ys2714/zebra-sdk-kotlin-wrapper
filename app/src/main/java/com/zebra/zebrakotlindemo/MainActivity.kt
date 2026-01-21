@@ -126,7 +126,10 @@ class MainActivity : ComponentActivity() {
                 RoundButton("DataWedge Profile") {
                     startActivity(Intent(context, DataWedgeProfileActivity::class.java))
                 }
-                RoundButton("DataWedge Trigger Control Demo", color = Color.DarkGray) {
+                RoundButton("DataWedge Trigger Control Basic", color = Color.DarkGray) {
+                    startActivity(Intent(context, DataWedgeTriggerBasicActivity::class.java))
+                }
+                RoundButton("DataWedge Trigger Control Advanced", color = Color.DarkGray) {
                     startActivity(Intent(context, DataWedgeTriggerActivity::class.java))
                 }
                 RoundButton("[WIP] Crash App to get tombstone log", color = Color.Red) {
