@@ -31,8 +31,13 @@
     <!-- Access Control by Device Manager (now called Zebra DNA Cloud) -->
     <uses-permission android:name="com.zebra.devicemanager.provider.READ_PERMISSION"/>
 
-    <!-- Device Admin -->
+    <!-- Device Admin (only system apps) -->
     <uses-permission android:name="android.permission.BIND_DEVICE_ADMIN" />
+
+    <!-- AndroidDropboxLogs (only system apps) -->
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.READ_DROPBOX_DATA" />
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" />
 
     <application>
         <uses-library android:name="com.symbol.emdk" android:required="false"/>

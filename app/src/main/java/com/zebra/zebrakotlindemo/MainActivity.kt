@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.graphics.Color
 import com.zebra.emdk_kotlin_wrapper.mx.MXBase
+import com.zebra.emdk_kotlin_wrapper.rxlogger.RXLoggerHelper
 import com.zebra.emdk_kotlin_wrapper.utils.ZebraSystemEventMonitor
 
 class MainActivity : ComponentActivity() {
@@ -132,9 +133,16 @@ class MainActivity : ComponentActivity() {
                 RoundButton("DataWedge Trigger Control Advanced", color = Color.DarkGray) {
                     startActivity(Intent(context, DataWedgeTriggerActivity::class.java))
                 }
-                RoundButton("[WIP] Crash App to get tombstone log", color = Color.Red) {
+                RoundButton("Crash App to get tombstone log", color = Color.Red) {
+                    RXLoggerHelper.startRXLogger(context)
                     CBridge.makeACrash()
+                    RXLoggerHelper.stopRXLogger(context)
                     // throw RuntimeException("Crash App to get tombstone log")
+                }
+                RoundButton("Save logs to zip file", color = Color.Red) {
+                    RXLoggerHelper.startRXLogger(context)
+                    RXLoggerHelper.dumpRXLogger(context)
+                    RXLoggerHelper.stopRXLogger(context)
                 }
             }
         } else {

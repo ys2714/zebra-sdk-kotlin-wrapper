@@ -38,6 +38,8 @@ kotlin {
 }
 
 // https://zebratech.jfrog.io/artifactory/EMDK-Android/
+// https://zebratech.jfrog.io/artifactory/emc-mvn-ext/com/zebra/ai/vision/AI-Data-Capture-SDK/
+
 dependencies {
     compileOnly(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar", "*.aar"))))
     testCompileOnly(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar", "*.aar"))))
