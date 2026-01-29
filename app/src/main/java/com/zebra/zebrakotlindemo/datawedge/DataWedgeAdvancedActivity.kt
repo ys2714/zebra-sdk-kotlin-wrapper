@@ -1,4 +1,4 @@
-package com.zebra.zebrakotlindemo
+package com.zebra.zebrakotlindemo.datawedge
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -6,11 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,6 +16,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.unit.dp
+import com.zebra.zebrakotlindemo.ui.components.RoundButton
+import com.zebra.zebrakotlindemo.ui.components.StyledOutlinedTextField
 
 class DataWedgeAdvancedActivity : ComponentActivity() {
 
@@ -67,7 +66,7 @@ class DataWedgeAdvancedActivity : ComponentActivity() {
                 barcodeText.value,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .onFocusChanged( { focusState ->
+                    .onFocusChanged({ focusState ->
                         if (focusState.isFocused) {
                             viewModel.switchToBarcodePlugin(this@DataWedgeAdvancedActivity)
                         }
@@ -80,7 +79,7 @@ class DataWedgeAdvancedActivity : ComponentActivity() {
                 ocrText.value,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .onFocusChanged( { focusState ->
+                    .onFocusChanged({ focusState ->
                         if (focusState.isFocused) {
                             viewModel.switchToOCRPlugin(this@DataWedgeAdvancedActivity)
                         }

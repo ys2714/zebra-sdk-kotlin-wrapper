@@ -1,4 +1,4 @@
-package com.zebra.zebrakotlindemo
+package com.zebra.zebrakotlindemo.emdk
 
 import android.os.Build
 import android.os.Bundle
@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.zebra.zebrakotlindemo.ui.components.RoundButton
 
 class EMDKActivity: ComponentActivity() {
 
@@ -91,14 +92,22 @@ class EMDKActivity: ComponentActivity() {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                     viewModel.disablePowerOff(this@EMDKActivity)
                 } else {
-                    viewModel.showDebugToast(this@EMDKActivity, "Not Supported", "need android 11 or above")
+                    viewModel.showDebugToast(
+                        this@EMDKActivity,
+                        "Not Supported",
+                        "need android 11 or above"
+                    )
                 }
             }
             RoundButton("Enable Power Off Button") {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                     viewModel.enablePowerOff(this@EMDKActivity)
                 } else {
-                    viewModel.showDebugToast(this@EMDKActivity, "Not Supported", "need android 11 or above")
+                    viewModel.showDebugToast(
+                        this@EMDKActivity,
+                        "Not Supported",
+                        "need android 11 or above"
+                    )
                 }
             }
         }

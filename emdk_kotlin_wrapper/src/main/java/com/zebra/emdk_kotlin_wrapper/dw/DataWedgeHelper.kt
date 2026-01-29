@@ -79,7 +79,7 @@ object DataWedgeHelper {
                 while (!enabled) {
                     val status1 = async { DWAPI.enableDW(context, true) }
                     status1.await()
-                    delay(1 * 1000)
+                    delay(DWAPI.MILLISECONDS_DELAY_BETWEEN_API_CALLS)
                     val status2 = async { DWAPI.sendGetDWStatusIntent(context) }
                     enabled = status2.await()
                 }
@@ -283,12 +283,10 @@ object DataWedgeHelper {
             runCatching {
                 DWAPI.sendSwitchProfileIntent(context, name)
             }.onSuccess { success ->
-                // delay(DWAPI.MILLISECONDS_DELAY_BETWEEN_API_CALLS)
                 foregroundScope.launch {
                     callback?.invoke(success)
                 }
             }.onFailure {
-                // delay(DWAPI.MILLISECONDS_DELAY_BETWEEN_API_CALLS)
                 foregroundScope.launch {
                     Log.e(TAG, "SWITCH PROFILE FAIL. Exception: ${it.message}")
                     callback?.invoke(false)
@@ -422,6 +420,22 @@ object DataWedgeHelper {
                 }
             }.onFailure {
                 delay(DWAPI.MILLISECONDS_DELAY_BETWEEN_API_CALLS)
+                foregroundScope.launch {
+                    callback?.invoke(false)
+                }
+            }
+        }
+    }
+
+    fun switchScannerParams(context: Context, bundle: Bundle, callback: ((Boolean) -> Unit)? = null) {
+        backgroundScope.launch {
+            runCatching {
+                DWAPI.sendSwitchScannerParamsIntent(context, bundle)
+            }.onSuccess {
+                foregroundScope.launch {
+                    callback?.invoke(true)
+                }
+            }.onFailure {
                 foregroundScope.launch {
                     callback?.invoke(false)
                 }

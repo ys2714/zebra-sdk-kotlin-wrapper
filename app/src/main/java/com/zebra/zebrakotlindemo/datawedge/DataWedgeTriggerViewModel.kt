@@ -1,4 +1,4 @@
-package com.zebra.zebrakotlindemo
+package com.zebra.zebrakotlindemo.datawedge
 
 import android.content.Context
 import android.os.CountDownTimer
@@ -56,6 +56,7 @@ class DataWedgeTriggerViewModel : ViewModel() {
             context,
             "barcode_intent_advanced_create.json",
             mapOf(
+                "PROFILE_NAME" to "barcode_intent_advanced",
                 "scanner_input_enabled" to "true",
                 "workflow_input_enabled" to "false",
                 "barcode_trigger_mode" to "1",

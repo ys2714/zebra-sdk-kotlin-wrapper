@@ -1,7 +1,6 @@
-package com.zebra.zebrakotlindemo
+package com.zebra.zebrakotlindemo.datawedge
 
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -51,6 +50,7 @@ class DataWedgeAdvancedViewModel : ViewModel() {
             context,
             "barcode_intent_advanced_create.json",
             mapOf(
+                "PROFILE_NAME" to "barcode_intent_advanced",
                 "scanner_input_enabled" to "true",
                 "workflow_input_enabled" to "false",
                 "barcode_trigger_mode" to "1",

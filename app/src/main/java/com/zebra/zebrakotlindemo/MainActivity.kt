@@ -17,10 +17,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.graphics.Color
 import com.zebra.emdk_kotlin_wrapper.mx.MXBase
-import com.zebra.emdk_kotlin_wrapper.rxlogger.RXLoggerHelper
 import com.zebra.emdk_kotlin_wrapper.utils.ZebraSystemEventMonitor
+import com.zebra.zebrakotlindemo.datawedge.DataWedgeActivity
+import com.zebra.zebrakotlindemo.emdk.EMDKActivity
+import com.zebra.zebrakotlindemo.emdk.ScreenLockActivity
+import com.zebra.zebrakotlindemo.quickscan.QuickScanActivity
+import com.zebra.zebrakotlindemo.rxlogger.RXLoggerActivity
+import com.zebra.zebrakotlindemo.ui.components.RoundButton
 
 class MainActivity : ComponentActivity() {
 
@@ -41,10 +45,10 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ZebraSystemEventMonitor.registerAppPauseCallback {
-            viewModel.showDebugToast(this, "App", "Pause")
+            // viewModel.showDebugToast(this, "App", "Pause")
         }
         ZebraSystemEventMonitor.registerAppStopCallback {
-            viewModel.showDebugToast(this, "App", "Stop")
+            // viewModel.showDebugToast(this, "App", "Stop")
         }
         setContent {
             RootView(this)
@@ -83,7 +87,10 @@ class MainActivity : ComponentActivity() {
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (keyCode == MXBase.KeyCodes.SCAN.value
             || keyCode == MXBase.KeyCodes.RIGHT_TRIGGER_1.value) {
-            DataWedgeBasicActivity.start(this)
+            startActivity(Intent(this, QuickScanActivity::class.java))
+        }
+        if (keyCode == MXBase.KeyCodes.LEFT_TRIGGER_1.value) {
+            startActivity(Intent(this, QuickScanActivity::class.java))
         }
         return super.onKeyDown(keyCode, event)
     }
@@ -115,34 +122,18 @@ class MainActivity : ComponentActivity() {
                     Text("IMEI Number: " + viewModel.imei.value)
                 }
                 Text("Scanner Status: " + viewModel.scannerStatus.value)
-                RoundButton("EMDK") {
+                Text("API Token: " + viewModel.apiToken.value)
+                RoundButton("Quick Scan") {
+                    startActivity(Intent(context, QuickScanActivity::class.java))
+                }
+                RoundButton("EMDK Demo") {
                     startActivity(Intent(context, EMDKActivity::class.java))
                 }
-                RoundButton("DataWedge Basic") {
-                    startActivity(Intent(context, DataWedgeBasicActivity::class.java))
+                RoundButton("DataWedge Demo") {
+                    startActivity(Intent(context, DataWedgeActivity::class.java))
                 }
-                RoundButton("DataWedge Advanced") {
-                    startActivity(Intent(context, DataWedgeAdvancedActivity::class.java))
-                }
-                RoundButton("DataWedge Profile") {
-                    startActivity(Intent(context, DataWedgeProfileActivity::class.java))
-                }
-                RoundButton("DataWedge Trigger Control Basic", color = Color.DarkGray) {
-                    startActivity(Intent(context, DataWedgeTriggerBasicActivity::class.java))
-                }
-                RoundButton("DataWedge Trigger Control Advanced", color = Color.DarkGray) {
-                    startActivity(Intent(context, DataWedgeTriggerActivity::class.java))
-                }
-                RoundButton("Crash App to get tombstone log", color = Color.Red) {
-                    RXLoggerHelper.startRXLogger(context)
-                    CBridge.makeACrash()
-                    RXLoggerHelper.stopRXLogger(context)
-                    // throw RuntimeException("Crash App to get tombstone log")
-                }
-                RoundButton("Save logs to zip file", color = Color.Red) {
-                    RXLoggerHelper.startRXLogger(context)
-                    RXLoggerHelper.dumpRXLogger(context)
-                    RXLoggerHelper.stopRXLogger(context)
+                RoundButton("RXLogger Demo") {
+                    startActivity(Intent(context, RXLoggerActivity::class.java))
                 }
             }
         } else {

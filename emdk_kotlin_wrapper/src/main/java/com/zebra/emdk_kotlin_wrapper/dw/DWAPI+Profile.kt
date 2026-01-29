@@ -133,3 +133,32 @@ suspend fun DWAPI.sendSwitchProfileIntent(context: Context, name: String): Boole
         }
     }
 }
+
+/**
+ * https://techdocs.zebra.com/datawedge/latest/guide/api/switchscannerparams/
+ *
+ * - Parameters:
+ * ACTION [String]: "com.symbol.datawedge.api.ACTION"
+ * EXTRA_DATA [String]: "com.symbol.datawedge.api.SWITCH_SCANNER_PARAMS"
+ * EXTRA_DATA [bundle]: "<name, value>" - Accepts scanner parameters as name-value pairs
+ *
+ * - Result Codes:
+ * DATAWEDGE_DISABLED - DataWedge is disabled
+ * PROFILE_DISABLED - Profile is disabled
+ * PLUGIN_DISABLED - Scanner plug-in is disabled
+ * SCANNER_DISABLED - Scanner is disabled
+ * PARAMETER_INVALID - Given scanner parameter is invalid
+ * PARAMETER_NOT_SUPPORTED - Given scanner parameter is not supported
+ * VALUE_INVALID - Given value for a scanner parameter is invalid
+ * VALUE_NOT_SUPPORTED - Given value for a scanner parameter is not supported
+ *
+ */
+suspend fun DWAPI.sendSwitchScannerParamsIntent(context: Context, bundle: Bundle): Boolean = suspendCancellableCoroutine { continuation ->
+    DWIntentFactory.callDWAPI(context, DWAPI.ActionExtraKeys.SWITCH_SCANNER_PARAMS, bundle) { result ->
+        result.onSuccess {
+            continuation.resumeWith(Result.success(true))
+        }.onFailure {
+            continuation.resumeWith(Result.failure(it))
+        }
+    }
+}

@@ -65,6 +65,13 @@ suspend fun DWAPI.sendGetSelectedScannerStatusIntent(context: Context): DWAPI.Sc
     }
 }
 
+/**
+ * https://techdocs.zebra.com/datawedge/latest/guide/api/switchdatacapture/
+ *
+ * Used to switch between the following at runtime:
+ * 1. Barcode scanning and Barcode Highlighting, e.g. to have the ability to alternate between scanning barcodes and using the viewfinder (or preview screen) to highlight barcodes to aid in finding items.
+ * 2. Workflow Input options, e.g. to scan a driver license and read a license plate in the same app.
+ * */
 suspend fun DWAPI.sendSwitchDataCaptureIntent(context: Context, plugin: DWAPI.Plugin.Input): Boolean = suspendCancellableCoroutine { continuation ->
     DWIntentFactory.callDWAPI(context, DWAPI.ActionExtraKeys.SWITCH_DATACAPTURE, plugin.value) { result ->
         result.onSuccess {

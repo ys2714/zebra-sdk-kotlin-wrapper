@@ -1,4 +1,4 @@
-package com.zebra.zebrakotlindemo
+package com.zebra.zebrakotlindemo.datawedge
 
 import android.content.Context
 import android.widget.Toast
@@ -7,7 +7,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.zebra.emdk_kotlin_wrapper.dw.DWAPI
 import com.zebra.emdk_kotlin_wrapper.dw.DataWedgeHelper
-import com.zebra.zebrakotlindemo.DataWedgeAdvancedViewModel.Companion.workflowPluginName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

@@ -1,4 +1,4 @@
-package com.zebra.zebrakotlindemo
+package com.zebra.zebrakotlindemo.bridge
 
 object CBridge {
 

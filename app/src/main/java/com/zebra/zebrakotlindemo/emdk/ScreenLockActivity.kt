@@ -1,4 +1,4 @@
-package com.zebra.zebrakotlindemo
+package com.zebra.zebrakotlindemo.emdk
 
 import android.app.Activity
 import android.content.Context
@@ -19,13 +19,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.boundsInWindow
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.pointer.PointerEventPass
-import androidx.compose.ui.layout.boundsInWindow
+import com.zebra.zebrakotlindemo.ui.components.RoundButton
 
 class ScreenLockActivity : ComponentActivity() {
 
@@ -74,17 +76,18 @@ class ScreenLockActivity : ComponentActivity() {
 
     @Composable
     fun RootView(context: Context) {
-        val buttonModifier = Modifier.padding(16.dp)
+        val buttonModifier = Modifier.Companion.padding(16.dp)
         Column(
-            modifier = Modifier
+            modifier = Modifier.Companion
                 .fillMaxSize()
                 .padding(horizontal = 16.dp)
-                .consumeAllTouchBut(buttonModifier)
-            ,
+                .consumeAllTouchBut(buttonModifier),
             verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally) {
-            Text("----Lock Screen----",
-                modifier = Modifier
+            horizontalAlignment = Alignment.Companion.CenterHorizontally
+        ) {
+            Text(
+                "----Lock Screen----",
+                modifier = Modifier.Companion
                     .padding()
             )
             RoundButton("Unlock", modifier = buttonModifier) {
@@ -94,7 +97,7 @@ class ScreenLockActivity : ComponentActivity() {
     }
 
     fun Offset.isInside(modifier: Modifier): Boolean {
-        var bounds = androidx.compose.ui.geometry.Rect.Zero
+        var bounds = Rect.Zero
         modifier.onGloballyPositioned { coordinates ->
             bounds = coordinates.boundsInWindow()
         }
@@ -105,7 +108,7 @@ class ScreenLockActivity : ComponentActivity() {
         buttonModifier: Modifier, // The modifier of the button to keep enabled
         onDown: () -> Unit = {}
     ): Modifier = this.then(
-        Modifier.pointerInput(Unit) {
+        Modifier.Companion.pointerInput(Unit) {
             awaitEachGesture {
                 val down = awaitFirstDown(pass = PointerEventPass.Main)
                 // Only consume if the touch is not within the bounds of the enabled button

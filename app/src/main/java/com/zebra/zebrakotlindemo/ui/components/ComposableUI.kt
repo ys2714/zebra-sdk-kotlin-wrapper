@@ -1,5 +1,8 @@
-package com.zebra.zebrakotlindemo
+package com.zebra.zebrakotlindemo.ui.components
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.content.MediaType.Companion.Image
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
@@ -14,14 +17,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material3.Slider
-import androidx.compose.material3.SliderDefaults
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.Role.Companion.Image
 
 @Composable
 fun RoundButton(title: String,
@@ -101,4 +101,17 @@ fun StyledOutlinedTextField(
     )
 }
 
+@Composable
+fun ShowPngImage(id: Int) {
+    Image(
+        // Load the PNG image from the drawable folder using painterResource
+        painter = painterResource(id = id),
+        // Provide a meaningful description for accessibility, or null if decorative
+        contentDescription = "A description of the image",
+        // Optional: use a modifier to adjust size, alignment, etc.
+        modifier = Modifier.fillMaxSize(),
+        // Optional: adjust how the image scales within its bounds
+        contentScale = ContentScale.Fit
+    )
+}
 

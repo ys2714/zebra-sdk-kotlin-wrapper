@@ -51,6 +51,7 @@ object DWAPI {
         DELETE_PROFILE("com.symbol.datawedge.api.DELETE_PROFILE"),
         SWITCH_TO_PROFILE("com.symbol.datawedge.api.SWITCH_TO_PROFILE"),
         SWITCH_DATACAPTURE("com.symbol.datawedge.api.SWITCH_DATACAPTURE"),
+        SWITCH_SCANNER_PARAMS("com.symbol.datawedge.api.SWITCH_SCANNER_PARAMS"),
         SET_CONFIG("com.symbol.datawedge.api.SET_CONFIG"),
         GET_CONFIG("com.symbol.datawedge.api.GET_CONFIG"),
         ENABLE_DATAWEDGE("com.symbol.datawedge.api.ENABLE_DATAWEDGE"),

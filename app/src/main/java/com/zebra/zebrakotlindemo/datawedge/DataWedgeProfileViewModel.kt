@@ -1,4 +1,4 @@
-package com.zebra.zebrakotlindemo
+package com.zebra.zebrakotlindemo.datawedge
 
 import android.content.Context
 import android.widget.Toast

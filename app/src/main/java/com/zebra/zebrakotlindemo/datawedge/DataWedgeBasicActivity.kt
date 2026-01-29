@@ -1,4 +1,4 @@
-package com.zebra.zebrakotlindemo
+package com.zebra.zebrakotlindemo.datawedge
 
 import android.content.Context
 import android.content.Intent
@@ -22,6 +22,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.unit.dp
 import com.zebra.emdk_kotlin_wrapper.mx.MXBase
+import com.zebra.zebrakotlindemo.ui.components.RoundButton
+import com.zebra.zebrakotlindemo.ui.components.StyledOutlinedTextField
 
 class DataWedgeBasicActivity : ComponentActivity() {
 
@@ -130,11 +132,11 @@ class DataWedgeBasicActivity : ComponentActivity() {
                 barcodeText.value,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .onFocusChanged( { focusState ->
-                    if (focusState.isFocused) {
-                        viewModel.switchToBarcodeProfile(this@DataWedgeBasicActivity)
-                    }
-                })
+                    .onFocusChanged({ focusState ->
+                        if (focusState.isFocused) {
+                            viewModel.switchToBarcodeProfile(this@DataWedgeBasicActivity)
+                        }
+                    })
             ) { newValue ->
                 barcodeText.value = newValue
             }
@@ -143,11 +145,11 @@ class DataWedgeBasicActivity : ComponentActivity() {
                 ocrText.value,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .onFocusChanged( { focusState ->
-                    if (focusState.isFocused) {
-                        viewModel.switchToOCRProfile(this@DataWedgeBasicActivity)
-                    }
-                })
+                    .onFocusChanged({ focusState ->
+                        if (focusState.isFocused) {
+                            viewModel.switchToOCRProfile(this@DataWedgeBasicActivity)
+                        }
+                    })
             ) { newValue ->
                 ocrText.value = newValue
             }

@@ -1,4 +1,4 @@
-package com.zebra.zebrakotlindemo
+package com.zebra.zebrakotlindemo.emdk
 
 import android.content.Context
 import android.os.Build

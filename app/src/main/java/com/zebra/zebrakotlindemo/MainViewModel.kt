@@ -1,9 +1,11 @@
 package com.zebra.zebrakotlindemo
 
 import android.content.Context
+import android.view.KeyEvent
 import android.widget.Toast
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.ViewModel
 import com.zebra.emdk_kotlin_wrapper.dw.DataWedgeHelper
 import com.zebra.emdk_kotlin_wrapper.emdk.EMDKHelper
 import com.zebra.emdk_kotlin_wrapper.mx.MXBase
@@ -16,11 +18,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MainViewModel {
+class MainViewModel: ViewModel() {
 
     var appAuthenticated = mutableStateOf(false)
     var emdkPrepared = mutableStateOf(false)
     var scannerStatus = mutableStateOf("")
+    var apiToken = mutableStateOf("")
 
     var emdkVersion: MutableState<String> = mutableStateOf("")
     var mxVersion: MutableState<String> = mutableStateOf("")
@@ -42,34 +45,31 @@ class MainViewModel {
         if (emdkPrepared.value == true) {
             return
         }
-        EMDKHelper.shared.prepare(context) {
-            // get versions
-            emdkVersion.value = EMDKHelper.shared.emdkVersion
-            mxVersion.value = EMDKHelper.shared.mxVersion
-            dwVersion.value = EMDKHelper.shared.dwVersion
-            // white list app
+        // get versions
+        emdkVersion.value = EMDKHelper.shared.emdkVersion
+        mxVersion.value = EMDKHelper.shared.mxVersion
+        dwVersion.value = EMDKHelper.shared.dwVersion
+        // get scanner status
+        getScannerStatus(context)
+        // white list app
+        if (!appAuthenticated.value) {
             authenticateApp(context) { whiteListSuccess ->
                 if (whiteListSuccess) {
-                    fetchSerialNumber(context) {
-                        fetchPPID(context) {
-                            fetchIMEI(context) {}
-                        }
-                    }
+
                 } else {
 
                 }
             }
-            // prepare dw
-            DataWedgeHelper.prepare(context) { enableSuccess ->
-                if (enableSuccess) {
-                    getScannerStatus(context)
-                    setupKeyMapping(context) {
-                        emdkPrepared.value = true
-                    }
-                } else {
-                    throw RuntimeException("MainViewModel - DataWedge prepare failed")
+        }
+        fetchSerialNumber(context) {
+            fetchPPID(context) {
+                fetchIMEI(context) {
+                    emdkPrepared.value = true
                 }
             }
+        }
+        setupKeyMapping(context) {
+
         }
     }
 
@@ -153,7 +153,8 @@ class MainViewModel {
 
     fun getDWToken(context: Context) {
         val token = ZDMAuthHelper.acquireToken(context, ZDMConst.DelegationScope.SCOPE_DW_CONFIG_API) ?: "UNKNOWN"
-        showDebugToast(context, "Token", token)
+        apiToken.value = token
+        // showDebugToast(context, "Token", token)
     }
 
     fun showDebugToast(context: Context, type: String, data: String) {

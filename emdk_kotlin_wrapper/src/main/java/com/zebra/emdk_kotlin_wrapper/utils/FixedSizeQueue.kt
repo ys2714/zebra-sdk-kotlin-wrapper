@@ -1,7 +1,6 @@
 package com.zebra.emdk_kotlin_wrapper.utils
 
-import android.util.Log
-import com.zebra.emdk_kotlin_wrapper.utils.ZebraKeyEventMonitor.TAG
+import android.os.Build
 
 interface FixedSizeQueueItem {
     fun getID(): String
@@ -49,7 +48,13 @@ class FixedSizeQueue<T: FixedSizeQueueItem>(val size: Int) {
         if (_items.isEmpty()) {
             throw RuntimeException("queue is empty")
         }
-        return _items.removeFirst()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+            return _items.removeFirst()
+        } else {
+            val first = _items.first()
+            _items.remove(first)
+            return first
+        }
     }
 
     fun remove(item: T) {

@@ -1,4 +1,4 @@
-package com.zebra.zebrakotlindemo
+package com.zebra.zebrakotlindemo.datawedge
 
 import android.content.Context
 import android.os.Bundle
@@ -17,6 +17,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.zebra.zebrakotlindemo.ui.components.RoundButton
+import com.zebra.zebrakotlindemo.ui.components.StyledOutlinedTextField
 
 class DataWedgeProfileActivity : ComponentActivity() {
 
