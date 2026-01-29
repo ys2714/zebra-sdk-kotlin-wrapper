@@ -84,16 +84,16 @@ class MainActivity : ComponentActivity() {
         super.onDestroy()
     }
 
-    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        if (keyCode == MXBase.KeyCodes.SCAN.value
-            || keyCode == MXBase.KeyCodes.RIGHT_TRIGGER_1.value) {
-            startActivity(Intent(this, QuickScanActivity::class.java))
-        }
-        if (keyCode == MXBase.KeyCodes.LEFT_TRIGGER_1.value) {
-            startActivity(Intent(this, QuickScanActivity::class.java))
-        }
-        return super.onKeyDown(keyCode, event)
-    }
+//    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+//        if (keyCode == MXBase.KeyCodes.SCAN.value
+//            || keyCode == MXBase.KeyCodes.RIGHT_TRIGGER_1.value) {
+//            startActivity(Intent(this, QuickScanActivity::class.java))
+//        }
+//        if (keyCode == MXBase.KeyCodes.LEFT_TRIGGER_1.value) {
+//            startActivity(Intent(this, QuickScanActivity::class.java))
+//        }
+//        return super.onKeyDown(keyCode, event)
+//    }
 
     @Composable
     fun RootView(context: Context) {
@@ -116,7 +116,6 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier
                         .padding()
                 )
-                Text("PPID: " + viewModel.ppid.value)
                 Text("Serial Number: " + viewModel.serial.value)
                 if (viewModel.hasTelephonyFeature.value) {
                     Text("IMEI Number: " + viewModel.imei.value)
@@ -126,14 +125,8 @@ class MainActivity : ComponentActivity() {
                 RoundButton("Quick Scan") {
                     startActivity(Intent(context, QuickScanActivity::class.java))
                 }
-                RoundButton("EMDK Demo") {
-                    startActivity(Intent(context, EMDKActivity::class.java))
-                }
                 RoundButton("DataWedge Demo") {
                     startActivity(Intent(context, DataWedgeActivity::class.java))
-                }
-                RoundButton("RXLogger Demo") {
-                    startActivity(Intent(context, RXLoggerActivity::class.java))
                 }
             }
         } else {
