@@ -63,6 +63,8 @@ class QuickScanActivity : ComponentActivity() {
     fun RootView() {
         val barcodeText1 = remember { viewModel.barcodeText1 }
         val barcodeText2 = remember { viewModel.barcodeText2 }
+        val barcodeText3 = remember { viewModel.barcodeText3 }
+        val barcodeText4 = remember { viewModel.barcodeText4 }
 
         Column(
             Modifier
@@ -96,6 +98,34 @@ class QuickScanActivity : ComponentActivity() {
                         })
                 ) { newValue ->
                     barcodeText2.value = newValue
+                }
+                Text("1D Decoders = CODE_128, JAN_EAN_13")
+                StyledOutlinedTextField(
+                    "1D",
+                    barcodeText3.value,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .onFocusChanged({ focusState ->
+                            if (focusState.isFocused) {
+                                viewModel.select1DDecoders()
+                            }
+                        })
+                ) { newValue ->
+                    barcodeText3.value = newValue
+                }
+                Text("2D Decoders = DATA_MATRIX, PDF_417, QR")
+                StyledOutlinedTextField(
+                    "2D",
+                    barcodeText4.value,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .onFocusChanged({ focusState ->
+                            if (focusState.isFocused) {
+                                viewModel.select2DDecoders()
+                            }
+                        })
+                ) { newValue ->
+                    barcodeText4.value = newValue
                 }
                 RoundButton("Start Scan") {
                     viewModel.stopScanning()

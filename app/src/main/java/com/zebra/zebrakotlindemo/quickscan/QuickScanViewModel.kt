@@ -17,6 +17,8 @@ class QuickScanViewModel: ViewModel() {
     var servicePrepared: MutableState<Boolean> = mutableStateOf(false)
     var barcodeText1: MutableState<String> = mutableStateOf("")
     var barcodeText2: MutableState<String> = mutableStateOf("")
+    var barcodeText3: MutableState<String> = mutableStateOf("")
+    var barcodeText4: MutableState<String> = mutableStateOf("")
 
     private var aimType: DWBarcodeScanner.AimType = DWBarcodeScanner.AimType.TRIGGER
 
@@ -72,5 +74,26 @@ class QuickScanViewModel: ViewModel() {
         val scanner = DWQuickScanService.shared?.currentScanner as DWBarcodeScanner
         scanner.switchAimType(DWBarcodeScanner.AimType.TIMED_CONTINUOUS)
         aimType = DWBarcodeScanner.AimType.TIMED_CONTINUOUS
+    }
+
+    fun select1DDecoders() {
+        val scanner = DWQuickScanService.shared?.currentScanner as DWBarcodeScanner
+        scanner.switchDecoderType(
+            arrayOf(
+                DWBarcodeScanner.DecoderType.CODE_128,
+                DWBarcodeScanner.DecoderType.JAN_EAN_13
+            )
+        )
+    }
+
+    fun select2DDecoders() {
+        val scanner = DWQuickScanService.shared?.currentScanner as DWBarcodeScanner
+        scanner.switchDecoderType(
+            arrayOf(
+                DWBarcodeScanner.DecoderType.DATA_MATRIX,
+                DWBarcodeScanner.DecoderType.PDF_417,
+                DWBarcodeScanner.DecoderType.QR
+            )
+        )
     }
 }

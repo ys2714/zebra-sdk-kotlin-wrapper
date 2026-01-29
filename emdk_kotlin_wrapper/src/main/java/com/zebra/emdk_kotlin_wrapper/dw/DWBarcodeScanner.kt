@@ -8,6 +8,21 @@ import android.os.Bundle
  * */
 class DWBarcodeScanner(override val context: Context): DWVirtualScanner(context) {
 
+    enum class DecoderType(val key: String) {
+        CODE39("decoder_code39"),
+        CODE_128("decoder_code128"),
+        NW7("decoder_codabar"),
+        QR("decoder_qrcode"),
+        ITF("decoder_i2of5"),
+        PDF_417("decoder_pdf417"),
+        DATA_MATRIX("decoder_datamatrix"),
+        JAN_EAN_8("decoder_ean8"),
+        JAN_EAN_13("decoder_ean13"),
+        UPCA("decoder_upca"),
+        UPCE0("decoder_upce0"),
+        UPCE1("decoder_upce1")
+    }
+
     /**
      * aim_type:
      *
@@ -56,6 +71,21 @@ class DWBarcodeScanner(override val context: Context): DWVirtualScanner(context)
             Bundle().apply {
                 putString("aim_type", aimType.string)
             }
+        )
+        return this
+    }
+
+    fun switchDecoderType(decoderTypes: Array<DecoderType>): DWBarcodeScanner {
+        val bundle = Bundle()
+        for (type in DecoderType.entries) {
+            bundle.putString(type.key, "false")
+        }
+        for (type in decoderTypes) {
+            bundle.putString(type.key, "true")
+        }
+        DataWedgeHelper.switchScannerParams(
+            context,
+            bundle
         )
         return this
     }
