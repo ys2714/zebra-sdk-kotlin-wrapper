@@ -82,6 +82,53 @@ suspend fun DWAPI.sendSwitchDataCaptureIntent(context: Context, plugin: DWAPI.Pl
     }
 }
 
+/**
+ * https://techdocs.zebra.com/datawedge/15-0/guide/api/scannerinputplugin/
+ *
+ * - Parameters:
+ * ACTION [String]: "com.symbol.datawedge.api.ACTION"
+ * EXTRA_DATA [String]: "com.symbol.datawedge.api.SCANNER_INPUT_PLUGIN"
+ *
+ * <parameter>: The parameter as a string, using either of the following:
+ *
+ * SUSPEND_PLUGIN - suspends the scanner so it is temporarily inactive when switching from the WAITING or SCANNING state. SCANNER_STATUS notification broadcasts IDLE state.
+ * RESUME_PLUGIN - resumes the scanner when changing from the SUSPEND_PLUGIN suspended state. SCANNER_STATUS notification broadcasts WAITING and SCANNING states, rotating between each depending on whether scanning is taking place. In the WAITING state it is expecting an action from the user such as a trigger press. In the SCANNING state it is actively performing a scan resulting from an action such as a trigger press.
+ * ENABLE_PLUGIN - enables the plug-in; scanner becomes active. SCANNER_STATUS notification broadcasts WAITING and SCANNING states, rotating between each depending on whether scanning is taking place.
+ * DISABLE_PLUGIN - disables the plug-in; scanner becomes inactive. SCANNER_STATUS notification broadcasts DISABLED state.
+ *
+ * Result Codes
+ * DataWedge returns the following error codes if the app includes the intent extras SEND_RESULT and COMMAND_IDENTIFIER to enable the app to get results using the DataWedge result intent mechanism. See Example, below.
+ *
+ * SCANNER_ALREADY_SUSPENDED - An intent was received to suspend the scanner which is already suspended.
+ * PLUGIN_DISABLED - The scanner plug-in is disabled so the suspend/resume action cannot be executed.
+ * SCANNER_ALREADY_RESUMED - A resume intent is received but the scanner is not in a suspended state.
+ * SCANNER_RESUME_FAILED - The scanner resume is unsuccessful.
+ * SCANNER_ALREADY_DISABLED - The scanner is in a disabled state, preventing any further action.
+ * DATAWEDGE_DISABLED - The action to disable DataWedge is unsuccessful.
+ * PARAMETER_INVALID - An invalid parameter is received.
+ * PROFILE_DISABLED - The action to to disable profile is unsuccessful.
+ * SCANNER_ALREADY_DISABLED - An intent was received to disable the scanner which is already disabled.
+ * SCANNER_ALREADY_ENABLED - An intent was received to enable the scanner which is already enabled.
+ * SCANNER_DISABLE_FAILED - The scanner disable is unsuccessful.
+ * SCANNER_ENABLE_FAILED - The action to enable the scanner is unsuccessful.
+ * */
+suspend fun DWAPI.sendControlScannerInputPluginIntent(context: Context, command: DWAPI.ControlScannerInputPluginCommand): Boolean = suspendCancellableCoroutine { continuation ->
+    DWIntentFactory.callDWAPI(context, DWAPI.ActionExtraKeys.SCANNER_INPUT_PLUGIN, command.value) { result ->
+        result.onSuccess {
+            continuation.resumeWith(Result.success(true))
+        }.onFailure {
+            if (it.message == "SCANNER_ALREADY_SUSPENDED" ||
+                it.message == "SCANNER_ALREADY_RESUMED" ||
+                it.message == "SCANNER_ALREADY_DISABLED" ||
+                it.message == "SCANNER_ALREADY_ENABLED") {
+                continuation.resumeWith(Result.success(true))
+            } else {
+                continuation.resumeWith(Result.failure(it))
+            }
+        }
+    }
+}
+
 private fun callDWAPIEnumerateScannersHandler(intent: Intent, callback: (List<DWScannerInfo>) -> Unit) {
     if (intent.action == DWAPI.ResultActionNames.RESULT_ACTION.value &&
         intent.hasExtra(DWAPI.ResultExtraKeys.ENUMERATE_SCANNERS.value)

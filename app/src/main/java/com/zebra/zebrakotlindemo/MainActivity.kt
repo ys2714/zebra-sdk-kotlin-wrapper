@@ -22,6 +22,7 @@ import com.zebra.emdk_kotlin_wrapper.utils.ZebraSystemEventMonitor
 import com.zebra.zebrakotlindemo.datawedge.DataWedgeActivity
 import com.zebra.zebrakotlindemo.emdk.EMDKActivity
 import com.zebra.zebrakotlindemo.emdk.ScreenLockActivity
+import com.zebra.zebrakotlindemo.quickscan.DWQuickScanService
 import com.zebra.zebrakotlindemo.quickscan.QuickScanActivity
 import com.zebra.zebrakotlindemo.rxlogger.RXLoggerActivity
 import com.zebra.zebrakotlindemo.ui.components.RoundButton
@@ -44,12 +45,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ZebraSystemEventMonitor.registerAppPauseCallback {
-            // viewModel.showDebugToast(this, "App", "Pause")
-        }
-        ZebraSystemEventMonitor.registerAppStopCallback {
-            // viewModel.showDebugToast(this, "App", "Stop")
-        }
+        viewModel.handleOnCreate(this)
         setContent {
             RootView(this)
         }
@@ -57,15 +53,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.prepare(this)
-        ZebraSystemEventMonitor.registerScreenOFFListener(this) { isScreenOff ->
-            if (isScreenOff) {
-                ScreenLockActivity.start(this)
-                Log.d("", "Screen OFF")
-            } else {
-                Log.d("", "Screen ON")
-            }
-        }
+        viewModel.handleOnResume(this)
     }
 
     override fun onPause() {
@@ -124,9 +112,6 @@ class MainActivity : ComponentActivity() {
                 Text("API Token: " + viewModel.apiToken.value)
                 RoundButton("Quick Scan") {
                     startActivity(Intent(context, QuickScanActivity::class.java))
-                }
-                RoundButton("DataWedge Demo") {
-                    startActivity(Intent(context, DataWedgeActivity::class.java))
                 }
             }
         } else {

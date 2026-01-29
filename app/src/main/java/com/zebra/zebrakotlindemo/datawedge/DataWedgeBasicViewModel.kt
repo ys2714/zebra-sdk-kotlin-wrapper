@@ -45,7 +45,9 @@ class DataWedgeBasicViewModel : ViewModel() {
         }
     }
 
-    fun handleOnCreate(context: Context) {
+    fun handleOnCreate(context: Context) {}
+
+    fun handleOnResume(context: Context) {
         DataWedgeHelper.switchProfile(context, barcodeProfileName) { success ->
             if (success) {
                 currentProfileName.value = barcodeProfileName
@@ -53,9 +55,6 @@ class DataWedgeBasicViewModel : ViewModel() {
                 showDebugToast(context, "Switch Profile", "Fail")
             }
         }
-    }
-
-    fun handleOnResume(context: Context) {
         if (dataListener != null) {
             return
         }

@@ -38,6 +38,8 @@ class DataWedgeTriggerViewModel : ViewModel() {
     private var scanButtonDown: Boolean = false
     var scanActivatingRemainSeconds: MutableState<Int> = mutableStateOf(countDownSeconds - 1)
 
+    fun handleOnCreate(context: Context) {}
+
     /**
      * aim_type:
      *
@@ -51,12 +53,12 @@ class DataWedgeTriggerViewModel : ViewModel() {
      * 7 – Press and Continue
      * 8 - Timed Continuous
      * */
-    fun handleOnCreate(context: Context) {
+    fun handleOnResume(context: Context) {
         DataWedgeHelper.configWithJSON(
             context,
             "barcode_intent_advanced_create.json",
             mapOf(
-                "PROFILE_NAME" to "barcode_intent_advanced",
+                "PROFILE_NAME" to "DataWedgeTriggerViewModel",
                 "scanner_input_enabled" to "true",
                 "workflow_input_enabled" to "false",
                 "barcode_trigger_mode" to "1",
@@ -71,9 +73,10 @@ class DataWedgeTriggerViewModel : ViewModel() {
                     context,
                     "barcode_intent_advanced_update.json",
                     mapOf(
+                        "PROFILE_NAME" to "DataWedgeTriggerViewModel",
                         "scanner_input_enabled" to "true",
                         "workflow_input_enabled" to "false",
-                        "barcode_trigger_mode" to "1",
+                        "barcode_trigger_mode" to "0",
                         "aim_type" to "8",
                         "aim_timer" to "6000",
                         "beam_timer" to "6000"
@@ -85,9 +88,6 @@ class DataWedgeTriggerViewModel : ViewModel() {
                 }
             }
         }
-    }
-
-    fun handleOnResume(context: Context) {
         registerDataListener(context)
         registerStatusListener(context)
     }

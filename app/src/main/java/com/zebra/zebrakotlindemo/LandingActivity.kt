@@ -126,20 +126,32 @@ class LandingActivity: ComponentActivity() {
                 }
                 ShowPngImage(R.drawable.allow_notification)
             } else {
-                if (!viewModel.servicePrepared.value) {
-                    Text("we need service running")
-                    Text("please click start service")
-                    Text("UI will automatically update when service is ready")
-                    Text("push notification will show on status bar a few seconds later")
-                    RoundButton("Start Service") {
-                        viewModel.startServiceIfNeeded(context)
+                when (viewModel.servicePrepareStatus.value) {
+                    LandingViewModel.ServicePrepareStatus.INIT -> {
+                        Text("we need service running")
+                        Text("please click start service")
+                        Text("UI will automatically update when service is ready")
+                        Text("push notification will show on status bar a few seconds later")
+                        RoundButton("Start Service") {
+                            viewModel.startServiceIfNeeded(context)
+
+                        }
                     }
-                } else {
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally) {
-                        CircularProgressIndicator()
+                    LandingViewModel.ServicePrepareStatus.STARTING -> {
+                        Column(
+                            modifier = Modifier.fillMaxSize(),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally) {
+                            CircularProgressIndicator()
+                        }
+                    }
+                    LandingViewModel.ServicePrepareStatus.READY -> {
+                        Column(
+                            modifier = Modifier.fillMaxSize(),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally) {
+                            CircularProgressIndicator()
+                        }
                     }
                 }
             }

@@ -3,8 +3,9 @@ package com.zebra.zebrakotlindemo
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.zebra.emdk_kotlin_wrapper.dw.DWQuickScanService
-import com.zebra.emdk_kotlin_wrapper.dw.DWQuickScanServiceConfig
+import android.widget.Toast
+import com.zebra.zebrakotlindemo.quickscan.DWQuickScanService
+import com.zebra.zebrakotlindemo.quickscan.DWQuickScanServiceConfig
 import com.zebra.zebrakotlindemo.quickscan.QuickScanActivity
 
 /* manifest setup
@@ -30,6 +31,7 @@ class DeviceBootReceiver: BroadcastReceiver() {
         if (intent?.action == Intent.ACTION_BOOT_COMPLETED) {
             context?.let {
                 val ctx = it.applicationContext
+                Toast.makeText(ctx, "Boot Complete Start DWQuickScanService", Toast.LENGTH_LONG).show()
                 DWQuickScanService.start(
                     ctx,
                     DWQuickScanServiceConfig(

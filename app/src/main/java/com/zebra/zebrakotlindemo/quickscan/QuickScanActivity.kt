@@ -70,7 +70,7 @@ class QuickScanActivity : ComponentActivity() {
             Modifier
                 .padding(horizontal = 16.dp)
         ) {
-            if (viewModel.servicePrepared.value) {
+            if (viewModel.scannerPrepared.value) {
                 Text("AimType = 0.TRIGGER")
                 StyledOutlinedTextField(
                     "single",

@@ -6,7 +6,7 @@ import android.os.Bundle
 /**
  * https://techdocs.zebra.com/datawedge/7-5/guide/api/setconfig/#scannerinputparameters
  * */
-class DWBarcodeScanner(override val context: Context): DWVirtualScanner(context) {
+open class DWBarcodeScanner(override val context: Context): DWVirtualScanner(context) {
 
     enum class DecoderType(val key: String) {
         CODE39("decoder_code39"),
@@ -50,13 +50,15 @@ class DWBarcodeScanner(override val context: Context): DWVirtualScanner(context)
         val string: String = value.toString()
     }
 
-    override val configJSONFileName: String
+    override val createJSONFileName: String
         get() = "barcode_intent_advanced_create.json"
 
+    override val updateJSONFileName: String
+        get() = "barcode_intent_advanced_update.json"
 
     override val parameters: Map<String, String>
         get() = mapOf(
-            "PROFILE_NAME" to "barcode_single_intent_advanced",
+            "PROFILE_NAME" to "DWBarcodeScanner",
             "scanner_input_enabled" to "true",
             "workflow_input_enabled" to "false",
             "barcode_trigger_mode" to "0",

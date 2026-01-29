@@ -3,23 +3,44 @@ package com.zebra.emdk_kotlin_wrapper.dw
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import kotlinx.coroutines.suspendCancellableCoroutine
 
 abstract class DWVirtualScanner(open val context: Context) {
 
     val TAG = "DWVirtualScanner"
 
-    abstract val configJSONFileName: String
+    abstract val createJSONFileName: String
+    abstract val updateJSONFileName: String
     abstract val parameters: Map<String, String>
 
     val profileName: String?
         get() = parameters["PROFILE_NAME"]
 
     private var dataListener: DataWedgeHelper.ScanDataListener? = null
+    private var statusListener: DataWedgeHelper.SessionStatusListener? = null
+
+    open suspend fun asyncOpen(): Boolean = suspendCancellableCoroutine { continuation ->
+        DataWedgeHelper.configWithJSON(
+            context,
+            createJSONFileName,
+            parameters
+        ) { success ->
+            if (success) {
+                if (profileName != null) {
+                    continuation.resumeWith(Result.success(true))
+                } else {
+                    continuation.resumeWith(Result.failure(RuntimeException("$TAG profileName is null")))
+                }
+            } else {
+                continuation.resumeWith(Result.failure(RuntimeException("$TAG open failed: $createJSONFileName")))
+            }
+        }
+    }
 
     open fun open(completion: ((DWVirtualScanner) -> Unit)? = null): DWVirtualScanner {
         DataWedgeHelper.configWithJSON(
             context,
-            configJSONFileName,
+            createJSONFileName,
             parameters
         ) { success ->
             if (success) {
@@ -29,7 +50,26 @@ abstract class DWVirtualScanner(open val context: Context) {
                     throw RuntimeException("$TAG profileName is null")
                 }
             } else {
-                throw RuntimeException("$TAG open failed: $configJSONFileName")
+                throw RuntimeException("$TAG open failed: $createJSONFileName")
+            }
+        }
+        return this
+    }
+
+    open fun update(params: Map<String, String>, completion: ((DWVirtualScanner) -> Unit)? = null): DWVirtualScanner {
+        DataWedgeHelper.configWithJSON(
+            context,
+            updateJSONFileName,
+            params
+        ) { success ->
+            if (success) {
+                if (profileName != null) {
+                    completion?.invoke(this)
+                } else {
+                    throw RuntimeException("$TAG profileName is null")
+                }
+            } else {
+                throw RuntimeException("$TAG open failed: $updateJSONFileName")
             }
         }
         return this
@@ -41,6 +81,26 @@ abstract class DWVirtualScanner(open val context: Context) {
                 completion?.invoke(this)
             }
         }
+        return this
+    }
+
+    open fun suspend(): DWVirtualScanner {
+        DataWedgeHelper.controlScannerInputPlugin(context, DWAPI.ControlScannerInputPluginCommand.SUSPEND_PLUGIN)
+        return this
+    }
+
+    open fun resume(): DWVirtualScanner {
+        DataWedgeHelper.controlScannerInputPlugin(context, DWAPI.ControlScannerInputPluginCommand.RESUME_PLUGIN)
+        return this
+    }
+
+    open fun enable(): DWVirtualScanner {
+        DataWedgeHelper.controlScannerInputPlugin(context, DWAPI.ControlScannerInputPluginCommand.ENABLE_PLUGIN)
+        return this
+    }
+
+    open fun disable(): DWVirtualScanner {
+        DataWedgeHelper.controlScannerInputPlugin(context, DWAPI.ControlScannerInputPluginCommand.DISABLE_PLUGIN)
         return this
     }
 
@@ -74,14 +134,51 @@ abstract class DWVirtualScanner(open val context: Context) {
             override fun onDisposal() {
                 dataListener = null
             }
+        }.also {
+            DataWedgeHelper.addScanDataListener(it)
         }
-        DataWedgeHelper.addScanDataListener(dataListener!!)
     }
 
     open fun stopListen() {
         if (dataListener != null) {
             DataWedgeHelper.removeScanDataListener(dataListener!!)
             dataListener = null
+        }
+    }
+
+    open fun startListenStatus(onValue: (DWAPI.NotificationType, String) -> Unit) {
+        if (statusListener != null) {
+            return
+        }
+        statusListener = object : DataWedgeHelper.SessionStatusListener {
+            override fun onStatus(
+                type: DWAPI.NotificationType,
+                status: String,
+                profileName: String
+            ) {
+                onValue(type, status)
+            }
+
+            override fun getID(): String {
+                return hashCode().toString()
+            }
+
+            override fun onDisposal() {
+                statusListener = null
+            }
+        }.also {
+            DataWedgeHelper.addSessionStatusListener(it)
+            DataWedgeHelper.enableScannerStatusNotification(context)
+            DataWedgeHelper.enableWorkflowStatusNotification(context)
+        }
+    }
+
+    open fun stopListenStatus() {
+        if (statusListener != null) {
+            DataWedgeHelper.removeSessionStatusListener(statusListener!!)
+            DataWedgeHelper.disableScannerStatusNotification(context)
+            DataWedgeHelper.disableWorkflowStatusNotification(context)
+            statusListener = null
         }
     }
 

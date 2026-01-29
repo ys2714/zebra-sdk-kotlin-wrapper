@@ -1,19 +1,24 @@
 package com.zebra.zebrakotlindemo
 
+import android.app.Activity
 import android.content.Context
-import android.view.KeyEvent
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.zebra.emdk_kotlin_wrapper.dw.DWBarcodeScanner
+import com.zebra.zebrakotlindemo.quickscan.DWQuickScanService
 import com.zebra.emdk_kotlin_wrapper.dw.DataWedgeHelper
 import com.zebra.emdk_kotlin_wrapper.emdk.EMDKHelper
 import com.zebra.emdk_kotlin_wrapper.mx.MXBase
 import com.zebra.emdk_kotlin_wrapper.mx.MXHelper
 import com.zebra.emdk_kotlin_wrapper.utils.DeviceInfoUtils
 import com.zebra.emdk_kotlin_wrapper.utils.ZebraKeyEventMonitor
+import com.zebra.emdk_kotlin_wrapper.utils.ZebraSystemEventMonitor
 import com.zebra.emdk_kotlin_wrapper.zdm.ZDMAuthHelper
 import com.zebra.emdk_kotlin_wrapper.zdm.ZDMConst
+import com.zebra.zebrakotlindemo.emdk.ScreenLockActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -33,6 +38,34 @@ class MainViewModel: ViewModel() {
     var serial: MutableState<String> = mutableStateOf("")
     var imei: MutableState<String> = mutableStateOf("")
     var hasTelephonyFeature: MutableState<Boolean> = mutableStateOf(true)
+
+    private var scanner: DWBarcodeScanner? = null
+
+    fun handleOnCreate(context: Context) {
+        scanner = DWQuickScanService.shared
+            ?.findScanner(DWBarcodeScanner::class.simpleName!!) as DWBarcodeScanner
+        ZebraSystemEventMonitor.registerAppPauseCallback {
+            // viewModel.showDebugToast(this, "App", "Pause")
+        }
+        ZebraSystemEventMonitor.registerAppStopCallback {
+            // viewModel.showDebugToast(this, "App", "Stop")
+        }
+    }
+
+    fun handleOnResume(context: Context) {
+        scanner?.select { instance ->
+            instance.suspend()
+        }
+        prepare(context)
+        ZebraSystemEventMonitor.registerScreenOFFListener(context) { isScreenOff ->
+            if (isScreenOff) {
+                ScreenLockActivity.start(context as Activity)
+                Log.d("", "Screen OFF")
+            } else {
+                Log.d("", "Screen ON")
+            }
+        }
+    }
 
     /**
      *

@@ -55,6 +55,7 @@ object DWAPI {
         SET_CONFIG("com.symbol.datawedge.api.SET_CONFIG"),
         GET_CONFIG("com.symbol.datawedge.api.GET_CONFIG"),
         ENABLE_DATAWEDGE("com.symbol.datawedge.api.ENABLE_DATAWEDGE"),
+        SCANNER_INPUT_PLUGIN("com.symbol.datawedge.api.SCANNER_INPUT_PLUGIN"),
         SOFT_SCAN_TRIGGER("com.symbol.datawedge.api.SOFT_SCAN_TRIGGER"),
         GET_DATAWEDGE_STATUS("com.symbol.datawedge.api.GET_DATAWEDGE_STATUS"),
         GET_SCANNER_STATUS("com.symbol.datawedge.api.GET_SCANNER_STATUS"),
@@ -115,6 +116,21 @@ object DWAPI {
         CREATE_IF_NOT_EXIST("CREATE_IF_NOT_EXIST"),
         OVERWRITE("OVERWRITE"),
         UPDATE("UPDATE");
+
+        @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
+        override fun toString(): String {
+            throw RuntimeException("Not Implemented")
+        }
+
+        val string: String
+            get() = value.toString()
+    }
+
+    enum class ControlScannerInputPluginCommand(val value: String) {
+        SUSPEND_PLUGIN("SUSPEND_PLUGIN"),
+        RESUME_PLUGIN("RESUME_PLUGIN"),
+        ENABLE_PLUGIN("ENABLE_PLUGIN"),
+        DISABLE_PLUGIN("DISABLE_PLUGIN");
 
         @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
         override fun toString(): String {

@@ -8,20 +8,29 @@ import android.os.Build
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
-import com.zebra.emdk_kotlin_wrapper.dw.DWQuickScanService
-import com.zebra.emdk_kotlin_wrapper.dw.DWQuickScanServiceConfig
+import com.zebra.zebrakotlindemo.quickscan.DWQuickScanService
+import com.zebra.zebrakotlindemo.quickscan.DWQuickScanServiceConfig
 import com.zebra.zebrakotlindemo.quickscan.QuickScanActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class LandingViewModel: ViewModel() {
 
+    enum class ServicePrepareStatus {
+        INIT,
+        STARTING,
+        READY
+    }
+
     var hasPostNotificationPermission = mutableStateOf(false)
-    var servicePrepared = mutableStateOf(false)
+    var servicePrepareStatus = mutableStateOf(ServicePrepareStatus.INIT)
 
     fun handleOnCreate(context: Context) {
-        servicePrepared.value = DWQuickScanService.isPrepared()
+        if (DWQuickScanService.isPrepared()) {
+            servicePrepareStatus.value = ServicePrepareStatus.READY
+        }
     }
 
     fun handleOnResume(context: Context) {
@@ -37,6 +46,7 @@ class LandingViewModel: ViewModel() {
 
     fun startServiceIfNeeded(context: Context) {
         hasPostNotificationPermission.value = true
+        servicePrepareStatus.value = ServicePrepareStatus.STARTING
         val ctx = context.applicationContext
         if (!DWQuickScanService.isRunning()) {
             DWQuickScanService.start(
@@ -51,11 +61,11 @@ class LandingViewModel: ViewModel() {
     }
 
     private fun waitServiceReady(onReady: () -> Unit) {
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.IO + Job()).launch {
             while (!DWQuickScanService.isPrepared()) {
-                servicePrepared.value = false
+                // servicePrepareStatus.value = ServicePrepareStatus.STARTING
             }
-            servicePrepared.value = true
+            servicePrepareStatus.value = ServicePrepareStatus.READY
             onReady()
         }
     }

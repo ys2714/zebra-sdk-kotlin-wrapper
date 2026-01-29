@@ -5,7 +5,8 @@ import android.widget.Toast
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.zebra.emdk_kotlin_wrapper.dw.DWAPI
+import com.zebra.emdk_kotlin_wrapper.dw.DWBarcodeScanner
+import com.zebra.zebrakotlindemo.quickscan.DWQuickScanService
 import com.zebra.emdk_kotlin_wrapper.dw.DataWedgeHelper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -23,11 +24,10 @@ class DataWedgeAdvancedViewModel : ViewModel() {
     var barcodeText: MutableState<String> = mutableStateOf("")
     var ocrText: MutableState<String> = mutableStateOf("")
 
-    var dataListener: DataWedgeHelper.ScanDataListener? = null
-    var statusListener: DataWedgeHelper.SessionStatusListener? = null
-
     var scannerStatus = mutableStateOf("")
     var sessionStatus = mutableStateOf("")
+
+    private var scanner: DWBarcodeScanner? = null
 
     fun isWaitingWorkflowSession(): Boolean {
         if (currentInputPluginName.value == workflowPluginName) {
@@ -46,93 +46,30 @@ class DataWedgeAdvancedViewModel : ViewModel() {
     }
 
     fun handleOnCreate(context: Context) {
-        DataWedgeHelper.configWithJSON(
-            context,
-            "barcode_intent_advanced_create.json",
-            mapOf(
-                "PROFILE_NAME" to "barcode_intent_advanced",
-                "scanner_input_enabled" to "true",
-                "workflow_input_enabled" to "false",
-                "barcode_trigger_mode" to "1",
-                "aim_type" to "8",
-                "aim_timer" to "6000",
-                "beam_timer" to "6000"
-            )
-        ) { success ->
-            if (success) {
-                DataWedgeHelper.switchProfile(context, "barcode_intent_advanced")
-                currentInputPluginName.value = barcodePluginName
-            }
-        }
+        scanner = DWQuickScanService.shared?.selectScanner(DWBarcodeScanner::class.simpleName!!) as DWBarcodeScanner
     }
 
     fun handleOnResume(context: Context) {
-        if (dataListener != null) {
-            return
-        }
-        dataListener = object : DataWedgeHelper.ScanDataListener {
-            override fun onData(
-                type: String,
-                value: String,
-                timestamp: String
-            ) {
+        scanner?.select { instance ->
+            instance.startListen { data ->
                 if (currentInputPluginName.value == workflowPluginName) {
-                    ocrText.value = value
+                    ocrText.value = data
                 } else {
-                    barcodeText.value = value
+                    barcodeText.value = data
                 }
             }
-
-            override fun getID(): String {
-                return hashCode().toString()
-            }
-
-            override fun onDisposal() {
-                dataListener = null
-            }
-        }.also {
-            DataWedgeHelper.addScanDataListener(it)
-            getScannerStatus(context)
-            //enablePlugins(context)
-        }
-        if (statusListener != null) {
-            return
-        }
-        statusListener = object : DataWedgeHelper.SessionStatusListener {
-            override fun onStatus(
-                type: DWAPI.NotificationType,
-                status: String,
-                profileName: String
-            ) {
+            instance.startListenStatus { type, status ->
                 sessionStatus.value = "${type.value} $status"
             }
-
-            override fun getID(): String {
-                return hashCode().toString()
-            }
-
-            override fun onDisposal() {
-                statusListener = null
-            }
-        }.also {
-            DataWedgeHelper.addSessionStatusListener(it)
-            DataWedgeHelper.enableScannerStatusNotification(context)
-            DataWedgeHelper.enableWorkflowStatusNotification(context)
+            instance.resume()
+            getScannerStatus(context)
         }
     }
 
     fun handleOnPause(context: Context) {
-        if (dataListener != null) {
-            DataWedgeHelper.removeScanDataListener(dataListener!!)
-            dataListener = null
-        }
-        if (statusListener != null) {
-            DataWedgeHelper.removeSessionStatusListener(statusListener!!)
-            DataWedgeHelper.disableScannerStatusNotification(context)
-            DataWedgeHelper.disableWorkflowStatusNotification(context)
-            statusListener = null
-        }
-        //disablePlugins(context)
+        scanner?.stopListen()
+        scanner?.stopListenStatus()
+        scanner?.suspend()
     }
 
     fun handleOnDestroy(context: Context) {
@@ -140,15 +77,11 @@ class DataWedgeAdvancedViewModel : ViewModel() {
     }
 
     fun startScanning(context: Context) {
-        DataWedgeHelper.softScanTrigger(
-            context,
-            DWAPI.SoftScanTriggerOptions.START_SCANNING)
+        scanner?.startScan()
     }
 
     fun stopScanning(context: Context) {
-        DataWedgeHelper.softScanTrigger(
-            context,
-            DWAPI.SoftScanTriggerOptions.STOP_SCANNING)
+        scanner?.stopScan()
     }
 
     fun getScannerStatus(context: Context) {
@@ -159,10 +92,9 @@ class DataWedgeAdvancedViewModel : ViewModel() {
     }
 
     fun switchToBarcodePlugin(context: Context) {
-        DataWedgeHelper.configWithJSON(
-            context,
-            "barcode_intent_advanced_update.json",
+        scanner?.update(
             mapOf(
+                "PROFILE_NAME" to scanner!!.profileName!!,
                 "scanner_input_enabled" to "true",
                 "workflow_input_enabled" to "false",
                 "barcode_trigger_mode" to "1",
@@ -170,21 +102,17 @@ class DataWedgeAdvancedViewModel : ViewModel() {
                 "aim_timer" to "6000",
                 "beam_timer" to "6000"
             )
-        ) { success ->
-            if (success) {
-                DataWedgeHelper.switchProfile(context, "barcode_intent_advanced") {
-                    currentInputPluginName.value = barcodePluginName
-                }
+        ) { instance ->
+            instance.select {
+                currentInputPluginName.value = barcodePluginName
             }
-            //showDebugToast(context, "", "switch to Barcode $success")
         }
     }
 
     fun switchToOCRPlugin(context: Context) {
-        DataWedgeHelper.configWithJSON(
-            context,
-            "barcode_intent_advanced_update.json",
+        scanner?.update(
             mapOf(
+                "PROFILE_NAME" to scanner!!.profileName!!,
                 "scanner_input_enabled" to "false",
                 "workflow_input_enabled" to "true",
                 "barcode_trigger_mode" to "1",
@@ -192,13 +120,10 @@ class DataWedgeAdvancedViewModel : ViewModel() {
                 "aim_timer" to "6000",
                 "beam_timer" to "6000"
             )
-        ) { success ->
-            if (success) {
-                DataWedgeHelper.switchProfile(context, "barcode_intent_advanced") {
-                    currentInputPluginName.value = workflowPluginName
-                }
+        ) { instance ->
+            instance.select {
+                currentInputPluginName.value = workflowPluginName
             }
-            // showDebugToast(context, "", "switch to OCR $success")
         }
     }
 

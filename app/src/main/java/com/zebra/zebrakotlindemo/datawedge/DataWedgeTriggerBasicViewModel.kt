@@ -61,11 +61,10 @@ class DataWedgeTriggerBasicViewModel : ViewModel() {
      * 7 – Press and Continue
      * 8 - Timed Continuous
      * */
-    fun handleOnCreate(context: Context) {
-        DataWedgeHelper.switchProfile(context, profileName)
-    }
+    fun handleOnCreate(context: Context) {}
 
     fun handleOnResume(context: Context) {
+        DataWedgeHelper.switchProfile(context, profileName)
         registerDataListener(context)
     }
 

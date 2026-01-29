@@ -1,4 +1,4 @@
-package com.zebra.emdk_kotlin_wrapper.dw
+package com.zebra.zebrakotlindemo.quickscan
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -10,7 +10,17 @@ import android.content.Intent
 import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
+import com.zebra.emdk_kotlin_wrapper.dw.DWBarcodeScanner
+import com.zebra.emdk_kotlin_wrapper.dw.DWVirtualScanner
+import com.zebra.emdk_kotlin_wrapper.dw.DWWorkflowFreeFormScanner
+import com.zebra.emdk_kotlin_wrapper.dw.DataWedgeHelper
 import com.zebra.emdk_kotlin_wrapper.emdk.EMDKHelper
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 /*
 Device Boot () -> Top (switch profile) -> Scan (switch parameter)
@@ -37,18 +47,13 @@ android:foregroundServiceType="dataSync" />
 */
 class DWQuickScanService : Service() {
 
-    enum class ScannerKey(val value: String) {
-        KEY_SCANNER_WORKFLOW("KEY_SCANNER_WORKFLOW"),
-        KEY_SCANNER_BARCODE("KEY_SCANNER_BARCODE"),
-    }
-
     companion object Static {
 
         private var instance: DWQuickScanService? = null
 
         private val CHANNEL_ID = "QuickScanService_Channel"
         private val CHANNEL_NAME = "QuickScanService Channel"
-        private val CHANNEL_IMPORTANCE = NotificationManager.IMPORTANCE_HIGH
+        private val CHANNEL_IMPORTANCE = NotificationManager.IMPORTANCE_LOW
         private val NOTIFICATION_PRIORITY = NotificationCompat.PRIORITY_LOW
 
         val shared: DWQuickScanService?
@@ -103,29 +108,47 @@ class DWQuickScanService : Service() {
 
     var currentScanner: DWVirtualScanner? = null
 
-    fun findScanner(key: ScannerKey): DWVirtualScanner {
-        return scanners[key.value]!!
+    fun cacheScanner(key: String, scanner: DWVirtualScanner) {
+        if (scanners[key] == null) {
+            scanners[key] = scanner.open()
+        }
     }
 
-    fun selectScanner(key: ScannerKey): DWVirtualScanner {
-        currentScanner = scanners[key.value]!!.select()
+    fun findScanner(key: String): DWVirtualScanner {
+        return scanners[key]!!
+    }
+
+    fun selectScanner(key: String): DWVirtualScanner {
+        currentScanner = scanners[key]!!.select()
         return currentScanner!!
     }
 
-    fun startScan() {
+    fun currentScannerStartScan() {
         currentScanner?.startScan()
     }
 
-    fun stopScan() {
+    fun currentScannerStopScan() {
         currentScanner?.stopScan()
     }
 
-    fun startListen(onData: (String) -> Unit) {
+    fun startListenCurrentScanner(onData: (String) -> Unit): DWQuickScanService {
         currentScanner?.startListen(onData)
+        return this
     }
 
-    fun stopListen() {
+    fun stopListenCurrentScanner(): DWQuickScanService {
         currentScanner?.stopListen()
+        return this
+    }
+
+    fun enableCurrentScanner(): DWQuickScanService {
+        currentScanner?.enable()
+        return this
+    }
+
+    fun disableCurrentScanner(): DWQuickScanService {
+        currentScanner?.disable()
+        return this
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -171,11 +194,19 @@ class DWQuickScanService : Service() {
     private fun prepareZebraDataWedge(context: Context) {
         EMDKHelper.shared.prepare(context) {
             DataWedgeHelper.prepare(context) {
-                scanners[ScannerKey.KEY_SCANNER_WORKFLOW.value] = DWWorkflowFreeFormScanner(context).open()
-                scanners[ScannerKey.KEY_SCANNER_BARCODE.value] = DWBarcodeScanner(context).open().select() {
-                    _zebraDataWedgePrepared = true
-                }
+                scanners[DWWorkflowFreeFormScanner::class.simpleName!!] = DWWorkflowFreeFormScanner(context)
+                scanners[DWBarcodeScanner::class.simpleName!!] = DWBarcodeScanner(context)
+                openScanners()
             }
+        }
+    }
+
+    private fun openScanners() {
+        CoroutineScope(Dispatchers.IO + Job()).launch {
+            for (scanner in scanners.values) {
+                async { scanner.asyncOpen() }.await()
+            }
+            _zebraDataWedgePrepared = true
         }
     }
 }

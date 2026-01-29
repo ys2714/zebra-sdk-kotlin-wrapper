@@ -79,7 +79,6 @@ object DataWedgeHelper {
                 while (!enabled) {
                     val status1 = async { DWAPI.enableDW(context, true) }
                     status1.await()
-                    delay(DWAPI.MILLISECONDS_DELAY_BETWEEN_API_CALLS)
                     val status2 = async { DWAPI.sendGetDWStatusIntent(context) }
                     enabled = status2.await()
                 }
@@ -431,6 +430,22 @@ object DataWedgeHelper {
         backgroundScope.launch {
             runCatching {
                 DWAPI.sendSwitchScannerParamsIntent(context, bundle)
+            }.onSuccess {
+                foregroundScope.launch {
+                    callback?.invoke(true)
+                }
+            }.onFailure {
+                foregroundScope.launch {
+                    callback?.invoke(false)
+                }
+            }
+        }
+    }
+
+    fun controlScannerInputPlugin(context: Context, command: DWAPI.ControlScannerInputPluginCommand, callback: ((Boolean) -> Unit)? = null) {
+        backgroundScope.launch {
+            runCatching {
+                DWAPI.sendControlScannerInputPluginIntent(context, command)
             }.onSuccess {
                 foregroundScope.launch {
                     callback?.invoke(true)

@@ -1,6 +1,6 @@
 {
   "CONFIG_MODE": "UPDATE",
-  "PROFILE_NAME": "barcode_intent_advanced",
+  "PROFILE_NAME": "=[PROFILE_NAME]",
   "PLUGIN_CONFIG": [
     {
       "PLUGIN_NAME": "BARCODE",

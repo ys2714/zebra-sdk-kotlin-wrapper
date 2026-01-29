@@ -4,12 +4,15 @@ import android.content.Context
 
 class DWWorkflowFreeFormScanner(override val context: Context): DWVirtualScanner(context) {
 
-    override val configJSONFileName: String
+    override val createJSONFileName: String
         get() = "barcode_intent_advanced_create.json"
+
+    override val updateJSONFileName: String
+        get() = "barcode_intent_advanced_update.json"
 
     override val parameters: Map<String, String>
         get() = mapOf(
-            "PROFILE_NAME" to "workflow_intent_advanced",
+            "PROFILE_NAME" to "DWWorkflowFreeFormScanner",
             "scanner_input_enabled" to "false",
             "workflow_input_enabled" to "true",
             "barcode_trigger_mode" to "0",
