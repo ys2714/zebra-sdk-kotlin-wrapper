@@ -1,5 +1,6 @@
 package com.zebra.zebrakotlindemo.quickscan
 
+import android.R
 import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
@@ -17,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.zebra.emdk_kotlin_wrapper.mx.MXBase
 import com.zebra.zebrakotlindemo.ui.components.RoundButton
@@ -127,11 +129,11 @@ class QuickScanActivity : ComponentActivity() {
                 ) { newValue ->
                     barcodeText4.value = newValue
                 }
-                RoundButton("Start Scan") {
+                RoundButton("Start Scan", color = Color(0xFF00D100)) {
                     viewModel.stopScanning()
                     viewModel.startScanning()
                 }
-                RoundButton("Stop Scan") {
+                RoundButton("Stop Scan", color = Color(0xFFD10000)) {
                     viewModel.stopScanning()
                 }
             } else {

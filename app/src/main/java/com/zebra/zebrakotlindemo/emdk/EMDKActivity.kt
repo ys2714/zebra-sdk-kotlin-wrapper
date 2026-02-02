@@ -1,6 +1,7 @@
 package com.zebra.zebrakotlindemo.emdk
 
-import android.os.Build
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -8,107 +9,47 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.zebra.zebrakotlindemo.ui.components.RoundButton
 
 class EMDKActivity: ComponentActivity() {
 
-    private val viewModel = EMDKViewModel()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.handleOnCreate(this.applicationContext)
         setContent {
-           RootView()
+           RootView(this)
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
-
-    override fun onPause() {
-        super.onPause()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-    }
-
     @Composable
-    fun RootView() {
-        val newText = remember { viewModel.text }
+    fun RootView(context: Context) {
         Column(
             Modifier
                 .padding(horizontal = 16.dp)
         ) {
-            Text("Power Management",
+            Text("Control Device use Zebra MX API",
                 modifier = Modifier
                     .padding()
             )
-            RoundButton("Set Sleep") {
-                viewModel.setSleep(this@EMDKActivity)
+            RoundButton("Power Management Demo") {
+                startActivity(Intent(context, EMDKPowerManagementActivity::class.java))
             }
-            RoundButton("Reboot") {
-                viewModel.setReboot(this@EMDKActivity)
+            RoundButton("Power Button Menu Control Demo") {
+                startActivity(Intent(context, EMDKPowerButtonMenuActivity::class.java))
             }
-            Text("System Clock",
-                modifier = Modifier
-                    .padding()
-            )
-            RoundButton("Set Clock to android release date 2008") {
-                viewModel.setClockToAndroidReleaseDate(this@EMDKActivity)
+            RoundButton("System Clock Control Demo") {
+                startActivity(Intent(context, EMDKSystemClockActivity::class.java))
             }
-            RoundButton("Set Clock back to Google NTP time") {
-                viewModel.setClockToGoogleNTPTime(this@EMDKActivity)
+            RoundButton("Lock Screen Control Demo") {
+                startActivity(Intent(context, EMDKLockScreenActivity::class.java))
             }
-            Text("Lock Screen",
-                modifier = Modifier
-                    .padding()
-            )
-            RoundButton("Disable Lock Screen") {
-                viewModel.disableLockScreen(this@EMDKActivity)
+            RoundButton("USB Client Mode Control Demo") {
+                startActivity(Intent(context, EMDKUSBManagerActivity::class.java))
             }
-            RoundButton("Enable Lock Screen") {
-                viewModel.enableLockScreen(this@EMDKActivity)
-            }
-            Text("Screenshot (Power + Volume Down)",
-                modifier = Modifier
-                    .padding()
-            )
-            RoundButton("Disable Screenshot") {
-                viewModel.disableScreenShot(this@EMDKActivity)
-            }
-            RoundButton("Enable Screenshot") {
-                viewModel.enableScreenShot(this@EMDKActivity)
-            }
-            Text("Power Key Menu (Long Press Power Key)",
-                modifier = Modifier
-                    .padding()
-            )
-            RoundButton("Disable Power Off Button") {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    viewModel.disablePowerOff(this@EMDKActivity)
-                } else {
-                    viewModel.showDebugToast(
-                        this@EMDKActivity,
-                        "Not Supported",
-                        "need android 11 or above"
-                    )
-                }
-            }
-            RoundButton("Enable Power Off Button") {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    viewModel.enablePowerOff(this@EMDKActivity)
-                } else {
-                    viewModel.showDebugToast(
-                        this@EMDKActivity,
-                        "Not Supported",
-                        "need android 11 or above"
-                    )
-                }
+            RoundButton("Recovery Mode Access Control Demo", color = Color(0xFFD10000)) {
+                startActivity(Intent(context, EMDKRecoveryModeActivity::class.java))
             }
         }
     }

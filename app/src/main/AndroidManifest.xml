@@ -99,6 +99,36 @@
 
         <activity
             android:exported="true"
+            android:name=".emdk.EMDKLockScreenActivity">
+        </activity>
+
+        <activity
+            android:exported="true"
+            android:name=".emdk.EMDKPowerButtonMenuActivity">
+        </activity>
+
+        <activity
+            android:exported="true"
+            android:name=".emdk.EMDKPowerManagementActivity">
+        </activity>
+
+        <activity
+            android:exported="true"
+            android:name=".emdk.EMDKSystemClockActivity">
+        </activity>
+
+        <activity
+            android:exported="true"
+            android:name=".emdk.EMDKRecoveryModeActivity">
+        </activity>
+
+        <activity
+            android:exported="true"
+            android:name=".emdk.EMDKUSBManagerActivity">
+        </activity>
+
+        <activity
+            android:exported="true"
             android:name=".MainActivity">
         </activity>
 

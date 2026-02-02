@@ -48,6 +48,7 @@ class MXBase {
         AccessManagerAllowCallService("profile_access_manager_allow_call_service.xml"),
         AppManagerInstallAndStart("profile_app_manager_install_and_start.xml"),
         PowerManagerReset("profile_power_manager_reset.xml"),
+        PowerManagerRecoveryModeAccess("profile_power_manager_recovery_mode_access.xml"),
         ClockSet("profile_clock_set.xml"),
         ClockResetAuto("profile_clock_reset_auto.xml"),
         DevAdminManagerDisableLockScreen("profile_dev_admin_manager_disable_lock_screen.xml"),
@@ -56,6 +57,7 @@ class MXBase {
         KeymappingManagerSetKeySendIntent("profile_keymapping_manager_set_key_send_intent.xml"),
         KeymappingManagerSetAllToDefault("profile_keymapping_manager_set_all_to_default.xml"),
         DataWedgeManagerImportProfile("profile_datawedge_manager_import_profile.xml"),
+        UsbClientModeDefault("profile_usb_manager_client_mode_default.xml"),
         FileManagerCopyEmbeddedFreeFormOCR("profile_file_manager_copy_embedded_free_form_ocr.xml");
 
         @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.WARNING)
@@ -73,6 +75,7 @@ class MXBase {
         AccessManagerAllowCallService("AccessManagerAllowCallService"),
         AppManagerInstallAndStart("AppManagerInstallAndStart"),
         PowerManagerReset("PowerManagerReset"),
+        PowerManagerRecoveryModeAccess("PowerManagerRecoveryModeAccess"),
         ClockSet("ClockSet"),
         ClockResetAuto("ClockResetAuto"),
         DevAdminManagerDisableLockScreen("DevAdminManagerDisableLockScreen"),
@@ -81,6 +84,7 @@ class MXBase {
         KeymappingManagerSetKeySendIntent("KeymappingManagerSetKeySendIntent"),
         KeymappingManagerSetAllToDefault("KeymappingManagerSetAllToDefault"),
         DataWedgeManagerImportProfile("DataWedgeManagerImportProfile"),
+        UsbClientModeDefault("UsbClientModeDefault"),
         FileManagerCopyEmbeddedFreeFormOCR("FileManagerCopyEmbeddedFreeFormOCR");
 
         @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.WARNING)
@@ -115,6 +119,44 @@ class MXBase {
         FACTORY_RESET(6),
         FULL_DEVICE_WIPE(7),
         OS_UPDATE(8);
+
+        @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
+        override fun toString(): String {
+            throw RuntimeException("Not Implemented")
+        }
+
+        val string: String
+            get() = value.toString()
+    }
+
+    /**
+     * Used to select whether to display Upgrade and Downgrade actions for selection while the device is in Recovery Mode. Selection of such options could lead to unwanted changes to device behavior, removal of theft deterrent measures and/or other unwanted activities. Selecting "Partial" (option 2) displays only "Reboot system now," "View recovery logs" and "Power off" functions for selection.
+     *
+     * Do not change (0): This value (or the absence of this parm from the XML) will cause no action to be performed on the device; any previously selected setting will be retained.
+     * Full (default): Displays all Recovery Mode actions for selection, including Upgrade and Downgrade.
+     * Partial (blocks sensitive operations): Displays only "Reboot system now," "View recovery logs" and "Power off" functions for selection.
+     * */
+    enum class PowerManagerRecoveryModeAccessOptions(val value: Int) {
+        DO_NOTHING(0),
+        FULL(1),
+        PARTIAL(2);
+
+        @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
+        override fun toString(): String {
+            throw RuntimeException("Not Implemented")
+        }
+
+        val string: String
+            get() = value.toString()
+    }
+
+    enum class UsbClientModeDefaultOptions(val value: Int) {
+        DO_NOTHING(86),
+        CHARGING_ONLY(0),
+        FILE_TRANSFER(4),
+        MIDI(8),
+        PTP(16),
+        USB_TETHERING(32);
 
         @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
         override fun toString(): String {

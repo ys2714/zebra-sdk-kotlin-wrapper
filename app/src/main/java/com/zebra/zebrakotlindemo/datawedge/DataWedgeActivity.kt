@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,6 +37,10 @@ class DataWedgeActivity: ComponentActivity() {
             ,
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally) {
+            Text("Control Device use DataWedge Intent API",
+                modifier = Modifier
+                    .padding()
+            )
             RoundButton("DataWedge Basic") {
                 startActivity(Intent(context, DataWedgeBasicActivity::class.java))
             }

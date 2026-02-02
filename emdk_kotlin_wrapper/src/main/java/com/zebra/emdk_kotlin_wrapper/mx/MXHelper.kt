@@ -91,6 +91,33 @@ object MXHelper {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    fun setRecoveryModeAccess(context: Context, enable: Boolean, delaySeconds: Long = 0, callback: (Boolean) -> Unit) {
+        val option = if (enable) MXBase.PowerManagerRecoveryModeAccessOptions.FULL
+            else MXBase.PowerManagerRecoveryModeAccessOptions.PARTIAL
+        MXProfileProcessor.callPowerManagerRecoveryModeControlFeature(context, option, delaySeconds) {
+            callback(it == null)
+        }
+    }
+
+    fun setUSBClientModeChargingOnly(context: Context, delaySeconds: Long = 0, callback: (Boolean) -> Unit) {
+        MXProfileProcessor.setUSBClientModeDefault(context, MXBase.UsbClientModeDefaultOptions.CHARGING_ONLY, delaySeconds) {
+            callback(it == null)
+        }
+    }
+
+    fun setUSBClientModeFileTransfer(context: Context, delaySeconds: Long = 0, callback: (Boolean) -> Unit) {
+        MXProfileProcessor.setUSBClientModeDefault(context, MXBase.UsbClientModeDefaultOptions.FILE_TRANSFER, delaySeconds) {
+            callback(it == null)
+        }
+    }
+
+    fun setUSBClientModeTethering(context: Context, delaySeconds: Long = 0, callback: (Boolean) -> Unit) {
+        MXProfileProcessor.setUSBClientModeDefault(context, MXBase.UsbClientModeDefaultOptions.USB_TETHERING, delaySeconds) {
+            callback(it == null)
+        }
+    }
+
     fun powerKeyTriggerAutoScreenLock(context: Context, enable: Boolean, delaySeconds: Long = 0, callback: (Boolean) -> Unit) {
         MXProfileProcessor.powerKeyTriggerAutoScreenLock(context, enable, delaySeconds) {
             callback(it == null)

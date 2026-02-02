@@ -15,6 +15,8 @@ object MXConst {
 
     // Profile Parameters
     const val ResetAction = "ResetAction"
+    const val RecoveryModeAccess = "RecoveryModeAccess"
+    const val UsbClientModeDefault = "UsbClientModeDefault"
     const val ZipFile = "ZipFile"
     const val ServiceIdentifier = "ServiceIdentifier"
     const val CallerPackageName = "CallerPackageName"

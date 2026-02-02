@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,6 +37,10 @@ class RXLoggerActivity: ComponentActivity() {
             ,
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally) {
+            Text("Control RXLogger use API",
+                modifier = Modifier
+                    .padding()
+            )
             RoundButton("Crash App to get tombstone log", color = Color.Red) {
                 RXLoggerHelper.startRXLogger(context)
                 CBridge.makeACrash()

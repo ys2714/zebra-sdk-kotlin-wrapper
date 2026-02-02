@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.zebra.emdk_kotlin_wrapper.mx.MXBase
 import com.zebra.emdk_kotlin_wrapper.utils.ZebraSystemEventMonitor
@@ -110,8 +111,17 @@ class MainActivity : ComponentActivity() {
                 }
                 Text("Scanner Status: " + viewModel.scannerStatus.value)
                 Text("API Token: " + viewModel.apiToken.value)
-                RoundButton("Quick Scan") {
+                RoundButton("Quick Scan", color = Color(0xFFF5B027)) {
                     startActivity(Intent(context, QuickScanActivity::class.java))
+                }
+                RoundButton("EMDK MX API") {
+                    startActivity(Intent(context, EMDKActivity::class.java))
+                }
+                RoundButton("DataWedge Intent API") {
+                    startActivity(Intent(context, DataWedgeActivity::class.java))
+                }
+                RoundButton("RXLogger API") {
+                    startActivity(Intent(context, RXLoggerActivity::class.java))
                 }
             }
         } else {
