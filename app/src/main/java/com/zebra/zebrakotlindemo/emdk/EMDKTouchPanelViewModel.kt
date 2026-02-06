@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.zebra.emdk_kotlin_wrapper.emdk.EMDKHelper
 import com.zebra.emdk_kotlin_wrapper.mx.MXBase
 import com.zebra.emdk_kotlin_wrapper.mx.MXHelper
 
@@ -34,9 +35,11 @@ class EMDKTouchPanelViewModel: ViewModel() {
     }
 
     fun handleOnResume(context: Context) {
-        MXHelper.fetchProductModel(context) { model ->
-            productModel.value = ProductModels.valueOf(model)
-            fetchTouchMode(context)
+        EMDKHelper.shared.prepare(context) {
+            MXHelper.fetchProductModel(context) { model ->
+                productModel.value = ProductModels.valueOf(model)
+                fetchTouchMode(context)
+            }
         }
     }
 
