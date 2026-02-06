@@ -9,6 +9,8 @@ object MXConst {
 
     const val SERIAL_URI = "content://oem_info/oem.zebra.secure/build_serial"
     const val IMEI_URI = "content://oem_info/wan/imei"
+    const val TOUCH_MODE_URI = "content://oem_info/oem.zebra.software/persist.sys.touch_mode"
+    const val VENDOR_TOUCH_MODE_URI = "content://oem_info/oem.zebra.software/persist.vendor.sys.touch_mode"
 
     // DW Access Control
     const val AUTHORITY_URI = "content://com.zebra.devicemanager.zdmcontentprovider"
@@ -17,6 +19,8 @@ object MXConst {
     const val ResetAction = "ResetAction"
     const val RecoveryModeAccess = "RecoveryModeAccess"
     const val UsbClientModeDefault = "UsbClientModeDefault"
+    const val TouchPanelSensitivity = "TouchPanelSensitivity"
+    const val TouchActionAny = "TouchActionAny"
     const val ZipFile = "ZipFile"
     const val ServiceIdentifier = "ServiceIdentifier"
     const val CallerPackageName = "CallerPackageName"

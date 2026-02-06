@@ -48,6 +48,9 @@ class EMDKActivity: ComponentActivity() {
             RoundButton("USB Client Mode Control Demo") {
                 startActivity(Intent(context, EMDKUSBManagerActivity::class.java))
             }
+            RoundButton("Touch Panel Sensitivity Demo") {
+                startActivity(Intent(context, EMDKTouchPanelActivity::class.java))
+            }
             RoundButton("Recovery Mode Access Control Demo", color = Color(0xFFD10000)) {
                 startActivity(Intent(context, EMDKRecoveryModeActivity::class.java))
             }

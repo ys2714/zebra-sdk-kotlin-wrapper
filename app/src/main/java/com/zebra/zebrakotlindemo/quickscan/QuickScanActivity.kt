@@ -1,7 +1,5 @@
 package com.zebra.zebrakotlindemo.quickscan
 
-import android.R
-import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
 import androidx.activity.ComponentActivity

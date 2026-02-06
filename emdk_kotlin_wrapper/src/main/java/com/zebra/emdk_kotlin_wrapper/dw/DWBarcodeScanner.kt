@@ -9,18 +9,25 @@ import android.os.Bundle
 open class DWBarcodeScanner(override val context: Context): DWVirtualScanner(context) {
 
     enum class DecoderType(val key: String) {
+        AZTEC("decoder_aztec"),
         CODE39("decoder_code39"),
         CODE_128("decoder_code128"),
         NW7("decoder_codabar"),
         QR("decoder_qrcode"),
         ITF("decoder_i2of5"),
         PDF_417("decoder_pdf417"),
+        MICRO_PDF("decoder_micropdf"),
         DATA_MATRIX("decoder_datamatrix"),
         JAN_EAN_8("decoder_ean8"),
         JAN_EAN_13("decoder_ean13"),
         UPCA("decoder_upca"),
         UPCE0("decoder_upce0"),
-        UPCE1("decoder_upce1")
+        UPCE1("decoder_upce1"),
+        MAILMARK("decoder_mailmark"),
+        MAXICODE("decoder_maxicode"),
+        GS1_DATABAR("decoder_gs1_databar"),
+        GS1_DATABAR_EXP("decoder_gs1_databar_exp"),
+        CODABAR("decoder_codabar")
     }
 
     /**

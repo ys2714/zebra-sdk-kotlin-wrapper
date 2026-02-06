@@ -52,31 +52,37 @@
 
         <activity
             android:exported="true"
+            android:screenOrientation="portrait"
             android:name=".emdk.EMDKActivity">
         </activity>
 
         <activity
             android:exported="true"
+            android:screenOrientation="portrait"
             android:name=".datawedge.DataWedgeActivity">
         </activity>
 
         <activity
             android:exported="true"
+            android:screenOrientation="portrait"
             android:name=".rxlogger.RXLoggerActivity">
         </activity>
 
         <activity
             android:exported="true"
+            android:screenOrientation="portrait"
             android:name=".datawedge.DataWedgeBasicActivity">
         </activity>
 
         <activity
             android:exported="true"
+            android:screenOrientation="portrait"
             android:name=".datawedge.DataWedgeAdvancedActivity">
         </activity>
 
         <activity
             android:exported="true"
+            android:screenOrientation="portrait"
             android:name=".datawedge.DataWedgeProfileActivity">
         </activity>
 
@@ -94,46 +100,61 @@
 
         <activity
             android:exported="true"
+            android:screenOrientation="portrait"
             android:name=".emdk.ScreenLockActivity">
         </activity>
 
         <activity
             android:exported="true"
+            android:screenOrientation="portrait"
             android:name=".emdk.EMDKLockScreenActivity">
         </activity>
 
         <activity
             android:exported="true"
+            android:screenOrientation="portrait"
             android:name=".emdk.EMDKPowerButtonMenuActivity">
         </activity>
 
         <activity
             android:exported="true"
+            android:screenOrientation="portrait"
             android:name=".emdk.EMDKPowerManagementActivity">
         </activity>
 
         <activity
             android:exported="true"
+            android:screenOrientation="portrait"
             android:name=".emdk.EMDKSystemClockActivity">
         </activity>
 
         <activity
             android:exported="true"
+            android:screenOrientation="portrait"
             android:name=".emdk.EMDKRecoveryModeActivity">
         </activity>
 
         <activity
             android:exported="true"
+            android:screenOrientation="portrait"
             android:name=".emdk.EMDKUSBManagerActivity">
         </activity>
 
         <activity
             android:exported="true"
+            android:screenOrientation="portrait"
+            android:name=".emdk.EMDKTouchPanelActivity">
+        </activity>
+
+        <activity
+            android:exported="true"
+            android:screenOrientation="portrait"
             android:name=".MainActivity">
         </activity>
 
         <activity
             android:exported="true"
+            android:screenOrientation="portrait"
             android:name=".quickscan.QuickScanActivity">
         </activity>
     </application>

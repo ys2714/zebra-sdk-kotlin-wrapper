@@ -118,6 +118,12 @@ object MXHelper {
         }
     }
 
+    fun setTouchPanelSensitivity(context: Context, option: MXBase.TouchPanelSensitivityOptions, delaySeconds: Long = 0, callback: (Boolean) -> Unit) {
+        MXProfileProcessor.configTouchPanelSensitivity(context, option, delaySeconds) {
+            callback(it == null)
+        }
+    }
+
     fun powerKeyTriggerAutoScreenLock(context: Context, enable: Boolean, delaySeconds: Long = 0, callback: (Boolean) -> Unit) {
         MXProfileProcessor.powerKeyTriggerAutoScreenLock(context, enable, delaySeconds) {
             callback(it == null)
@@ -168,6 +174,18 @@ object MXHelper {
             callback("")
         }
         MXProfileProcessor.fetchIMEIInBackground(context, delaySeconds) { result ->
+            callback(result)
+        }
+    }
+
+    fun fetchTouchMode(context: Context, delaySeconds: Long = 0, callback: (String) -> Unit) {
+        MXProfileProcessor.fetchTouchModeInBackground(context, delaySeconds) { result ->
+            callback(result)
+        }
+    }
+
+    fun fetchVendorTouchMode(context: Context, delaySeconds: Long = 0, callback: (String) -> Unit) {
+        MXProfileProcessor.fetchVendorTouchModeInBackground(context, delaySeconds) { result ->
             callback(result)
         }
     }

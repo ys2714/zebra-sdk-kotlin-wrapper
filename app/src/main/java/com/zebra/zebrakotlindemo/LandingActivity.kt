@@ -2,19 +2,15 @@ package com.zebra.zebrakotlindemo
 
 import android.Manifest
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.content.MediaType.Companion.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
@@ -134,7 +130,6 @@ class LandingActivity: ComponentActivity() {
                         Text("push notification will show on status bar a few seconds later")
                         RoundButton("Start Service") {
                             viewModel.startServiceIfNeeded(context)
-
                         }
                     }
                     LandingViewModel.ServicePrepareStatus.STARTING -> {
@@ -143,6 +138,7 @@ class LandingActivity: ComponentActivity() {
                             verticalArrangement = Arrangement.Center,
                             horizontalAlignment = Alignment.CenterHorizontally) {
                             CircularProgressIndicator()
+                            Text("Service Starting...")
                         }
                     }
                     LandingViewModel.ServicePrepareStatus.READY -> {
@@ -151,6 +147,7 @@ class LandingActivity: ComponentActivity() {
                             verticalArrangement = Arrangement.Center,
                             horizontalAlignment = Alignment.CenterHorizontally) {
                             CircularProgressIndicator()
+                            Text("Service Ready")
                         }
                     }
                 }

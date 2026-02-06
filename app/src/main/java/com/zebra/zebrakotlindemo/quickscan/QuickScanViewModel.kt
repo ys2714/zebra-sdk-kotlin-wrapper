@@ -74,8 +74,11 @@ class QuickScanViewModel: ViewModel() {
     fun select1DDecoders() {
         scanner?.switchDecoderType(
             arrayOf(
-                DWBarcodeScanner.DecoderType.CODE_128,
-                DWBarcodeScanner.DecoderType.JAN_EAN_13
+                DWBarcodeScanner.DecoderType.JAN_EAN_8,
+                DWBarcodeScanner.DecoderType.UPCA,
+                DWBarcodeScanner.DecoderType.JAN_EAN_13,
+                DWBarcodeScanner.DecoderType.UPCE0,
+                DWBarcodeScanner.DecoderType.UPCE1
             )
         )
         focus = 3

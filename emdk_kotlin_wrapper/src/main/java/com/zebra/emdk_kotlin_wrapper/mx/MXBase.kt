@@ -58,6 +58,7 @@ class MXBase {
         KeymappingManagerSetAllToDefault("profile_keymapping_manager_set_all_to_default.xml"),
         DataWedgeManagerImportProfile("profile_datawedge_manager_import_profile.xml"),
         UsbClientModeDefault("profile_usb_manager_client_mode_default.xml"),
+        TouchPanelSensitivity("profile_touch_panel_sensitivity.xml"),
         FileManagerCopyEmbeddedFreeFormOCR("profile_file_manager_copy_embedded_free_form_ocr.xml");
 
         @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.WARNING)
@@ -85,6 +86,7 @@ class MXBase {
         KeymappingManagerSetAllToDefault("KeymappingManagerSetAllToDefault"),
         DataWedgeManagerImportProfile("DataWedgeManagerImportProfile"),
         UsbClientModeDefault("UsbClientModeDefault"),
+        TouchPanelSensitivity("TouchPanelSensitivity"),
         FileManagerCopyEmbeddedFreeFormOCR("FileManagerCopyEmbeddedFreeFormOCR");
 
         @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.WARNING)
@@ -140,6 +142,41 @@ class MXBase {
         DO_NOTHING(0),
         FULL(1),
         PARTIAL(2);
+
+        @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
+        override fun toString(): String {
+            throw RuntimeException("Not Implemented")
+        }
+
+        val string: String
+            get() = value.toString()
+    }
+
+    /**
+     * https://techdocs.zebra.com/mx/touchmgr/
+     *
+     * 0	Do not change
+     * This value (or the absence of this parm from the XML) causes no change to the Touch Mode;
+     * any previously selected setting is retained.
+     *
+     * 1	Stylus and Finger
+     * Adjusts touch-screen sensitivity for input with a stylus or bare finger.
+     *
+     * 2	Glove and Finger
+     * Adjusts touch-screen sensitivity for input with a bare or gloved finger.
+     *
+     * 3	Finger
+     * Adjusts touch-screen sensitivity for input with a bare finger only.
+     *
+     * 4	Stylus and Glove and Finger
+     * Adjusts touch-screen sensitivity for input with a stylus, or bare or gloved finger.
+     * */
+    enum class TouchPanelSensitivityOptions(val value: Int, val xmlValue: String) {
+        DO_NOTHING(0, "Do not change"),
+        STYLUS_AND_FINGER(1, "Stylus and Finger"),
+        GLOVE_AND_FINGER(2, "Glove and Finger"),
+        FINGER_ONLY(3, "Finger"),
+        STYLUS_GLOVE_AND_FINGER(4, "Stylus and Glove and Finger");
 
         @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
         override fun toString(): String {

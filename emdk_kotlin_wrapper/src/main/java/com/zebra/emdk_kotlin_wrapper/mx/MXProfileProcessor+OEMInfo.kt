@@ -20,14 +20,28 @@ internal fun MXProfileProcessor.fetchIMEIInBackground(
     fetchOEMInfoInBackground(context,MXConst.IMEI_URI, delaySeconds, callback)
 }
 
+internal fun MXProfileProcessor.fetchTouchModeInBackground(
+    context: Context,
+    delaySeconds: Long,
+    callback: (String) -> Unit) {
+    fetchOEMInfoInBackground(context,MXConst.TOUCH_MODE_URI, delaySeconds, callback)
+}
+
+internal fun MXProfileProcessor.fetchVendorTouchModeInBackground(
+    context: Context,
+    delaySeconds: Long,
+    callback: (String) -> Unit) {
+    fetchOEMInfoInBackground(context,MXConst.VENDOR_TOUCH_MODE_URI, delaySeconds, callback)
+}
+
 internal fun MXProfileProcessor.fetchOEMInfoInBackground(
     context: Context,
     serviceId: String,
     delaySeconds: Long = 0,
     callback: (String) -> Unit) {
     backgroundScope.launch {
-        val serial = OEMInfoHelper.getOEMInfo(context, serviceId)
-        if (serial == null) {
+        val info = OEMInfoHelper.getOEMInfo(context, serviceId)
+        if (info == null) {
             getCallServicePermission(context, serviceId, delaySeconds, { errorInfo ->
                 if (errorInfo != null) {
                     callback("")
@@ -40,7 +54,7 @@ internal fun MXProfileProcessor.fetchOEMInfoInBackground(
             })
         } else {
             foregroundScope.launch {
-                callback(serial)
+                callback(info)
             }
         }
     }
