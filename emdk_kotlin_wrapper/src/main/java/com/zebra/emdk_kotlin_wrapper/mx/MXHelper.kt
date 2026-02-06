@@ -136,6 +136,14 @@ object MXHelper {
         }
     }
 
+    fun fetchProductModel(context: Context, delaySeconds: Long = 0, callback: (String) -> Unit) {
+        MXProfileProcessor.fetchProductModelInBackground(
+            context,
+            delaySeconds,
+            callback
+        )
+    }
+
     /**
      *
      * @param context

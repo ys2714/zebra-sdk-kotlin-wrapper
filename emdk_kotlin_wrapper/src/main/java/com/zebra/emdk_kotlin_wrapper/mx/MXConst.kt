@@ -7,6 +7,7 @@ object MXConst {
     private const val IMEI = "imei"
     private const val BUILD_SERIAL = "build_serial"
 
+    const val PRODUCT_MODEL_URI = "content://oem_info/oem.zebra.secure/ro_product_model"
     const val SERIAL_URI = "content://oem_info/oem.zebra.secure/build_serial"
     const val IMEI_URI = "content://oem_info/wan/imei"
     const val TOUCH_MODE_URI = "content://oem_info/oem.zebra.software/persist.sys.touch_mode"

@@ -1,42 +1,43 @@
 package com.zebra.zebrakotlindemo.emdk
 
 import android.content.ActivityNotFoundException
-import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
-import android.database.ContentObserver
-import android.net.Uri
-import android.os.Handler
-import android.os.Looper.getMainLooper
 import android.provider.Settings
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.zebra.emdk_kotlin_wrapper.mx.MXBase
-import com.zebra.emdk_kotlin_wrapper.mx.MXConst
 import com.zebra.emdk_kotlin_wrapper.mx.MXHelper
-import com.zebra.emdk_kotlin_wrapper.oeminfo.OEMInfoHelper
 
 
 class EMDKTouchPanelViewModel: ViewModel() {
 
-    var touchMode: MutableState<String> = mutableStateOf("")
+    // use ProductModels.valueOf() to create from string
+    // different devices supporting different set of touch modes
+    // please refer to https://techdocs.zebra.com/mx/touchmgr/
+    enum class ProductModels {
+        TC26,
+        TC27,
+        TC201,
+        TC52
+    }
+
+    var systemTouchMode: MutableState<String> = mutableStateOf("")
     var vendorTouchMode: MutableState<String> = mutableStateOf("")
+    var appTouchMode: MutableState<String> = mutableStateOf("")
+    var productModel: MutableState<ProductModels> = mutableStateOf(ProductModels.TC26)
 
     fun handleOnCreate(context: Context) {
-        OEMInfoHelper.observeOEMInfo(context, MXConst.VENDOR_TOUCH_MODE_URI) { newValue ->
-            vendorTouchMode.value = newValue ?: ""
-        }
-        OEMInfoHelper.observeOEMInfo(context, MXConst.TOUCH_MODE_URI) { newValue ->
-            touchMode.value = newValue ?: ""
-        }
+
     }
 
     fun handleOnResume(context: Context) {
-        fetchTouchMode(context)
-        // observe(context)
+        MXHelper.fetchProductModel(context) { model ->
+            productModel.value = ProductModels.valueOf(model)
+            fetchTouchMode(context)
+        }
     }
 
     //persist.sys.touch_mode
@@ -46,35 +47,56 @@ class EMDKTouchPanelViewModel: ViewModel() {
     //adb shell getprop persist.vendor.sys.touch_mode
     //
     fun fetchTouchMode(context: Context) {
-        MXHelper.fetchTouchMode(context) { systemMode ->
-            touchMode.value = systemMode
-            MXHelper.fetchVendorTouchMode(context) { vendorMode ->
-                vendorTouchMode.value = vendorMode
+        when(productModel.value) {
+            ProductModels.TC26 -> {
+                MXHelper.fetchVendorTouchMode(context) { mode ->
+                    vendorTouchMode.value = mode
+                    appTouchMode.value = mode
+                }
+            }
+            ProductModels.TC27 -> {
+                MXHelper.fetchTouchMode(context) { mode ->
+                    systemTouchMode.value = mode
+                    appTouchMode.value = mode
+                }
+            }
+            ProductModels.TC201 -> {
+                MXHelper.fetchTouchMode(context) { mode ->
+                    systemTouchMode.value = mode
+                    appTouchMode.value = mode
+                }
+            }
+
+            ProductModels.TC52 -> {
+                MXHelper.fetchTouchMode(context) { mode ->
+                    systemTouchMode.value = mode
+                    appTouchMode.value = mode
+                }
             }
         }
     }
 
     fun setTouchPanelToFingerOnly(context: Context) {
         MXHelper.setTouchPanelSensitivity(context, MXBase.TouchPanelSensitivityOptions.FINGER_ONLY) {
-            fetchTouchMode(context)
+            appTouchMode.value = MXBase.TouchPanelSensitivityOptions.FINGER_ONLY.xmlValue
         }
     }
 
     fun setTouchPanelToGloveAndFinger(context: Context) {
         MXHelper.setTouchPanelSensitivity(context, MXBase.TouchPanelSensitivityOptions.GLOVE_AND_FINGER) {
-            fetchTouchMode(context)
+            appTouchMode.value = MXBase.TouchPanelSensitivityOptions.GLOVE_AND_FINGER.xmlValue
         }
     }
 
     fun setTouchPanelToStylusAndFinger(context: Context) {
         MXHelper.setTouchPanelSensitivity(context, MXBase.TouchPanelSensitivityOptions.STYLUS_AND_FINGER) {
-            fetchTouchMode(context)
+            appTouchMode.value = MXBase.TouchPanelSensitivityOptions.STYLUS_AND_FINGER.xmlValue
         }
     }
 
     fun setTouchPanelToStylusGloveAndFinger(context: Context) {
         MXHelper.setTouchPanelSensitivity(context, MXBase.TouchPanelSensitivityOptions.STYLUS_GLOVE_AND_FINGER) {
-            fetchTouchMode(context)
+            appTouchMode.value = MXBase.TouchPanelSensitivityOptions.STYLUS_GLOVE_AND_FINGER.xmlValue
         }
     }
 

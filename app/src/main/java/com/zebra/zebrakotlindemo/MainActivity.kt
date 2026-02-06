@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.KeyEvent
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
@@ -18,12 +17,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.zebra.emdk_kotlin_wrapper.mx.MXBase
 import com.zebra.emdk_kotlin_wrapper.utils.ZebraSystemEventMonitor
 import com.zebra.zebrakotlindemo.datawedge.DataWedgeActivity
 import com.zebra.zebrakotlindemo.emdk.EMDKActivity
 import com.zebra.zebrakotlindemo.emdk.ScreenLockActivity
-import com.zebra.zebrakotlindemo.quickscan.DWQuickScanService
 import com.zebra.zebrakotlindemo.quickscan.QuickScanActivity
 import com.zebra.zebrakotlindemo.rxlogger.RXLoggerActivity
 import com.zebra.zebrakotlindemo.ui.components.RoundButton

@@ -1,10 +1,15 @@
 package com.zebra.emdk_kotlin_wrapper.mx
 
-import android.bluetooth.BluetoothClass
 import android.content.Context
 import com.zebra.emdk_kotlin_wrapper.oeminfo.OEMInfoHelper
-import com.zebra.emdk_kotlin_wrapper.utils.DeviceInfoUtils
 import kotlinx.coroutines.launch
+
+internal fun MXProfileProcessor.fetchProductModelInBackground(
+    context: Context,
+    delaySeconds: Long,
+    callback: (String) -> Unit) {
+    fetchOEMInfoInBackground(context, MXConst.PRODUCT_MODEL_URI, delaySeconds, callback)
+}
 
 internal fun MXProfileProcessor.fetchSerialNumberInBackground(
     context: Context,

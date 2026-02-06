@@ -40,22 +40,49 @@ class EMDKTouchPanelActivity: ComponentActivity() {
                 modifier = Modifier
                     .padding()
             )
-            Text("System Touch Mode: " + viewModel.touchMode.value)
+            Text("Product Model: " + viewModel.productModel.value)
+            Text("System Touch Mode: " + viewModel.systemTouchMode.value)
             Text("Vendor Touch Mode: " + viewModel.vendorTouchMode.value)
-            RoundButton("Refresh Touch Mode") {
+            Text("App Touch Mode: " + viewModel.appTouchMode.value)
+            RoundButton("Refresh Touch Mode", Color(0xFF00D100)) {
                 viewModel.fetchTouchMode(context)
             }
-            RoundButton("Finger Only") {
-                viewModel.setTouchPanelToFingerOnly(context)
-            }
-            RoundButton("Glove and Finger") {
-                viewModel.setTouchPanelToGloveAndFinger(context)
-            }
-            RoundButton("Stylus and Finger") {
-                viewModel.setTouchPanelToStylusAndFinger(context)
-            }
-            RoundButton("Stylus and Glove and Finger") {
-                viewModel.setTouchPanelToStylusGloveAndFinger(context)
+            when(viewModel.productModel.value) {
+                EMDKTouchPanelViewModel.ProductModels.TC26 -> {
+                    RoundButton("Finger Only") {
+                        viewModel.setTouchPanelToFingerOnly(context)
+                    }
+                    RoundButton("Glove and Finger") {
+                        viewModel.setTouchPanelToGloveAndFinger(context)
+                    }
+                }
+                EMDKTouchPanelViewModel.ProductModels.TC27 -> {
+                    RoundButton("Finger Only") {
+                        viewModel.setTouchPanelToFingerOnly(context)
+                    }
+                    RoundButton("Glove and Finger") {
+                        viewModel.setTouchPanelToGloveAndFinger(context)
+                    }
+                }
+                EMDKTouchPanelViewModel.ProductModels.TC201 -> {
+                    RoundButton("Finger Only") {
+                        viewModel.setTouchPanelToFingerOnly(context)
+                    }
+                    RoundButton("Glove and Finger") {
+                        viewModel.setTouchPanelToGloveAndFinger(context)
+                    }
+                }
+                EMDKTouchPanelViewModel.ProductModels.TC52 -> {
+                    RoundButton("Finger Only") {
+                        viewModel.setTouchPanelToFingerOnly(context)
+                    }
+                    RoundButton("Glove and Finger") {
+                        viewModel.setTouchPanelToGloveAndFinger(context)
+                    }
+                    RoundButton("Stylus and Finger") {
+                        viewModel.setTouchPanelToStylusAndFinger(context)
+                    }
+                }
             }
             RoundButton("Open Settings to check", Color(0xFF00D100)) {
                 viewModel.openSettings(context)
