@@ -3,12 +3,13 @@ package com.zebra.emdk_kotlin_wrapper.java_interface;
 import android.content.Context;
 import android.os.Build;
 
+import androidx.annotation.Keep;
 import androidx.annotation.RequiresApi;
 import com.zebra.emdk_kotlin_wrapper.mx.MXBase;
 import com.zebra.emdk_kotlin_wrapper.mx.MXHelper;
-
 import kotlin.Unit;
 
+@Keep
 public class MXHelperJava {
 
     public static void whiteListApproveApp(Context context, Long delaySeconds, BooleanCompletion completion) {

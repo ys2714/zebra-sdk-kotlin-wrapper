@@ -3,8 +3,10 @@ package com.zebra.emdk_kotlin_wrapper.dw
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import androidx.annotation.Keep
 import kotlinx.coroutines.suspendCancellableCoroutine
 
+@Keep
 abstract class DWVirtualScanner(open val context: Context) {
 
     val TAG = "DWVirtualScanner"

@@ -1,5 +1,8 @@
 package com.zebra.emdk_kotlin_wrapper.dw
 
+import androidx.annotation.Keep
+
+@Keep
 object DWConst {
 
     // JSON file names

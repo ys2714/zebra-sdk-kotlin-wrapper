@@ -2,10 +2,12 @@ package com.zebra.emdk_kotlin_wrapper.java_interface;
 
 import android.content.Context;
 
-import com.zebra.emdk_kotlin_wrapper.emdk.EMDKHelper;
+import androidx.annotation.Keep;
 
+import com.zebra.emdk_kotlin_wrapper.emdk.EMDKHelper;
 import kotlin.Unit;
 
+@Keep
 public class EMDKHelperJava {
 
     public static void prepare(Context context, BooleanCompletion completion) {

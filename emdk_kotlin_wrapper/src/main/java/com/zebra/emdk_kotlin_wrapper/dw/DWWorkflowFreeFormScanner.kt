@@ -1,7 +1,9 @@
 package com.zebra.emdk_kotlin_wrapper.dw
 
 import android.content.Context
+import androidx.annotation.Keep
 
+@Keep
 class DWWorkflowFreeFormScanner(override val context: Context): DWVirtualScanner(context) {
 
     override val createJSONFileName: String

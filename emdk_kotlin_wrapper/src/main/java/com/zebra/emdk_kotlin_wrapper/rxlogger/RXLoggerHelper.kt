@@ -4,12 +4,14 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import androidx.annotation.Keep
 import androidx.core.content.ContextCompat
 
 /**
  * https://techdocs.zebra.com/rxlogger/latest/guide/apis/
  *
  * */
+@Keep
 object RXLoggerHelper {
 
     val ACTION_ENABLE = "com.symbol.rxlogger.intent.action.ENABLE"

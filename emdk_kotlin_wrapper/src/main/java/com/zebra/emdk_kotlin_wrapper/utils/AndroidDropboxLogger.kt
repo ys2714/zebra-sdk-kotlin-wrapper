@@ -3,10 +3,12 @@ package com.zebra.emdk_kotlin_wrapper.utils
 import android.content.Context
 import android.os.DropBoxManager
 import android.util.Log
+import androidx.annotation.Keep
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+@Keep
 object AndroidDropboxLogger {
 
     fun getDropBoxLogs(context: Context) {

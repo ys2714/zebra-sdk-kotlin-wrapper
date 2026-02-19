@@ -4,7 +4,9 @@ import android.content.Context
 import android.database.Cursor
 import android.net.Uri
 import android.util.Log
+import androidx.annotation.Keep
 
+@Keep
 object ZDMAuthHelper {
 
     const val COLUMN_QUERY_RESULT: String = "query_result"

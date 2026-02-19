@@ -2,9 +2,11 @@ package com.zebra.emdk_kotlin_wrapper.utils
 
 import android.os.Bundle
 import android.os.Parcelable
+import androidx.annotation.Keep
 import org.json.JSONArray
 import org.json.JSONObject
 
+@Keep
 object JsonUtils {
 
     fun bundleToJson(bundle: Bundle): String {

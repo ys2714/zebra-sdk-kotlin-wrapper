@@ -1,24 +1,30 @@
 package com.zebra.emdk_kotlin_wrapper.mx
 
 import android.text.TextUtils
+import androidx.annotation.Keep
 
+@Keep
 class MXBase {
 
+    @Keep
     companion object {
         private val TAG = MXBase::class.java.simpleName
     }
 
+    @Keep
     interface FetchOEMInfoCallback {
         fun onSuccess(result: String)
         fun onError()
     }
 
+    @Keep
     interface EventListener {
         fun onEMDKSessionOpened()
         fun onEMDKSessionClosed()
         fun onEMDKError(errorInfo: ErrorInfo)
     }
 
+    @Keep
     data class ErrorInfo(
         // Contains the parm-error name (sub-feature that has error)
         var errorName: String = "",
@@ -42,6 +48,7 @@ class MXBase {
         }
     }
 
+    @Keep
     enum class ProfileXML(val value: String) {
         None("None"),
         AccessManagerAllowPermission("profile_access_manager_allow_permission.xml"),
@@ -71,6 +78,7 @@ class MXBase {
             get() = value
     }
 
+    @Keep
     enum class ProfileName(private val value: String) {
         AccessManagerAllowPermission("AccessManagerAllowPermission"),
         AccessManagerAllowCallService("AccessManagerAllowCallService"),
@@ -112,6 +120,7 @@ class MXBase {
      * - `FULL_DEVICE_WIPE` (7): Performs a full device wipe.
      * - `OS_UPDATE` (8): Initiates an OS update.
      */
+    @Keep
     enum class PowerManagerOptions(val value: Int) {
         CREATE_PROFILE(-1),
         DO_NOTHING(0),
@@ -138,6 +147,7 @@ class MXBase {
      * Full (default): Displays all Recovery Mode actions for selection, including Upgrade and Downgrade.
      * Partial (blocks sensitive operations): Displays only "Reboot system now," "View recovery logs" and "Power off" functions for selection.
      * */
+    @Keep
     enum class PowerManagerRecoveryModeAccessOptions(val value: Int) {
         DO_NOTHING(0),
         FULL(1),
@@ -171,6 +181,7 @@ class MXBase {
      * 4	Stylus and Glove and Finger
      * Adjusts touch-screen sensitivity for input with a stylus, or bare or gloved finger.
      * */
+    @Keep
     enum class TouchPanelSensitivityOptions(val value: Int, val xmlValue: String) {
         DO_NOTHING(0, "Do not change"),
         STYLUS_AND_FINGER(1, "Stylus and Finger"),
@@ -187,6 +198,7 @@ class MXBase {
             get() = value.toString()
     }
 
+    @Keep
     enum class UsbClientModeDefaultOptions(val value: Int) {
         DO_NOTHING(86),
         CHARGING_ONLY(0),
@@ -204,6 +216,7 @@ class MXBase {
             get() = value.toString()
     }
 
+    @Keep
     enum class EPermissionType(private val value: String) {
         ACCESS_NOTIFICATIONS("android.permission.ACCESS_NOTIFICATIONS"),
         PACKAGE_USAGE_STATS("android.permission.PACKAGE_USAGE_STATS"),
@@ -245,6 +258,7 @@ class MXBase {
      * - `PASSWORD` (4): Causes the Password screen-lock to be displayed whenever the Lock Screen is invoked.
      * - `NONE` (5): Prevents the display of any Lock Screen at any time.
      */
+    @Keep
     enum class ScreenLockType(val value: Int) {
         DO_NOT_CHANGE(0),
         SWIPE(1),
@@ -273,6 +287,7 @@ class MXBase {
      * 1 - Enable
      * 2 - Disable
      * */
+    @Keep
     enum class ScreenShotUsage(val value: Int) {
         DO_NOTHING(0),
         ENABLE(1),
@@ -298,6 +313,7 @@ class MXBase {
      * 1 - Show: Enables the Power-off button to be shown after the device power key is long-pressed.
      * 2 - Hide: Prevents the Power-off button from being shown after the device power key is long-pressed.
      * */
+    @Keep
     enum class ShowHideState(val value: Int) {
         DO_NOT_CHANGE(0),
         SHOW(1),
@@ -316,6 +332,7 @@ class MXBase {
      * https://techdocs.zebra.com/mx/keymappingmgr/#key-identifier
      *
      * */
+    @Keep
     enum class KeyIdentifiers(val value: String) {
         VOLUMEUP("VOLUMEUP"),
         VOLUMEDOWN("VOLUMEDOWN"),
@@ -360,6 +377,7 @@ class MXBase {
      * https://techdocs.zebra.com/mx/keymappingmgr/#key-code
      *
      * */
+    @Keep
     enum class KeyCodes(val value: Int) {
         VOLUMEUP(24),
         VOLUMEDOWN(25),
@@ -385,7 +403,4 @@ class MXBase {
         val string: String
             get() = value.toString()
     }
-}
-
-class DataWedgeManager {
 }

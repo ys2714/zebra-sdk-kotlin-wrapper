@@ -1,5 +1,8 @@
 package com.zebra.emdk_kotlin_wrapper.mx
 
+import androidx.annotation.Keep
+
+@Keep
 object MXConst {
     private val TAG = MXConst::class.java.simpleName
 

@@ -7,12 +7,14 @@ import android.content.pm.Signature
 import android.os.Build
 import android.util.Base64
 import android.util.Log
+import androidx.annotation.Keep
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
 /**
  * A utility object for retrieving package information, such as the application's signature.
  */
+@Keep
 object PackageUtils {
 
     private val TAG = PackageUtils::class.java.simpleName

@@ -6,7 +6,7 @@ import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
 
-object AssetsReader {
+internal object AssetsReader {
 
     private const val TAG = "AssetsReader"
 

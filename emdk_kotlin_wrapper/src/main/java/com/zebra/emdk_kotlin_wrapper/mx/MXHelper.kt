@@ -2,10 +2,12 @@ package com.zebra.emdk_kotlin_wrapper.mx
 
 import android.content.Context
 import android.os.Build
+import androidx.annotation.Keep
 import androidx.annotation.RequiresApi
 import com.zebra.emdk_kotlin_wrapper.utils.DeviceInfoUtils
 import com.zebra.emdk_kotlin_wrapper.zdm.ZDMConst
 
+@Keep
 object MXHelper {
 
     fun whiteListApproveApp(context: Context, delaySeconds: Long = 0, callback: (Boolean) -> Unit) {

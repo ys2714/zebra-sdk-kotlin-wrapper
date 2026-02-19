@@ -28,7 +28,7 @@ import androidx.core.net.toUri
  * The same set of system properties might not be readable on all devices.
  * System properties might become restricted, removed or added after an OS update.
  */
-object OEMInfoHelper {
+internal object OEMInfoHelper {
 
     private val TAG = OEMInfoHelper::class.java.simpleName
 

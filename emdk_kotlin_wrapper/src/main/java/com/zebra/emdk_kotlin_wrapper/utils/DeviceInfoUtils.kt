@@ -2,7 +2,9 @@ package com.zebra.emdk_kotlin_wrapper.utils
 
 import android.content.Context
 import android.content.pm.PackageManager
+import androidx.annotation.Keep
 
+@Keep
 object DeviceInfoUtils {
 
     fun hasTelephonyFeature(context: Context): Boolean {

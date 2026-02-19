@@ -7,6 +7,7 @@ import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.annotation.Keep
 import androidx.core.content.ContextCompat
 import com.zebra.emdk_kotlin_wrapper.utils.AssetsReader
 import com.zebra.emdk_kotlin_wrapper.utils.FixedSizeQueue
@@ -20,15 +21,18 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.Date
 
+@Keep
 object DataWedgeHelper {
 
     final val TAG = "DataWedgeHelper"
 
+    @Keep
     interface ScanDataListener: FixedSizeQueueItem {
         fun onData(type: String, value: String, timestamp: String)
     }
 
     // please return the DWAPI.NotificationType.value in getID() method
+    @Keep
     interface SessionStatusListener: FixedSizeQueueItem {
         fun onStatus(type: DWAPI.NotificationType, status: String, profileName: String)
     }

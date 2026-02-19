@@ -2,12 +2,15 @@ package com.zebra.emdk_kotlin_wrapper.dw
 
 import android.content.Context
 import android.os.Bundle
+import androidx.annotation.Keep
 
 /**
  * https://techdocs.zebra.com/datawedge/7-5/guide/api/setconfig/#scannerinputparameters
  * */
+@Keep
 open class DWBarcodeScanner(override val context: Context): DWVirtualScanner(context) {
 
+    @Keep
     enum class DecoderType(val key: String) {
         AZTEC("decoder_aztec"),
         CODE39("decoder_code39"),
@@ -43,6 +46,7 @@ open class DWBarcodeScanner(override val context: Context): DWVirtualScanner(con
      * 7 – Press and Continue
      * 8 - Timed Continuous
      * */
+    @Keep
     enum class AimType(val value: Int) {
         TRIGGER(0),
         TIMED_HOLD(1),

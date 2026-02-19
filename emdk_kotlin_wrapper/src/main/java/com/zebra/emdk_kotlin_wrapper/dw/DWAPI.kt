@@ -1,13 +1,14 @@
 package com.zebra.emdk_kotlin_wrapper.dw
+import androidx.annotation.Keep
 
-import android.content.BroadcastReceiver
-
+@Keep
 object DWAPI {
 
     const val TAG = "DWAPI"
 
     const val MILLISECONDS_DELAY_BETWEEN_API_CALLS: Long = 200
 
+    @Keep
     enum class StringBoolean(val value: String) {
         TRUE("true"),
         FALSE("false");
@@ -21,6 +22,7 @@ object DWAPI {
             get() = value.toString()
     }
 
+    @Keep
     enum class StringEnabled(val value: String) {
         ENABLED("ENABLED"),
         DISABLED("DISABLED");
@@ -34,6 +36,7 @@ object DWAPI {
             get() = value.toString()
     }
 
+    @Keep
     enum class ActionNames(val value: String) {
         ACTION("com.symbol.datawedge.api.ACTION");
 
@@ -46,6 +49,7 @@ object DWAPI {
             get() = value.toString()
     }
 
+    @Keep
     enum class ActionExtraKeys(val value: String) { // Renamed from Action to avoid conflict with Intent Action
         CREATE_PROFILE("com.symbol.datawedge.api.CREATE_PROFILE"),
         DELETE_PROFILE("com.symbol.datawedge.api.DELETE_PROFILE"),
@@ -72,6 +76,7 @@ object DWAPI {
             get() = value.toString()
     }
 
+    @Keep
     enum class ResultCategoryNames(val value: String) {
         CATEGORY_DEFAULT("android.intent.category.DEFAULT");
 
@@ -84,6 +89,7 @@ object DWAPI {
             get() = value.toString()
     }
 
+    @Keep
     enum class ResultActionNames(val value: String) {
         RESULT_ACTION("com.symbol.datawedge.api.RESULT_ACTION"),
         SCAN_RESULT_ACTION("com.zebra.emdk_kotlin_wrapper.SCAN_RESULT_ACTION");
@@ -97,6 +103,7 @@ object DWAPI {
             get() = value.toString()
     }
 
+    @Keep
     enum class ResultExtraKeys(val value: String) {
         GET_DATAWEDGE_STATUS("com.symbol.datawedge.api.RESULT_GET_DATAWEDGE_STATUS"),
         GET_CONFIG("com.symbol.datawedge.api.RESULT_GET_CONFIG"),
@@ -112,6 +119,7 @@ object DWAPI {
             get() = value.toString()
     }
 
+    @Keep
     enum class ConfigModeOptions(val value: String) {
         CREATE_IF_NOT_EXIST("CREATE_IF_NOT_EXIST"),
         OVERWRITE("OVERWRITE"),
@@ -126,6 +134,7 @@ object DWAPI {
             get() = value.toString()
     }
 
+    @Keep
     enum class ControlScannerInputPluginCommand(val value: String) {
         SUSPEND_PLUGIN("SUSPEND_PLUGIN"),
         RESUME_PLUGIN("RESUME_PLUGIN"),
@@ -141,6 +150,7 @@ object DWAPI {
             get() = value.toString()
     }
 
+    @Keep
     enum class ScannerStatus(val value: String) {
         UNKNOWN("UNKNOWN"),
         WAITING("WAITING"), // Scanner is ready to be triggered
@@ -158,6 +168,7 @@ object DWAPI {
             get() = value.toString()
     }
 
+    @Keep
     enum class ScannerIdentifiers(val value: String) {
         AUTO("AUTO"),
         INTERNAL_IMAGER("INTERNAL_IMAGER"),
@@ -189,6 +200,7 @@ object DWAPI {
             get() = value.toString()
     }
 
+    @Keep
     enum class SendResultOptions(val value: String) {
         NONE("NONE"),
         LAST_RESULT("LAST_RESULT"),
@@ -206,6 +218,7 @@ object DWAPI {
     /**
      * https://techdocs.zebra.com/datawedge/latest/guide/api/resultinfo/
      * */
+    @Keep
     enum class ResultCodes(val value: String) {
         APP_ALREADY_ASSOCIATED("APP_ALREADY_ASSOCIATED"),
         BUNDLE_EMPTY("BUNDLE_EMPTY"),
@@ -250,10 +263,12 @@ object DWAPI {
             get() = value.toString()
     }
 
+    @Keep
     enum class ResultErrorCodes(val value: String) {
 
     }
 
+    @Keep
     enum class ResultInfoBundleKeys(val value: String) {
         PREVIOUS_DEFAULT_PROFILE("PREVIOUS_DEFAULT_PROFILE"),
         PREVIOUS_PROFILE("PREVIOUS_PROFILE"),
@@ -270,6 +285,7 @@ object DWAPI {
             get() = value.toString()
     }
 
+    @Keep
     enum class SoftScanTriggerOptions(val value: String) {
         START_SCANNING("START_SCANNING"),
         STOP_SCANNING("STOP_SCANNING"),
@@ -284,6 +300,7 @@ object DWAPI {
             get() = value.toString()
     }
 
+    @Keep
     enum class IntentDeliveryOptions(val value: Int) {
         START_ACTIVITY(0),
         START_SERVICE(1),
@@ -298,6 +315,7 @@ object DWAPI {
             get() = value.toString()
     }
 
+    @Keep
     enum class ScanInputModeOptions(val value: Int) {
         SINGLE(1),
         UDI(2),
@@ -394,6 +412,7 @@ object DWAPI {
             get() = value.toString()
     }
 
+    @Keep
     enum class NotificationType(val value: String) {
         CONFIGURATION_UPDATE("CONFIGURATION_UPDATE"),
         PROFILE_SWITCH("PROFILE_SWITCH"),

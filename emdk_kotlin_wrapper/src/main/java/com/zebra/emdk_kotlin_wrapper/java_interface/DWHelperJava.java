@@ -2,14 +2,15 @@ package com.zebra.emdk_kotlin_wrapper.java_interface;
 
 import android.content.Context;
 
+import androidx.annotation.Keep;
 import com.zebra.emdk_kotlin_wrapper.dw.DWAPI;
 import com.zebra.emdk_kotlin_wrapper.dw.DWScannerMap;
 import com.zebra.emdk_kotlin_wrapper.dw.DataWedgeHelper;
 
 import java.util.List;
-
 import kotlin.Unit;
 
+@Keep
 public class DWHelperJava {
 
     public static void addScanDataListener(DataWedgeHelper.ScanDataListener listener) {

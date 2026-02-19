@@ -1,13 +1,15 @@
 package com.zebra.emdk_kotlin_wrapper.utils
 
 import android.os.Build
+import androidx.annotation.Keep
 
+@Keep
 interface FixedSizeQueueItem {
     fun getID(): String
     fun onDisposal()
 }
 
-class FixedSizeQueue<T: FixedSizeQueueItem>(val size: Int) {
+internal class FixedSizeQueue<T: FixedSizeQueueItem>(val size: Int) {
 
     private val _items: ArrayList<T> = arrayListOf<T>()
 

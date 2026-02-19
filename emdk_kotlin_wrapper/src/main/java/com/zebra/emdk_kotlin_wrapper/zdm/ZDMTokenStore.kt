@@ -1,5 +1,8 @@
 package com.zebra.emdk_kotlin_wrapper.zdm
 
+import androidx.annotation.Keep
+
+@Keep
 object ZDMTokenStore {
 
     private var dwQueryAccessToken: String = ""

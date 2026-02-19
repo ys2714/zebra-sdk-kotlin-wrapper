@@ -1,6 +1,7 @@
 package com.zebra.emdk_kotlin_wrapper.emdk
 
 import android.content.Context
+import androidx.annotation.Keep
 import com.symbol.emdk.EMDKBase
 import com.symbol.emdk.EMDKManager
 import com.symbol.emdk.ProfileManager
@@ -12,11 +13,13 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 
+@Keep
 class EMDKHelper private constructor() {
 
     private var foregroundScope = CoroutineScope(Dispatchers.Main + Job())
     private var backgroundScope = CoroutineScope(Dispatchers.IO + Job())
 
+    @Keep
     companion object {
         private var instance: EMDKHelper? = null
 
