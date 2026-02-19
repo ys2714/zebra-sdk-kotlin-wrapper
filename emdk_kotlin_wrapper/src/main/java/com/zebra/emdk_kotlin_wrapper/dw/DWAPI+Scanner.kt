@@ -17,7 +17,7 @@ import kotlin.collections.forEach
  * Right:
  * com.symbol.datawedge.api.RESULT_ENUMERATE_SCANNERS
  * */
-suspend fun DWAPI.sendEnumerateScannersIntent(context: Context): List<DWScannerInfo> = suspendCancellableCoroutine { continuation ->
+internal suspend fun DWAPI.sendEnumerateScannersIntent(context: Context): List<DWScannerInfo> = suspendCancellableCoroutine { continuation ->
     DWIntentFactory.callDWAPI(context, DWAPI.ActionExtraKeys.ENUMERATE_SCANNERS, "") { result ->
         result.onSuccess { intent ->
             callDWAPIEnumerateScannersHandler(intent) {
@@ -49,7 +49,7 @@ suspend fun DWAPI.sendEnumerateScannersIntent(context: Context): List<DWScannerI
  * Error and debug messages are logged to the Android logging system, which can be viewed and filtered by the logcat command. Use logcat from an ADB shell to view the log messages:
  * $ adb logcat -s DWAPI
  * */
-suspend fun DWAPI.sendGetSelectedScannerStatusIntent(context: Context): DWAPI.ScannerStatus = suspendCancellableCoroutine { continuation ->
+internal suspend fun DWAPI.sendGetSelectedScannerStatusIntent(context: Context): DWAPI.ScannerStatus = suspendCancellableCoroutine { continuation ->
     DWIntentFactory.callDWAPI(context, DWAPI.ActionExtraKeys.GET_SCANNER_STATUS, "") { result ->
         result.onSuccess {
             callDWAPIGetSelectedScannerStatusHandler(it) { status ->
@@ -72,7 +72,7 @@ suspend fun DWAPI.sendGetSelectedScannerStatusIntent(context: Context): DWAPI.Sc
  * 1. Barcode scanning and Barcode Highlighting, e.g. to have the ability to alternate between scanning barcodes and using the viewfinder (or preview screen) to highlight barcodes to aid in finding items.
  * 2. Workflow Input options, e.g. to scan a driver license and read a license plate in the same app.
  * */
-suspend fun DWAPI.sendSwitchDataCaptureIntent(context: Context, plugin: DWAPI.Plugin.Input): Boolean = suspendCancellableCoroutine { continuation ->
+internal suspend fun DWAPI.sendSwitchDataCaptureIntent(context: Context, plugin: DWAPI.Plugin.Input): Boolean = suspendCancellableCoroutine { continuation ->
     DWIntentFactory.callDWAPI(context, DWAPI.ActionExtraKeys.SWITCH_DATACAPTURE, plugin.value) { result ->
         result.onSuccess {
             continuation.resumeWith(Result.success(true))
@@ -112,7 +112,7 @@ suspend fun DWAPI.sendSwitchDataCaptureIntent(context: Context, plugin: DWAPI.Pl
  * SCANNER_DISABLE_FAILED - The scanner disable is unsuccessful.
  * SCANNER_ENABLE_FAILED - The action to enable the scanner is unsuccessful.
  * */
-suspend fun DWAPI.sendControlScannerInputPluginIntent(context: Context, command: DWAPI.ControlScannerInputPluginCommand): Boolean = suspendCancellableCoroutine { continuation ->
+internal suspend fun DWAPI.sendControlScannerInputPluginIntent(context: Context, command: DWAPI.ControlScannerInputPluginCommand): Boolean = suspendCancellableCoroutine { continuation ->
     DWIntentFactory.callDWAPI(context, DWAPI.ActionExtraKeys.SCANNER_INPUT_PLUGIN, command.value) { result ->
         result.onSuccess {
             continuation.resumeWith(Result.success(true))

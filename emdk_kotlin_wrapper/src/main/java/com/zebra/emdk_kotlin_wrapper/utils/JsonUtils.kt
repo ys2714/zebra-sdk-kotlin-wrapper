@@ -9,6 +9,7 @@ import org.json.JSONObject
 @Keep
 object JsonUtils {
 
+    @Keep
     fun bundleToJson(bundle: Bundle): String {
         return toJsonObject(bundle).toString(4)
     }
@@ -46,6 +47,7 @@ object JsonUtils {
         return json
     }
 
+    @Keep
     fun jsonToBundle(jsonString: String): Bundle {
         val jsonObj = JSONObject(jsonString)
         val bundle = toBundle(jsonObj)

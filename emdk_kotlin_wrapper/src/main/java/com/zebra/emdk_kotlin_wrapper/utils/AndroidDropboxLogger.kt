@@ -11,6 +11,7 @@ import java.util.Locale
 @Keep
 object AndroidDropboxLogger {
 
+    @Keep
     fun getDropBoxLogs(context: Context) {
         val dropBoxManager = context.getSystemService(Context.DROPBOX_SERVICE) as? DropBoxManager
         if (dropBoxManager == null) {

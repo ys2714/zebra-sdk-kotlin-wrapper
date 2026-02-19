@@ -31,6 +31,7 @@ object FileUtils {
      * @param fileName  The desired name of the file (e.g., "my-document.txt").
      * @param fileContent The text content to write into the file.
      */
+    @Keep
     fun saveTextToDownloads(context: Context, fileName: String, fileContent: String) {
         // The implementation for Android 10 (API 29) and above is unified using MediaStore.
         // There is no need for conditional logic for versions 10, 11, 12, 13, or 14

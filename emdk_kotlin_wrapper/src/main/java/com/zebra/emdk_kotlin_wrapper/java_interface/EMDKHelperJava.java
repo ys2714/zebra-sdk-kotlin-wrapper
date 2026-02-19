@@ -10,26 +10,31 @@ import kotlin.Unit;
 @Keep
 public class EMDKHelperJava {
 
+    @Keep
     public static void prepare(Context context, BooleanCompletion completion) {
-        EMDKHelper.Companion.getShared().prepare(context, (success) -> {
+        EMDKHelper.Static.getShared().prepare(context, (success) -> {
             completion.onComplete(success);
             return Unit.INSTANCE;
         });
     }
 
+    @Keep
     public static void teardown() {
-        EMDKHelper.Companion.getShared().teardown();
+        EMDKHelper.Static.getShared().teardown();
     }
 
+    @Keep
     public static String getEMDKVersion() {
-        return EMDKHelper.Companion.getShared().getEmdkVersion();
+        return EMDKHelper.Static.getShared().getEMDKVersion();
     }
 
+    @Keep
     public static String getMXVersion() {
-        return EMDKHelper.Companion.getShared().getMxVersion();
+        return EMDKHelper.Static.getShared().getMXVersion();
     }
 
+    @Keep
     public static String getDWVersion() {
-        return EMDKHelper.Companion.getShared().getDwVersion();
+        return EMDKHelper.Static.getShared().getDWVersion();
     }
 }

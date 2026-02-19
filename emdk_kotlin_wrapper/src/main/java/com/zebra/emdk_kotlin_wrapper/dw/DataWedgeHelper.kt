@@ -59,22 +59,27 @@ object DataWedgeHelper {
         }
     }
 
+    @Keep
     fun addScanDataListener(listener: ScanDataListener) {
         scanDataListeners.enqueue(listener)
     }
 
+    @Keep
     fun removeScanDataListener(listener: ScanDataListener) {
         scanDataListeners.remove(listener)
     }
 
+    @Keep
     fun addSessionStatusListener(listener: SessionStatusListener) {
         sessionStatusListeners.enqueue(listener)
     }
 
+    @Keep
     fun removeSessionStatusListener(listener: SessionStatusListener) {
         sessionStatusListeners.remove(listener)
     }
 
+    @Keep
     fun prepare(context: Context, callback: (Boolean) -> Unit) {
         registerReceiverIfNeeded(context)
         backgroundScope.launch {
@@ -108,6 +113,7 @@ object DataWedgeHelper {
         }
     }
 
+    @Keep
     fun checkDWStatus(context: Context, callback: (enabled: Boolean) -> Unit) {
         backgroundScope.launch {
             runCatching {
@@ -127,6 +133,7 @@ object DataWedgeHelper {
         }
     }
 
+    @Keep
     fun enableDW(context: Context, callback: ((success: Boolean) -> Unit)? = null) {
         backgroundScope.launch {
             runCatching {
@@ -151,6 +158,7 @@ object DataWedgeHelper {
         }
     }
 
+    @Keep
     fun disableDW(context: Context, callback: ((success: Boolean) -> Unit)? = null) {
         backgroundScope.launch {
             runCatching {
@@ -175,30 +183,35 @@ object DataWedgeHelper {
         }
     }
 
+    @Keep
     fun enableScannerStatusNotification(context: Context, callback: ((success: Boolean) -> Unit)? = null) {
         DWAPI.registerNotification(context, DWAPI.NotificationType.SCANNER_STATUS) {
             callback?.invoke(it)
         }
     }
 
+    @Keep
     fun disableScannerStatusNotification(context: Context, callback: ((success: Boolean) -> Unit)? = null) {
         DWAPI.unregisterNotification(context, DWAPI.NotificationType.SCANNER_STATUS) {
             callback?.invoke(it)
         }
     }
 
+    @Keep
     fun enableWorkflowStatusNotification(context: Context, callback: ((success: Boolean) -> Unit)? = null) {
         DWAPI.registerNotification(context, DWAPI.NotificationType.WORKFLOW_STATUS) {
             callback?.invoke(it)
         }
     }
 
+    @Keep
     fun disableWorkflowStatusNotification(context: Context, callback: ((success: Boolean) -> Unit)? = null) {
         DWAPI.unregisterNotification(context, DWAPI.NotificationType.WORKFLOW_STATUS) {
             callback?.invoke(it)
         }
     }
 
+    @Keep
     fun createProfile(context: Context, name: String, callback: ((Boolean) -> Unit)? = null) {
         backgroundScope.launch {
             runCatching {
@@ -227,6 +240,7 @@ object DataWedgeHelper {
         }
     }
 
+    @Keep
     fun getProfile(context: Context, name: String, callback: ((Bundle) -> Unit)? = null) {
         backgroundScope.launch {
             runCatching {
@@ -258,6 +272,7 @@ object DataWedgeHelper {
         }
     }
 
+    @Keep
     fun deleteProfile(context: Context, name: String, callback: ((Boolean) -> Unit)? = null) {
         backgroundScope.launch {
             runCatching {
@@ -281,6 +296,7 @@ object DataWedgeHelper {
         }
     }
 
+    @Keep
     fun switchProfile(context: Context, name: String, callback: ((Boolean) -> Unit)? = null) {
         backgroundScope.launch {
             runCatching {
@@ -298,6 +314,7 @@ object DataWedgeHelper {
         }
     }
 
+    @Keep
     fun bindProfileToApp(context: Context, name: String, packageName: String, callback: ((Boolean) -> Unit)? = null) {
         backgroundScope.launch {
             runCatching {
@@ -317,6 +334,7 @@ object DataWedgeHelper {
         }
     }
 
+    @Keep
     fun configBarcodePlugin(context: Context, name: String, enable: Boolean, hardTrigger: Boolean,callback: ((Boolean) -> Unit)? = null) {
         backgroundScope.launch {
             runCatching {
@@ -341,6 +359,7 @@ object DataWedgeHelper {
         }
     }
 
+    @Keep
     fun configWorkflowPlugin(context: Context, name: String, enable: Boolean,callback: ((Boolean) -> Unit)? = null) {
         backgroundScope.launch {
             runCatching {
@@ -362,6 +381,7 @@ object DataWedgeHelper {
         }
     }
 
+    @Keep
     fun configKeystrokePlugin(context: Context, name: String, enable: Boolean, callback: ((Boolean) -> Unit)? = null) {
         backgroundScope.launch {
             runCatching {
@@ -381,6 +401,7 @@ object DataWedgeHelper {
         }
     }
 
+    @Keep
     fun configIntentPlugin(context: Context, name: String, callback: ((Boolean) -> Unit)? = null) {
         backgroundScope.launch {
             runCatching {
@@ -406,6 +427,7 @@ object DataWedgeHelper {
         }
     }
 
+    @Keep
     fun configWithJSON(context: Context, fileName: String, params: Map<String, String>, callback: ((Boolean) -> Unit)? = null) {
         backgroundScope.launch {
             runCatching {
@@ -430,6 +452,7 @@ object DataWedgeHelper {
         }
     }
 
+    @Keep
     fun switchScannerParams(context: Context, bundle: Bundle, callback: ((Boolean) -> Unit)? = null) {
         backgroundScope.launch {
             runCatching {
@@ -446,6 +469,7 @@ object DataWedgeHelper {
         }
     }
 
+    @Keep
     fun controlScannerInputPlugin(context: Context, command: DWAPI.ControlScannerInputPluginCommand, callback: ((Boolean) -> Unit)? = null) {
         backgroundScope.launch {
             runCatching {
@@ -462,14 +486,17 @@ object DataWedgeHelper {
         }
     }
 
+    @Keep
     fun softScanTrigger(context: Context, option: DWAPI.SoftScanTriggerOptions) {
         DWAPI.softScanTrigger(context, option)
     }
 
+    @Keep
     fun getScannerInfo(context: Context, id: String): DWScannerMap.DWScannerInfo? {
         return DWScannerMap.getScannerInfo(id)
     }
 
+    @Keep
     fun getScannerStatus(context: Context, delaySeconds: Int, callback: (DWAPI.ScannerStatus) -> Unit) {
         backgroundScope.launch {
             runCatching {
@@ -488,6 +515,7 @@ object DataWedgeHelper {
         }
     }
 
+    @Keep
     fun getScannerList(context: Context, callback: (List<DWScannerMap.DWScannerInfo>) -> Unit) {
         backgroundScope.launch {
             runCatching {

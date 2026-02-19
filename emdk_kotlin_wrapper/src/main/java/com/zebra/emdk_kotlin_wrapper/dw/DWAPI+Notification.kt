@@ -48,7 +48,7 @@ import com.zebra.emdk_kotlin_wrapper.zdm.ZDMTokenStore
  * Scanner status notifications are sent only if the scanner in the active Profile is enabled.
  * Note: The PROFILE_NAME (of the currently active profile) is returned with SCANNER_STATUS to allow the developer to filter scanner events for the required Profile only.
  * */
-fun DWAPI.registerNotification(context: Context, notificationType: DWAPI.NotificationType, callback: (Boolean) -> Unit) {
+internal fun DWAPI.registerNotification(context: Context, notificationType: DWAPI.NotificationType, callback: (Boolean) -> Unit) {
     val packageName = context.applicationContext.packageName
     val token = ZDMTokenStore.getToken(ZDMConst.DelegationScope.SCOPE_DW_NOTIFICATION_API)
     DWIntentFactory.callDWAPI(
@@ -69,7 +69,7 @@ fun DWAPI.registerNotification(context: Context, notificationType: DWAPI.Notific
     }
 }
 
-fun DWAPI.unregisterNotification(context: Context, notificationType: DWAPI.NotificationType, callback: (Boolean) -> Unit) {
+internal fun DWAPI.unregisterNotification(context: Context, notificationType: DWAPI.NotificationType, callback: (Boolean) -> Unit) {
     val packageName = context.applicationContext.packageName
     val token = ZDMTokenStore.getToken(ZDMConst.DelegationScope.SCOPE_DW_NOTIFICATION_API)
     DWIntentFactory.callDWAPI(

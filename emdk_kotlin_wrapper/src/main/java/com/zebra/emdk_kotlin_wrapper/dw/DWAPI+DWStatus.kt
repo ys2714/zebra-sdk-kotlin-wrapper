@@ -20,7 +20,7 @@ import kotlinx.coroutines.suspendCancellableCoroutine
  * @return `true` if the operation was successful (including cases where DataWedge was already in the desired state), `false` on failure.
  * @throws Exception with a message from [DWAPI.ResultCodes] on failure. Note that `DATAWEDGE_ALREADY_ENABLED` and `DATAWEDGE_ALREADY_DISABLED` are treated as success conditions.
  */
-suspend fun DWAPI.enableDW(context: Context, enabled: Boolean): Boolean = suspendCancellableCoroutine { continuation ->
+internal suspend fun DWAPI.enableDW(context: Context, enabled: Boolean): Boolean = suspendCancellableCoroutine { continuation ->
     DWIntentFactory.callDWAPI(context, DWAPI.ActionExtraKeys.ENABLE_DATAWEDGE, enabled) { result ->
         result.onSuccess {
             continuation.resumeWith(Result.success(true))
@@ -51,7 +51,7 @@ suspend fun DWAPI.enableDW(context: Context, enabled: Boolean): Boolean = suspen
  * EXTRA NAME: "com.symbol.datawedge.api.RESULT_GET_DATAWEDGE_STATUS"
  * EXTRA TYPE: Bundle
  * */
-suspend fun DWAPI.sendGetDWStatusIntent(context: Context): Boolean = suspendCancellableCoroutine { continuation ->
+internal suspend fun DWAPI.sendGetDWStatusIntent(context: Context): Boolean = suspendCancellableCoroutine { continuation ->
     DWIntentFactory.callDWAPI(context, DWAPI.ActionExtraKeys.GET_DATAWEDGE_STATUS, "") { result ->
         result.onSuccess {
             if (it.action == DWAPI.ResultActionNames.RESULT_ACTION.value &&

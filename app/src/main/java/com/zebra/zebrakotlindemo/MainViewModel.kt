@@ -79,9 +79,9 @@ class MainViewModel: ViewModel() {
             return
         }
         // get versions
-        emdkVersion.value = EMDKHelper.shared.emdkVersion
-        mxVersion.value = EMDKHelper.shared.mxVersion
-        dwVersion.value = EMDKHelper.shared.dwVersion
+        emdkVersion.value = EMDKHelper.shared.getEMDKVersion()
+        mxVersion.value = EMDKHelper.shared.getMXVersion()
+        dwVersion.value = EMDKHelper.shared.getDWVersion()
         // get scanner status
         getScannerStatus(context)
         // white list app

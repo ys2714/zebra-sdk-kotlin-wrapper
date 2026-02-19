@@ -11,6 +11,7 @@ object ZDMAuthHelper {
 
     const val COLUMN_QUERY_RESULT: String = "query_result"
 
+    @Keep
     fun acquireToken(context: Context, delegation_scope: ZDMConst.DelegationScope): String? {
         var AUTHORITY_URI: Uri? = Uri.parse("content://com.zebra.devicemanager.zdmcontentprovider")
         var ACQUIRE_TOKEN_URI: Uri? = Uri.withAppendedPath(AUTHORITY_URI, "AcquireToken")

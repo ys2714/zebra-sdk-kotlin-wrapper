@@ -78,6 +78,7 @@ open class DWBarcodeScanner(override val context: Context): DWVirtualScanner(con
             "beam_timer" to "6000"
         )
 
+    @Keep
     fun switchAimType(aimType: AimType): DWBarcodeScanner {
         DataWedgeHelper.switchScannerParams(
             context,
@@ -88,6 +89,7 @@ open class DWBarcodeScanner(override val context: Context): DWVirtualScanner(con
         return this
     }
 
+    @Keep
     fun switchDecoderType(decoderTypes: Array<DecoderType>): DWBarcodeScanner {
         val bundle = Bundle()
         for (type in DecoderType.entries) {

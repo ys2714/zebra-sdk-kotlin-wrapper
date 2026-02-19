@@ -20,14 +20,21 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
-# Tells R8 to not complain about missing classes from this package
-#-dontwarn com.symbol.emdk.**
+# keep all classes of EMDK
 -keep class com.symbol.** { *; }
--keep interface com.symbol.** { *; }
-
--keep class com.zebra.emdk.** { *; }
--keep interface com.zebra.emdk.** { *; }
-
--keepattributes *Annotation*, Signature, InnerClasses, EnclosingMethod
-
--keep class com.zebra.emdk_kotlin_wrapper.** implements com.symbol.** { *; }
+# keep public interface public methods https://techdocs.zebra.com/emdk-for-android/13-0/api/reference/com/symbol/emdk/package-summary
+-keep public interface com.symbol.emdk.EMDKManager$EMDKListener {
+    public <methods>;
+}
+-keep public interface com.symbol.emdk.EMDKManager$StatusListener {
+    public <methods>;
+}
+-keep public interface com.symbol.emdk.ProfileManager$DataListener {
+    public <methods>;
+}
+# keep classes which implemented EMDK interfaces (avoid java.lang.AbstractMethodError)
+-keep class * implements com.symbol.emdk.EMDKManager$EMDKListener
+-keep class * implements com.symbol.emdk.EMDKManager$StatusListener
+-keep class * implements com.symbol.emdk.ProfileManager$DataListener
+# this is for java reflection call inside EMDK working correctly
+-keepattributes Signature

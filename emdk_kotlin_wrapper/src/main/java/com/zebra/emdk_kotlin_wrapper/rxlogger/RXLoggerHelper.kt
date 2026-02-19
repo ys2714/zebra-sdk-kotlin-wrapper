@@ -28,6 +28,7 @@ object RXLoggerHelper {
     /**
      * This initiates data collection for all enabled modules, equivalent to tapping the Start button.
      * */
+    @Keep
     fun startRXLogger(context: Context) {
         context.sendOrderedBroadcast(
             Intent().apply {
@@ -40,6 +41,7 @@ object RXLoggerHelper {
     /**
      * This stops data collection for all modules; the equivalent of tapping the Stop button.
      * */
+    @Keep
     fun stopRXLogger(context: Context) {
         context.sendOrderedBroadcast(
             Intent().apply {
@@ -54,6 +56,7 @@ object RXLoggerHelper {
      * compressing them into a zip file named Backup-<date>-<HHMMSS>.zip,
      * where <date>-<HHMMSS> is time stamp.
      */
+    @Keep
     fun dumpRXLogger(context: Context) {
         context.sendOrderedBroadcast(
             Intent().apply {
@@ -68,6 +71,7 @@ object RXLoggerHelper {
      * - true: RXLogger is running
      * - false: RXLogger is stopped
      * */
+    @Keep
     fun waitingRXLoggerRunningStatusOneShot(context: Context, completion: (Boolean) -> Unit) {
         ContextCompat.registerReceiver(
             context,
@@ -95,6 +99,7 @@ object RXLoggerHelper {
         )
     }
 
+    @Keep
     fun waitingRXLoggerDumpResultOneShot(context: Context, completion: (String, String, String?) -> Unit) {
         ContextCompat.registerReceiver(
             context,

@@ -29,6 +29,7 @@ object ZebraKeyEventMonitor {
     internal var foregroundScope = CoroutineScope(Dispatchers.Main + Job())
     internal var backgroundScope = CoroutineScope(Dispatchers.IO + Job())
 
+    @Keep
     class KeyDownListener(
         val context: Context,
         val keyIdentifier: MXBase.KeyIdentifiers,
@@ -55,6 +56,7 @@ object ZebraKeyEventMonitor {
         }
     }
 
+    @Keep
     fun resetAllKeyDownToDefault(context: Context, delaySeconds: Long = 0, completion: () -> Unit) {
         MXProfileProcessor.remappingAllKeyToDefault(context, delaySeconds) { errorInfo ->
             if (errorInfo == null) {
@@ -65,6 +67,7 @@ object ZebraKeyEventMonitor {
         }
     }
 
+    @Keep
     fun registerKeyDownListener(
         context: Context,
         key: MXBase.KeyIdentifiers,

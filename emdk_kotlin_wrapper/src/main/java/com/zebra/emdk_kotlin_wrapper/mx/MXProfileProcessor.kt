@@ -4,6 +4,7 @@ import android.app.admin.DeviceAdminReceiver
 import android.content.Context
 import android.util.Log
 import android.util.Xml
+import androidx.annotation.Keep
 import com.symbol.emdk.EMDKResults
 import com.symbol.emdk.ProfileManager
 import com.zebra.emdk_kotlin_wrapper.emdk.EMDKHelper
@@ -29,19 +30,22 @@ internal object MXProfileProcessor {
 
     internal val profileManager: ProfileManager
         get() {
-            if (EMDKHelper.shared.profileManager == null) {
+            if (EMDKHelper.shared.core.profileManager == null) {
                 throw RuntimeException("please call EMDKHelper.prepare() before get profileManager")
             }
-            return EMDKHelper.shared.profileManager!!
+            return EMDKHelper.shared.core.profileManager!!
         }
 
     // handling max 20 profiles at the same time, for the 21th profile, the first will be disposed
     private val listeners = FixedSizeQueue<ProfileDataListener>(20)
 
+    @Keep
     class ProfileDataListener(
         val profileName: MXBase.ProfileName,
         val callback: (ProfileDataListener, Result<MXBase.ErrorInfo?>) -> Unit
     ): ProfileManager.DataListener, FixedSizeQueueItem {
+
+        @Keep
         override fun onData(data: ProfileManager.ResultData?) {
             if (data == null) return
             if (data.profileName == profileName.string) {

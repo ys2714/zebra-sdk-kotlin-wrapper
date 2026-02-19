@@ -19,6 +19,7 @@ object PackageUtils {
 
     private val TAG = PackageUtils::class.java.simpleName
 
+    @Keep
     fun getPackageSignatureSHA1(context: Context): String {
         return try {
             val signatures = getSigningCertificates(context)
@@ -43,6 +44,7 @@ object PackageUtils {
      * @param context The context to use for accessing the package manager.
      * @return The Base64-encoded signature as a String, or an empty string if an error occurs.
      */
+    @Keep
     fun getPackageSignature(context: Context): String {
         return try {
             val signatures = getSigningCertificates(context)

@@ -19,7 +19,7 @@ import kotlinx.coroutines.suspendCancellableCoroutine
  * RESULT_ACTION_RESULT_CODE_EMPTY_RULE_NAME - Rule name empty or undefined in ADF_RULE bundle
  * UNLICENSED_FEATURE - An attempt was made to call SetConfig or Switch Scanner Params API to change the scanning mode to MultiBarcode or NextGen SimulScan on an unlicensed Zebra Professional-series device.
  * */
-suspend fun DWAPI.sendSetConfigIntent(context: Context, extra: Bundle): Boolean = suspendCancellableCoroutine { continuation ->
+internal suspend fun DWAPI.sendSetConfigIntent(context: Context, extra: Bundle): Boolean = suspendCancellableCoroutine { continuation ->
     DWIntentFactory.callDWAPI(context, DWAPI.ActionExtraKeys.SET_CONFIG, extra) { result ->
         result.onSuccess {
             continuation.resumeWith(Result.success(true))

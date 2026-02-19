@@ -13,7 +13,7 @@ import android.util.Log
  * PARAMETER_INVALID - FAILURE
  * PROFILE_DISABLED - FAILURE
  */
-fun DWAPI.softScanTrigger(context: Context, option: DWAPI.SoftScanTriggerOptions) {
+internal fun DWAPI.softScanTrigger(context: Context, option: DWAPI.SoftScanTriggerOptions) {
     DWIntentFactory.callDWAPI(context,DWAPI.ActionExtraKeys.SOFT_SCAN_TRIGGER, option.value) { result ->
         result.onSuccess {
             Log.d(TAG, "softScanTrigger success")
@@ -23,7 +23,7 @@ fun DWAPI.softScanTrigger(context: Context, option: DWAPI.SoftScanTriggerOptions
     }
 }
 
-fun DWAPI.sendSetDCPButtonIntent(context: Context, name: String, enabled: Boolean) {
+internal fun DWAPI.sendSetDCPButtonIntent(context: Context, name: String, enabled: Boolean) {
     // DCP
     val dcpParams = Bundle()
     if (enabled) {
@@ -56,6 +56,6 @@ fun DWAPI.sendSetDCPButtonIntent(context: Context, name: String, enabled: Boolea
     context.sendOrderedBroadcast(intent, null)
 }
 
-fun DWAPI.setDCPButton(context: Context, name: String, enabled: Boolean) {
+internal fun DWAPI.setDCPButton(context: Context, name: String, enabled: Boolean) {
     sendSetDCPButtonIntent(context, name, enabled)
 }

@@ -1,7 +1,6 @@
 package com.zebra.emdk_kotlin_wrapper.dw
 import androidx.annotation.Keep
 
-@Keep
 object DWAPI {
 
     const val TAG = "DWAPI"
@@ -331,6 +330,7 @@ object DWAPI {
             get() = value.toString()
     }
 
+    @Keep
     enum class WorkflowInputSourceOptions(val value: Int) {
         IMAGER(1),
         CAMERA(2);
@@ -344,6 +344,7 @@ object DWAPI {
             get() = value.toString()
     }
 
+    @Keep
     enum class OCRDecoderOptions(val value: String) {
         decoder_ocr_a( "decoder_ocr_a"),
         decoder_ocr_b("decoder_ocr_b"),
@@ -361,6 +362,7 @@ object DWAPI {
             get() = value.toString()
     }
 
+    @Keep
     enum class OCRInverseOptions(val value: Int) {
         REGULAR_ONLY(0),
         INVERSE_ONLY(1),
@@ -375,6 +377,7 @@ object DWAPI {
             get() = value.toString()
     }
 
+    @Keep
     enum class OCRAVariantOptions(val value: Int) {
         FULL_ASCII(0),
         RESERVED_1(1),
@@ -390,6 +393,7 @@ object DWAPI {
             get() = value.toString()
     }
 
+    @Keep
     enum class OCRBVariantOptions(val value: Int) {
         FULL_ASCII(0),
         BANKING(1),
@@ -428,16 +432,19 @@ object DWAPI {
             get() = value.toString()
     }
 
+    @Keep
     enum class NotificationConfigurationUpdateStatus(val value: String) {
         PROFILE_IMPORTED("PROFILE_IMPORTED"),
         FULL_DB_IMPORTED("FULL_DB_IMPORTED");
     }
 
+    @Keep
     enum class NotificationProfileSwitchStatus(val value: String) {
         PROFILE_IMPORTED("PROFILE_IMPORTED"),
         FULL_DB_IMPORTED("FULL_DB_IMPORTED");
     }
 
+    @Keep
     enum class NotificationScannerStatus(val value: String) {
         WAITING("WAITING"),
         SCANNING("SCANNING"),
@@ -447,6 +454,7 @@ object DWAPI {
         DISABLED("DISABLED");
     }
 
+    @Keep
     enum class NotificationWorkflowStatus(val value: String) {
         PLUGIN_READY("PLUGIN_READY"),
         DISABLED("DISABLED"),
@@ -457,6 +465,7 @@ object DWAPI {
         CAPTURING_STOPPED("CAPTURING_STOPPED");
     }
 
+    @Keep
     object ScanInputParams {
         const val MODE = "scanning_mode"
         const val MULTI_BARCODE_COUNT = "multi_barcode_count"
@@ -465,6 +474,7 @@ object DWAPI {
         const val ENABLED = "scanner_input_enabled"
     }
 
+    @Keep
     object WorkflowParams {
         const val SELECTED_NAME = "selected_workflow_name"
 
@@ -478,6 +488,7 @@ object DWAPI {
         }
     }
 
+    @Keep
     object OCRParams {
         const val TEMPLATE = "ocr_template"
         const val INVERSE = "inverse_ocr"
@@ -612,11 +623,13 @@ object DWAPI {
         }
     }
 
+    @Keep
     object OCRType {
         const val IMAGER_OCR = ""
         const val CAM_OCR = ""
     }
 
+    @Keep
     object ScanResult {
         const val SOURCE = "com.symbol.datawedge.source"
         const val TYPE = "com.symbol.datawedge.label_type"
@@ -626,6 +639,7 @@ object DWAPI {
         const val DECODE_MODE = "com.symbol.datawedge.decoded_mode"
     }
 
+    @Keep
     object App {
         const val PACKAGE_NAME = "PACKAGE_NAME"
         const val ACTIVITY_LIST = "ACTIVITY_LIST"
@@ -633,6 +647,7 @@ object DWAPI {
     }
 
     //https://techdocs.zebra.com/datawedge/15-0/guide/input/barcode/#hardwaretrigger
+    @Keep
     enum class BarcodeTriggerMode(val value: Int) {
         DISABLED(0),
         ENABLED(1);
@@ -646,6 +661,7 @@ object DWAPI {
             get() = value.toString()
     }
 
+    @Keep
     object Plugin {
         const val NAME = "PLUGIN_NAME"
         const val CONFIG= "PLUGIN_CONFIG"
@@ -730,6 +746,7 @@ object DWAPI {
         }
     }
 
+    @Keep
     object DCPParams {
         const val ENABLED = "dcp_input_enabled"
         const val DOCK = "dcp_dock_button_on"
@@ -753,6 +770,7 @@ object DWAPI {
         }
     }
 
+    @Keep
     object IntentParams {
         const val OUTPUT_ENABLED = "intent_output_enabled"
         const val ACTION = "intent_action"
@@ -774,12 +792,14 @@ object DWAPI {
         }
     }
 
+    @Keep
     object Command {
         const val COMMAND = "COMMAND"
         const val COMMAND_IDENTIFIER = "COMMAND_IDENTIFIER"
         const val COMMAND_ID_CREATE_PROFILE = "COMMAND_ID_CREATE_PROFILE_123"
     }
 
+    @Keep
     object Result {
         const val SEND_RESULT = "SEND_RESULT"
         const val RESULT = "RESULT"
@@ -787,12 +807,14 @@ object DWAPI {
         const val RESULT_CODE = "RESULT_CODE"
     }
 
+    @Keep
     object Profile {
         const val NAME = "PROFILE_NAME"
         const val CONFIG_MODE = "CONFIG_MODE"
         const val ENABLED = "PROFILE_ENABLED"
     }
 
+    @Keep
     object BundleParams {
         const val RESET_CONFIG = "RESET_CONFIG"
         const val PLUGIN_NAME = "PLUGIN_NAME"
@@ -800,17 +822,17 @@ object DWAPI {
         const val OUTPUT_PLUGIN_NAME = "OUTPUT_PLUGIN_NAME"
     }
 
+    @Keep
     object BDFParams {
         const val ENABLED = "bdf_enabled"
         const val SEND_DATA = "bdf_send_data"
     }
 
+    @Keep
     object KeyStrokeParams {
         const val OUTPUT_ENABLED = "keystroke_output_enabled"
         const val ACTION_CHAR = "keystroke_action_char"
         const val DELAY_EXTENDED_ASCII = "keystroke_delay_extended_ascii"
         const val DELAY_CONTROL_CHARS = "keystroke_delay_control_chars"
     }
-
-
 }

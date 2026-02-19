@@ -7,6 +7,7 @@ import androidx.annotation.Keep
 @Keep
 object DeviceInfoUtils {
 
+    @Keep
     fun hasTelephonyFeature(context: Context): Boolean {
         val pm: PackageManager = context.packageManager
         val hasTelephony = pm.hasSystemFeature(PackageManager.FEATURE_TELEPHONY)

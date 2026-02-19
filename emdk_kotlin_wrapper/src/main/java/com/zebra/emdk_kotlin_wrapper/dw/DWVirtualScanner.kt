@@ -21,6 +21,7 @@ abstract class DWVirtualScanner(open val context: Context) {
     private var dataListener: DataWedgeHelper.ScanDataListener? = null
     private var statusListener: DataWedgeHelper.SessionStatusListener? = null
 
+    @Keep
     open suspend fun asyncOpen(): Boolean = suspendCancellableCoroutine { continuation ->
         DataWedgeHelper.configWithJSON(
             context,
@@ -39,6 +40,7 @@ abstract class DWVirtualScanner(open val context: Context) {
         }
     }
 
+    @Keep
     open fun open(completion: ((DWVirtualScanner) -> Unit)? = null): DWVirtualScanner {
         DataWedgeHelper.configWithJSON(
             context,
@@ -58,6 +60,7 @@ abstract class DWVirtualScanner(open val context: Context) {
         return this
     }
 
+    @Keep
     open fun update(params: Map<String, String>, completion: ((DWVirtualScanner) -> Unit)? = null): DWVirtualScanner {
         DataWedgeHelper.configWithJSON(
             context,
@@ -77,6 +80,7 @@ abstract class DWVirtualScanner(open val context: Context) {
         return this
     }
 
+    @Keep
     open fun select(completion: ((DWVirtualScanner) -> Unit)? = null): DWVirtualScanner {
         profileName?.let {
             DataWedgeHelper.switchProfile(context, it) {
@@ -86,26 +90,31 @@ abstract class DWVirtualScanner(open val context: Context) {
         return this
     }
 
+    @Keep
     open fun suspend(): DWVirtualScanner {
         DataWedgeHelper.controlScannerInputPlugin(context, DWAPI.ControlScannerInputPluginCommand.SUSPEND_PLUGIN)
         return this
     }
 
+    @Keep
     open fun resume(): DWVirtualScanner {
         DataWedgeHelper.controlScannerInputPlugin(context, DWAPI.ControlScannerInputPluginCommand.RESUME_PLUGIN)
         return this
     }
 
+    @Keep
     open fun enable(): DWVirtualScanner {
         DataWedgeHelper.controlScannerInputPlugin(context, DWAPI.ControlScannerInputPluginCommand.ENABLE_PLUGIN)
         return this
     }
 
+    @Keep
     open fun disable(): DWVirtualScanner {
         DataWedgeHelper.controlScannerInputPlugin(context, DWAPI.ControlScannerInputPluginCommand.DISABLE_PLUGIN)
         return this
     }
 
+    @Keep
     open fun switchParamenter(key: String, value: String): DWVirtualScanner {
         DataWedgeHelper.switchScannerParams(
             context,
@@ -116,6 +125,7 @@ abstract class DWVirtualScanner(open val context: Context) {
         return this
     }
 
+    @Keep
     open fun startListen(onData: (String) -> Unit) {
         if (dataListener != null) {
             return
@@ -141,6 +151,7 @@ abstract class DWVirtualScanner(open val context: Context) {
         }
     }
 
+    @Keep
     open fun stopListen() {
         if (dataListener != null) {
             DataWedgeHelper.removeScanDataListener(dataListener!!)
@@ -148,6 +159,7 @@ abstract class DWVirtualScanner(open val context: Context) {
         }
     }
 
+    @Keep
     open fun startListenStatus(onValue: (DWAPI.NotificationType, String) -> Unit) {
         if (statusListener != null) {
             return
@@ -175,6 +187,7 @@ abstract class DWVirtualScanner(open val context: Context) {
         }
     }
 
+    @Keep
     open fun stopListenStatus() {
         if (statusListener != null) {
             DataWedgeHelper.removeSessionStatusListener(statusListener!!)
@@ -184,6 +197,7 @@ abstract class DWVirtualScanner(open val context: Context) {
         }
     }
 
+    @Keep
     open fun startScan(): DWVirtualScanner {
         DataWedgeHelper.softScanTrigger(
             context,
@@ -192,6 +206,7 @@ abstract class DWVirtualScanner(open val context: Context) {
         return this
     }
 
+    @Keep
     open fun stopScan(): DWVirtualScanner {
         DataWedgeHelper.softScanTrigger(
             context,
@@ -200,6 +215,7 @@ abstract class DWVirtualScanner(open val context: Context) {
         return this
     }
 
+    @Keep
     open fun close(): DWVirtualScanner {
         profileName?.let {
             dataListener?.onDisposal()

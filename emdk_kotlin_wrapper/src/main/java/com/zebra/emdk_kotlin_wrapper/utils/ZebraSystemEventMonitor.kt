@@ -25,6 +25,7 @@ object ZebraSystemEventMonitor: LifecycleEventObserver {
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
     }
 
+    @Keep
     fun registerScreenOFFListener(context: Context, callback: (Boolean) -> Unit) {
         ContextCompat.registerReceiver(context.applicationContext,
             object : BroadcastReceiver() {
@@ -53,26 +54,32 @@ object ZebraSystemEventMonitor: LifecycleEventObserver {
         )
     }
 
+    @Keep
     fun registerAppCreateCallback(callback: () -> Unit) {
         this.appCreateCallback = callback
     }
 
+    @Keep
     fun registerAppStartCallback(callback: () -> Unit) {
         this.appStartCallback = callback
     }
 
+    @Keep
     fun registerAppPauseCallback(callback: () -> Unit) {
         this.appPauseCallback = callback
     }
 
+    @Keep
     fun registerAppResumeCallback(callback: () -> Unit) {
         this.appResumeCallback = callback
     }
 
+    @Keep
     fun registerAppStopCallback(callback: () -> Unit) {
         this.appStopCallback = callback
     }
 
+    @Keep
     fun registerAppDestroyCallback(callback: () -> Unit) {
         this.appDestroyCallback = callback
     }

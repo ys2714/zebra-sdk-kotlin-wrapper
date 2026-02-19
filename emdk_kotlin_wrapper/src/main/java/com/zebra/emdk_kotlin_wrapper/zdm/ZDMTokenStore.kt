@@ -10,6 +10,7 @@ object ZDMTokenStore {
     private var dwNotificationAccessToken: String = ""
     private var dwConfigAccessToken: String = ""
 
+    @Keep
     fun saveToken(scope: ZDMConst.DelegationScope, accessToken: String?) {
         if (accessToken == null) return
         when (scope) {
@@ -28,6 +29,7 @@ object ZDMTokenStore {
         }
     }
 
+    @Keep
     fun getToken(scope: ZDMConst.DelegationScope) : String {
         when (scope) {
             ZDMConst.DelegationScope.SCOPE_DW_QUERY_API -> {
