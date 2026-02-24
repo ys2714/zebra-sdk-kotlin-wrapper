@@ -16,7 +16,7 @@ internal object XMLParser {
                     when (myParser.name) {
                         "parm-error" -> {
                             return Result.failure(MXBase.ErrorInfo().apply {
-                                errorName = "characteristic-error"
+                                errorName = "parm-error"
                                 errorType = "XMLParser"
                                 errorDescription = myParser.getAttributeValue(null, "desc")
                             })

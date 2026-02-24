@@ -1,10 +1,10 @@
 package com.zebra.emdk_kotlin_wrapper.mx
 
-import android.bluetooth.BluetoothClass
 import android.content.Context
 import com.zebra.emdk_kotlin_wrapper.oeminfo.OEMInfoHelper
-import com.zebra.emdk_kotlin_wrapper.utils.DeviceInfoUtils
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
 
 internal fun MXProfileProcessor.fetchProductModelInBackground(
     context: Context,
@@ -64,5 +64,42 @@ internal fun MXProfileProcessor.fetchOEMInfoInBackground(
                 callback(info)
             }
         }
+    }
+}
+
+internal fun MXProfileProcessor.fetchOSUpdateStatusInBackground(
+    context: Context,
+    callback: (String, String, String) -> Unit) {
+
+    backgroundScope.launch {
+        val status = async { fetchOEMInfo(context, MXConst.OSUPDATE_STATUS_URI) }.await()
+        val detail = async { fetchOEMInfo(context, MXConst.OSUPDATE_DETAIL_URI) }.await()
+        val timestamp = async { fetchOEMInfo(context, MXConst.OSUPDATE_TIMESTAMP_URI) }.await()
+
+        foregroundScope.launch {
+            callback(status, detail, timestamp)
+        }
+    }
+}
+
+internal suspend fun MXProfileProcessor.fetchOEMInfo(
+    context: Context,
+    serviceId: String,
+    delaySeconds: Long = 0): String = suspendCancellableCoroutine { continuation ->
+    var result: Result<String>
+    val info = OEMInfoHelper.getOEMInfo(context, serviceId)
+    if (info == null) {
+        getCallServicePermission(context, serviceId, delaySeconds, { errorInfo ->
+            if (errorInfo != null) {
+                result = Result.failure(RuntimeException(errorInfo.errorDescription))
+            } else {
+                val oemInfo = OEMInfoHelper.getOEMInfo(context, serviceId) ?: ""
+                result = Result.success(oemInfo)
+            }
+            continuation.resumeWith(result)
+        })
+    } else {
+        result = Result.success(info)
+        continuation.resumeWith(result)
     }
 }

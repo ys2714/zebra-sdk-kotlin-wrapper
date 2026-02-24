@@ -23,6 +23,11 @@ class EMDKPowerManagementActivity: ComponentActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.fetchOSUpdateStatus(this)
+    }
+
     @Composable
     fun RootView(context: Context) {
         Column(
@@ -33,11 +38,33 @@ class EMDKPowerManagementActivity: ComponentActivity() {
                 modifier = Modifier
                     .padding()
             )
+            Text("----OS Update Info----",
+                modifier = Modifier
+                    .padding()
+            )
+            Text("OS Update Status: " + viewModel.osUpdateStatus.value)
+            Text("OS Update Detail: " + viewModel.osUpdateDetail.value)
+            Text("OS Update Timestamp: " + viewModel.osUpdateTimestamp.value)
+            RoundButton("Refresh Status") {
+                viewModel.fetchOSUpdateStatus(context)
+            }
             RoundButton("Force Sleep") {
                 viewModel.setSleep(context)
             }
             RoundButton("Force Reboot") {
                 viewModel.setReboot(context)
+            }
+            RoundButton("Verify OS Zip File") {
+                val filePath = "/data/tmp/public/HE_FULL_UPDATE_10-74-20.00-QG-U00-C473-HEL-04.zip"
+                viewModel.checkOSZipFile(context, filePath)
+            }
+            RoundButton("Upgrade OS") {
+                val filePath = "/data/tmp/public/HE_FULL_UPDATE_10-74-20.00-QG-U00-C473-HEL-04.zip"
+                viewModel.upgradeOS(context, filePath)
+            }
+            RoundButton("Downgrade OS") {
+                val filePath = "/data/tmp/public/HE_FULL_UPDATE_10-74-20.00-QG-U00-C472-HEL-04.zip"
+                viewModel.downgradeOS(context, filePath)
             }
         }
     }

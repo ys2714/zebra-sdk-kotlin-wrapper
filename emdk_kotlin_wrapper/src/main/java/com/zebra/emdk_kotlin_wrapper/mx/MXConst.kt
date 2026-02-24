@@ -10,6 +10,10 @@ object MXConst {
     private const val IMEI = "imei"
     private const val BUILD_SERIAL = "build_serial"
 
+    const val OSUPDATE_STATUS_URI = "content://oem_info/oem.zebra.osupdate/status"
+    const val OSUPDATE_DETAIL_URI = "content://oem_info/oem.zebra.osupdate/detail"
+    const val OSUPDATE_TIMESTAMP_URI = "content://oem_info/oem.zebra.osupdate/ts"
+
     const val PRODUCT_MODEL_URI = "content://oem_info/oem.zebra.secure/ro_product_model"
     const val SERIAL_URI = "content://oem_info/oem.zebra.secure/build_serial"
     const val IMEI_URI = "content://oem_info/wan/imei"
@@ -26,6 +30,7 @@ object MXConst {
     const val TouchPanelSensitivity = "TouchPanelSensitivity"
     const val TouchActionAny = "TouchActionAny"
     const val ZipFile = "ZipFile"
+    const val OsupdateVerifyFile = "OsupdateVerifyFile"
     const val ServiceIdentifier = "ServiceIdentifier"
     const val CallerPackageName = "CallerPackageName"
     const val CallerSignature = "CallerSignature"

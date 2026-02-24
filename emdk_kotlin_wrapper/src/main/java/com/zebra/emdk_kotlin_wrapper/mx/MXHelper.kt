@@ -41,6 +41,36 @@ object MXHelper {
     }
 
     @Keep
+    fun upgradeOS(context: Context, zipFilePath: String, delaySeconds: Long = 0) {
+        MXProfileProcessor.callPowerManagerFeature(
+            context,
+            MXBase.PowerManagerOptions.OS_UPGRADE,
+            zipFilePath,
+            delaySeconds = delaySeconds
+        ) {}
+    }
+
+    @Keep
+    fun downgradeOS(context: Context, zipFilePath: String, delaySeconds: Long = 0) {
+        MXProfileProcessor.callPowerManagerFeature(
+            context,
+            MXBase.PowerManagerOptions.OS_DOWNGRADE,
+            zipFilePath,
+            delaySeconds = delaySeconds
+        ) {}
+    }
+
+    @Keep
+    fun checkOSZipFile(context: Context, zipFilePath: String, delaySeconds: Long = 0) {
+        MXProfileProcessor.callPowerManagerFeature(
+            context,
+            MXBase.PowerManagerOptions.OS_UPDATE_VERIFY,
+            zipFilePath,
+            delaySeconds = delaySeconds
+        ) {}
+    }
+
+    @Keep
     fun setSystemClock(context: Context, timeZone: String, date: String, time: String, delaySeconds: Long = 0, callback: (Boolean) -> Unit) {
         MXProfileProcessor.callClockSet(
             context,
@@ -218,6 +248,13 @@ object MXHelper {
     fun fetchVendorTouchMode(context: Context, delaySeconds: Long = 0, callback: (String) -> Unit) {
         MXProfileProcessor.fetchVendorTouchModeInBackground(context, delaySeconds) { result ->
             callback(result)
+        }
+    }
+
+    @Keep
+    fun fetchOSUpdateStatus(context: Context, callback: (String, String, String) -> Unit) {
+        MXProfileProcessor.fetchOSUpdateStatusInBackground(context) { status, detail, timestamp ->
+            callback(status, detail, timestamp)
         }
     }
 

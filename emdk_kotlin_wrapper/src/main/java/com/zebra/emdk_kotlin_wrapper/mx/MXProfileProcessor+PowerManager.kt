@@ -11,7 +11,7 @@ import android.content.Context
 internal fun MXProfileProcessor.callPowerManagerFeature(
     context: Context,
     option: MXBase.PowerManagerOptions,
-    osZipFilePath: String? = null,
+    zipFile: String? = null,
     delaySeconds: Long = 0,
     callback: (MXBase.ErrorInfo?) -> Unit) {
     when (option) {
@@ -25,22 +25,37 @@ internal fun MXProfileProcessor.callPowerManagerFeature(
                 MXBase.ProfileXML.PowerManagerReset,
                 MXBase.ProfileName.PowerManagerReset,
                 mapOf(
-                    MXConst.ResetAction to option.string,
-                    MXConst.ZipFile to MXConst.ignoredValue
+                    MXConst.ResetAction to option.string
                 ),
                 delaySeconds,
                 callback
             )
         }
-        MXBase.PowerManagerOptions.OS_UPDATE -> {
-            val path: String = osZipFilePath?.also { it } ?: run { MXConst.ignoredValue }
+        MXBase.PowerManagerOptions.OS_UPDATE,
+        MXBase.PowerManagerOptions.OS_UPGRADE,
+        MXBase.PowerManagerOptions.OS_DOWNGRADE -> {
+            val filePath = zipFile ?: ""
             processProfileWithCallback(
                 context,
-                MXBase.ProfileXML.PowerManagerReset,
-                MXBase.ProfileName.PowerManagerReset,
+                MXBase.ProfileXML.PowerManagerResetOSUpdate,
+                MXBase.ProfileName.PowerManagerResetOSUpdate,
                 mapOf(
                     MXConst.ResetAction to option.string,
-                    MXConst.ZipFile to path
+                    MXConst.ZipFile to filePath
+                ),
+                delaySeconds,
+                callback
+            )
+        }
+        MXBase.PowerManagerOptions.OS_UPDATE_VERIFY -> {
+            val filePath = zipFile ?: ""
+            processProfileWithCallback(
+                context,
+                MXBase.ProfileXML.PowerManagerResetOSVerify,
+                MXBase.ProfileName.PowerManagerResetOSVerify,
+                mapOf(
+                    MXConst.ResetAction to option.string,
+                    MXConst.OsupdateVerifyFile to filePath
                 ),
                 delaySeconds,
                 callback

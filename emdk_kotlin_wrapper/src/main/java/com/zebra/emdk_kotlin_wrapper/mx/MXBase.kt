@@ -55,6 +55,8 @@ class MXBase {
         AccessManagerAllowCallService("profile_access_manager_allow_call_service.xml"),
         AppManagerInstallAndStart("profile_app_manager_install_and_start.xml"),
         PowerManagerReset("profile_power_manager_reset.xml"),
+        PowerManagerResetOSUpdate("profile_power_manager_reset_os_update.xml"),
+        PowerManagerResetOSVerify("profile_power_manager_reset_os_verify.xml"),
         PowerManagerRecoveryModeAccess("profile_power_manager_recovery_mode_access.xml"),
         ClockSet("profile_clock_set.xml"),
         ClockResetAuto("profile_clock_reset_auto.xml"),
@@ -84,6 +86,8 @@ class MXBase {
         AccessManagerAllowCallService("AccessManagerAllowCallService"),
         AppManagerInstallAndStart("AppManagerInstallAndStart"),
         PowerManagerReset("PowerManagerReset"),
+        PowerManagerResetOSUpdate("PowerManagerResetOSUpdate"),
+        PowerManagerResetOSVerify("PowerManagerResetOSVerify"),
         PowerManagerRecoveryModeAccess("PowerManagerRecoveryModeAccess"),
         ClockSet("ClockSet"),
         ClockResetAuto("ClockResetAuto"),
@@ -129,7 +133,10 @@ class MXBase {
         ENTERPRISE_RESET(5),
         FACTORY_RESET(6),
         FULL_DEVICE_WIPE(7),
-        OS_UPDATE(8);
+        OS_UPDATE(8),
+        OS_UPDATE_VERIFY(9),
+        OS_UPGRADE(10),
+        OS_DOWNGRADE(11);
 
         @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
         override fun toString(): String {
