@@ -25,7 +25,6 @@ class EMDKPowerManagementActivity: ComponentActivity() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.fetchOSUpdateStatus(this)
     }
 
     @Composable
@@ -45,8 +44,8 @@ class EMDKPowerManagementActivity: ComponentActivity() {
             Text("OS Update Status: " + viewModel.osUpdateStatus.value)
             Text("OS Update Detail: " + viewModel.osUpdateDetail.value)
             Text("OS Update Timestamp: " + viewModel.osUpdateTimestamp.value)
-            RoundButton("Refresh Status") {
-                viewModel.fetchOSUpdateStatus(context)
+            RoundButton("Start Refresh Status") {
+                viewModel.startFetchOSUpdateStatus(context)
             }
             RoundButton("Force Sleep") {
                 viewModel.setSleep(context)
@@ -54,17 +53,20 @@ class EMDKPowerManagementActivity: ComponentActivity() {
             RoundButton("Force Reboot") {
                 viewModel.setReboot(context)
             }
-            RoundButton("Verify OS Zip File") {
-                val filePath = "/data/tmp/public/HE_FULL_UPDATE_10-74-20.00-QG-U00-C473-HEL-04.zip"
+            RoundButton("Verify Upgrade OS Zip File") {
+                val filePath = "/data/tmp/public/DeviceManifest.xml"
+                //val filePath = "/data/tmp/public/HE_FULL_UPDATE_10-74-20.00-QG-U00-C473-HEL-04.zip"
                 viewModel.checkOSZipFile(context, filePath)
             }
             RoundButton("Upgrade OS") {
-                val filePath = "/data/tmp/public/HE_FULL_UPDATE_10-74-20.00-QG-U00-C473-HEL-04.zip"
-                viewModel.upgradeOS(context, filePath)
+                val filePath = "/data/tmp/public/AT_FULL_UPDATE_14-35-10.00-UG-U56-STD-ATH-04.zip"
+                //val filePath = "/data/tmp/public/HE_FULL_UPDATE_10-74-20.00-QG-U00-C473-HEL-04.zip"
+                viewModel.upgradeOS(context, filePath, true)
             }
             RoundButton("Downgrade OS") {
-                val filePath = "/data/tmp/public/HE_FULL_UPDATE_10-74-20.00-QG-U00-C472-HEL-04.zip"
-                viewModel.downgradeOS(context, filePath)
+                val filePath = "/data/tmp/public/AT_FULL_UPDATE_14-35-10.00-UG-U00-STD-ATH-04.zip"
+                //val filePath = "/data/tmp/public/HE_FULL_UPDATE_10-74-20.00-QG-U00-C472-HEL-04.zip"
+                viewModel.downgradeOS(context, filePath, true)
             }
         }
     }

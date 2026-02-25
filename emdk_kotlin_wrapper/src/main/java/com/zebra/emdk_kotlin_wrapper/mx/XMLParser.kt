@@ -18,14 +18,18 @@ internal object XMLParser {
                             return Result.failure(MXBase.ErrorInfo().apply {
                                 errorName = "parm-error"
                                 errorType = "XMLParser"
-                                errorDescription = myParser.getAttributeValue(null, "desc")
+                                val name = myParser.getAttributeValue(null, "name")
+                                val value = myParser.getAttributeValue(null, "value")
+                                errorDescription = "name:$name value:$value"
                             })
                         }
                         "characteristic-error" -> {
                             return Result.failure(MXBase.ErrorInfo().apply {
                                 errorName = "characteristic-error"
                                 errorType = "XMLParser"
-                                errorDescription = myParser.getAttributeValue(null, "desc")
+                                val desc = myParser.getAttributeValue(null, "desc")
+                                val type = myParser.getAttributeValue(null, "type")
+                                errorDescription = "type:$type desc:$desc"
                             })
                         }
                     }

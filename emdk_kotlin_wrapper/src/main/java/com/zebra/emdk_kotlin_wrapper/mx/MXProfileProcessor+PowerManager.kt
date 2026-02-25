@@ -6,17 +6,28 @@ import android.content.Context
  * https://techdocs.zebra.com/emdk-for-android/14-0/mx/powermgr/
  *
  * Reset Action
+ *
+ * https://techdocs.zebra.com/mx/conditionmgr/
+ *
+ * It's important to note that PowerMgr actions such as Reboot and Reset, once executed,
+ * prevent the execution of subsequent actions submitted by the Request XML document,
+ * including the submission of a Result XML to the application sending the original Request.
+ * Zebra therefore recommends using Condition Manager in conjunction with PowerMgr to ensure that
+ * appropriate conditions exist on a device before attempting to perform "risky" operations such as OS updates,
+ * the failure of which can render a device unusable, severely limited or otherwise in need of service.
  * */
 @JvmOverloads
 internal fun MXProfileProcessor.callPowerManagerFeature(
     context: Context,
     option: MXBase.PowerManagerOptions,
     zipFile: String? = null,
+    suppressReboot: MXBase.PowerManagerSuppressRebootOptions = MXBase.PowerManagerSuppressRebootOptions.DO_NOTHING,
     delaySeconds: Long = 0,
     callback: (MXBase.ErrorInfo?) -> Unit) {
     when (option) {
         MXBase.PowerManagerOptions.SLEEP_MODE,
         MXBase.PowerManagerOptions.REBOOT,
+        MXBase.PowerManagerOptions.POWER_OFF,
         MXBase.PowerManagerOptions.ENTERPRISE_RESET,
         MXBase.PowerManagerOptions.FACTORY_RESET,
         MXBase.PowerManagerOptions.FULL_DEVICE_WIPE -> {
@@ -25,7 +36,7 @@ internal fun MXProfileProcessor.callPowerManagerFeature(
                 MXBase.ProfileXML.PowerManagerReset,
                 MXBase.ProfileName.PowerManagerReset,
                 mapOf(
-                    MXConst.ResetAction to option.string
+                    MXConst.ResetAction to option.string,
                 ),
                 delaySeconds,
                 callback
@@ -41,11 +52,16 @@ internal fun MXProfileProcessor.callPowerManagerFeature(
                 MXBase.ProfileName.PowerManagerResetOSUpdate,
                 mapOf(
                     MXConst.ResetAction to option.string,
-                    MXConst.ZipFile to filePath
+                    MXConst.ZipFile to filePath,
+                    MXConst.SuppressReboot to suppressReboot.string
                 ),
                 delaySeconds,
                 callback
             )
+        }
+        MXBase.PowerManagerOptions.OS_UPGRADE_STREAMING,
+        MXBase.PowerManagerOptions.OS_DOWNGRADE_STREAMING -> {
+            // TODO
         }
         MXBase.PowerManagerOptions.OS_UPDATE_VERIFY -> {
             val filePath = zipFile ?: ""
@@ -60,6 +76,9 @@ internal fun MXProfileProcessor.callPowerManagerFeature(
                 delaySeconds,
                 callback
             )
+        }
+        MXBase.PowerManagerOptions.OS_CANCEL_ONGOING -> {
+            // TODO
         }
         MXBase.PowerManagerOptions.CREATE_PROFILE,
         MXBase.PowerManagerOptions.DO_NOTHING -> Unit

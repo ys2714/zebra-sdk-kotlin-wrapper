@@ -9,6 +9,7 @@
             <parm name="ResetAction" value="=[ResetAction]"/>
             <characteristic type="file-details">
                 <parm name="ZipFile" value="=[ZipFile]"/>
+                <parm name="SuppressReboot" value="=[SuppressReboot]"/>
             </characteristic>
         </characteristic>
     </characteristic>

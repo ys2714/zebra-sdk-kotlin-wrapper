@@ -31,6 +31,7 @@ object MXConst {
     const val TouchActionAny = "TouchActionAny"
     const val ZipFile = "ZipFile"
     const val OsupdateVerifyFile = "OsupdateVerifyFile"
+    const val SuppressReboot = "SuppressReboot"
     const val ServiceIdentifier = "ServiceIdentifier"
     const val CallerPackageName = "CallerPackageName"
     const val CallerSignature = "CallerSignature"

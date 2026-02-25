@@ -123,6 +123,13 @@ class MXBase {
      * - `FACTORY_RESET` (6): Performs a factory reset.
      * - `FULL_DEVICE_WIPE` (7): Performs a full device wipe.
      * - `OS_UPDATE` (8): Initiates an OS update.
+     * - `OS_UPDATE_VERIFY` (9): Initiates an OS update.
+     * - `OS_UPGRADE` (10): Initiates an OS update.
+     * - `OS_DOWNGRADE` (11): Initiates an OS update.
+     * - `OS_UPGRADE_STREAMING` (12): Initiates an OS update.
+     * - `OS_DOWNGRADE_STREAMING` (13): Initiates an OS update.
+     * - `OS_CANCEL_ONGOING` (14): Initiates an OS update.
+     * - `POWER_OFF` (15): Initiates an OS update.
      */
     @Keep
     enum class PowerManagerOptions(val value: Int) {
@@ -136,7 +143,26 @@ class MXBase {
         OS_UPDATE(8),
         OS_UPDATE_VERIFY(9),
         OS_UPGRADE(10),
-        OS_DOWNGRADE(11);
+        OS_DOWNGRADE(11),
+        OS_UPGRADE_STREAMING(12),
+        OS_DOWNGRADE_STREAMING(13),
+        OS_CANCEL_ONGOING(14),
+        POWER_OFF(15);
+
+        @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
+        override fun toString(): String {
+            throw RuntimeException("Not Implemented")
+        }
+
+        val string: String
+            get() = value.toString()
+    }
+
+    @Keep
+    enum class PowerManagerSuppressRebootOptions(val value: Int) {
+        DO_NOTHING(0),
+        TRUE(1),
+        FALSE(2);
 
         @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
         override fun toString(): String {

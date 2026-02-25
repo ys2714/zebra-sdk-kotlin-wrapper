@@ -41,32 +41,39 @@ object MXHelper {
     }
 
     @Keep
-    fun upgradeOS(context: Context, zipFilePath: String, delaySeconds: Long = 0) {
+    fun upgradeOS(context: Context, zipFilePath: String, suppressReboot: Boolean, delaySeconds: Long = 0) {
+        val suppressReboot = if (suppressReboot) MXBase.PowerManagerSuppressRebootOptions.TRUE
+            else MXBase.PowerManagerSuppressRebootOptions.FALSE
         MXProfileProcessor.callPowerManagerFeature(
             context,
             MXBase.PowerManagerOptions.OS_UPGRADE,
             zipFilePath,
-            delaySeconds = delaySeconds
+            suppressReboot,
+            delaySeconds
         ) {}
     }
 
     @Keep
-    fun downgradeOS(context: Context, zipFilePath: String, delaySeconds: Long = 0) {
+    fun downgradeOS(context: Context, zipFilePath: String, suppressReboot: Boolean, delaySeconds: Long = 0) {
+        val suppressReboot = if (suppressReboot) MXBase.PowerManagerSuppressRebootOptions.TRUE
+        else MXBase.PowerManagerSuppressRebootOptions.FALSE
         MXProfileProcessor.callPowerManagerFeature(
             context,
             MXBase.PowerManagerOptions.OS_DOWNGRADE,
             zipFilePath,
-            delaySeconds = delaySeconds
+            suppressReboot,
+            delaySeconds
         ) {}
     }
 
     @Keep
-    fun checkOSZipFile(context: Context, zipFilePath: String, delaySeconds: Long = 0) {
+    fun checkOSZipFile(context: Context, manifestFilePath: String, delaySeconds: Long = 0) {
         MXProfileProcessor.callPowerManagerFeature(
             context,
             MXBase.PowerManagerOptions.OS_UPDATE_VERIFY,
-            zipFilePath,
-            delaySeconds = delaySeconds
+            manifestFilePath,
+            MXBase.PowerManagerSuppressRebootOptions.DO_NOTHING,
+            delaySeconds
         ) {}
     }
 
