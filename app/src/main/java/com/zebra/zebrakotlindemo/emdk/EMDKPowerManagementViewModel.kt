@@ -21,12 +21,9 @@ class EMDKPowerManagementViewModel: ViewModel() {
                     osUpdateStatus.value = status
                     osUpdateDetail.value = detail
                     osUpdateTimestamp.value = timestamp
-
-                    // recursive
-                    startFetchOSUpdateStatus(context)
                 }
             }
-        }, 0, 1000)
+        }, 0, 10 * 1000) // every 10 sec
     }
 
     fun setSleep(context: Context) {
