@@ -67,6 +67,17 @@ object MXHelper {
     }
 
     @Keep
+    fun cancelOngoingUpdate(context: Context) {
+        MXProfileProcessor.callPowerManagerFeature(
+            context,
+            MXBase.PowerManagerOptions.OS_CANCEL_ONGOING,
+            "",
+            MXBase.PowerManagerSuppressRebootOptions.DO_NOTHING,
+            0
+        ) {}
+    }
+
+    @Keep
     fun checkOSZipFile(context: Context, manifestFilePath: String, delaySeconds: Long = 0, callback: (Boolean) -> Unit) {
         MXProfileProcessor.callPowerManagerFeature(
             context,

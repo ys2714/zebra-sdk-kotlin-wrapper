@@ -76,4 +76,8 @@ class EMDKPowerManagementViewModel: ViewModel() {
             callback(success)
         }
     }
+
+    fun cancelUpdate(context: Context) {
+        MXHelper.cancelOngoingUpdate(context)
+    }
 }

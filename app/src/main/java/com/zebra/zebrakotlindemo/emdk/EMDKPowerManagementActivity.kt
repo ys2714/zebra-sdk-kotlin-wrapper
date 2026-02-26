@@ -98,6 +98,9 @@ class EMDKPowerManagementActivity: ComponentActivity() {
             RoundButton("Downgrade OS") {
                 viewModel.downgradeOS(context, viewModel.downgradeBSPPath.value, true)
             }
+            RoundButton("Cancel Ongoing Update") {
+                viewModel.cancelUpdate(context)
+            }
         }
     }
 }
