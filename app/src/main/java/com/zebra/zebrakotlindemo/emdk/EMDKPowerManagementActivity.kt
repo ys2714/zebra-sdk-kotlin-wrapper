@@ -2,15 +2,19 @@ package com.zebra.zebrakotlindemo.emdk
 
 import android.content.Context
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.unit.dp
 import com.zebra.zebrakotlindemo.ui.components.RoundButton
+import com.zebra.zebrakotlindemo.ui.components.StyledOutlinedTextField
 
 class EMDKPowerManagementActivity: ComponentActivity() {
 
@@ -53,20 +57,46 @@ class EMDKPowerManagementActivity: ComponentActivity() {
             RoundButton("Force Reboot") {
                 viewModel.setReboot(context)
             }
-            RoundButton("Verify Upgrade OS Zip File") {
-                val filePath = "/data/tmp/public/DeviceManifest.xml"
-                //val filePath = "/data/tmp/public/HE_FULL_UPDATE_10-74-20.00-QG-U00-C473-HEL-04.zip"
-                viewModel.checkOSZipFile(context, filePath)
+            Text("Manifest path to verify OS")
+            StyledOutlinedTextField(
+                "Manifest path",
+                viewModel.manifestPath.value,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .onFocusChanged({ focusState -> })
+            ) { newValue ->
+                viewModel.manifestPath.value = newValue
+            }
+            RoundButton("Verify Upgrade OS Manifest File") {
+                viewModel.checkOSZipFile(context, viewModel.manifestPath.value) { success ->
+                    Toast.makeText(context, "verify success ? $success", Toast.LENGTH_SHORT).show()
+                }
+            }
+            Text("BSP path for OS upgrade")
+            StyledOutlinedTextField(
+                "BSP path",
+                viewModel.upgradeBSPPath.value,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .onFocusChanged({ focusState -> })
+            ) { newValue ->
+                viewModel.upgradeBSPPath.value = newValue
             }
             RoundButton("Upgrade OS") {
-                val filePath = "/data/tmp/public/AT_FULL_UPDATE_14-35-10.00-UG-U56-STD-ATH-04.zip"
-                //val filePath = "/data/tmp/public/HE_FULL_UPDATE_10-74-20.00-QG-U00-C473-HEL-04.zip"
-                viewModel.upgradeOS(context, filePath, true)
+                viewModel.upgradeOS(context, viewModel.upgradeBSPPath.value, true)
+            }
+            Text("BSP path for OS downgrade")
+            StyledOutlinedTextField(
+                "BSP path",
+                viewModel.downgradeBSPPath.value,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .onFocusChanged({ focusState -> })
+            ) { newValue ->
+                viewModel.downgradeBSPPath.value = newValue
             }
             RoundButton("Downgrade OS") {
-                val filePath = "/data/tmp/public/AT_FULL_UPDATE_14-35-10.00-UG-U00-STD-ATH-04.zip"
-                //val filePath = "/data/tmp/public/HE_FULL_UPDATE_10-74-20.00-QG-U00-C472-HEL-04.zip"
-                viewModel.downgradeOS(context, filePath, true)
+                viewModel.downgradeOS(context, viewModel.downgradeBSPPath.value, true)
             }
         }
     }

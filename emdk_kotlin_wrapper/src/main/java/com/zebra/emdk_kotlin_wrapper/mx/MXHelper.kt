@@ -67,14 +67,16 @@ object MXHelper {
     }
 
     @Keep
-    fun checkOSZipFile(context: Context, manifestFilePath: String, delaySeconds: Long = 0) {
+    fun checkOSZipFile(context: Context, manifestFilePath: String, delaySeconds: Long = 0, callback: (Boolean) -> Unit) {
         MXProfileProcessor.callPowerManagerFeature(
             context,
             MXBase.PowerManagerOptions.OS_UPDATE_VERIFY,
             manifestFilePath,
             MXBase.PowerManagerSuppressRebootOptions.DO_NOTHING,
             delaySeconds
-        ) {}
+        ) { error ->
+            callback(error == null)
+        }
     }
 
     @Keep
