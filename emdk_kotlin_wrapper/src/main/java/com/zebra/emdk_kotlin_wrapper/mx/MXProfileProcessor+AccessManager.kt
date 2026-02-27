@@ -41,8 +41,9 @@ internal fun MXProfileProcessor.getCallServicePermission(
         serviceId,
         name,
         base64,
-        delaySeconds,
-        callback)
+        delaySeconds) { error ->
+        callback(error)
+    }
 }
 
 internal fun MXProfileProcessor.callAccessManagerAllowCallService(
@@ -62,9 +63,10 @@ internal fun MXProfileProcessor.callAccessManagerAllowCallService(
         MXBase.ProfileXML.AccessManagerAllowCallService,
         MXBase.ProfileName.AccessManagerAllowCallService,
         map,
-        delaySeconds,
-        callback
-    )
+        delaySeconds
+    ) { error ->
+        callback(error)
+    }
 }
 
 internal fun MXProfileProcessor.callAccessManagerAllowPermission(

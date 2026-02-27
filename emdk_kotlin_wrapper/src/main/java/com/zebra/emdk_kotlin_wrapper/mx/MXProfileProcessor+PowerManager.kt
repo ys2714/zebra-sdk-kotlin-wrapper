@@ -28,6 +28,7 @@ internal fun MXProfileProcessor.callPowerManagerFeature(
         MXBase.PowerManagerOptions.SLEEP_MODE,
         MXBase.PowerManagerOptions.REBOOT,
         MXBase.PowerManagerOptions.POWER_OFF,
+        MXBase.PowerManagerOptions.OS_CANCEL_ONGOING,
         MXBase.PowerManagerOptions.ENTERPRISE_RESET,
         MXBase.PowerManagerOptions.FACTORY_RESET,
         MXBase.PowerManagerOptions.FULL_DEVICE_WIPE -> {
@@ -61,7 +62,19 @@ internal fun MXProfileProcessor.callPowerManagerFeature(
         }
         MXBase.PowerManagerOptions.OS_UPGRADE_STREAMING,
         MXBase.PowerManagerOptions.OS_DOWNGRADE_STREAMING -> {
-            // TODO
+            val fileUrl = zipFile ?: ""
+            processProfileWithCallback(
+                context,
+                MXBase.ProfileXML.PowerManagerResetOSStreaming,
+                MXBase.ProfileName.PowerManagerResetOSStreaming,
+                mapOf(
+                    MXConst.ResetAction to option.string,
+                    MXConst.RemoteZipFile to fileUrl,
+                    MXConst.SuppressReboot to suppressReboot.string
+                ),
+                delaySeconds,
+                callback
+            )
         }
         MXBase.PowerManagerOptions.OS_UPDATE_VERIFY -> {
             val filePath = zipFile ?: ""
@@ -76,9 +89,6 @@ internal fun MXProfileProcessor.callPowerManagerFeature(
                 delaySeconds,
                 callback
             )
-        }
-        MXBase.PowerManagerOptions.OS_CANCEL_ONGOING -> {
-            // TODO
         }
         MXBase.PowerManagerOptions.CREATE_PROFILE,
         MXBase.PowerManagerOptions.DO_NOTHING -> Unit

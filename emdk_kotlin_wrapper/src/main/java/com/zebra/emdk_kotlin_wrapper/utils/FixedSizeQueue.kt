@@ -60,8 +60,9 @@ internal class FixedSizeQueue<T: FixedSizeQueueItem>(val size: Int) {
     }
 
     fun remove(item: T) {
-        if (_items.remove(item)) {
+        if (_items.contains(item)) {
             item.onDisposal()
+            _items.remove(item)
         }
     }
 }

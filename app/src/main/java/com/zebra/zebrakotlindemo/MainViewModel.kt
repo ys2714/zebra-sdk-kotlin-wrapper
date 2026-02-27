@@ -88,21 +88,29 @@ class MainViewModel: ViewModel() {
         if (!appAuthenticated.value) {
             authenticateApp(context) { whiteListSuccess ->
                 if (whiteListSuccess) {
-
+                    fetchSerialNumber(context) {
+                        fetchPPID(context) {
+                            fetchIMEI(context) {
+                                emdkPrepared.value = true
+                                setupKeyMapping(context) {}
+                            }
+                        }
+                    }
                 } else {
-
-                }
-            }
-        }
-        fetchSerialNumber(context) {
-            fetchPPID(context) {
-                fetchIMEI(context) {
+                    // show Error ?
                     emdkPrepared.value = true
+                    setupKeyMapping(context) {}
                 }
             }
-        }
-        setupKeyMapping(context) {
-
+        } else {
+            fetchSerialNumber(context) {
+                fetchPPID(context) {
+                    fetchIMEI(context) {
+                        emdkPrepared.value = true
+                        setupKeyMapping(context) {}
+                    }
+                }
+            }
         }
     }
 
@@ -154,6 +162,7 @@ class MainViewModel: ViewModel() {
     }
 
     fun fetchIMEI(context: Context, completion: () -> Unit) {
+        hasTelephonyFeature.value = true
         if (!DeviceInfoUtils.hasTelephonyFeature(context)) {
             hasTelephonyFeature.value = false
             completion()

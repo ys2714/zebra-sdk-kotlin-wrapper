@@ -47,7 +47,10 @@ internal object MXProfileProcessor {
 
         @Keep
         override fun onData(data: ProfileManager.ResultData?) {
-            if (data == null) return
+            if (data == null) {
+                callback(this, Result.failure(RuntimeException("ProfileDataListener - receive null data !")))
+                return
+            }
             if (data.profileName == profileName.string) {
                 when (data.result.statusCode) {
                     EMDKResults.STATUS_CODE.SUCCESS -> {
@@ -84,6 +87,7 @@ internal object MXProfileProcessor {
                 }
             } else {
                 // other profile name, ignore
+                return
             }
         }
 
@@ -127,8 +131,8 @@ internal object MXProfileProcessor {
                                profileContent: Array<String>?) : MXBase.ErrorInfo? = suspendCancellableCoroutine { continuation ->
         val listener = ProfileDataListener(profileName, { listener, result ->
             if (continuation.isActive) {
-                continuation.resumeWith(result)
                 listeners.remove(listener)
+                continuation.resumeWith(result)
             }
         })
         listeners.enqueue(listener)

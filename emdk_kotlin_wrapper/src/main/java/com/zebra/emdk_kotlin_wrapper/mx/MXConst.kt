@@ -30,6 +30,7 @@ object MXConst {
     const val TouchPanelSensitivity = "TouchPanelSensitivity"
     const val TouchActionAny = "TouchActionAny"
     const val ZipFile = "ZipFile"
+    const val RemoteZipFile = "RemoteZipFile"
     const val OsupdateVerifyFile = "OsupdateVerifyFile"
     const val SuppressReboot = "SuppressReboot"
     const val ServiceIdentifier = "ServiceIdentifier"
