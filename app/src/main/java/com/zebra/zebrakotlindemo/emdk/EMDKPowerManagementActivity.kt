@@ -49,7 +49,7 @@ class EMDKPowerManagementActivity: ComponentActivity() {
             Text("OS Update Status: " + viewModel.osUpdateStatus.value)
             Text("OS Update Detail: " + viewModel.osUpdateDetail.value)
             Text("OS Update Timestamp: " + viewModel.osUpdateTimestamp.value)
-            RoundButton("Start Refresh Status") {
+            RoundButton("Start Refresh Status (every 10s)", Color(0xFF00D100)) {
                 viewModel.startFetchOSUpdateStatus(context)
             }
             RoundButton("Force Sleep") {

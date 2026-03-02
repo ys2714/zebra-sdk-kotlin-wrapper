@@ -50,7 +50,7 @@ class EMDKPowerManagementViewModel: ViewModel() {
     }
 
     fun upgradeOS(context: Context, zipFilePath: String, suppressReboot: Boolean) {
-        Toast.makeText(context, "verify package ...", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "verify package ...", Toast.LENGTH_LONG).show()
         checkOSZipFile(context, zipFilePath) { success ->
             if (success) {
                 MXHelper.upgradeOS(context, zipFilePath, suppressReboot)
@@ -63,7 +63,7 @@ class EMDKPowerManagementViewModel: ViewModel() {
     }
 
     fun downgradeOS(context: Context, zipFilePath: String) {
-        Toast.makeText(context, "verify package ...", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "verify package ...", Toast.LENGTH_LONG).show()
         checkOSZipFile(context, zipFilePath) { success ->
             if (success) {
                 MXHelper.downgradeOS(context, zipFilePath)
