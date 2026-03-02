@@ -54,14 +54,13 @@ object MXHelper {
     }
 
     @Keep
-    fun downgradeOS(context: Context, zipFilePath: String, suppressReboot: Boolean, delaySeconds: Long = 0) {
-        val suppressReboot = if (suppressReboot) MXBase.PowerManagerSuppressRebootOptions.TRUE
-        else MXBase.PowerManagerSuppressRebootOptions.FALSE
+    fun downgradeOS(context: Context, zipFilePath: String, delaySeconds: Long = 0) {
         MXProfileProcessor.callPowerManagerFeature(
             context,
             MXBase.PowerManagerOptions.OS_DOWNGRADE,
             zipFilePath,
-            suppressReboot,
+            // SuppressReboot parameter ONLY work on upgrade NOT downgrade.
+            MXBase.PowerManagerSuppressRebootOptions.DO_NOTHING,
             delaySeconds
         ) {}
     }

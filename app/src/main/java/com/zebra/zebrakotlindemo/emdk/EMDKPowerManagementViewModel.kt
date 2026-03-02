@@ -50,21 +50,25 @@ class EMDKPowerManagementViewModel: ViewModel() {
     }
 
     fun upgradeOS(context: Context, zipFilePath: String, suppressReboot: Boolean) {
+        Toast.makeText(context, "verify package ...", Toast.LENGTH_SHORT).show()
         checkOSZipFile(context, zipFilePath) { success ->
             if (success) {
                 MXHelper.upgradeOS(context, zipFilePath, suppressReboot)
                 startFetchOSUpdateStatus(context)
+                Toast.makeText(context, "verify success. starting upgrade", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(context, "verify failed", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    fun downgradeOS(context: Context, zipFilePath: String, suppressReboot: Boolean) {
+    fun downgradeOS(context: Context, zipFilePath: String) {
+        Toast.makeText(context, "verify package ...", Toast.LENGTH_SHORT).show()
         checkOSZipFile(context, zipFilePath) { success ->
             if (success) {
-                MXHelper.downgradeOS(context, zipFilePath, suppressReboot)
+                MXHelper.downgradeOS(context, zipFilePath)
                 startFetchOSUpdateStatus(context)
+                Toast.makeText(context, "verify success. starting downgrade", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(context, "verify failed", Toast.LENGTH_SHORT).show()
             }

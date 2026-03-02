@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.zebra.zebrakotlindemo.ui.components.RoundButton
 import com.zebra.zebrakotlindemo.ui.components.StyledOutlinedTextField
@@ -57,21 +58,21 @@ class EMDKPowerManagementActivity: ComponentActivity() {
             RoundButton("Force Reboot") {
                 viewModel.setReboot(context)
             }
-            Text("Manifest path to verify OS")
-            StyledOutlinedTextField(
-                "Manifest path",
-                viewModel.manifestPath.value,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .onFocusChanged({ focusState -> })
-            ) { newValue ->
-                viewModel.manifestPath.value = newValue
-            }
-            RoundButton("Verify Upgrade OS Manifest File") {
-                viewModel.checkOSZipFile(context, viewModel.manifestPath.value) { success ->
-                    Toast.makeText(context, "verify success ? $success", Toast.LENGTH_SHORT).show()
-                }
-            }
+//            Text("Manifest path to verify OS")
+//            StyledOutlinedTextField(
+//                "Manifest path",
+//                viewModel.manifestPath.value,
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .onFocusChanged({ focusState -> })
+//            ) { newValue ->
+//                viewModel.manifestPath.value = newValue
+//            }
+//            RoundButton("Verify Upgrade OS Manifest File") {
+//                viewModel.checkOSZipFile(context, viewModel.manifestPath.value) { success ->
+//                    Toast.makeText(context, "verify success ? $success", Toast.LENGTH_SHORT).show()
+//                }
+//            }
             Text("BSP path for OS upgrade")
             StyledOutlinedTextField(
                 "BSP path",
@@ -82,7 +83,7 @@ class EMDKPowerManagementActivity: ComponentActivity() {
             ) { newValue ->
                 viewModel.upgradeBSPPath.value = newValue
             }
-            RoundButton("Upgrade OS") {
+            RoundButton("Upgrade OS (SuppressReboot=true)") {
                 viewModel.upgradeOS(context, viewModel.upgradeBSPPath.value, true)
             }
             Text("BSP path for OS downgrade")
@@ -96,9 +97,9 @@ class EMDKPowerManagementActivity: ComponentActivity() {
                 viewModel.downgradeBSPPath.value = newValue
             }
             RoundButton("Downgrade OS") {
-                viewModel.downgradeOS(context, viewModel.downgradeBSPPath.value, true)
+                viewModel.downgradeOS(context, viewModel.downgradeBSPPath.value)
             }
-            RoundButton("Cancel Ongoing Update") {
+            RoundButton("Cancel Ongoing Update", Color(0xFFD10000)) {
                 viewModel.cancelUpdate(context)
             }
         }

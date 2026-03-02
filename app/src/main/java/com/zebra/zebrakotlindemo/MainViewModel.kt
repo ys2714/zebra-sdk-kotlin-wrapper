@@ -86,6 +86,9 @@ class MainViewModel: ViewModel() {
         getScannerStatus(context)
         // white list app
         if (!appAuthenticated.value) {
+            // please call the async methods in order to avoid race condition.
+            // for pure kotlin project. you can use async await.
+            // for compatible with java project. currently I have no better choice but using these nested callbacks.
             authenticateApp(context) { whiteListSuccess ->
                 if (whiteListSuccess) {
                     fetchSerialNumber(context) {
