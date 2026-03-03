@@ -271,7 +271,7 @@ object MXHelper {
     }
 
     @Keep
-    fun fetchOSUpdateStatus(context: Context, callback: (String, String, String) -> Unit) {
+    fun fetchOSUpdateStatus(context: Context, callback: (MXBase.OSUpdateStatus, String, String) -> Unit) {
         MXProfileProcessor.fetchOSUpdateStatusInBackground(context) { status, detail, timestamp ->
             callback(status, detail, timestamp)
         }

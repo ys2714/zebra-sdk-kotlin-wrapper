@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.zebra.emdk_kotlin_wrapper.mx.MXBase
 import com.zebra.emdk_kotlin_wrapper.mx.MXHelper
 import java.util.Timer
 import java.util.TimerTask
@@ -29,13 +30,20 @@ class EMDKPowerManagementViewModel: ViewModel() {
     var upgradeBSPPath: MutableState<String> = mutableStateOf("/sdcard/Download/" + tc27_upgrade)
     var downgradeBSPPath: MutableState<String> = mutableStateOf("/sdcard/Download/" + tc27_downgrade)
 
+    var flagShouldShowRebootConfirmDialog: MutableState<Boolean> = mutableStateOf(false)
+
     fun startFetchOSUpdateStatus(context: Context) {
         Timer().schedule(object : TimerTask() {
             override fun run() {
                 MXHelper.fetchOSUpdateStatus(context) { status, detail, timestamp ->
-                    osUpdateStatus.value = status
+                    osUpdateStatus.value = status.string
                     osUpdateDetail.value = detail
                     osUpdateTimestamp.value = timestamp
+
+                    if (status == MXBase.OSUpdateStatus.WAITING_FOR_REBOOT
+                        && !flagShouldShowRebootConfirmDialog.value) {
+                        flagShouldShowRebootConfirmDialog.value = true
+                    }
                 }
             }
         }, 0, 10 * 1000) // every 10 sec
@@ -84,4 +92,5 @@ class EMDKPowerManagementViewModel: ViewModel() {
     fun cancelUpdate(context: Context) {
         MXHelper.cancelOngoingUpdate(context)
     }
+
 }

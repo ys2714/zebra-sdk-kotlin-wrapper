@@ -438,4 +438,17 @@ class MXBase {
         val string: String
             get() = value.toString()
     }
+
+    @Keep
+    enum class OSUpdateStatus(val value: String) {
+        PASSED("PASSED"),
+        FAILED("FAILED"),
+        CANCELLED("CANCELLED"),
+        IN_PROGRESS("IN_PROGRESS"),
+        IN_SUSPEND("IN_SUSPEND"),
+        WAITING_FOR_REBOOT("WAITING_FOR_REBOOT");
+
+        val string: String
+            get() = value.toString()
+    }
 }

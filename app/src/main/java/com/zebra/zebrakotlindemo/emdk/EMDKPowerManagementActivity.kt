@@ -8,6 +8,8 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -58,21 +60,6 @@ class EMDKPowerManagementActivity: ComponentActivity() {
             RoundButton("Force Reboot") {
                 viewModel.setReboot(context)
             }
-//            Text("Manifest path to verify OS")
-//            StyledOutlinedTextField(
-//                "Manifest path",
-//                viewModel.manifestPath.value,
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .onFocusChanged({ focusState -> })
-//            ) { newValue ->
-//                viewModel.manifestPath.value = newValue
-//            }
-//            RoundButton("Verify Upgrade OS Manifest File") {
-//                viewModel.checkOSZipFile(context, viewModel.manifestPath.value) { success ->
-//                    Toast.makeText(context, "verify success ? $success", Toast.LENGTH_SHORT).show()
-//                }
-//            }
             Text("BSP path for OS upgrade")
             StyledOutlinedTextField(
                 "BSP path",
@@ -101,6 +88,29 @@ class EMDKPowerManagementActivity: ComponentActivity() {
             }
             RoundButton("Cancel Ongoing Update", Color(0xFFD10000)) {
                 viewModel.cancelUpdate(context)
+            }
+            if (viewModel.flagShouldShowRebootConfirmDialog.value) {
+                AlertDialog(
+                    {
+                        viewModel.flagShouldShowRebootConfirmDialog.value = false
+                    }, {
+                        Button({
+                            viewModel.setReboot(context)
+                        }) {
+                            Text("YES")
+                        }
+                    }, dismissButton = {
+                        Button({
+                            viewModel.flagShouldShowRebootConfirmDialog.value = false
+                        }) {
+                            Text("NO")
+                        }
+                    }, title = {
+                        Text("Do you want reboot")
+                    }, text = {
+                        Text("upgrade finished. click YES to reboot")
+                    }
+                )
             }
         }
     }

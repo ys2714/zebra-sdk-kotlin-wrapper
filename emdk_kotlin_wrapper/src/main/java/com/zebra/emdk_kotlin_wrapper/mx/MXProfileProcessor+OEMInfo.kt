@@ -6,6 +6,11 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 
+/**
+ * https://techdocs.zebra.com/oeminfo/consume/
+ *
+ *
+ * */
 internal fun MXProfileProcessor.fetchProductModelInBackground(
     context: Context,
     delaySeconds: Long,
@@ -67,9 +72,16 @@ internal fun MXProfileProcessor.fetchOEMInfoInBackground(
     }
 }
 
+/**
+ * https://techdocs.zebra.com/oeminfo/consume/
+ *
+ * status: PASSED, FAILED, CANCELLED, IN_PROGRESS, IN_SUSPEND, WAITING_FOR_REBOOT
+ * detail: Verbose text describing the status
+ * ts: Returns an epoch timestamp indicating when the intent was received
+ * */
 internal fun MXProfileProcessor.fetchOSUpdateStatusInBackground(
     context: Context,
-    callback: (String, String, String) -> Unit) {
+    callback: (MXBase.OSUpdateStatus, String, String) -> Unit) {
 
     backgroundScope.launch {
         val status = async { fetchOEMInfo(context, MXConst.OSUPDATE_STATUS_URI) }.await()
@@ -77,7 +89,8 @@ internal fun MXProfileProcessor.fetchOSUpdateStatusInBackground(
         val timestamp = async { fetchOEMInfo(context, MXConst.OSUPDATE_TIMESTAMP_URI) }.await()
 
         foregroundScope.launch {
-            callback(status, detail, timestamp)
+            val value = MXBase.OSUpdateStatus.valueOf(status)
+            callback(value, detail, timestamp)
         }
     }
 }
