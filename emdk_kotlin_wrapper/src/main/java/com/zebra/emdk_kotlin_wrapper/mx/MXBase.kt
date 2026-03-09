@@ -3,6 +3,7 @@ package com.zebra.emdk_kotlin_wrapper.mx
 import android.text.TextUtils
 import androidx.annotation.Keep
 
+
 @Keep
 class MXBase {
 
@@ -195,6 +196,39 @@ class MXBase {
 
         val string: String
             get() = value.toString()
+    }
+
+    enum class PersistTouchMode(val value: String) {
+        STYLUS_AND_FINGER("stylus_and_finger"),
+        GLOVE_AND_FINGER("glove_and_finger"),
+        FINGER_ONLY("finger"),
+        STYLUS_GLOVE_AND_FINGER("stylus_and_glove_and_finger");
+
+        fun convert(): TouchPanelSensitivityOptions {
+            when (this) {
+                PersistTouchMode.STYLUS_AND_FINGER -> return TouchPanelSensitivityOptions.STYLUS_AND_FINGER
+                PersistTouchMode.GLOVE_AND_FINGER -> return TouchPanelSensitivityOptions.GLOVE_AND_FINGER
+                PersistTouchMode.FINGER_ONLY -> return TouchPanelSensitivityOptions.FINGER_ONLY
+                PersistTouchMode.STYLUS_GLOVE_AND_FINGER -> return TouchPanelSensitivityOptions.STYLUS_GLOVE_AND_FINGER
+            }
+            throw java.lang.RuntimeException("PersistTouchMode covert failed: " + this.value)
+        }
+
+        companion object {
+            fun fromValue(value: String?): PersistTouchMode {
+                if (PersistTouchMode.STYLUS_AND_FINGER.value == value) {
+                    return PersistTouchMode.STYLUS_AND_FINGER
+                } else if (PersistTouchMode.GLOVE_AND_FINGER.value == value) {
+                    return PersistTouchMode.GLOVE_AND_FINGER
+                } else if (PersistTouchMode.FINGER_ONLY.value == value) {
+                    return PersistTouchMode.FINGER_ONLY
+                } else if (PersistTouchMode.STYLUS_GLOVE_AND_FINGER.value == value) {
+                    return PersistTouchMode.STYLUS_GLOVE_AND_FINGER
+                } else {
+                    throw java.lang.RuntimeException("PersistTouchMode invalid value: " + value)
+                }
+            }
+        }
     }
 
     /**

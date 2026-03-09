@@ -5,7 +5,7 @@ import com.symbol.emdk.ProfileManager
 import com.zebra.emdk_kotlin_wrapper.utils.PackageUtils
 
 /**
- * 
+ * https://techdocs.zebra.com/mx/accessmgr/
  *
  * */
 internal fun MXProfileProcessor.grantZebraBluetoothInsightServiceAccessPermission() {

@@ -66,6 +66,31 @@ object MXHelper {
     }
 
     @Keep
+    fun streamUpgradeOS(context: Context, zipFilePath: String, suppressReboot: Boolean, delaySeconds: Long = 0) {
+        val suppressReboot = if (suppressReboot) MXBase.PowerManagerSuppressRebootOptions.TRUE
+        else MXBase.PowerManagerSuppressRebootOptions.FALSE
+        MXProfileProcessor.callPowerManagerFeature(
+            context,
+            MXBase.PowerManagerOptions.OS_UPGRADE_STREAMING,
+            zipFilePath,
+            suppressReboot,
+            delaySeconds
+        ) {}
+    }
+
+    @Keep
+    fun streamDowngradeOS(context: Context, zipFilePath: String, delaySeconds: Long = 0) {
+        MXProfileProcessor.callPowerManagerFeature(
+            context,
+            MXBase.PowerManagerOptions.OS_DOWNGRADE_STREAMING,
+            zipFilePath,
+            // SuppressReboot parameter ONLY work on upgrade NOT downgrade.
+            MXBase.PowerManagerSuppressRebootOptions.DO_NOTHING,
+            delaySeconds
+        ) {}
+    }
+
+    @Keep
     fun cancelOngoingUpdate(context: Context) {
         MXProfileProcessor.callPowerManagerFeature(
             context,

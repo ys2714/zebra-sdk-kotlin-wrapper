@@ -22,6 +22,9 @@ class EMDKPowerManagementViewModel: ViewModel() {
     val tc201_downgrade = "ER_FULL_UPDATE_15-13-21.00-VG-U00-PRD-ERS-04.zip"
     val tc201_upgrade = "ER_FULL_UPDATE_15-14-10.00-VG-U00-PRD-ERS-04.zip"
 
+    val tc27_upgrade_stream = "https://drive.google.com/uc?export=download&id=1HN8l0y5R9mOVpHJKT-ZXIfmJayBqQYO7"
+    val tc27_downgrade_stream = "https://drive.google.com/uc?export=download&id=1IZ_HUaKdEhXclLf92mmqUdWPCwqbglDa"
+
     var osUpdateStatus: MutableState<String> = mutableStateOf("")
     var osUpdateDetail: MutableState<String> = mutableStateOf("")
     var osUpdateTimestamp: MutableState<String> = mutableStateOf("")
@@ -29,6 +32,9 @@ class EMDKPowerManagementViewModel: ViewModel() {
     var manifestPath: MutableState<String> = mutableStateOf("/sdcard/Download/" + device_manifest)
     var upgradeBSPPath: MutableState<String> = mutableStateOf("/sdcard/Download/" + tc27_upgrade)
     var downgradeBSPPath: MutableState<String> = mutableStateOf("/sdcard/Download/" + tc27_downgrade)
+
+    var upgradeBSPStream: MutableState<String> = mutableStateOf(tc27_upgrade_stream)
+    var downgradeBSPStream: MutableState<String> = mutableStateOf(tc27_downgrade_stream)
 
     var flagShouldShowRebootConfirmDialog: MutableState<Boolean> = mutableStateOf(false)
 
@@ -81,6 +87,14 @@ class EMDKPowerManagementViewModel: ViewModel() {
                 Toast.makeText(context, "verify failed", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    fun streamUpgradeOS(context: Context, zipFilePath: String, suppressReboot: Boolean) {
+        MXHelper.streamUpgradeOS(context, zipFilePath, suppressReboot)
+    }
+
+    fun streamDowngradeOS(context: Context, zipFilePath: String) {
+        MXHelper.streamDowngradeOS(context, zipFilePath)
     }
 
     fun checkOSZipFile(context: Context, zipFilePath: String, callback: (Boolean) -> Unit) {

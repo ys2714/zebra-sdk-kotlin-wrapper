@@ -15,6 +15,7 @@ appcompat = "1.7.1"
 material = "1.13.0"
 materialIconsExtended = "1.7.8"
 lifecycleProcess = "2.10.0"
+foundation = "1.10.3"
 
 [libraries]
 androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "annotation" }
@@ -38,6 +39,7 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-lifecycle-process = { group = "androidx.lifecycle", name = "lifecycle-process", version.ref = "lifecycleProcess" }
+androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "foundation" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
