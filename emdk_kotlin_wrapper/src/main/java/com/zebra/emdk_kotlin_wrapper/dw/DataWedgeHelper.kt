@@ -326,9 +326,16 @@ object DataWedgeHelper {
                     callback?.invoke(true)
                 }
             }.onFailure {
-                delay(DWAPI.MILLISECONDS_DELAY_BETWEEN_API_CALLS)
-                foregroundScope.launch {
-                    callback?.invoke(false)
+                if (it.message == "APP_ALREADY_ASSOCIATED") {
+                    delay(DWAPI.MILLISECONDS_DELAY_BETWEEN_API_CALLS)
+                    foregroundScope.launch {
+                        callback?.invoke(true)
+                    }
+                } else {
+                    delay(DWAPI.MILLISECONDS_DELAY_BETWEEN_API_CALLS)
+                    foregroundScope.launch {
+                        callback?.invoke(false)
+                    }
                 }
             }
         }

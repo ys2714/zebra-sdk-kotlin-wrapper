@@ -10,6 +10,7 @@ internal object DWProfileProcessor {
     final const val TAG = "DWProfileProcessor"
 
     fun bundleForBindProfile(context: Context, profileName: String, packageName: String): Bundle {
+        /*
         val jsonString = AssetsReader.readFileToStringWithParams(
             context,
             DWConst.BindProfileJSON,
@@ -20,6 +21,18 @@ internal object DWProfileProcessor {
             )
         )
         val bundle = JsonUtils.jsonToBundle(jsonString)
-        return bundle
+        */
+
+        return Bundle().apply {
+            putString("PROFILE_NAME", profileName)
+            putString("PROFILE_ENABLED", "true")
+            putString("CONFIG_MODE", "CREATE_IF_NOT_EXIST")
+            putParcelableArray("APP_LIST", arrayOf(
+                Bundle().apply {
+                    putString("PACKAGE_NAME", packageName)
+                    putStringArray("ACTIVITY_LIST", arrayOf("*"))
+                }
+            ))
+        }
     }
 }
