@@ -1,10 +1,12 @@
 package com.zebra.emdk_kotlin_wrapper.dw
 import androidx.annotation.Keep
 
+@Keep
 object DWAPI {
 
     const val TAG = "DWAPI"
 
+    @Keep
     const val MILLISECONDS_DELAY_BETWEEN_API_CALLS: Long = 200
 
     @Keep
