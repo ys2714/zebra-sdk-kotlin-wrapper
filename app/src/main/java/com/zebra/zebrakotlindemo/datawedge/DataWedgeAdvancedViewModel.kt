@@ -37,6 +37,9 @@ class DataWedgeAdvancedViewModel : ViewModel() {
             else if (sessionStatus.value == "WORKFLOW_STATUS DISABLED") {
                 return false
             }
+            else if (sessionStatus.value == "SCANNER_STATUS DISABLED") {
+                return false
+            }
             else {
                 return true
             }

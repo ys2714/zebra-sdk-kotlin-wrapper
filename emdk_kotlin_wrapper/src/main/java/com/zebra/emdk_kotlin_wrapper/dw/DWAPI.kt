@@ -423,13 +423,12 @@ object DWAPI {
         SCANNER_STATUS("SCANNER_STATUS"),
         WORKFLOW_STATUS("WORKFLOW_STATUS");
 
-        @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
         override fun toString(): String {
-            throw RuntimeException("Not Implemented")
+            return value
         }
 
         val string: String
-            get() = value.toString()
+            get() = value
     }
 
     @Keep

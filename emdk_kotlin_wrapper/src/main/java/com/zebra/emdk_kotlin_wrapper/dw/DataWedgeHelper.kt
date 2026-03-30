@@ -609,8 +609,7 @@ object DataWedgeHelper {
             }
             val bundle = intent.getBundleExtra("com.symbol.datawedge.api.NOTIFICATION") ?: return
             val typeString = bundle.getString("NOTIFICATION_TYPE") ?: return
-            val type = DWAPI.NotificationType.valueOf(typeString)
-            when (type) {
+            when (val type: DWAPI.NotificationType = DWAPI.NotificationType.valueOf(typeString)) {
                 DWAPI.NotificationType.CONFIGURATION_UPDATE -> {
                     notifyStatusListeners(type, "", "")
                 }
