@@ -154,7 +154,7 @@ object DWAPI {
     @Keep
     enum class ScannerStatus(val value: String) {
         UNKNOWN("UNKNOWN"),
-        IDLE("IDLE"),
+        IDLE("IDLE"), // Scanner is idle
         WAITING("WAITING"), // Scanner is ready to be triggered
         SCANNING("SCANNING"), // Scanner is emitting a scanner beam
         DISABLED("DISABLED"), // Scanner is disabled
