@@ -76,6 +76,18 @@ class EMDKTouchPanelViewModel: ViewModel() {
         }
     }
 
+    fun setTouchPanelToAllPurpose(context: Context) {
+        MXHelper.setTouchPanelSensitivity(context, MXBase.TouchPanelSensitivityOptions.ALL_PURPOSE) {
+            appTouchMode.value = MXBase.TouchPanelSensitivityOptions.ALL_PURPOSE.xmlValue
+        }
+    }
+
+    fun setTouchPanelToReducedSensitivityRain(context: Context) {
+        MXHelper.setTouchPanelSensitivity(context, MXBase.TouchPanelSensitivityOptions.REDUCED_SENSITIVITY_RAIN) {
+            appTouchMode.value = MXBase.TouchPanelSensitivityOptions.REDUCED_SENSITIVITY_RAIN.xmlValue
+        }
+    }
+
     fun setTouchPanelToFingerOnly(context: Context) {
         MXHelper.setTouchPanelSensitivity(context, MXBase.TouchPanelSensitivityOptions.FINGER_ONLY) {
             appTouchMode.value = MXBase.TouchPanelSensitivityOptions.FINGER_ONLY.xmlValue

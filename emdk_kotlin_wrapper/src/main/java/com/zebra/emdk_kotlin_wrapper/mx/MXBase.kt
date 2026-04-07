@@ -270,7 +270,7 @@ class MXBase {
 
         ALL_PURPOSE(5, "All Purpose"),
 
-        REDUCED_SENSITIVITY_RAIN(6, "Reduced Sensitivity Rain");
+        REDUCED_SENSITIVITY_RAIN(6, "Reduced Sensitivity (Rain)");
 
         @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
         override fun toString(): String {

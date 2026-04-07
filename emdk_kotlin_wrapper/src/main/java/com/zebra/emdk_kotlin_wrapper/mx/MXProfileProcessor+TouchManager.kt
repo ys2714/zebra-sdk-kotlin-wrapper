@@ -14,6 +14,8 @@ import android.content.Context
  * Glove and Finger
  * Stylus and Finger
  * Stylus and Glove and Finger
+ * [TC201] All Purpose
+ * [TC201] Reduced Sensitivity (Rain)
  * */
 @JvmOverloads
 internal fun MXProfileProcessor.configTouchPanelSensitivity(

@@ -65,11 +65,11 @@ class EMDKTouchPanelActivity: ComponentActivity() {
                     }
                 }
                 EMDKTouchPanelViewModel.ProductModels.TC201 -> {
-                    RoundButton("Finger Only") {
-                        viewModel.setTouchPanelToFingerOnly(context)
+                    RoundButton("All Purpose") {
+                        viewModel.setTouchPanelToAllPurpose(context)
                     }
-                    RoundButton("Glove and Finger") {
-                        viewModel.setTouchPanelToGloveAndFinger(context)
+                    RoundButton("Reduced Sensitivity (Rain)") {
+                        viewModel.setTouchPanelToReducedSensitivityRain(context)
                     }
                 }
                 EMDKTouchPanelViewModel.ProductModels.TC52 -> {
