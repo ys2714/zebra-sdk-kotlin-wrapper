@@ -43,10 +43,10 @@ class EMDKTouchPanelViewModel: ViewModel() {
         }
     }
 
-    //persist.sys.touch_mode
+    //persist.sys.touch_mode (for android 11 and above)
     //adb shell getprop persist.sys.touch_mode
     //
-    //persist.vendor.sys.touch_mode
+    //persist.vendor.sys.touch_mode (for android 10 and below)
     //adb shell getprop persist.vendor.sys.touch_mode
     //
     fun fetchTouchMode(context: Context) {
