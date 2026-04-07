@@ -202,7 +202,11 @@ class MXBase {
         STYLUS_AND_FINGER("stylus_and_finger"),
         GLOVE_AND_FINGER("glove_and_finger"),
         FINGER_ONLY("finger"),
-        STYLUS_GLOVE_AND_FINGER("stylus_and_glove_and_finger");
+        STYLUS_GLOVE_AND_FINGER("stylus_and_glove_and_finger"),
+
+        ALL_PURPOSE("all_purpose"), // for TC201
+
+        REDUCED_SENSITIVITY_RAIN("reduced_sensitivity_rain"); // for TC201
 
         fun convert(): TouchPanelSensitivityOptions {
             when (this) {
@@ -210,6 +214,8 @@ class MXBase {
                 PersistTouchMode.GLOVE_AND_FINGER -> return TouchPanelSensitivityOptions.GLOVE_AND_FINGER
                 PersistTouchMode.FINGER_ONLY -> return TouchPanelSensitivityOptions.FINGER_ONLY
                 PersistTouchMode.STYLUS_GLOVE_AND_FINGER -> return TouchPanelSensitivityOptions.STYLUS_GLOVE_AND_FINGER
+                PersistTouchMode.ALL_PURPOSE -> return TouchPanelSensitivityOptions.ALL_PURPOSE
+                PersistTouchMode.REDUCED_SENSITIVITY_RAIN -> return TouchPanelSensitivityOptions.REDUCED_SENSITIVITY_RAIN
             }
             throw java.lang.RuntimeException("PersistTouchMode covert failed: " + this.value)
         }
@@ -224,6 +230,10 @@ class MXBase {
                     return PersistTouchMode.FINGER_ONLY
                 } else if (PersistTouchMode.STYLUS_GLOVE_AND_FINGER.value == value) {
                     return PersistTouchMode.STYLUS_GLOVE_AND_FINGER
+                } else if (PersistTouchMode.ALL_PURPOSE.value == value) {
+                    return PersistTouchMode.ALL_PURPOSE
+                } else if (PersistTouchMode.REDUCED_SENSITIVITY_RAIN.value == value) {
+                    return PersistTouchMode.REDUCED_SENSITIVITY_RAIN
                 } else {
                     throw java.lang.RuntimeException("PersistTouchMode invalid value: " + value)
                 }
@@ -256,7 +266,11 @@ class MXBase {
         STYLUS_AND_FINGER(1, "Stylus and Finger"),
         GLOVE_AND_FINGER(2, "Glove and Finger"),
         FINGER_ONLY(3, "Finger"),
-        STYLUS_GLOVE_AND_FINGER(4, "Stylus and Glove and Finger");
+        STYLUS_GLOVE_AND_FINGER(4, "Stylus and Glove and Finger"),
+
+        ALL_PURPOSE(5, "All Purpose"),
+
+        REDUCED_SENSITIVITY_RAIN(6, "Reduced Sensitivity Rain");
 
         @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
         override fun toString(): String {
