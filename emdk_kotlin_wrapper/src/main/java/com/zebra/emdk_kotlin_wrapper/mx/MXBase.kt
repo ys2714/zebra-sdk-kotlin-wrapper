@@ -49,6 +49,89 @@ class MXBase {
         }
     }
 
+    /**
+     * https://techdocs.zebra.com/mx/powermgr/#authorization-type
+     *
+     * AuthorizationType:
+     *
+     * 0.No Authorization	Selects no authorization for Upgrade/Downgrade Streaming server connection.
+     * 1.Zebra Authentication Token	Selects Zebra Authentication Token for Upgrade/Downgrade Streaming server connection.
+     * 2.Basic Authentication	Selects Basic Authentication for Upgrade/Downgrade Streaming server connection.
+     * 3.Custom Authorization Header	Selects Custom Authentication Header for Upgrade/Downgrade Streaming server connection. Requires a value to be entered in the CustomAuthorizationHeader parameter.
+     *
+     * TokenKey1:
+     * 1.ZebraAuthToken
+     * 2.UserName
+     * 3.CustomAuthorizationHeader
+     *
+     * TokenKey2:
+     * 2.Password
+     *
+     * */
+    @Keep
+    data class AuthInfo(
+        val authorizationType: AuthInfo.Type,
+        val zebraAuthToken: String,
+        val username: String,
+        val password: String,
+        val customAuthorizationHeader: String
+    ) {
+        enum class Type(value: Int) {
+            NoAuth(0),
+            ZebraAuth(1),
+            BasicAuth(2),
+            CustomHeader(3);
+        }
+
+        @Keep
+        companion object {
+
+            @Keep
+            fun createWithNoAuthType(): AuthInfo {
+                return AuthInfo(
+                    authorizationType = Type.NoAuth,
+                    zebraAuthToken = MXConst.ignoredValue,
+                    username = MXConst.ignoredValue,
+                    password = MXConst.ignoredValue,
+                    customAuthorizationHeader = MXConst.ignoredValue
+                )
+            }
+
+            @Keep
+            fun createWithZebraAuth(tokenValue: String): AuthInfo {
+                return AuthInfo(
+                    authorizationType = Type.ZebraAuth,
+                    zebraAuthToken = tokenValue,
+                    username = MXConst.ignoredValue,
+                    password = MXConst.ignoredValue,
+                    customAuthorizationHeader = MXConst.ignoredValue
+                )
+            }
+
+            @Keep
+            fun createWithBasicAuth(username: String, password: String): AuthInfo {
+                return AuthInfo(
+                    authorizationType = Type.BasicAuth,
+                    zebraAuthToken = MXConst.ignoredValue,
+                    username = username,
+                    password = password,
+                    customAuthorizationHeader = MXConst.ignoredValue
+                )
+            }
+
+            @Keep
+            fun createWithCustomHeader(token: String): AuthInfo {
+                return AuthInfo(
+                    authorizationType = Type.CustomHeader,
+                    zebraAuthToken = MXConst.ignoredValue,
+                    username = MXConst.ignoredValue,
+                    password = MXConst.ignoredValue,
+                    customAuthorizationHeader = "Bearer " + token
+                )
+            }
+        }
+    }
+
     @Keep
     enum class ProfileXML(val value: String) {
         None("None"),

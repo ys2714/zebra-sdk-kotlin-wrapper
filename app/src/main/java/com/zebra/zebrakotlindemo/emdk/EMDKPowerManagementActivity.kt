@@ -158,7 +158,11 @@ class EMDKPowerManagementActivity: ComponentActivity() {
                     viewModel.upgradeBSPStream.value = newValue
                 }
                 RoundButton("Stream Upgrade OS") {
-                    viewModel.streamUpgradeOS(context, viewModel.upgradeBSPStream.value, true)
+                    viewModel.streamUpgradeOS(
+                        context,
+                        "",
+                        ""
+                    )
                 }
             }
             item {
@@ -173,7 +177,11 @@ class EMDKPowerManagementActivity: ComponentActivity() {
                     viewModel.downgradeBSPStream.value = newValue
                 }
                 RoundButton("Stream Downgrade OS") {
-                    viewModel.streamDowngradeOS(context, viewModel.downgradeBSPStream.value)
+                    viewModel.streamDowngradeOS(
+                        context,
+                        "",
+                        ""
+                    )
                 }
             }
             item {

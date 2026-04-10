@@ -48,6 +48,7 @@ object MXHelper {
             context,
             MXBase.PowerManagerOptions.OS_UPGRADE,
             zipFilePath,
+            null,
             suppressReboot,
             delaySeconds
         ) {}
@@ -59,6 +60,7 @@ object MXHelper {
             context,
             MXBase.PowerManagerOptions.OS_DOWNGRADE,
             zipFilePath,
+            null,
             // SuppressReboot parameter ONLY work on upgrade NOT downgrade.
             MXBase.PowerManagerSuppressRebootOptions.DO_NOTHING,
             delaySeconds
@@ -66,24 +68,26 @@ object MXHelper {
     }
 
     @Keep
-    fun streamUpgradeOS(context: Context, zipFilePath: String, suppressReboot: Boolean, delaySeconds: Long = 0) {
+    fun streamUpgradeOS(context: Context, zipFileUrl: String, authInfo: MXBase.AuthInfo, suppressReboot: Boolean, delaySeconds: Long = 0) {
         val suppressReboot = if (suppressReboot) MXBase.PowerManagerSuppressRebootOptions.TRUE
         else MXBase.PowerManagerSuppressRebootOptions.FALSE
         MXProfileProcessor.callPowerManagerFeature(
             context,
             MXBase.PowerManagerOptions.OS_UPGRADE_STREAMING,
-            zipFilePath,
+            zipFileUrl,
+            authInfo,
             suppressReboot,
             delaySeconds
         ) {}
     }
 
     @Keep
-    fun streamDowngradeOS(context: Context, zipFilePath: String, delaySeconds: Long = 0) {
+    fun streamDowngradeOS(context: Context, zipFileUrl: String, authInfo: MXBase.AuthInfo, delaySeconds: Long = 0) {
         MXProfileProcessor.callPowerManagerFeature(
             context,
             MXBase.PowerManagerOptions.OS_DOWNGRADE_STREAMING,
-            zipFilePath,
+            zipFileUrl,
+            authInfo,
             // SuppressReboot parameter ONLY work on upgrade NOT downgrade.
             MXBase.PowerManagerSuppressRebootOptions.DO_NOTHING,
             delaySeconds
@@ -96,6 +100,7 @@ object MXHelper {
             context,
             MXBase.PowerManagerOptions.OS_CANCEL_ONGOING,
             "",
+            null,
             MXBase.PowerManagerSuppressRebootOptions.DO_NOTHING,
             0
         ) {}
@@ -107,6 +112,7 @@ object MXHelper {
             context,
             MXBase.PowerManagerOptions.OS_UPDATE_VERIFY,
             manifestFilePath,
+            null,
             MXBase.PowerManagerSuppressRebootOptions.DO_NOTHING,
             delaySeconds
         ) { error ->

@@ -1,6 +1,7 @@
 package com.zebra.emdk_kotlin_wrapper.mx
 
 import android.content.Context
+import com.zebra.emdk_kotlin_wrapper.mx.MXBase.AuthInfo.Type
 
 /**
  * https://techdocs.zebra.com/emdk-for-android/14-0/mx/powermgr/
@@ -21,6 +22,7 @@ internal fun MXProfileProcessor.callPowerManagerFeature(
     context: Context,
     option: MXBase.PowerManagerOptions,
     zipFile: String? = null,
+    authInfo: MXBase.AuthInfo? = null,
     suppressReboot: MXBase.PowerManagerSuppressRebootOptions = MXBase.PowerManagerSuppressRebootOptions.DO_NOTHING,
     delaySeconds: Long = 0,
     callback: (MXBase.ErrorInfo?) -> Unit) {
@@ -63,18 +65,83 @@ internal fun MXProfileProcessor.callPowerManagerFeature(
         MXBase.PowerManagerOptions.OS_UPGRADE_STREAMING,
         MXBase.PowerManagerOptions.OS_DOWNGRADE_STREAMING -> {
             val fileUrl = zipFile ?: ""
-            processProfileWithCallback(
-                context,
-                MXBase.ProfileXML.PowerManagerResetOSStreaming,
-                MXBase.ProfileName.PowerManagerResetOSStreaming,
-                mapOf(
-                    MXConst.ResetAction to option.string,
-                    MXConst.RemoteZipFile to fileUrl,
-                    MXConst.SuppressReboot to suppressReboot.string
-                ),
-                delaySeconds,
-                callback
-            )
+            if (authInfo != null) {
+                when(authInfo.authorizationType) {
+                    Type.NoAuth -> {
+                        processProfileWithCallback(
+                            context,
+                            MXBase.ProfileXML.PowerManagerResetOSStreaming,
+                            MXBase.ProfileName.PowerManagerResetOSStreaming,
+                            mapOf(
+                                MXConst.ResetAction to option.string,
+                                MXConst.RemoteZipFile to fileUrl,
+                                MXConst.SuppressReboot to suppressReboot.string
+                            ),
+                            delaySeconds,
+                            callback
+                        )
+                    }
+                    Type.ZebraAuth -> {
+                        processProfileWithCallback(
+                            context,
+                            MXBase.ProfileXML.PowerManagerResetOSStreaming,
+                            MXBase.ProfileName.PowerManagerResetOSStreaming,
+                            mapOf(
+                                MXConst.ResetAction to option.string,
+                                MXConst.RemoteZipFile to fileUrl,
+                                MXConst.AuthorizationType to Type.ZebraAuth.ordinal.toString(),
+                                MXConst.ZebraAuthToken to authInfo.zebraAuthToken
+                            ),
+                            delaySeconds,
+                            callback
+                        )
+                    }
+                    Type.BasicAuth -> {
+                        processProfileWithCallback(
+                            context,
+                            MXBase.ProfileXML.PowerManagerResetOSStreaming,
+                            MXBase.ProfileName.PowerManagerResetOSStreaming,
+                            mapOf(
+                                MXConst.ResetAction to option.string,
+                                MXConst.RemoteZipFile to fileUrl,
+                                MXConst.AuthorizationType to Type.BasicAuth.ordinal.toString(),
+                                MXConst.UserName to authInfo.username,
+                                MXConst.Password to authInfo.password
+                            ),
+                            delaySeconds,
+                            callback
+                        )
+                    }
+                    Type.CustomHeader -> {
+                        processProfileWithCallback(
+                            context,
+                            MXBase.ProfileXML.PowerManagerResetOSStreaming,
+                            MXBase.ProfileName.PowerManagerResetOSStreaming,
+                            mapOf(
+                                MXConst.ResetAction to option.string,
+                                MXConst.RemoteZipFile to fileUrl,
+                                MXConst.AuthorizationType to Type.CustomHeader.ordinal.toString(),
+                                MXConst.CustomAuthorizationHeader to authInfo.customAuthorizationHeader
+                            ),
+                            delaySeconds,
+                            callback
+                        )
+                    }
+                }
+            } else {
+                processProfileWithCallback(
+                    context,
+                    MXBase.ProfileXML.PowerManagerResetOSStreaming,
+                    MXBase.ProfileName.PowerManagerResetOSStreaming,
+                    mapOf(
+                        MXConst.ResetAction to option.string,
+                        MXConst.RemoteZipFile to fileUrl,
+                        MXConst.SuppressReboot to suppressReboot.string
+                    ),
+                    delaySeconds,
+                    callback
+                )
+            }
         }
         MXBase.PowerManagerOptions.OS_UPDATE_VERIFY -> {
             val filePath = zipFile ?: ""

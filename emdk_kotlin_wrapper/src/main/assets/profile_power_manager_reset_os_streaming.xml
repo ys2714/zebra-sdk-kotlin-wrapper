@@ -9,6 +9,13 @@
             <parm name="ResetAction" value="=[ResetAction]"/>
             <characteristic type="file-details">
                 <parm name="RemoteZipFile" value="=[RemoteZipFile]"/>
+                <parm name="AuthorizationType" value="=[AuthorizationType]"/>
+                <characteristic type="authorization-details">
+                    <parm name="ZebraAuthToken" value="=[ZebraAuthToken]"/>
+                    <parm name="UserName" value="=[UserName]"/>
+                    <parm name="Password" value="=[Password]"/>
+                    <parm name="CustomAuthorizationHeader" value="=[CustomAuthorizationHeader]"/>
+                </characteristic>
             </characteristic>
             <parm name="SuppressReboot" value="=[SuppressReboot]"/>
         </characteristic>

@@ -32,6 +32,12 @@ object MXConst {
     const val ZipFile = "ZipFile"
     const val RemoteZipFile = "RemoteZipFile"
     const val OsupdateVerifyFile = "OsupdateVerifyFile"
+
+    const val AuthorizationType = "AuthorizationType"
+    const val ZebraAuthToken = "ZebraAuthToken"
+    const val UserName = "UserName"
+    const val Password = "Password"
+    const val CustomAuthorizationHeader = "CustomAuthorizationHeader"
     const val SuppressReboot = "SuppressReboot"
     const val ServiceIdentifier = "ServiceIdentifier"
     const val CallerPackageName = "CallerPackageName"
