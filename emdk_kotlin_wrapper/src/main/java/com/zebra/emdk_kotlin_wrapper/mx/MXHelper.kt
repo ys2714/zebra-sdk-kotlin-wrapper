@@ -342,4 +342,11 @@ object MXHelper {
             }
         }
     }
+
+    @Keep
+    fun setBatteryCriticalLowThreshold(context: Context, threshold: Int, callback: (Boolean) -> Unit) {
+        MXProfileProcessor.setBatteryCriticalLowThreshold(context, threshold) { error ->
+            callback(error == null)
+        }
+    }
 }

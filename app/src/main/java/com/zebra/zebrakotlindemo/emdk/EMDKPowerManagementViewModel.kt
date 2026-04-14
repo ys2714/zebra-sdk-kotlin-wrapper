@@ -5,17 +5,8 @@ import android.widget.Toast
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.zebra.emdk_kotlin_wrapper.mx.MXBase
 import com.zebra.emdk_kotlin_wrapper.mx.MXHelper
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okio.IOException
-import java.io.File
-import java.io.FileOutputStream
 import java.util.Timer
 import java.util.TimerTask
 
@@ -125,62 +116,5 @@ class EMDKPowerManagementViewModel: ViewModel() {
 
     fun cancelUpdate(context: Context) {
         MXHelper.cancelOngoingUpdate(context)
-    }
-
-    fun downloadBSPFile(context: Context) {
-        viewModelScope.launch {
-            // downloadZipFile(context, )
-        }
-    }
-
-    suspend fun downloadZipFile(
-        context: Context,
-        fileUrl: String,
-        token: String,
-        destinationFileName: String
-    ): File? {
-        // Use the IO dispatcher for network and file operations
-        return withContext(Dispatchers.IO) {
-            val client = OkHttpClient()
-
-            val request = Request.Builder()
-                .url(fileUrl)
-                // Add the authorization token to the header
-                .addHeader("Authorization", "Bearer $token")
-                .build()
-
-            try {
-                val response = client.newCall(request).execute()
-
-                if (!response.isSuccessful) {
-                    // You can log the error or handle it as needed
-                    println("Download failed: ${response.code} ${response.message}")
-                    return@withContext null
-                }
-
-                // Create the destination file in the app's cache directory
-                val destinationFile = File(context.cacheDir, destinationFileName)
-
-                // Use a byte stream to write the file to avoid holding it all in memory
-                response.body?.byteStream().use { inputStream ->
-                    FileOutputStream(destinationFile).use { outputStream ->
-                        if (inputStream == null) {
-                            println("Download failed: Response body is null.")
-                            return@withContext null
-                        }
-                        // Read the file in chunks
-                        inputStream.copyTo(outputStream)
-                    }
-                }
-
-                println("Download successful! File saved to: ${destinationFile.absolutePath}")
-                return@withContext destinationFile
-
-            } catch (e: IOException) {
-                e.printStackTrace()
-                println("Download failed with exception: ${e.message}")
-                return@withContext null
-            }
-        }
     }
 }

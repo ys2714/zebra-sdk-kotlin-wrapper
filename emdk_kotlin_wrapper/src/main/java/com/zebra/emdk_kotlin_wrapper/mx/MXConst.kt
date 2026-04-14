@@ -72,6 +72,7 @@ object MXConst {
     const val BaseIntentStringExtraValue = "BaseIntentStringExtraValue"
     const val TargetPathAndFileName = "TargetPathAndFileName"
     const val ConfigurationFile = "ConfigurationFile"
+    const val SetCriticalLowThreshold = "SetCriticalLowThreshold"
     const val EXTRA_KEY_IDENTIFIER = "EXTRA_KEY_IDENTIFIER"
 
     // Ignored Value

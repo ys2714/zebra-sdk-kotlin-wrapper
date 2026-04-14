@@ -149,6 +149,12 @@
         <activity
             android:exported="true"
             android:screenOrientation="portrait"
+            android:name=".emdk.EMDKBatteryManagerActivity">
+        </activity>
+
+        <activity
+            android:exported="true"
+            android:screenOrientation="portrait"
             android:name=".MainActivity">
         </activity>
 
