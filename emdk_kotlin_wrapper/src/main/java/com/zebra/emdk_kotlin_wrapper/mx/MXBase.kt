@@ -129,6 +129,24 @@ class MXBase {
                     customAuthorizationHeader = "Bearer " + token
                 )
             }
+
+            @Keep
+            fun createWithAuthType(type: Type, param1: String, param2: String = ""): AuthInfo {
+                when(type) {
+                    Type.NoAuth -> {
+                        return createWithNoAuthType()
+                    }
+                    Type.ZebraAuth -> {
+                        return createWithZebraAuth(param1)
+                    }
+                    Type.BasicAuth -> {
+                        return createWithBasicAuth(param1, param2)
+                    }
+                    Type.CustomHeader -> {
+                        return createWithCustomHeader(param1)
+                    }
+                }
+            }
         }
     }
 

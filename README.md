@@ -49,7 +49,9 @@ example of using configWithJSON(), the json files located in emdk_kotlin_wrapper
                 "barcode_trigger_mode" to "1",
                 "aim_type" to "8",
                 "aim_timer" to "6000",
-                "beam_timer" to "6000"
+                "beam_timer" to "6000",
+                "decode_audio_feedback" to "false",
+                "decode_audio_feedback_uri" to ""
             )
         ) { success -> }
 ``` 

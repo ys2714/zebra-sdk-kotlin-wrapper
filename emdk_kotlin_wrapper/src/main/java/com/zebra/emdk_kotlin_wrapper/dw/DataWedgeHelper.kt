@@ -573,7 +573,8 @@ object DataWedgeHelper {
         )
     }
 
-    private class DataReceiver: BroadcastReceiver() {
+    @Keep
+    class DataReceiver: BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent == null) {
                 Toast.makeText(context, "intent is null", Toast.LENGTH_LONG).show()
@@ -600,7 +601,8 @@ object DataWedgeHelper {
         }
     }
 
-    private class NotificationReceiver: BroadcastReceiver() {
+    @Keep
+    class NotificationReceiver: BroadcastReceiver() {
         override fun onReceive(
             context: Context?,
             intent: Intent?

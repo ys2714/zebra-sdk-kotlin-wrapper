@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.zebra.emdk_kotlin_wrapper.utils.ZebraSystemEventMonitor
+import com.zebra.zebrakotlindemo.beep.BeepActivity
 import com.zebra.zebrakotlindemo.datawedge.DataWedgeActivity
 import com.zebra.zebrakotlindemo.emdk.EMDKActivity
 import com.zebra.zebrakotlindemo.emdk.ScreenLockActivity
@@ -119,6 +120,9 @@ class MainActivity : ComponentActivity() {
                 }
                 RoundButton("RXLogger API") {
                     startActivity(Intent(context, RXLoggerActivity::class.java))
+                }
+                RoundButton("Beeps") {
+                    startActivity(Intent(context, BeepActivity::class.java))
                 }
             }
         } else {

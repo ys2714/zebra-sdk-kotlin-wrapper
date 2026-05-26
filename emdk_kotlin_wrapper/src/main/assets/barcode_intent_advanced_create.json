@@ -135,7 +135,7 @@
         "decoder_code39_verify_check_digit": "false",
         "decoder_matrix_2of5_redundancy": "false",
         "decoder_us4state_fics": "false",
-        "decode_audio_feedback_uri": "decode-short",
+        "decode_audio_feedback_uri": "=[decode_audio_feedback_uri]",
         "decoder_matrix_2of5_length1": "10",
         "decoder_matrix_2of5_length2": "0",
         "decoder_gs1_databar": "true",

@@ -89,8 +89,8 @@ class EMDKPowerManagementViewModel: ViewModel() {
         }
     }
 
-    fun streamUpgradeOS(context: Context, url: String, token: String) {
-        val authInfo = MXBase.AuthInfo.createWithCustomHeader(token)
+    fun streamUpgradeOS(context: Context, authtype: MXBase.AuthInfo.Type, url: String, param1: String, param2: String = "") {
+        val authInfo = MXBase.AuthInfo.createWithAuthType(authtype, param1, param2)
         MXHelper.streamUpgradeOS(
             context,
             url,

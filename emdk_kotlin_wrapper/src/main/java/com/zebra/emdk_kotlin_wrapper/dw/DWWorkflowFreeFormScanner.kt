@@ -18,6 +18,8 @@ class DWWorkflowFreeFormScanner(override val context: Context): DWVirtualScanner
             "scanner_input_enabled" to "false",
             "workflow_input_enabled" to "true",
             "barcode_trigger_mode" to "0",
+            "decode_audio_feedback" to "false",
+            "decode_audio_feedback_uri" to "",
             "aim_type" to "8",
             "aim_timer" to "6000",
             "beam_timer" to "6000"

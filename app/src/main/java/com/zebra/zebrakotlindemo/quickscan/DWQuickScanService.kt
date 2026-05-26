@@ -191,8 +191,14 @@ class DWQuickScanService : Service() {
     }
 
     private fun prepareZebraDataWedge(context: Context) {
-        EMDKHelper.shared.prepare(context) {
-            DataWedgeHelper.prepare(context) {
+        EMDKHelper.shared.prepare(context) { emdkSuccess ->
+            if (!emdkSuccess) {
+                throw RuntimeException("Prepare EMDK failed !!!")
+            }
+            DataWedgeHelper.prepare(context) { dwSuccess ->
+                if (!dwSuccess) {
+                    throw RuntimeException("Prepare DataWedge failed !!!")
+                }
                 scanners[DWWorkflowFreeFormScanner::class.simpleName!!] = DWWorkflowFreeFormScanner(context)
                 scanners[DWBarcodeScanner::class.simpleName!!] = DWBarcodeScanner(context)
                 openScanners()

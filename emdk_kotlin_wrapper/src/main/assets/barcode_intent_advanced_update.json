@@ -12,6 +12,8 @@
         "aim_type": "=[aim_type]",
         "aim_timer": "=[aim_timer]",
         "beam_timer": "=[beam_timer]",
+        "decode_audio_feedback": "=[decode_audio_feedback]",
+        "decode_audio_feedback_uri": "=[decode_audio_feedback_uri]",
         "scanner_selection_by_identifier": "AUTO"
       }
     },

@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.zebra.emdk_kotlin_wrapper.mx.MXBase
 import com.zebra.zebrakotlindemo.ui.components.RoundButton
 import com.zebra.zebrakotlindemo.ui.components.StyledOutlinedTextField
 
@@ -160,7 +161,9 @@ class EMDKPowerManagementActivity: ComponentActivity() {
                 RoundButton("Stream Upgrade OS") {
                     viewModel.streamUpgradeOS(
                         context,
-                        "",
+                        MXBase.AuthInfo.Type.ZebraAuth,
+                        "https://downloads.zebra.com/content/servlet/smartrepo/downloadrequest?urlPath=/content/dam/support-dam/en/operating-system/restricted/0006/AT_FULL_UPDATE_14-35-10.00-UG-U76-STD-ATH-04.zip",
+                        "&#1273j20CrKQQdsv9WQWZSBsb7nE63RKBvErXprMuCH4orFegefv0PgZy5rUQ1iQGc9sm5s0jr8Y3/cfov26KSXJ8U2RgFsu/EccMPJfJ3ofz9GRWd6V8VXIv16240MBMHKsahTMf4Prrh5SFfs2L7S4qYReW4S3QxwJf/zxfQPgmqy2aUATm/kMCSiyFavmMhIgjKt8KGiVqLt5wkwKiBCU7G8d10ttq9XZ7Kjwhmo0Q7V9XadO3bs+aQKetH7YKLXTdSB2Pjey2U3WIeFqrTFQoNggdSypDrwOW7ObKM0yMvWXnKBcq7NPwsie+OlzdwLNAurBmvWzgzu5XIcA9AKz7KQ==&#1278HEJtau5tfDwWgNHrQIa2oHZe/7gHvbIvVO5Zc1lGaATYQOa+4i4nAZH41kbzmNqRRcyizmfuwIWME/dTWQSZlf0CcWuMKrUR/2HbnpWwmpbDBi1mKdl5sHnvWG5mTwG2PkC3lT0KyqxCmaEDntlwdD8nhTHOnIjFKBvJzv7qLN7dZekNG3vU4oE8jhsKDULyArHK/viAwUsPYQJeLXKHDiJkbfPrdciJgCmPry1J8JlMqClwb1G3Q0UgGeCKmfTXxyw4NYRuHLydtXPiMMC11PGIs1zwCI+QSykvDbwMWxGnS9/g2TS7ms98YQguUlKDfYJmJeNnW1nirG+RPH9OqcivpSEPAtEdRCLsk33eeMPAPoH3XBCzIlRlHuptRy4yFjZ2Y7DlurOg1ePQOVSzkC6DRH9kiZDuZgRLy1nvs7cvzx6RDXhedl2D4gdi7gBZCotd9cCrmY8HzJjJ8P+nugB6OfW+F3SAD27Jne+yo0=",
                         ""
                     )
                 }

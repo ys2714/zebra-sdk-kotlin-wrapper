@@ -30,6 +30,8 @@ class LandingViewModel: ViewModel() {
     fun handleOnCreate(context: Context) {
         if (DWQuickScanService.isPrepared()) {
             servicePrepareStatus.value = ServicePrepareStatus.READY
+        } else {
+            startServiceIfNeeded(context)
         }
     }
 
@@ -63,7 +65,7 @@ class LandingViewModel: ViewModel() {
     private fun waitServiceReady(onReady: () -> Unit) {
         CoroutineScope(Dispatchers.IO + Job()).launch {
             while (!DWQuickScanService.isPrepared()) {
-                // servicePrepareStatus.value = ServicePrepareStatus.STARTING
+                servicePrepareStatus.value = ServicePrepareStatus.STARTING
             }
             servicePrepareStatus.value = ServicePrepareStatus.READY
             onReady()

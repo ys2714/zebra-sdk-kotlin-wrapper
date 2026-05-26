@@ -64,7 +64,9 @@ class DataWedgeTriggerViewModel : ViewModel() {
                 "barcode_trigger_mode" to "1",
                 "aim_type" to "8",
                 "aim_timer" to "6000",
-                "beam_timer" to "6000"
+                "beam_timer" to "6000",
+                "decode_audio_feedback" to "false",
+                "decode_audio_feedback_uri" to ""
             )
         ) { success ->
             if (success) {
@@ -79,7 +81,9 @@ class DataWedgeTriggerViewModel : ViewModel() {
                         "barcode_trigger_mode" to "0",
                         "aim_type" to "8",
                         "aim_timer" to "6000",
-                        "beam_timer" to "6000"
+                        "beam_timer" to "6000",
+                        "decode_audio_feedback" to "false",
+                        "decode_audio_feedback_uri" to ""
                     )
                 ) { success ->
                     if (success) {

@@ -67,12 +67,16 @@ open class DWBarcodeScanner(override val context: Context): DWVirtualScanner(con
     override val updateJSONFileName: String
         get() = "barcode_intent_advanced_update.json"
 
+    // DataWedge built-in beep has significant impact on response speed of API calling.
+    // so I suggest to turn OFF the built-in beep and manually call ToneGenerator on app side.
     override val parameters: Map<String, String>
         get() = mapOf(
             "PROFILE_NAME" to "DWBarcodeScanner",
             "scanner_input_enabled" to "true",
             "workflow_input_enabled" to "false",
             "barcode_trigger_mode" to "0",
+            "decode_audio_feedback" to "false",
+            "decode_audio_feedback_uri" to "",
             "aim_type" to "0",
             "aim_timer" to "6000",
             "beam_timer" to "6000"

@@ -5,6 +5,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.zebra.emdk_kotlin_wrapper.dw.DWBarcodeScanner
+import com.zebra.emdk_kotlin_wrapper.utils.BeepUtils
 import java.util.Timer
 import kotlin.concurrent.schedule
 
@@ -27,6 +28,7 @@ class QuickScanViewModel: ViewModel() {
     fun handleOnResume() {
         scannerPrepared.value = true
         scanner?.startListen {
+            BeepUtils.playBeep()
             when (focus) {
                 1 -> {
                     barcodeText1.value = it
