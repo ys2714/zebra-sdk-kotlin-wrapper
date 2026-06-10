@@ -1,7 +1,14 @@
 package com.zebra.zebrakotlindemo.ui.components
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
+import android.webkit.WebResourceRequest
+import android.webkit.WebView
+import android.webkit.WebViewClient
+import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.content.MediaType.Companion.Image
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
@@ -19,9 +26,14 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.semantics.Role.Companion.Image
+import androidx.compose.ui.viewinterop.AndroidView
+import java.net.URISyntaxException
 
 @Composable
 fun RoundButton(title: String,
@@ -114,4 +126,6 @@ fun ShowPngImage(id: Int) {
         contentScale = ContentScale.Fit
     )
 }
+
+
 

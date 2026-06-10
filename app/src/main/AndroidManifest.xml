@@ -184,6 +184,12 @@
             android:screenOrientation="portrait"
             android:name=".deeplink.DeeplinkActivity">
         </activity>
+
+        <activity
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:name=".deeplink.DeeplinkWebActivity">
+        </activity>
     </application>
 
 </manifest>

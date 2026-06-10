@@ -3,6 +3,10 @@ package com.zebra.emdk_kotlin_wrapper.utils
 import android.content.Context
 import android.content.Intent
 
+/***
+ * https://developer.android.com/training/app-links
+ *
+ * */
 object TelephonyHelper {
 
     /***

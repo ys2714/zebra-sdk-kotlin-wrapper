@@ -2,9 +2,12 @@ package com.zebra.zebrakotlindemo.deeplink
 
 import android.content.Context
 import android.content.Intent
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 
 /*
+https://developer.android.com/training/app-links
+
 there is no official, direct, and universally supported deep link that opens only the nested "Preferred Network Type" dialog itself
 This limitation exists due to security policies, OS version changes, and carrier-specific customizations (some carriers explicitly hide this option)
 However, you can jump directly to its immediate parent screen (the Mobile Network / SIM Settings page)
@@ -29,6 +32,7 @@ class DeeplinkViewModel: ViewModel() {
             context.startActivity(intent)
         } catch (e: Exception) {
             e.printStackTrace()
+            Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
         }
     }
 

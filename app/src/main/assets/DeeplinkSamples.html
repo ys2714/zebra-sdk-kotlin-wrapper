@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        /* This applies to all paragraphs on the page */
+        p {
+            font-size: 18px;
+        }
+
+        /* This applies only to elements with the class "large-text" */
+        .large-text {
+            font-size: 2em;
+        }
+
+        /* This applies only to the specific element with the ID "headline" */
+        #headline {
+            font-size: 32px;
+        }
+    </style>
+</head>
+<body>
+<p>This paragraph will be 18 pixels.</p>
+<p class="large-text">This will be twice the size of the parent container.</p>
+<h1 id="headline1">Option1</h1>
+<a href="intent:#Intent;action=android.settings.NETWORK_OPERATOR_SETTINGS;package=com.android.settings;end">
+    <h1>Open Preferred Network Settings by intent</h1>
+</a>
+<h1 id="headline2">Option2</h1>
+<a href="intent:#Intent;action=android.settings.NETWORK_OPERATOR_SETTINGS;package=com.android.settings;component=com.android.settings/.Settings$MobileNetworkActivity;end">
+    <h1>Open Preferred Network Settings by activity</h1>
+</a>
+<h1 id="headline3">Option3</h1>
+<a href="intent:#Intent;action=android.intent.action.MAIN;package=com.android.settings;component=com.android.settings/.RadioInfo;end">
+    <h1>Open Hidden Radio Info Menu</h1>
+</a>
+</body>
+</html>
