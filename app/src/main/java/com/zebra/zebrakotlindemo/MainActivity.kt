@@ -20,11 +20,13 @@ import androidx.compose.ui.unit.dp
 import com.zebra.emdk_kotlin_wrapper.utils.ZebraSystemEventMonitor
 import com.zebra.zebrakotlindemo.beep.BeepActivity
 import com.zebra.zebrakotlindemo.datawedge.DataWedgeActivity
+import com.zebra.zebrakotlindemo.deeplink.DeeplinkActivity
 import com.zebra.zebrakotlindemo.emdk.EMDKActivity
 import com.zebra.zebrakotlindemo.emdk.ScreenLockActivity
 import com.zebra.zebrakotlindemo.quickscan.QuickScanActivity
 import com.zebra.zebrakotlindemo.rxlogger.RXLoggerActivity
 import com.zebra.zebrakotlindemo.ui.components.RoundButton
+import com.zebra.zebrakotlindemo.vibration.VibrationActivity
 
 class MainActivity : ComponentActivity() {
 
@@ -123,6 +125,12 @@ class MainActivity : ComponentActivity() {
                 }
                 RoundButton("Beeps") {
                     startActivity(Intent(context, BeepActivity::class.java))
+                }
+                RoundButton("Vibration") {
+                    startActivity(Intent(context, VibrationActivity::class.java))
+                }
+                RoundButton("Deeplink") {
+                    startActivity(Intent(context, DeeplinkActivity::class.java))
                 }
             }
         } else {
