@@ -1,13 +1,5 @@
 package com.zebra.zebrakotlindemo.ui.components
 
-import android.annotation.SuppressLint
-import android.content.Context
-import android.content.Intent
-import android.webkit.WebResourceRequest
-import android.webkit.WebView
-import android.webkit.WebViewClient
-import android.widget.Toast
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth

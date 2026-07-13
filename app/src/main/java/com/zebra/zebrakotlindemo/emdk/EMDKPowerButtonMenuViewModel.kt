@@ -39,6 +39,30 @@ class EMDKPowerButtonMenuViewModel: ViewModel() {
         }
     }
 
+    fun setWakeupKeyGunTrigger(context: Context) {
+        MXHelper.setWakeUpKey(context, MXBase.KeyIdentifiers.GUN_TRIGGER) { success ->
+            showDebugToast(context, "Set Wakeup Key Success?", success.toString())
+        }
+    }
+
+    fun setWakeupKeyLeftTrigger2(context: Context) {
+        MXHelper.setWakeUpKey(context, MXBase.KeyIdentifiers.LEFT_TRIGGER_2) { success ->
+            showDebugToast(context, "Set Wakeup Key Success?", success.toString())
+        }
+    }
+
+    fun setWakeupKeyRightTrigger1(context: Context) {
+        MXHelper.setWakeUpKey(context, MXBase.KeyIdentifiers.RIGHT_TRIGGER_1) { success ->
+            showDebugToast(context, "Set Wakeup Key Success?", success.toString())
+        }
+    }
+
+    fun setWakeupKeyScan(context: Context) {
+        MXHelper.setWakeUpKey(context, MXBase.KeyIdentifiers.SCAN) { success ->
+            showDebugToast(context, "Set Wakeup Key Success?", success.toString())
+        }
+    }
+
     fun showDebugToast(context: Context, type: String, data: String) {
         CoroutineScope(Dispatchers.Main).launch {
             Toast.makeText(context,

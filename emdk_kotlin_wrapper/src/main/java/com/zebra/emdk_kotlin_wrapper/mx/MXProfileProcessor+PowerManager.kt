@@ -187,3 +187,30 @@ internal fun MXProfileProcessor.callPowerManagerRecoveryModeControlFeature(
         callback
     )
 }
+
+/***
+ * https://techdocs.zebra.com/mx/powermgr/#wake-up-key-identifier
+ *
+ * Used to select an individual device button to allow or prevent the device from waking from power-saving modes when the button (if so equipped) is pressed. Use this parameter when selecting an Action using the Wake-up Individual Action parameter.
+ *
+ *
+ *
+ *
+ * */
+internal fun MXProfileProcessor.callPowerManagerSetWakeUpKey(
+    context: Context,
+    keyIdentifier: MXBase.KeyIdentifiers,
+    delaySeconds: Long = 0,
+    callback: (MXBase.ErrorInfo?) -> Unit
+) {
+    processProfileWithCallback(
+        context,
+        MXBase.ProfileXML.PowerManagerSetWakeUpKey,
+        MXBase.ProfileName.PowerManagerSetWakeUpKey,
+        mapOf(
+            MXConst.WakeUpKeyIdentifierCustom to keyIdentifier.string,
+        ),
+        delaySeconds,
+        callback
+    )
+}

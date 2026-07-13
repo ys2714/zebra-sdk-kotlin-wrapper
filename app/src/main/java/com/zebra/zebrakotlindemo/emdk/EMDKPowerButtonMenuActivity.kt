@@ -66,6 +66,22 @@ class EMDKPowerButtonMenuActivity: ComponentActivity() {
             RoundButton("Enable Screenshot") {
                 viewModel.enableScreenShot(context)
             }
+            Text("Set Wakeup Key",
+                modifier = Modifier
+                    .padding()
+            )
+            RoundButton("GUN_TRIGGER") {
+                viewModel.setWakeupKeyGunTrigger(context)
+            }
+            RoundButton("LEFT_TRIGGER_2") {
+                viewModel.setWakeupKeyLeftTrigger2(context)
+            }
+            RoundButton("RIGHT_TRIGGER_1") {
+                viewModel.setWakeupKeyRightTrigger1(context)
+            }
+            RoundButton("SCAN") {
+                viewModel.setWakeupKeyScan(context)
+            }
         }
     }
 }

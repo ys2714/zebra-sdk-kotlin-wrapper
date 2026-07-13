@@ -107,21 +107,25 @@ internal object MXProfileProcessor {
                                    delaySeconds: Long = 0,
                                    callback: (MXBase.ErrorInfo?) -> Unit) {
         backgroundScope.launch {
-            if (fileName == MXBase.ProfileXML.None) {
-                val completion = async { processProfile(context, profileName, null) }
-                val result = completion.await()
-                delay(delaySeconds * 1000)
-                foregroundScope.launch {
-                    callback(result)
+            try {
+                if (fileName == MXBase.ProfileXML.None) {
+                    val completion = async { processProfile(context, profileName, null) }
+                    val result = completion.await()
+                    delay(delaySeconds * 1000)
+                    foregroundScope.launch {
+                        callback(result)
+                    }
+                } else {
+                    val content = AssetsReader.readFileToStringWithParams(context, fileName.string, params).trimIndent()
+                    val completion = async { processProfile(context, profileName, arrayOf(content)) }
+                    val result = completion.await()
+                    delay(delaySeconds * 1000)
+                    foregroundScope.launch {
+                        callback(result)
+                    }
                 }
-            } else {
-                val content = AssetsReader.readFileToStringWithParams(context, fileName.string, params).trimIndent()
-                val completion = async { processProfile(context, profileName, arrayOf(content)) }
-                val result = completion.await()
-                delay(delaySeconds * 1000)
-                foregroundScope.launch {
-                    callback(result)
-                }
+            } catch (e: Exception) {
+                callback(MXBase.ErrorInfo(TAG, "Exception", e.message ?: "Unknown exception"))
             }
         }
     }

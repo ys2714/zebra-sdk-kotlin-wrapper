@@ -181,6 +181,14 @@ object MXHelper {
         }
     }
 
+    @Keep
+    fun setWakeUpKey(context: Context, keyIdentifier: MXBase.KeyIdentifiers, delaySeconds: Long = 0, callback: (Boolean) -> Unit) {
+        MXProfileProcessor.callPowerManagerSetWakeUpKey(context, keyIdentifier, delaySeconds) {
+            val message = it?.message
+            callback(it == null)
+        }
+    }
+
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     @Keep
     fun setRecoveryModeAccess(context: Context, enable: Boolean, delaySeconds: Long = 0, callback: (Boolean) -> Unit) {
