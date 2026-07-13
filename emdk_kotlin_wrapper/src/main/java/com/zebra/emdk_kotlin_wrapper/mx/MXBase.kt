@@ -604,4 +604,24 @@ class MXBase {
         val string: String
             get() = value.toString()
     }
+
+    /**
+     * https://techdocs.zebra.com/mx/powermgr/#wake-up-individual-action-enabledisable
+     *
+     * */
+    @Keep
+    enum class WakeUpIndividualAction(val value: Int) {
+        DO_NOT_CHANGE(0),
+        ON(1),
+        OFF(2);
+
+        @Deprecated("please use .string instead", ReplaceWith("string"), level = DeprecationLevel.ERROR)
+        override fun toString(): String {
+            throw RuntimeException("Not Implemented")
+        }
+
+        val string: String
+            get() = value.toString()
+    }
+
 }

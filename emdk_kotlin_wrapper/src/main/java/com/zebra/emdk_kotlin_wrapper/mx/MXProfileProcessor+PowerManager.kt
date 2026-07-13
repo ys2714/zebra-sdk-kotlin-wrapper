@@ -200,6 +200,7 @@ internal fun MXProfileProcessor.callPowerManagerRecoveryModeControlFeature(
 internal fun MXProfileProcessor.callPowerManagerSetWakeUpKey(
     context: Context,
     keyIdentifier: MXBase.KeyIdentifiers,
+    action: MXBase.WakeUpIndividualAction,
     delaySeconds: Long = 0,
     callback: (MXBase.ErrorInfo?) -> Unit
 ) {
@@ -208,6 +209,7 @@ internal fun MXProfileProcessor.callPowerManagerSetWakeUpKey(
         MXBase.ProfileXML.PowerManagerSetWakeUpKey,
         MXBase.ProfileName.PowerManagerSetWakeUpKey,
         mapOf(
+            MXConst.WakeUpIndividualAction to action.string,
             MXConst.WakeUpKeyIdentifierCustom to keyIdentifier.string,
         ),
         delaySeconds,

@@ -70,17 +70,29 @@ class EMDKPowerButtonMenuActivity: ComponentActivity() {
                 modifier = Modifier
                     .padding()
             )
-            RoundButton("GUN_TRIGGER") {
-                viewModel.setWakeupKeyGunTrigger(context)
+            RoundButton("GUN_TRIGGER ON") {
+                viewModel.turnONWakeupKeyGunTrigger(context)
             }
-            RoundButton("LEFT_TRIGGER_2") {
-                viewModel.setWakeupKeyLeftTrigger2(context)
+            RoundButton("GUN_TRIGGER OFF") {
+                viewModel.turnOFFWakeupKeyGunTrigger(context)
             }
-            RoundButton("RIGHT_TRIGGER_1") {
-                viewModel.setWakeupKeyRightTrigger1(context)
+            RoundButton("LEFT_TRIGGER_2 ON") {
+                viewModel.turnONWakeupKeyLeftTrigger2(context)
             }
-            RoundButton("SCAN") {
-                viewModel.setWakeupKeyScan(context)
+            RoundButton("LEFT_TRIGGER_2 OFF") {
+                viewModel.turnOFFWakeupKeyLeftTrigger2(context)
+            }
+            RoundButton("RIGHT_TRIGGER_1 ON") {
+                viewModel.turnONWakeupKeyRightTrigger1(context)
+            }
+            RoundButton("RIGHT_TRIGGER_1 OFF") {
+                viewModel.turnOFFWakeupKeyRightTrigger1(context)
+            }
+            RoundButton("SCAN ON") {
+                viewModel.turnONWakeupKeyScan(context)
+            }
+            RoundButton("SCAN OFF") {
+                viewModel.turnOFFWakeupKeyScan(context)
             }
         }
     }

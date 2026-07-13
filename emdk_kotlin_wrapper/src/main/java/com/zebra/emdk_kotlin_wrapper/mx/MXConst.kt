@@ -27,6 +27,7 @@ object MXConst {
     const val ResetAction = "ResetAction"
     const val RecoveryModeAccess = "RecoveryModeAccess"
 
+    const val WakeUpIndividualAction = "WakeUpIndividualAction"
     const val WakeUpKeyIdentifierCustom = "WakeUpKeyIdentifierCustom"
     const val UsbClientModeDefault = "UsbClientModeDefault"
     const val TouchPanelSensitivity = "TouchPanelSensitivity"

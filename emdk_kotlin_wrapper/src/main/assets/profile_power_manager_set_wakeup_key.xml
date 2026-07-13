@@ -7,7 +7,7 @@
         <characteristic type="PowerMgr" version="14.0">
             <parm name="emdk_name" value="PowerManagerSetWakeUpKey"/>
             <parm name="WakeUpMethod" value="2"/>
-            <parm name="WakeUpIndividualAction" value="1"/>
+            <parm name="WakeUpIndividualAction" value="=[WakeUpIndividualAction]"/>
             <parm name="WakeUpKeyIdentifier" value="Custom"/>
             <parm name="WakeUpKeyIdentifierCustom" value="=[WakeUpKeyIdentifierCustom]"/>
         </characteristic>

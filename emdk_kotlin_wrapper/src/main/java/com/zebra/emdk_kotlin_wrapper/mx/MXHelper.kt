@@ -182,8 +182,8 @@ object MXHelper {
     }
 
     @Keep
-    fun setWakeUpKey(context: Context, keyIdentifier: MXBase.KeyIdentifiers, delaySeconds: Long = 0, callback: (Boolean) -> Unit) {
-        MXProfileProcessor.callPowerManagerSetWakeUpKey(context, keyIdentifier, delaySeconds) {
+    fun setWakeUpKey(context: Context, keyIdentifier: MXBase.KeyIdentifiers, action: MXBase.WakeUpIndividualAction, delaySeconds: Long = 0, callback: (Boolean) -> Unit) {
+        MXProfileProcessor.callPowerManagerSetWakeUpKey(context, keyIdentifier, action, delaySeconds) {
             val message = it?.message
             callback(it == null)
         }

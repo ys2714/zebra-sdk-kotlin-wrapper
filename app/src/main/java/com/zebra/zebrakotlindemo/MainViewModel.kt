@@ -119,9 +119,9 @@ class MainViewModel: ViewModel() {
 
     fun setupKeyMapping(context: Context, completion: () -> Unit) {
         ZebraKeyEventMonitor.resetAllKeyDownToDefault(context, delaySeconds = 1) {
-            ZebraKeyEventMonitor.registerKeyDownListener(context, MXBase.KeyIdentifiers.LEFT_TRIGGER_2, delaySeconds = 1) {
-                showDebugToast(context, "Push To Talk", "press the PTT key to talk")
-            }
+//            ZebraKeyEventMonitor.registerKeyDownListener(context, MXBase.KeyIdentifiers.LEFT_TRIGGER_2, delaySeconds = 1) {
+//                showDebugToast(context, "Push To Talk", "press the PTT key to talk")
+//            }
             completion()
         }
     }

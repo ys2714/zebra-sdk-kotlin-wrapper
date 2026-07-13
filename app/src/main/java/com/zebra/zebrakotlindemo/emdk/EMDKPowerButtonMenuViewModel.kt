@@ -39,26 +39,50 @@ class EMDKPowerButtonMenuViewModel: ViewModel() {
         }
     }
 
-    fun setWakeupKeyGunTrigger(context: Context) {
-        MXHelper.setWakeUpKey(context, MXBase.KeyIdentifiers.GUN_TRIGGER) { success ->
+    fun turnONWakeupKeyGunTrigger(context: Context) {
+        MXHelper.setWakeUpKey(context, MXBase.KeyIdentifiers.GUN_TRIGGER, MXBase.WakeUpIndividualAction.ON) { success ->
             showDebugToast(context, "Set Wakeup Key Success?", success.toString())
         }
     }
 
-    fun setWakeupKeyLeftTrigger2(context: Context) {
-        MXHelper.setWakeUpKey(context, MXBase.KeyIdentifiers.LEFT_TRIGGER_2) { success ->
+    fun turnOFFWakeupKeyGunTrigger(context: Context) {
+        MXHelper.setWakeUpKey(context, MXBase.KeyIdentifiers.GUN_TRIGGER, MXBase.WakeUpIndividualAction.OFF) { success ->
             showDebugToast(context, "Set Wakeup Key Success?", success.toString())
         }
     }
 
-    fun setWakeupKeyRightTrigger1(context: Context) {
-        MXHelper.setWakeUpKey(context, MXBase.KeyIdentifiers.RIGHT_TRIGGER_1) { success ->
+    fun turnONWakeupKeyLeftTrigger2(context: Context) {
+        MXHelper.setWakeUpKey(context, MXBase.KeyIdentifiers.LEFT_TRIGGER_2, MXBase.WakeUpIndividualAction.ON) { success ->
             showDebugToast(context, "Set Wakeup Key Success?", success.toString())
         }
     }
 
-    fun setWakeupKeyScan(context: Context) {
-        MXHelper.setWakeUpKey(context, MXBase.KeyIdentifiers.SCAN) { success ->
+    fun turnOFFWakeupKeyLeftTrigger2(context: Context) {
+        MXHelper.setWakeUpKey(context, MXBase.KeyIdentifiers.LEFT_TRIGGER_2, MXBase.WakeUpIndividualAction.OFF) { success ->
+            showDebugToast(context, "Set Wakeup Key Success?", success.toString())
+        }
+    }
+
+    fun turnONWakeupKeyRightTrigger1(context: Context) {
+        MXHelper.setWakeUpKey(context, MXBase.KeyIdentifiers.RIGHT_TRIGGER_1, MXBase.WakeUpIndividualAction.ON) { success ->
+            showDebugToast(context, "Set Wakeup Key Success?", success.toString())
+        }
+    }
+
+    fun turnOFFWakeupKeyRightTrigger1(context: Context) {
+        MXHelper.setWakeUpKey(context, MXBase.KeyIdentifiers.RIGHT_TRIGGER_1, MXBase.WakeUpIndividualAction.OFF) { success ->
+            showDebugToast(context, "Set Wakeup Key Success?", success.toString())
+        }
+    }
+
+    fun turnONWakeupKeyScan(context: Context) {
+        MXHelper.setWakeUpKey(context, MXBase.KeyIdentifiers.SCAN, MXBase.WakeUpIndividualAction.ON) { success ->
+            showDebugToast(context, "Set Wakeup Key Success?", success.toString())
+        }
+    }
+
+    fun turnOFFWakeupKeyScan(context: Context) {
+        MXHelper.setWakeUpKey(context, MXBase.KeyIdentifiers.SCAN, MXBase.WakeUpIndividualAction.OFF) { success ->
             showDebugToast(context, "Set Wakeup Key Success?", success.toString())
         }
     }
