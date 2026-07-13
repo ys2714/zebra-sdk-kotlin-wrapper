@@ -33,6 +33,9 @@ class EMDKActivity: ComponentActivity() {
                 modifier = Modifier
                     .padding()
             )
+            RoundButton("App Management Demo") {
+                startActivity(Intent(context, EMDKAppManagerActivity::class.java))
+            }
             RoundButton("Battery Management Demo") {
                 startActivity(Intent(context, EMDKBatteryManagerActivity::class.java))
             }

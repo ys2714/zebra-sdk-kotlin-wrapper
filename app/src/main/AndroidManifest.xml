@@ -114,6 +114,12 @@
         <activity
             android:exported="true"
             android:screenOrientation="portrait"
+            android:name=".emdk.EMDKAppManagerActivity">
+        </activity>
+
+        <activity
+            android:exported="true"
+            android:screenOrientation="portrait"
             android:name=".emdk.EMDKLockScreenActivity">
         </activity>
 

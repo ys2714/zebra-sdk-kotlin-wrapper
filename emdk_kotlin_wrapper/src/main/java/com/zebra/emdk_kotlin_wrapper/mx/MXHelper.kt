@@ -6,6 +6,7 @@ import androidx.annotation.Keep
 import androidx.annotation.RequiresApi
 import com.zebra.emdk_kotlin_wrapper.utils.DeviceInfoUtils
 import com.zebra.emdk_kotlin_wrapper.zdm.ZDMConst
+import disableApp
 
 @Keep
 object MXHelper {
@@ -20,6 +21,17 @@ object MXHelper {
                 callback(error == null)
             }
         )
+    }
+
+    @Keep
+    fun disableApp(context: Context, packageName: String, delaySeconds: Long = 0, callback: (Boolean) -> Unit) {
+        MXProfileProcessor.disableApp(
+            context,
+            packageName,
+            delaySeconds
+        ) { error ->
+            callback(error == null)
+        }
     }
 
     @Keep
